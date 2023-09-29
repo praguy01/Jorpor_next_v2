@@ -177,7 +177,7 @@ export default function CompExamine() {
 
     <CompNavbar />
 
-    <div className='bg-[url("/bg1.png")] overflow-auto bg-cover bg-no-repeat absolute z-[-1] top-0 left-0 w-full h-full bg-center fixed'>
+    <div className='bg-[url("/bg1.png")] overflow-auto bg-cover bg-no-repeat absolute z-[-1] top-0 left-0 w-full h-full bg-center '>
       <div className='relative'>
         <div className='absolute top-[100px] left-1/2 transform -translate-x-1/2 z-0'>
           <div className='bg-[#5A985E] mx-auto max-w-[500px] sm:max-w-[350px] py-[100px] rounded-[50px]'></div>
