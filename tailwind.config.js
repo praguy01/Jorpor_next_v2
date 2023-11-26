@@ -11,10 +11,16 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        ntr: ['NTR', 'sans-serif'], // เพิ่มฟอนต์ Roboto และกำหนดให้เป็นฟอนต์แสนเซริฟ (sans-serif)
-        mitr: ['Mitr', 'sans-serif' ],
+        ntr: ['NTR', 'sans-serif'], 
+        mitr: ['Mitr', 'sans-serif'],
+        athiti: ['Athiti', 'sans-serif'],
+        prompt: ['Prompt', 'sans-serif'],
+        notosansthai: ['Noto Sans Thai', 'sans-serif']
       },
-
+      fontWeight: {
+        small: 200,
+      },
+    
     },
   },
   plugins: [],

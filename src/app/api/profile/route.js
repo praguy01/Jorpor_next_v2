@@ -20,7 +20,21 @@ export async function POST(request) {
       console.log("RES.Route profile: ", res);
 
       const getUserQuery = "SELECT * FROM users WHERE id = ?";
-      const [userResult] = await db.query(getUserQuery, [id]);
+      const [userResult] = await db.query(getUserQuery, [res.storedId]);
+
+        console.log("list ID1: ",userResult);
+
+      if (res.fetch) {
+
+        const UsersQuery = "SELECT employee FROM users WHERE id = ?";
+        const [UsersResult] = await db.query(UsersQuery, [res.id]);
+  
+        console.log("list ID: ",UsersResult);
+
+    
+  
+        return NextResponse.json({ success: true ,UsersResult});
+        }
 
       if (userResult) {
         // ค้นพบข้อมูลผู้ใช้งาน ดังนั้นเราจะตรวจสอบการเปลี่ยนแปลง
@@ -32,6 +46,7 @@ export async function POST(request) {
               name = ?,
               lastname = ?,
               position = ?,
+              employee = ?,
               phone = ?,
               line = ?,
               email = ?
@@ -43,6 +58,7 @@ export async function POST(request) {
             name,
             lastname,
             position,
+            employee,
             phone,
             line,
             email,
@@ -50,7 +66,7 @@ export async function POST(request) {
           ]);
           
           console.log('update: ',updatedUserResult)
-          console.log('Afterrow: ',updatedUserResult[0].affectedRows)
+          // console.log('Afterrow: ',updatedUserResult[0].affectedRows)
 
           if (updatedUserResult[0].affectedRows > 0) {
             // อัปเดตข้อมูลสำเร็จ
@@ -75,6 +91,8 @@ export async function POST(request) {
         // ถ้าไม่พบข้อมูลผู้ใช้งาน
         return NextResponse.json({ success: false, message: 'User not found' });
       }
+
+      
     } catch (error) {
       console.error('Error Profile:', error);
       return NextResponse.json({ success: false, error: error.message });

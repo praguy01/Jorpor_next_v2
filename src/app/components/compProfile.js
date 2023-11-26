@@ -13,12 +13,30 @@ import {BsFillTelephoneFill} from 'react-icons/bs'
 import {BsCheckCircle} from 'react-icons/bs'
 import '@fontsource/mitr';
 import CompNavbar from './compNavbar';
+import { CompLanguageProvider, useLanguage } from './compLanguageProvider';
+import { useTranslation } from 'react-i18next';
+import i18n from '../i18n'; 
+import { initReactI18next } from 'react-i18next';
 
-export default  function CompProfile1() {
+
+function CompProfile1()  {
+  return (
+    <CompLanguageProvider>
+      <App />
+    </CompLanguageProvider>
+  );
+}
+
+function App() {
+  const { language, toggleLanguage } = useLanguage();
+  const { t } = useTranslation();
 
   const [isEditing, setIsEditing] = useState(false);
   const [message, setMessage] = useState('');
   const [id, setId] = useState('');
+  const [employee, setEmployee] = useState('');
+  const [reloadData, setReloadData] = useState(false); // เพิ่ม state นี้
+
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState('');
   const [profileData, setProfileData] = useState({
@@ -34,14 +52,84 @@ export default  function CompProfile1() {
   const [editedProfileData, setEditedProfileData] = useState({ ...profileData });
   const [selectedImage, setSelectedImage] = useState(null);
 
-
   useEffect(() => {
     const storedId = localStorage.getItem('id');
     if (storedId) {
       setId(storedId);
-      fetchData(storedId);
     }
-  }, []);
+
+    
+    
+    const fetchData = async () => {
+      try {
+        const requestData = {
+          storedId,
+        };
+
+        const response = await axios.post('/api/profile', requestData, {
+          headers: { 'Content-Type': 'application/json' },
+        });
+
+        const resdata = response.data;
+
+        if (response.status === 200) {
+          if (resdata.success === true) {
+            console.log('DATAProfile: ', resdata.profile[0]);
+            setEmployee(resdata.profile[0].employee);
+
+            const storedData = localStorage.getItem('rememberedData');
+          
+            let rememberedData = [];
+       
+
+            if (storedData) {
+              rememberedData = JSON.parse(storedData);
+              let oldrememberedData = [];
+              let newrememberedData = [];
+              console.log("profile",rememberedData)
+              for (const item of rememberedData) {
+                if (item.hasOwnProperty('employee')) {
+                  const employeeValue = item.employee;
+
+                  if (resdata.profile[0].employee === employeeValue) {
+                    console.log('storageItem: ', item);
+                    setProfileData({
+                      ...resdata.profile[0],
+                      img: item.profileImageUrl || '/img/profile.jpg',
+                    
+                    });
+
+                    newrememberedData = [
+                      { employee: item.employee, password: item.password,language: language },
+                    ];
+
+                      } else {
+                      oldrememberedData.push(item);
+                    }
+                    rememberedData = [...oldrememberedData, ...newrememberedData];
+                    localStorage.setItem('rememberedData', JSON.stringify(rememberedData));
+                    console.log("rememberedData1: ",rememberedData)
+                    
+                }
+              }
+            }
+
+            setEditedProfileData({ ...resdata.profile[0] });
+            setMessage('');
+          } else {
+            setMessage(resdata.error);
+          }
+        } else {
+          setMessage(resdata.error);
+        }
+      } catch (error) {
+        console.error('Error Profile2:', error);
+        setMessage('');
+      }
+    };
+
+    fetchData(id);
+  }, [id]);
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -94,6 +182,8 @@ export default  function CompProfile1() {
           setIsEditing(false);
           setShowSuccessPopup(true);
           setPopupMessage('Update successful');
+          setEditedProfileData(resdata.profile)
+          // console.log("aaaaa: ",resdata.profile)
 
 
           setTimeout(() => {
@@ -112,59 +202,61 @@ export default  function CompProfile1() {
     }
   };
 
+
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = (event) => {
         const imageUrl = event.target.result;
-        setSelectedImage(imageUrl); // เก็บ URL ของรูปที่ถูกเลือกไว้ใน state
-        // เก็บ URL ของรูปลงใน local storage
-        localStorage.setItem('profileImageUrl', imageUrl);
+        setSelectedImage(imageUrl); 
+
+        const storedData = localStorage.getItem('rememberedData');
+            let rememberedData = [];
+            if (storedData) {
+              // แปลงค่า JSON เป็นออบเจ็กต์ JavaScript
+              rememberedData = JSON.parse(storedData);
+              // console.log("1111111: ",rememberedData)
+              let oldrememberedData = []
+              let newrememberedData =[]
+
+            for (const item of rememberedData) {
+              if (item.hasOwnProperty('employee')) {
+                const employeeValue = item.employee;
+
+                // console.log("00000: ",employeeValue)
+                  if (employee === item.employee) {
+                    // console.log("Items: ",item)
+                    console.log("match: ", {employee , employeeValue } , )
+                    
+                    newrememberedData = [
+                      { employee: item.employee , password: item.password, profileImageUrl: imageUrl }
+                    ];
+                    console.log("NewItem: ",newrememberedData)
+                   
+
+                  } else {
+                    oldrememberedData.push(item);
+                     
+                  }
+                  // console.log("gggggggg: ",oldrememberedData) 
+                  // console.log("ffffff: ",item) 
+                  rememberedData = [...oldrememberedData, ...newrememberedData];
+                  // console.log("rememberedData1: ",rememberedData)
+
+                
+                  localStorage.setItem('rememberedData', JSON.stringify(rememberedData));
+                  console.log("storage: ",localStorage)
+
+                // ทำอะไรก็ตามที่คุณต้องการกับค่า employee ที่คุณได้รับ
+              }
+            }
+          }
+
       };
       reader.readAsDataURL(file);
     }
   };
-  
-  
-    
-    
-  const fetchData = async (id) => {
-    try {
-      const requestData = {
-        id,
-      };
-  
-      const response = await axios.post('/api/profile', requestData, {
-        headers: { 'Content-Type': 'application/json' },
-      });
-  
-      const resdata = response.data;
-  
-      if (response.status === 200) {
-        if (resdata.success === true) {
-          console.log("DATAProfile: ", resdata.profile[0]);
-          setProfileData({
-            ...resdata.profile[0], 
-            img: localStorage.getItem('profileImageUrl') || "/img/profile.jpg",
-          });
-          // อัปเดต editedProfileData เพื่อตรงกับข้อมูลใหม่
-          setEditedProfileData({ ...resdata.profile[0] });
-          setMessage('');
-        } else {
-          setMessage(resdata.error);
-        }
-      } else {
-        setMessage(resdata.error);
-      }
-    } catch (error) {
-      console.error('Error Profile2:', error);
-      setMessage('');
-    }
-  };
-  
-
-  
     
 
   return (
@@ -182,20 +274,22 @@ export default  function CompProfile1() {
               </div>
             <div>
               <div className='absolute inset-[0] container mx-auto px-4 z-10 items-center  font-ntr  '>
-                <div className='font-ntr mx-auto md:mt-[200px] md:w-[700px] md:h-[400px] py-[30px] text-black flex flex-col  bg-[#5A985E] text-center rounded-[50px] mt-[106px] h-[460px] w-[300px]'>
+                <div className='font-ntr mx-auto md:mt-[200px] md:w-[700px] md:h-[400px] py-[30px] text-black flex flex-col  bg-[#5A985E] text-center rounded-[50px] mt-[106px]  h-[460px] w-[300px]'>
                 <form onSubmit={handleSaveClick} >
                 
-                <div>
-                <PiPencilSimpleFill onClick={handleEditClick} className = 'text-[#fff] md:text-[20px] md:ml-[640px] md:mt-0 ml-[260px]   mt-[-10px] cursor-pointer'/>
-                  <div className='md:flex absolute  ml-[23px] w-[250px] ' > 
-                  <div className='  mx-auto md:ml-[0] md:w-[500px] md:h-[150px] md:mt-0'>
+                <div className=''>
+                {!isEditing && (
+                 <PiPencilSimpleFill onClick={handleEditClick} className = 'absolute text-[#fff] md:text-[20px] md:ml-[640px]  mt-[-10px] ml-[260px] cursor-pointer'/>
+                )}
+                  <div className='md:flex  mt-[-20px] md:mt-[0px] ml-[23px] w-[250px]  ' > 
+                  <div className={` md:flex md:absolute mx-auto  ${isEditing ? 'mt-[0px] ' : 'mt-[30px] ' } md:w-[200px] md:h-[150px] `}>
                     {/* <div className=' mx-auto md:ml-[50px] w-32 h-32 bg-white rounded-full flex items-center justify-center relative'> */}
                     {isEditing ? (
                     <>
                       <input
                         type="file"
                         accept="image/*"
-                        className="absolute ring-2 ring-white ring-offset-2 ring-offset-[#5A985E] top-0 left-0 w-full h-full md:w-[200px] md:h-[200px] opacity-0 cursor-pointer"
+                        className="  ring-2 ring-white ring-offset-2 ring-offset-[#5A985E] top-0 left-0 w-full h-full md:w-[200px] md:h-[200px]  opacity-0 cursor-pointer"
                         onChange={handleImageUpload}
                       />
                       <img
@@ -208,7 +302,7 @@ export default  function CompProfile1() {
                       <img
                         src={profileData.img || "/img/profile.jpg"}
                         alt="Profile Image"
-                        className="ring-2 ring-white ring-offset-2 ring-offset-[#5A985E] w-32 h-32   mx-auto  md:w-[150px] md:h-[150px] rounded-full object-cover"
+                        className="ring-2 ring-white  ring-offset-2 ring-offset-[#5A985E] w-32 h-32   mx-auto  md:w-[150px] md:h-[150px] rounded-full object-cover"
                       />
                     )}
                   </div>
@@ -217,6 +311,7 @@ export default  function CompProfile1() {
                   <div className='flex flex-col  '>
                   {isEditing ? (
                     <div className=' flex mx-auto ml-[15px] md:ml-[0]'>
+                      {console.log("EDITdata: ",editedProfileData)}
                       <input
                         type="text"
                         placeholder={editedProfileData.name}
@@ -249,11 +344,12 @@ export default  function CompProfile1() {
                       onChange={(e) =>
                         setEditedProfileData({ ...editedProfileData, position: e.target.value })
                       }
-                      className="mx-auto mt-[8px] pl-[15px] w-[208px] h-[25px] text-xs md:text-[17px] md:w-[309px] md:h-[41px]">
+                      className="mx-auto mt-[8px] pl-[5px] items-center w-[208px] h-[25px] text-[14px]  md:text-[17px] md:w-[309px] md:h-[41px]">
                       <option value="Safety Officer Professional level">Professional level</option>
                       <option value="Safety Officer Technical level">Technical level</option>
                       <option value="Safety Officer Supervisory level">Supervisory level</option>
                     </select>
+              
                   ) : (
                     <p className="md:mt-[5px] mt-[2px]  text-[#fff] md:text-[17px] ">
                       {editedProfileData.position || "-"}
@@ -262,7 +358,7 @@ export default  function CompProfile1() {
                   </div>
                   </div>
 
-                  <div className='   w-[280px] md:w-[500px] md:mt-[110px] md:ml-[170px] ml-[20px] mt-[240px]'>
+                  <div className='   w-[280px] md:w-[500px] md:mt-[110px] md:ml-[170px] ml-[20px] mt-5'>
                     <div className='flex  text-[#fff] md:text-[20px] md:ml-[100px]'>
                         <BsFillPersonFill className='md:mr-[10px] mr-[10px]'/> Employee
                         {/* <div className='md:ml-[20px] ml-[20px]  font-bold '>
@@ -284,7 +380,7 @@ export default  function CompProfile1() {
 
                     </div>
                     <div className='flex  text-[#fff] md:text-[20px] md:ml-[100px] md:mt-[10px] mt-[5px]'>
-                        <BsFillTelephoneFill className='md:mr-[10px] mr-[10px]'/> Phone
+                        <BsFillTelephoneFill className='md:mr-[10px] mr-[10px]'/>{t(' Phone')}
                         {isEditing ? (
                             <input
                               type="text"
@@ -335,7 +431,7 @@ export default  function CompProfile1() {
                   </div>
                   <div className='mx-auto'>
                       {isEditing && (
-                        <button type="submit"  className=" mt-5 w-[100px] text-sm md:text-lg  border-[#5A985E] bg-[#fff] px-4 py-1 md:py-2 rounded-[20px] text-[#5A985E] hover:-translate-y-0.5 duration-200">Comfirm</button>
+                        <button type="submit" onSubmit={handleSaveClick} className=" mt-5 w-[100px] text-sm md:text-lg  border-[#5A985E] bg-[#fff] px-4 py-1 md:py-2 rounded-[20px] text-[#5A985E] hover:-translate-y-0.5 duration-200">Comfirm</button>
                       )}
                     </div>
                     {showSuccessPopup && (
@@ -364,3 +460,5 @@ export default  function CompProfile1() {
   
     )
 }
+export default  CompProfile1;
+

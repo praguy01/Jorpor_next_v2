@@ -9,17 +9,110 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
 
+
 export default  function CompLogin() {
 
   const router = useRouter();
+  const [userRemember, setUserRemember] = useState([]);
 
   useEffect(() => {
-    const storedEmployee = localStorage.getItem('rememberedEmployee');
-    const storedPassword = localStorage.getItem('rememberedPassword');
 
-    if (storedEmployee && storedPassword) {
-      setFormData({ ...formData, employee: storedEmployee, password: storedPassword });
-    }
+            const TOKEN = localStorage.user_login;
+            console.log("Token: ",TOKEN)
+            if (TOKEN){
+                const base64Url = TOKEN.split('.')[1];
+                const base64 = base64Url.replace('-', '+').replace('_', '/');
+                const Token = JSON.parse(atob(base64));
+
+                const expUnixTimestamp = Token.exp; 
+
+                const expDate = new Date(expUnixTimestamp * 1000); 
+
+                const iatUnixTimestamp = Token.iat; 
+
+                const iatDate = new Date(iatUnixTimestamp * 1000); 
+
+
+            if (Token.rememberPassword && expDate.getTime() >= new Date().getTime()) {
+
+              const employee =  Token.employee;
+              const password =  Token.password;
+              const oldTokemExp = Token.exp;
+              const editedData = { employee, password, oldTokemExp,remember: true}
+              const data = JSON.stringify(editedData)
+
+              axios.post('/api/login',
+              data, {
+                headers: { 'Content-Type': 'application/json' }
+              })
+              .then(response => {
+                const resdata = response.data;
+                if (response.status === 200) {
+                  if (resdata.success === true) {
+                    const token = response.data.token;
+                    localStorage.setItem('user_login', token);
+        
+                    try {
+      
+                      const token = localStorage.getItem('user_login')
+                      const base64Url = token.split('.')[1];
+                      const base64 = base64Url.replace('-', '+').replace('_', '/');
+                      const Token = JSON.parse(atob(base64));
+      
+                      const expUnixTimestamp = Token.exp; 
+      
+                      const expDate = new Date(expUnixTimestamp * 1000);
+      
+                      const iatUnixTimestamp = Token.iat; 
+      
+                      const iatDate = new Date(iatUnixTimestamp * 1000); 
+      
+
+                      
+                    } catch (error) {
+                      console.error('Error decoding token:', error);
+                    }
+                    
+                    setTimeout(() => {
+                      setIsLoading(true); 
+                        router.push(resdata.redirect); 
+                    }, 1000);                   } 
+                }
+              })
+              .catch(error => {
+                console.error('Error when using the token:', error);
+              });
+          } else {
+            const rememberedData = localStorage.getItem('rememberedData');
+            const rememberedTokenData = localStorage.getItem('user_login');
+
+            localStorage.clear();
+            
+            if (rememberedTokenData) {
+              localStorage.setItem('user_login', rememberedTokenData);
+            }
+            
+            if (rememberedData) {
+              localStorage.setItem('rememberedData', rememberedData);
+            }
+          }
+        }
+
+
+    console.log("storage: ",localStorage);
+  
+    const rememberedData = localStorage.getItem('rememberedData');
+    if (rememberedData) {
+      const rememberedDataArray = JSON.parse(rememberedData);
+      
+      if (rememberedDataArray.length > 0) {
+        const lastItem = rememberedDataArray[rememberedDataArray.length - 1];
+
+        setFormData({ ...formData, employee: lastItem.employee, password: lastItem.password });
+       
+      }
+      }
+  
   }, []);
 
   const [formData, setFormData] = useState({
@@ -31,27 +124,40 @@ export default  function CompLogin() {
   const [isLoading, setIsLoading] = useState(false); // เพิ่มตัวแปรสถานะ isLoading
   const [message, setMessage] = useState('');
   const [rememberPassword, setRememberPassword] = useState(false);
-  
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-
+  
     if (name === 'employee') {
-      localStorage.setItem('rememberedEmployee', value);
-    }
+      
+        const rememberedData = localStorage.getItem('rememberedData');
+        if (rememberedData) {
+          const rememberedDataArray = JSON.parse(rememberedData);
+          for (const item of rememberedDataArray) {
+            if (item.hasOwnProperty('employee')) {
+              if (value === item.employee) {
+                setFormData({ employee: value, password: item.password });
+                return; 
+              }
+            }
+          }
+        setFormData({ employee: value, password: '' });
+      } else {
+        setFormData({ ...formData, employee: value, password: formData.password  });
 
-    if (name === 'employee' && !value) {
-      localStorage.removeItem('rememberedPassword');
-    }
+      }
 
-      setFormData({ ...formData, [name]: value });
-    
+    } else if (name === 'password') {
+      setFormData({ ...formData, [name]: value, employee: formData.employee });
+    }
   };
-
+  
   const handleRememberPasswordChange = (e) => {
     setRememberPassword(e.target.checked);
   };
 
   const handleSubmit = async (e) => {
+
     e.preventDefault();
 
     if (!formData.employee || !formData.password) {
@@ -61,10 +167,14 @@ export default  function CompLogin() {
     }
 
     try {
+      const rememberedData = localStorage.getItem('rememberedData');
+      const rememberedDataArray = JSON.parse(rememberedData);
 
+      const editedData = { formData ,rememberedDataArray, rememberPassword}
+      const data = JSON.stringify(editedData)
 
       const response = await axios.post('/api/login', 
-      formData, {
+      data, {
         headers: { 'Content-Type': 'application/json' 
       }
         
@@ -74,16 +184,59 @@ export default  function CompLogin() {
 
       if (response.status === 200) {
         if (resdata.success === true) {
-          console.log("DATA: ",resdata.profile[0]);
-          localStorage.setItem('id', resdata.profile[0].id);
-          console.log("LocalLogin: ",localStorage)
-          setMessage('');
-          setLoginMessage('');
+
+          
           if (rememberPassword) {
-            localStorage.setItem('rememberedPassword', formData.password);
-          }
 
+            const storedData = localStorage.getItem('rememberedData');
+            let rememberedData = [];
+            if (storedData) {
+              rememberedData = JSON.parse(storedData);
+              
+            }
+        
+            setUserRemember(rememberedData)
+        
+            const newrememberedData = [
+              { employee: formData.employee, password: formData.password }
+            ];
+        
+            console.log("newremember: ",newrememberedData)
+            rememberedData = [...rememberedData, ...newrememberedData];
+            console.log("rememberedData: ",rememberedData)
+        
+          
+            localStorage.setItem('rememberedData', JSON.stringify(rememberedData));
+            
+            }
+            
+            const token = response.data.token;
+            localStorage.setItem('user_login', token);
 
+            try {
+
+                const token = localStorage.getItem('user_login')
+                const base64Url = token.split('.')[1];
+                const base64 = base64Url.replace('-', '+').replace('_', '/');
+                const Token = JSON.parse(atob(base64));
+
+                const expUnixTimestamp = Token.exp; 
+
+                const expDate = new Date(expUnixTimestamp * 1000); 
+
+                const iatUnixTimestamp = Token.iat; 
+
+                const iatDate = new Date(iatUnixTimestamp * 1000); 
+
+                
+              } catch (error) {
+                console.error('Error decoding token:', error);
+              }
+             
+
+            localStorage.setItem('id', resdata.profile[0].id);
+            setMessage('');
+            setLoginMessage('');
 
           setTimeout(() => {
             setIsLoading(true); 
@@ -130,16 +283,16 @@ export default  function CompLogin() {
         </div>
         <div className=' bg-[url("/bg1.png")] bg-cover bg-no-repeat  z-[-1] top-0 left-0 w-full h-full bg-center fixed  overflow-auto'>
           <div>
-            <div className='mx-auto w-[360px] py-[140px] md:w-[570px]  md:py-[220px] text-black flex flex-col  bg-[#D1E6D3]/50 text-center rounded-[50px] mt-[180px] xs:w-[350px]'>
+            <div className='mx-auto w-[360px] py-[140px] md:w-[570px]  md:py-[220px] text-black flex flex-col  bg-[#D1E6D3]/50 text-center rounded-[50px] mt-[180px] '>
           </div>
 
           <div className='absolute inset-[0]'>
             <div>
-              <div className='  mx-auto  w-[330px] py-[180px] md:w-[530px]  md:py-[260px] text-black flex flex-col  bg-[#D1E6D3]/50 text-center rounded-[50px] mt-[140px] xs:w-[350px]'>
+              <div className='  mx-auto  w-[330px] py-[180px] md:w-[530px]  md:py-[260px] text-black flex flex-col  bg-[#D1E6D3]/50 text-center rounded-[50px] mt-[140px]  '>
             </div>
             <div>
               <div className='absolute inset-[0] container mx-auto px-4 z-10 items-center  font-ntr  '>
-                <div className='mx-auto w-[300px]  md:w-[490px]  py-[30px] text-black flex flex-col  bg-[#D1E6D3] text-center rounded-[50px] mt-[106px] xs:w-[350px] '>
+                <div className='mx-auto w-[300px]  md:w-[490px]  py-[30px] text-black flex flex-col  bg-[#D1E6D3] text-center rounded-[50px] mt-[106px]  '>
                   <div className='mt-[15px] md:mt-[30px]'>
                     <h1 className='  text-[22px] md:text-[40px] font-bold'>Login</h1>
                     <p className='  text-sm md:text-lg '>Sign in to continue</p>
@@ -184,7 +337,6 @@ export default  function CompLogin() {
                           <p className="mx-auto mt-[14px] md:mt-[10px] ml-[3px] md:ml-[5px] font-ntr text-sm md:text-lg">Loading...</p>
                         </div>
                       )}
-
 
                     </form>
                     </div>

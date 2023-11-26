@@ -13,10 +13,31 @@ import {BsTextarea} from 'react-icons/bs'
 import {PiPencilSimpleFill} from 'react-icons/pi'
 import {RxCross2} from 'react-icons/rx'
 import {BsCheckCircle} from 'react-icons/bs'
+import {BsFillExclamationTriangleFill} from 'react-icons/bs'
+import { useRouter } from 'next/navigation';
+
 import '@fontsource/mitr';
 import CompNavbar from './compNavbar';
+import { CompLanguageProvider, useLanguage } from './compLanguageProvider';
+import { useTranslation } from 'react-i18next';
+import i18n from '../i18n'; 
+import { initReactI18next } from 'react-i18next';
 
-export default function CompExamine() {
+
+function CompExamine() {
+  return (
+    <CompLanguageProvider>
+      <App />
+    </CompLanguageProvider>
+  );
+}
+
+function App() {
+  const { language, toggleLanguage } = useLanguage();
+  const { t } = useTranslation();
+
+  const router = useRouter();
+
   const [message, setMessage] = useState('');
   const [showDeleteSuccessPopup, setShowDeleteSuccessPopup] = useState(false);
   const [showAddSuccessPopup, setShowAddSuccessPopup] = useState(false);
@@ -26,18 +47,55 @@ export default function CompExamine() {
   const [showPopup, setShowPopup] = useState(false); // เพิ่ม state เพื่อควบคุมการแสดง/ซ่อน popup
   const [showEditPopup, setShowEditPopup] = useState(false); // เพิ่ม state เพื่อควบคุมการแสดง/ซ่อน popup
   const [reloadData, setReloadData] = useState(false); // เพิ่ม state นี้
+  const [showPopupUseEmployee, setShowPopupUseEmployee] = useState(false); // เพิ่ม state เพื่อควบคุมการแสดง/ซ่อน popup
+  const [useEmployee, setUseEmployee] = useState(false);
+  const [examinelist_name, setexaminelist_name] = useState('');
+  const [examinelist_Id, setexaminelist_Id] = useState('');
+  const [examine_Id, setexamine_Id] = useState('');
+  const [id, setId] = useState('');
+
+ 
+ 
+  useEffect(() => {
+    const storedId = localStorage.getItem('id');
+    if (storedId) {
+      setId(storedId);
+      console.log("Stored: ",storedId)
+    }
+  }, []);
 
   useEffect(() => {
     // ใน useEffect นี้คุณสามารถใช้ Axios เพื่อดึงข้อมูลจากฐานข้อมูล
+    if (typeof window !== 'undefined') {
+      const searchParams = new URLSearchParams(window.location.search);
+      const examinelist_nameValue = searchParams.get('examinelist_name') ; // กำหนดค่าเริ่มต้นว่างไว้ถ้าไม่มีค่า
+     
+      console.log("queryDataexamine: ",{examinelist_nameValue})
+
+    console.log("STARTExamine: ",useEmployee);
     const fetchData = async () => {
       try {
-        const response = await axios.get('/api/examine'); // แทน '/api/examine' ด้วยเส้นทางที่ถูกต้องไปยัง API ของคุณ
+        const AddData = { examinelist_nameValue, fetch: true};
+        const fetchdata = JSON.stringify(AddData);
+
+        const response = await axios.post('/api/examine', fetchdata, {
+          headers: { 'Content-Type': 'application/json' },
+        });    
         const data = response.data;
 
         if (response.status === 200) {
           if (data.success === true) {
-            const examineNames = data.dbexamine_name.map(item => item.examine_name);
+            const examineNames = data.dbexamine_name.map(item => item.name);
+            const examineId = data.dbexamine_name.map(item => item.id);
+            let AllexamineId = [];
+
+            AllexamineId.push(examineId);
+
+            
+            setexamine_Id(AllexamineId);
+            setexaminelist_Id(data.examinelistId);
             setTodoList(examineNames);
+
           } else {
             setMessage(data.error);
           }
@@ -49,8 +107,9 @@ export default function CompExamine() {
         setMessage('');
       }
     };
-
+    setexaminelist_name(examinelist_nameValue);
     fetchData();
+  }
   }, [reloadData]); // โหลดข้อมูลเมื่อค่า state reloadData เปลี่ยนแปลง
 
 
@@ -75,23 +134,24 @@ export default function CompExamine() {
   const [examine_name, setExamine_name] = useState("");
   const [todoList, setTodoList] = useState([]);
 
+
   const addTodo = async () => {
     if (examine_name.trim() === "") {
       setMessage("Please fill in  fields");
       return;
     }
-
     
     try {
-      const requestData = {
-        examine_name,
-      };
 
-      console.log("requestData: ",requestData)
-      console.log("examine_name: ",examine_name)
+      console.log("useEmployee name: " ,examine_name,useEmployee  )
 
+      const useEmployeeAsString = useEmployee.toString(); // แปลงค่า useEmployee เป็น string
 
-      const response = await axios.post('/api/examine', examine_name, {
+      const AddData = { examine_name ,useEmployeeAsString ,examinelist_name , add: true};
+      const data = JSON.stringify(AddData);
+      console.log("data222: ",data)
+
+      const response = await axios.post('/api/examine', data, {
         headers: { 'Content-Type': 'application/json' },
       });
   
@@ -117,12 +177,13 @@ export default function CompExamine() {
       } else {
         setMessage(resdata.error);
       }
+    
     } catch (error) {
       console.error('Error Examine:', error);
       setMessage('');
     }
 
-
+    setUseEmployee(false)
     setExamine_name("");
     closePopup();
   }
@@ -133,14 +194,16 @@ export default function CompExamine() {
   };
 
 
-
+  const handleCheckboxEmployee = () => {
+    setUseEmployee(true); // ใช้การกลับค่าปัจจุบันของ useEmployee
+  }
 
   const deleteTodo = async (index, todo) => {
     try {
-      const editedData = { todo, edit: true };
+      const editedData = { todo,examinelist_name,  edit: true };
       const data = JSON.stringify(editedData)
 
-      const response = await axios.post('/api/examine', data, {
+      const response = await axios.post('/api/examine', data,  {
         headers: { 'Content-Type': 'application/json' },
       });
 
@@ -172,6 +235,51 @@ export default function CompExamine() {
     }
   }
 
+  const handleSubmit = async () => {
+    try {
+
+      const currentDate = new Date();
+      const day = currentDate.getDate();
+      const month = currentDate.getMonth() + 1; 
+      const year = currentDate.getFullYear();
+      const formattedDate = `${day}/${month}/${year}`;
+
+      
+      
+      const editedData = { formattedDate, id , submit: true};
+      console.log("checkbox: ",editedData)
+      const data = JSON.stringify(editedData)
+      console.log("checkboxData: ",data)
+
+
+      const response = await axios.post('/api/examine', data, {
+        headers: { 'Content-Type': 'application/json' },
+      });    
+      
+      const resdata = response.data;
+  
+      if (response.status === 200) {
+        if (resdata.success === true) {
+
+          console.log("Message: ", resdata);
+
+          setTimeout(() => {
+            router.push(resdata.redirect); 
+          }, 1000); 
+        } else {
+          setMessage(resdata.error);
+        }
+      } else {
+        setMessage(resdata.error);
+      }
+
+
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+  
+
   return (
     <div>
 
@@ -183,50 +291,52 @@ export default function CompExamine() {
           <div className='bg-[#5A985E] mx-auto max-w-[500px] sm:max-w-[350px] py-[100px] rounded-[50px]'></div>
         </div>
       </div>
-      <div className='mx-auto w-[300px] md:w-[963px] font-ntr py-6 text-black flex flex-col bg-[#FFF] text-center md:rounded-[50px] rounded-[30px] mt-[106px] xs:w-[350px] '>
-        <div className='md:mt-[30px]'>
-          <div className='flex items-center md:px-10 '>
-            <h1 className='text-[25px] md:text-[40px] font-ntr font-bold ml-[30px]'>Examine</h1>
-          </div>
-        </div>
+      <div className='mx-auto border w-[300px] md:w-[950px] font-ntr py-[20px] md:h-[600px] h-[550px] text-black flex flex-col   md:rounded-[30px] rounded-[30px] mt-[106px]  bg-[#fff]'>
+                
+          <h1 className=  {`${language === 'EN' ? ' font-ntr font-bold md:ml-[50px] ml-[30px]  text-[25px] md:text-[35px] ' : ' font-mitr md:ml-[50px] ml-[30px] text-[25px] md:text-[30px] '  }  `}>{t('Examine')}</h1>
+
 
         <div className="mt-[5px] border-t border-gray-300"></div>
         {!isEditing && (
-        <PiPencilSimpleFill onClick={handleEditClick} className='absolute text-black md:text-[20px] text-[13px] md:ml-[910px] md:mt-[50px] ml-[270px]  mt-[10px] cursor-pointer ' />
+        <PiPencilSimpleFill onClick={handleEditClick} className='absolute text-black md:text-[20px] text-[13px]  md:ml-[910px] md:mt-[15px] ml-[270px]  mt-[12px] cursor-pointer ' />
         )}
-        <div className='font-mitr   items-center mx-auto w-[250px] md:w-[850px] h-[350px] text-black bg-[#F5F5F5] text-center mt-[20px] rounded-[20px] overflow-auto'>
-          <div className='mx-auto mt-[15px]  flex flex-row justify-center  flex-wrap'>
+        
+        <div className='font-mitr   items-center mx-auto w-[250px] md:w-[850px] h-[380px] text-black bg-[#F5F5F5] text-center mt-[20px] rounded-[20px] overflow-auto'>
+          <div className='mx-auto mt-[15px]  flex flex-row justify-center md:justify-normal md:ml-[20px] flex-wrap'>
            
-          {/* <div className='flex flex-row justify-center space-x-4 flex-wrap'> 
-              <Link href="/ExamineEquiment" className='flex w-[100px] md:w-[250px] py-[30px] px-2 text-black flex-col bg-[#9FD4A3] text-center mt-[15px] rounded-[15px]'>
-                <MdSystemSecurityUpdateGood className='mx-auto text-[#5A985E] md:mx-auto text-5xl md:text-6xl' />เครื่องจักร
-              </Link>
-              <Link href="/ExamineName" className='flex w-[100px] md:w-[250px] py-[30px] px-2 text-black flex-col bg-[#BEE3BA] text-center mt-[15px] rounded-[15px]'>
-                <GiClothes className='text-[#5A985E] mx-auto md:mx-auto text-5xl md:text-6xl'/>การแต่งกาย
-              </Link>
-              <Link href="/ExamineArea" className='flex w-[100px] md:w-[250px] py-[30px] px-2 text-black flex-col bg-[#fff] text-center mt-[15px] rounded-[15px]'>
-                <BsTextarea className='text-[#5A985E] mx-auto md:mx-auto text-5xl md:text-6xl'/>พื้นที่เสี่ยง
-              </Link>
-            </div> */}
+                 {todoList.map((todo, index) => (
 
-              {todoList.map((todo, index) => (
-                <div key={index} className={` border-[#F5F5F5] border-[5px] w-[90px] md:w-[150px] py-[30px] px-2 text-black flex-col bg-[#BEE3BA] text-center  rounded-[15px] ${index % 2 === 0 ? 'clear-left' : ''} `}>
-                   {isEditing && (
-                    // <RxCross2 onClick={() => openEditPopup(index, todo)} className="text-[#5A985E] inline-block  absolute  ml-[22px] md:ml-[50px] mt-[-24px] text-[12px]  hover:-translate-y-0.5 duration-200 " /> 
-                    <RxCross2
-                      onClick={(e) => {
-                        e.stopPropagation(); // ป้องกันการกระจัดการคลิกไปยังคำสั่ง openEditPopup ด้วย
-                        openEditPopup(index, todo);
-                      }}
-                      className="text-[#5A985E] inline-block absolute ml-[22px] md:ml-[50px] mt-[-24px] text-[12px] hover:-translate-y-0.5 duration-200"
-                    />
-
-                   )}
-                  <div className='flex justify-center'>
-                    <p className='text-[#000] text-[14px] w-[60px]  break-words whitespace-pre-wrap'>{todo} </p>
+                  <div
+                    key={index}
+                    className={`cursor-pointer border-[#F5F5F5] border-[5px] w-[90px] md:w-[150px] py-[30px] px-2 text-black flex-col bg-[#BEE3BA] text-center rounded-[15px] ${index % 2 === 0 ? 'clear-left' : ''}`}
+                    onClick={() => {
+                      if (!isEditing) {
+                        router.push(`/checklistExamine?checklistname=${todo}&examinelistId=${examinelist_Id}&examineId=${examine_Id[0][index]}&index=${index}&useEmployee=${useEmployee ? 'true' : 'false'}`);
+                      }
+                    }}
+                  >
+                    {isEditing ? (
+                      <div>
+                        <RxCross2
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            openEditPopup(index, todo);
+                          }}
+                          className="text-[#5A985E] inline-block ml-[55px] md:ml-[115px] mt-[-65px] text-[12px] hover:-translate-y-0.5 duration-200"
+                        />
+                        <div className='flex justify-center'>
+                          <p className='text-[#000] text-[14px] md:text-[18px] mt-[-20px] w-[60px] md:w-[100px] break-words whitespace-pre-wrap'>{todo}</p>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className='flex justify-center'>
+                        <p className='text-[#000]  text-[14px] md:text-[18px] md:w-[100px] w-[60px] break-words whitespace-pre-wrap'>{todo}</p>
+                      </div>
+                    )}
                   </div>
-                </div>
-              ))}
+                  ))}
+
+             
 
               {showDeleteSuccessPopup && (
                 <div className="bg-white text-[#5A985E] p-8  rounded-lg border-black shadow-lg md:w-[400px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
@@ -253,11 +363,11 @@ export default function CompExamine() {
           </div>
         </div>
 
-        <div className='flex items-center md:px-10 ml-[100px]'>
+        <div className=  {`${language === 'EN' ? ' font-ntr text-[17px] md:text-[20px]' : ' font-mitr text-[15px] md:text-[17px]'  } flex justify-end w-[250px] md:mt-[15px] mx-auto md:w-[940px]  md:px-10 `}>
         {isEditing ? (
-          <button onClick={() => setIsEditing(false)} className='mx-auto mt-[60px] text-md md:text-[20px] md:ml-[600px] md:mt-[60px] border-[#64CE3F] bg-[#64CE3F] px-10 py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>Comfirm</button>
+          <button onClick={() => setIsEditing(false)} className='flex mx-auto mt-[20px]   md:mt-[20px] border-[#64CE3F] bg-[#64CE3F] px-10 py-1  rounded-[20px]   text-[#fff] hover:-translate-y-0.5 duration-200 '>{t('confirm')}</button>
         ) : (
-          <button href="/" className=' mt-[60px] text-md md:text-[20px] md:ml-[600px] md:mt-[60px] border-[#64CE3F] bg-[#64CE3F] px-10 py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>Submit</button>
+          <button onClick={handleSubmit} className='mt-[20px]   md:mt-[20px]  border-[#64CE3F] bg-[#64CE3F] px-10 py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200  '>{t('submit')}</button>
         )}
           <div>
             {/* <CompNavbar /> */}
@@ -265,33 +375,51 @@ export default function CompExamine() {
             {!isEditing && (
               <button
                 onClick={openPopup}
-                className="item-center text-[#5A985E] ml-[10px] text-4xl mt-[60px] hover:-translate-y-0.5 duration-200"
+                className="item-center text-[#5A985E] ml-[10px] text-4xl mt-[20px] hover:-translate-y-0.5 duration-200"
               >
                 <BsPlusCircleFill />
               </button>
             )}
             </div>
+            {showPopupUseEmployee && (
+              <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-[9999]">
+                <div className="bg-white p-4 rounded-lg border-black shadow-lg md:w-[400px] ">
+                <BsFillExclamationTriangleFill className=' text-[50px] text-[#5A985E] mx-auto mb-[10px]'/>
+                <p className='md:text-[18px]'>{`${language === 'EN' ? ' Do you want to retrieve employee names?  ' : 'คุณต้องการเรียกข้อมูลชื่อพนักงานไหม ? '  }`}</p>
+                  <div className=  {`${language === 'EN' ? ' font-ntr text-[19px]' : ' font-mitr text-[16px] '  } flex justify-center mt-[20px]`}>
+                    <button className="flex justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={() => {handleCheckboxEmployee() ,setShowPopupUseEmployee(false)}}>{t('Yes')}</button> 
 
+                    <button className="flex justify-center items-center bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600" onClick={() => setShowPopupUseEmployee(false)}>{t('Cancel')}</button>
+                  </div>
+                </div> 
+                </div>
+              )}
             {showPopup && (
               <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center ">
-                <div className="bg-white p-4 rounded-lg border-black shadow-lg md:w-[400px] ">
-                  <h2 className='text-[30px] text-[#5A985E] font-ntr font-bold'>Add Examine</h2>
+                <div className=  {`${language === 'EN' ? ' font-ntr font-bold text-[30px]' : ' font-mitr text-[20px]'  } bg-white p-4 rounded-lg border-black shadow-lg md:w-[400px] `}>
+                  <h2 className=' text-[#5A985E]'>  {`${language === 'EN' ? 'Add Examine' : 'เพิ่มรายการตรวจสอบ'  }`}</h2>
                   <div className="mt-4">
-                    <input className='mt-1 p-2 w-full border border-gray-300 rounded-md'
+                    <input className='mt-1 p-2 w-full border text-[20px] border-gray-300 rounded-md'
                       value={examine_name}
                       onChange={(e) => setExamine_name(e.target.value)}
-                      placeholder="add examine"
-                    />
+                      placeholder=  {`${language === 'EN' ? "add examine" : ' เพิ่มรายการตรวจสอบ '  }`}
+                      style={{ fontSize: language === 'EN' ? '18px' : '16px' }} 
+                      />
+                  </div>
+                  <div className='flex mx-auto mt-[10px]'>
+                  <input type='checkbox' onChange={(e) => setShowPopupUseEmployee(true)} className='text-[15px] mr-[5px]'></input>
+                  
+                    <p className='text-[15px]'> {`${language === 'EN' ? 'Use employee list information ' : ' ใช้ข้อมูลรายชื่อพนักงาน '  }`}</p>
                   </div>
                   {message && (
                     <p className='mt-3 text-red-500 text-xs py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-lg md:mt-[30px]'>
                       {message}
                     </p>
                   )}
-                  <div className="flex justify-center mt-[10px]">
-                    <button className="flex justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={addTodo}>Add</button>
+                  <div className=  {`${language === 'EN' ? ' font-ntr text-[19px]' : ' font-mitr text-[16px]'  } flex justify-center mt-[10px] `}>
+                    <button className="flex justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={addTodo}>{t('Add')}</button>
 
-                    <button className="flex justify-center items-center bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600" onClick={() => closePopup(false)}>Cancel</button>
+                    <button className="flex justify-center items-center bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600" onClick={() => closePopup(false)}>{t('Cancel')}</button>
                   </div>
 
                 </div>
@@ -300,18 +428,18 @@ export default function CompExamine() {
 
             {showEditPopup.isOpen && (
               <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center ">
-                <div className="bg-white p-4 rounded-lg border-black shadow-lg md:w-[400px] ">
-                  <h2 className='text-[20px] text-[#5A985E] font-ntr font-bold'>Do you want to delete <span style={{ color: '#FF6B6B' }}>{showEditPopup.todo}</span> ?</h2>
+                <div className="bg-white p-4 rounded-lg border-black shadow-lg md:w-[380px] md:h-[150px] ">
+                  <h2 className=  {`${language === 'EN' ? ' font-ntr font-bold' : ' font-mitr '  } text-[18px] md:text-[20px] text-[#5A985E] mt-[10px] `}> {`${language === 'EN' ? ' Do you want to delete ' : 'คุณต้องการที่จะลบ '  }`}<span style={{ color: '#FF6B6B' }}>{showEditPopup.todo}</span>  {`${language === 'EN' ? ' ? ' : ' ไหม ?  '  }`}</h2>
                   
                   {message && (
-                    <p className='mt-3 text-red-500 text-xs py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-lg md:mt-[30px]'>
+                    <p className= {`${language === 'EN' ? ' font-ntr' : ' font-mitr '  } mt-3 text-red-500 text-xs py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-lg md:mt-[30px]`}>
                       {message}
                     </p>
                   )}
-                  <div className="flex justify-center mt-[10px]">
-                    <button className="flex justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={() => deleteTodo(showEditPopup.index, showEditPopup.todo)}>Yes</button>
+                  <div className=  {`${language === 'EN' ? ' font-ntr' : ' font-mitr '  } flex justify-center mt-[10px]  md:mt-[30px]`}>
+                    <button className="flex justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={() => deleteTodo(showEditPopup.index, showEditPopup.todo)}>{t('Yes')}</button>
 
-                    <button className="flex justify-center items-center bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600" onClick={() => closeEditPopup(false)}>Cancel</button>
+                    <button className="flex justify-center items-center bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600" onClick={() => closeEditPopup(false)}>{t('Cancel')}</button>
                   </div>
 
                 </div>
@@ -324,3 +452,4 @@ export default function CompExamine() {
   </div>
     )
 }
+export default CompExamine;
