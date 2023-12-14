@@ -38,7 +38,8 @@ export default function CompRegister() {
 
   const [registrationMessage, setRegistrationMessage] = useState('');
   const [registrationMessagePass, setRegistrationMessagePass] = useState('');
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState('');  
+  const [messagepop, setMessagepop] = useState('');
   const [isLoading, setIsLoading] = useState(false); // เพิ่มตัวแปรสถานะ isLoading
   const [isLoadingSingin, setIsLoadingSingin] = useState(false); // เพิ่มตัวแปรสถานะ isLoading
   const [showPopup, setShowPopup] = useState(false);
@@ -210,7 +211,7 @@ export default function CompRegister() {
       if (response.status === 200) {
         if (resdata.success === true) {
           setMessagePass(resdata.message);
-          setMessage('');
+          setMessagepop('');
 
           setTimeout(() => {
             setIsLoading(true); 
@@ -218,13 +219,13 @@ export default function CompRegister() {
           }, 1000); 
         } else {
           console.log("RESDATA error: ", resdata.error);
-          setMessage(resdata.error);
+          setMessagepop(resdata.error);
         }
       } else {
-        setMessage('เกิดข้อผิดพลาด1: ' + resdata.error);
+        setMessagepop('เกิดข้อผิดพลาด1: ' + resdata.error);
       }
     } catch (error) {
-      console.error('เกิดข้อผิดพลาด2:', error);
+      console.errorpop('เกิดข้อผิดพลาด2:', error);
       setMessage('เกิดข้อผิดพลาด2');
     } finally {
       setIsLoading(false); 
@@ -236,11 +237,11 @@ export default function CompRegister() {
       <div className='w-full bg-[#5A985E] fixed top-0 left-0 '>
         <div className='container mx-auto flex justify-between items-center py-2 px-4 w-screen font-ntr '>
           <div className='text-[#fff] font-bold text-[24px]'>
-            <span>JorPor</span>
+            <Link href="login">JorPor</Link>
           </div>
-          <div className='text-white font-ntr '>
+          {/* <div className='text-white font-ntr '>
             <Link href="/" className='text-[20px] px-4 py-1 rounded-md text-[#fff] hover:text-[#5A985E] hover:bg-[#fff]  '>log out</Link>
-          </div>
+          </div> */}
         </div>
       </div>
       <div>
@@ -282,8 +283,8 @@ export default function CompRegister() {
                             <p className='text-left text-xs ml-[10px] md:ml-[10px] mt-[15px]  md:text-lg'>Position</p>
                             <select id="dropdown" name="position" value={formData.position} onChange={handleInputChange} className='rounded-[20px]  pl-[15px] w-[100px]  h-[25px] text-xs md:text-lg md:w-[211px] md:h-[41px] ' >
                               <option value="">Select an option</option>
-                              <option value="Safety Officer Professional level">Professional level</option>
-                              <option value="Safety Officer Technical level">Technical level</option>
+                              {/* <option value="Safety Officer Professional level">Professional level</option>
+                              <option value="Safety Officer Technical level">Technical level</option> */}
                               <option value="Safety Officer Supervisory level">Supervisory level</option>
                             </select>
                           </div>
@@ -348,18 +349,24 @@ export default function CompRegister() {
                                   ))}
                     
                                   </div>   
-                                  {message && (
+                                  <div className='flex flex-col  mt-[40px]'>
+                                  <div>
+                                  {messagepop && (
                                     <p className='mt-3 text-red-500 text-xs py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[340px] mx-auto md:text-lg md:mt-[30px]'>
-                                      {message}
+                                      {messagepop}
                                     </p>
                                   )}
                                   {messagePass && (
                                     <p className=' mt-3 text-green-600 text-xs py-2 bg-[#ACE9A7] rounded-[10px] inline-block px-4 w-[210px] md:w-[340px] mx-auto md:text-lg md:mt-[30px]'>
                                       {messagePass}
                                     </p>
-                                  )}                        
-                                  <button onClick={handleConfirmSubmit} className=" mx-auto mb-[10px] w-[100px] mt-[80px] md:mt-[240px] text-sm md:text-lg  border-[#5A985E] bg-[#5A985E] px-4 py-1 md:py-2 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200">Comfirm</button>
-                                </div>
+                                  )}     
+                                  </div>
+                                 <div>
+                                    <button onClick={handleConfirmSubmit} className=" mx-auto mb-[10px] w-[100px] mt-[10px] md:mt-[240px] text-sm md:text-lg  border-[#5A985E] bg-[#5A985E] px-4 py-1 md:py-2 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200">Comfirm</button>
+                                  </div>
+                                  </div>
+                                  </div>
                                 {isLoading && (
                               <div className='flex mx-auto  mt-[15px] ' >
                                 <div className="mx-auto mt-[15px]  mr-[3px] inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status">

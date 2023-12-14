@@ -16,7 +16,6 @@ export default  function CompLogin() {
   const [userRemember, setUserRemember] = useState([]);
 
   useEffect(() => {
-
             const TOKEN = localStorage.user_login;
             console.log("Token: ",TOKEN)
             if (TOKEN){
@@ -184,7 +183,8 @@ export default  function CompLogin() {
 
       if (response.status === 200) {
         if (resdata.success === true) {
-
+          
+console.log("resdata.profile[0]: ",resdata.profile)
           
           if (rememberPassword) {
 
@@ -212,10 +212,10 @@ export default  function CompLogin() {
             
             const token = response.data.token;
             localStorage.setItem('user_login', token);
-
+            const storedToken = localStorage.getItem('user_login');
             try {
 
-                const token = localStorage.getItem('user_login')
+                // const token = localStorage.getItem('user_login')
                 const base64Url = token.split('.')[1];
                 const base64 = base64Url.replace('-', '+').replace('_', '/');
                 const Token = JSON.parse(atob(base64));
@@ -274,10 +274,10 @@ export default  function CompLogin() {
               <span>JorPor</span>
 
             </div>
-            <div className='text-white font-ntr '>
+            {/* <div className='text-white font-ntr '>
                 <Link href="/" className=' text-[20px] px-4 py-1 rounded-md text-[#fff] hover:text-[#5A985E] hover:bg-[#fff]  '>log out</Link>
           
-            </div>
+            </div> */}
           </div>
           
         </div>

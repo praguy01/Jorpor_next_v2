@@ -6,29 +6,36 @@ export async function POST(request) {
     const formData = await request.formData();
 
     try {
+
+
       const file = formData.get('file');
       const fileBuffer = await file.arrayBuffer();
+      console.log("buffer: ",fileBuffer)
+      console.log("bufferfile: ",file)
+
+
 
       const {
         title,
         employee,
         location,
         work_owner,
-        status,
+        position,
         dateTime,
         detail,
+        id,
       } = Object.fromEntries(formData);
 
-      console.log("Test: ",fileBuffer)
+      console.log("Test: ",formData)
 
       const insertSql =
-        "INSERT INTO notify (title, employee, location, work_owner, status, date, file, file_name, detail, Verification_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-      const insertValues = [title, employee, location, work_owner, status, dateTime, fileBuffer, file.name, detail, "Pending approval"];
+        "INSERT INTO notify (title, employee, location, work_owner, status, date, file, file_name, detail,user_id, Verification_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      const insertValues = [title, employee, location, work_owner, position, dateTime, fileBuffer, file.name, detail,id, "Pending approval"];
       const result = await db.execute(insertSql, insertValues);
 
       if (result[0].affectedRows === 1) {
         const insertedId = result[0].insertId;
-        return NextResponse.json({ success: true, id: insertedId, message: 'Notification has been sent successfully.', redirect: '/response' });
+        return NextResponse.json({ success: true, id: insertedId, message: 'Notification has been sent successfully.', redirect: '/response_row_1' });
       } else {
         return NextResponse.json({ success: false, error: 'Failed to insert notify data' });
       }

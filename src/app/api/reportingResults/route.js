@@ -1,0 +1,562 @@
+import { it } from 'node:test';
+import db from '../../../lib/db';
+import { NextResponse } from 'next/server';
+
+
+export async function POST(request) {
+  if (request.method === 'POST') {
+    const res = await request.json();
+
+    try {
+      const { fetchdata} = res;
+      console.log("RES_ROUTE_examineRe7777777777777777: ", res);
+
+      if (res.send) {
+
+        for (const item of res.nameExamine.items) {
+          console.log("res.items.examine: ", item);
+
+          Object.keys(item.examine).forEach(async (key , index) => {
+            const data = item.examine[key][0];
+            
+            console.log("res.data.examine: ", key, data.useEmployee);
+            if (data.useEmployee === 'false') {
+
+              for (const B of data.itemA){
+                console.log("LLLL: ",B)
+                const insertValueQuery = `
+                INSERT INTO checklist_examine_row_2 (date, examinename_id, status, details, inspector, examine_id, examinelist_id)
+                VALUES (?,?,?,?,?,?,?);
+                `;
+                const insertValueQueryResult = await db.query(insertValueQuery, [B.date ,	B.examinename_id ,	B.status 	,	B.details 	,	B.inspector 	,	B.examine_id 	,	B.examinelist_id]);
+  
+              }
+
+            } else if (data.useEmployee === 'true') {
+              console.log("QQQQฤฤฤฤ: ",data)
+
+              for (const B of data.itemA){
+                for (const C of B.itemB){
+                  console.log("QQQQQQQQQQQQQQ: ",B.itemB.length)
+                  const insertValueQuery = `
+                    INSERT INTO checklist_employee_row_2 (date, employee_name_id, examinename_id, status, details, inspector, examine_id, examinelist_id)
+                    VALUES (?,?,?,?,?,?,?,?);
+                    `;
+                  const insertValueQueryResult = await db.query(insertValueQuery, [C.date ,C.employee_name_id ,	C.examinename_id ,	C.status 	,	C.details 	,	C.inspector 	,	C.examine_id 	,	C.examinelist_id]);
+  
+                }
+              }
+         
+            }
+          })
+        }
+
+        
+        return NextResponse.json({ success: true , message: 'The information has been sent successfully.' ,redirect: '/examineList' });
+        
+      }
+
+  
+      // if (res.fetch) {
+
+        
+
+      //   const getNameExamineListQuery = "SELECT name FROM examinelist WHERE user_id = ?";
+      //   const [nameExamineListResult] = await db.query(getNameExamineListQuery, [res.user_IdValue]);
+  
+      //   const nameExamineListResultmap = nameExamineListResult.map(row => row.name);
+  
+      //   // console.log("employee: ",nameExamineListResultmap);
+  
+  
+      //   return NextResponse.json({ success: true  , dbnameExamineList: nameExamineListResultmap});
+      //   }
+
+
+        
+
+      if (res.fetch_role_2) {
+        try {
+          console.log("XXXXXXXXXXXXXXXXx")
+
+            const idList = [];
+            const resultDict = {};
+            const fullName = [];
+           
+            const getUserIDQuery = "SELECT * FROM users WHERE id = ?";
+            const [UserIDResult] = await db.query(getUserIDQuery, [res.user_IdValue]);
+
+            
+
+            if (UserIDResult.length > 0 && UserIDResult[0].name && UserIDResult[0].lastname) {
+              fullName.push(`${UserIDResult[0].name} ${UserIDResult[0].lastname}`) ;
+              console.log("USER: ", fullName);
+            } else {
+              console.error("User not found or missing name/lastname information.");
+            }   
+
+            const getexamineListQuery = "SELECT * FROM examinelist WHERE user_id = ?";
+            const [getexamineListQueryResult] = await db.query(getexamineListQuery, [res.user_IdValue]);
+            
+            const nameExamineList = getexamineListQueryResult.map(item => item.name);
+            
+
+            console.log("EXAMINELISTTT: ",nameExamineList)
+
+                  
+            for (const name of nameExamineList) {
+              console.log("NAME: ", name);
+              const getExamineIDQuery = "SELECT id FROM examinelist WHERE name = ? AND user_id = ?";
+              const [examineIDResult] = await db.query(getExamineIDQuery, [name , res.user_IdValue]);
+        
+
+              if (examineIDResult.length > 0) {
+                const getIDExamineListQuery = "SELECT * FROM examine WHERE examinelist_id = ? ";
+                const [idExamineListResult] = await db.query(getIDExamineListQuery, [examineIDResult[0].id ]);
+                // const idExamineListResultmap = idExamineListResult.map((row) => row.name);
+                const idExamineListResultmap = idExamineListResult.map((row) => {
+                  return {
+                      name: row.name,
+                      useEmployee: row.useEmployee,
+                  };
+              });
+                const getEmployeeQuery = "SELECT * FROM employee WHERE examinelist_id  = ? ";
+                const [employeeResult] = await db.query(getEmployeeQuery, [examineIDResult[0].id ]);
+        
+                idList.push({ id:examineIDResult[0].id ,name, employee: employeeResult,  examine: idExamineListResultmap });
+              } else {
+                console.error(`No id found for ${name}`);
+              }
+              console.log("idListtt: ", idList);
+
+            }
+        
+           
+            const currentDate = new Date();
+            const day = currentDate.getDate();
+            const month = currentDate.getMonth() + 1; // Adding 1 because January starts at 0
+            const year = currentDate.getFullYear();
+            const formattedDate = `${day}/${month}/${year}`;
+        
+            console.log("Date: ", formattedDate);
+
+            const getDateQuery = "SELECT DISTINCT send_date FROM checklist_examine_row_2 WHERE date = ? ;            ";
+            const [dateResult] = await db.query(getDateQuery, [formattedDate]);
+        
+            const currentDateStr = dateResult[0].send_date.toLocaleString('en-US', { timeZone: 'Asia/Bangkok', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
+            console.log("Date777777777777777777: ",currentDateStr);
+
+
+            const resultList = {
+              date: currentDateStr, // Add the date property
+              inspector: fullName[0], // Add the inspector property
+              items: []
+            };
+            // Loop through each item in idList
+            for (const data of idList) {
+              console.log("Examinename222: ", data);
+              const currentItem = {
+                id: data.id,
+                name: data.name,
+                examine: {}
+              };
+        
+              // Loop through each examine in the examine property of the current item
+              for (const examine of data.examine) {
+                console.log("Examine444: ", examine.name);
+        
+                try {
+                  const getExaminelistIDQuery = "SELECT id FROM examinelist WHERE name = ? AND user_id = ?";
+                  const [examinelistIDResult] = await db.query(getExaminelistIDQuery, [data.name ,res.user_IdValue]);
+                  console.log("Examinelist ID: ", examinelistIDResult[0].id);
+        
+                  const getExamineNameQuery = "SELECT id FROM examine WHERE name = ? AND examinelist_id = ? ";
+                  const [examineNameResult] = await db.query(getExamineNameQuery, [examine.name, examinelistIDResult[0].id ]);
+                  console.log("Examine ID: ", examineNameResult[0].id);
+        
+                  const dataChecklistQuery = `
+                  SELECT 
+                  checklist_examine_row_2.*, 
+                  examinelist.name AS examinelist, 
+                  examinename.name AS examine_name, 
+                  examine.name AS examine,
+                  users.name AS inspector_name,
+                  users.lastname AS inspector_lastname
+              FROM checklist_examine_row_2
+              JOIN examinelist ON checklist_examine_row_2.examinelist_id = examinelist.id
+              JOIN examinename ON checklist_examine_row_2.examinename_id = examinename.id
+              JOIN examine ON checklist_examine_row_2.examine_id = examine.id
+              JOIN users ON checklist_examine_row_2.inspector = users.id
+              WHERE checklist_examine_row_2.date = ? 
+                  AND checklist_examine_row_2.examine_id = ?  
+                  AND checklist_examine_row_2.examinelist_id = ?;
+              
+                
+                `;
+                
+                const [dataChecklistQueryResult] = await db.query(dataChecklistQuery, [formattedDate, examineNameResult[0].id, examinelistIDResult[0].id]);
+               
+                  console.log("dataChecklistQueryResult: ", dataChecklistQueryResult,formattedDate, examineNameResult[0].id, examinelistIDResult[0].id);
+        
+                  for (const dataA of dataChecklistQueryResult) {
+                    // console.log("Data Source: ", data.data_source);
+                    console.log("DATA: ", dataA);
+                  
+                      if (!currentItem.examine[examine.name]) {
+                        currentItem.examine[examine.name] = [{ useEmployee: examine.useEmployee, itemA: [] }];
+                      }
+                      currentItem.examine[examine.name][0].itemA.push(dataA);
+                    }
+                    
+                    console.log("currentItem: ",currentItem)
+
+                    // const seenEmployeeNameIds = new Set();
+
+                for (const item of idList) {
+                  // console.log("ITEMSSS: ", item.employee);
+
+                  for (const emp of item.employee) {
+                    const getExaminelistNameQuery = `
+                      SELECT
+                        checklist_employee_row_2.*,
+                        employee.name AS name,
+                        employee.lastname AS lastname,
+                        employee.employee AS employee,
+                        examinename.name AS examinename_name
+                      FROM 
+                        checklist_employee_row_2
+                      JOIN employee ON checklist_employee_row_2.employee_name_id = employee.id
+                      JOIN examinename ON checklist_employee_row_2.examinename_id = examinename.id
+                      WHERE 
+                        checklist_employee_row_2.date = ?
+                        AND checklist_employee_row_2.examine_id = ?
+                        AND checklist_employee_row_2.employee_name_id = ? 
+                        AND checklist_employee_row_2.examinelist_id = ?`;
+
+                       
+                      const [examinelistNameResult] = await db.query(getExaminelistNameQuery, [formattedDate,examineNameResult[0].id, emp.id, examinelistIDResult[0].id]);
+
+                    
+                    console.log("examinelistNameResult: ", examinelistNameResult);
+
+                    const employee = []
+                    for (const dataB of examinelistNameResult) {
+                      // console.log("Data Source: ", data.data_source);
+                      console.log("DATA: ", dataB);
+                    
+                      if (!currentItem.examine[examine.name]) {
+                        currentItem.examine[examine.name] = [{ useEmployee: examine.useEmployee, itemA: [] }];
+                      }
+                      
+                      const key = dataB.name + ' ' + dataB.lastname;
+                      
+                      if (!currentItem.examine[examine.name][0].itemA.some(item => JSON.stringify(item.key) === JSON.stringify(key))) {
+                        currentItem.examine[examine.name][0].itemA.push({ key, itemB: [] });
+                      }
+                      
+                      // Access the last added itemA and push dataB into its itemB array
+                      const lastItemAIndex = currentItem.examine[examine.name][0].itemA.length - 1;
+                      currentItem.examine[examine.name][0].itemA[lastItemAIndex].itemB.push(dataB);
+                        }
+                      
+                      console.log("currentItem: ",currentItem)
+  
+                  
+                  }}
+
+                
+                } catch (error) {
+                  console.error('Error executing query:', error);
+                }
+              }
+              resultList.items.push(currentItem);
+
+            }
+        
+            // Convert the dictionary values into an array
+            // const resultList = Object.values(resultDict);
+        
+            console.log("ResultList: ", resultList);
+        
+            return NextResponse.json({ success: true, dbData: resultList });
+          } catch (error) {
+            console.error('ErrorEditEx:', error);
+            return NextResponse.json({ success: false, error: error.message });
+          }
+        }
+
+        if (res.fetch_role_3) {
+          try {
+            console.log("XXXXXXXXXXXXXXXXx")
+  
+              const idList = [];
+              const resultDict = {};
+              const fullName = [];
+             
+              const getUserIDQuery = "SELECT * FROM users WHERE id = ?";
+              const [UserIDResult] = await db.query(getUserIDQuery, [res.user_IdValue]);
+  
+              
+  
+              if (UserIDResult.length > 0 && UserIDResult[0].name && UserIDResult[0].lastname) {
+                fullName.push(`${UserIDResult[0].name} ${UserIDResult[0].lastname}`) ;
+                console.log("USER: ", fullName);
+              } else {
+                console.error("User not found or missing name/lastname information.");
+              }   
+  
+              const getexamineListQuery = "SELECT * FROM examinelist WHERE user_id = ?";
+              const [getexamineListQueryResult] = await db.query(getexamineListQuery, [res.user_IdValue]);
+              
+              const nameExamineList = getexamineListQueryResult.map(item => item.name);
+              
+  
+              console.log("EXAMINELISTTT: ",nameExamineList)
+  
+                    
+              for (const name of nameExamineList) {
+                console.log("NAME: ", name);
+                const getExamineIDQuery = "SELECT id FROM examinelist WHERE name = ? AND user_id = ?";
+                const [examineIDResult] = await db.query(getExamineIDQuery, [name , res.user_IdValue]);
+          
+  
+                if (examineIDResult.length > 0) {
+                  const getIDExamineListQuery = "SELECT * FROM examine WHERE examinelist_id = ? ";
+                  const [idExamineListResult] = await db.query(getIDExamineListQuery, [examineIDResult[0].id ]);
+                  // const idExamineListResultmap = idExamineListResult.map((row) => row.name);
+                  const idExamineListResultmap = idExamineListResult.map((row) => {
+                    return {
+                        name: row.name,
+                        useEmployee: row.useEmployee,
+                    };
+                });
+                  const getEmployeeQuery = "SELECT * FROM employee WHERE examinelist_id  = ? ";
+                  const [employeeResult] = await db.query(getEmployeeQuery, [examineIDResult[0].id ]);
+          
+                  idList.push({ id:examineIDResult[0].id ,name, employee: employeeResult,  examine: idExamineListResultmap });
+                } else {
+                  console.error(`No id found for ${name}`);
+                }
+                console.log("idListtt: ", idList);
+  
+              }
+          
+             
+              const currentDate = new Date();
+              const day = currentDate.getDate();
+              const month = currentDate.getMonth() + 1; // Adding 1 because January starts at 0
+              const year = currentDate.getFullYear();
+              const formattedDate = `${day}/${month}/${year}`;
+          
+              console.log("Date: ", formattedDate);
+  
+              const getDateQuery = "SELECT DISTINCT send_date FROM checklist_examine_row_2 WHERE date = ? ;            ";
+              const [dateResult] = await db.query(getDateQuery, [formattedDate]);
+          
+              const currentDateStr = dateResult[0].send_date.toLocaleString('en-US', { timeZone: 'Asia/Bangkok', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
+              console.log("Date777777777777777777: ",currentDateStr);
+  
+  
+              const resultList = {
+                date: currentDateStr, // Add the date property
+                inspector: fullName[0], // Add the inspector property
+                items: []
+              };
+              // Loop through each item in idList
+              for (const data of idList) {
+                console.log("Examinename222: ", data);
+                const currentItem = {
+                  id: data.id,
+                  name: data.name,
+                  examine: {}
+                };
+          
+                // Loop through each examine in the examine property of the current item
+                for (const examine of data.examine) {
+                  console.log("Examine444: ", examine.name);
+          
+                  try {
+                    const getExaminelistIDQuery = "SELECT id FROM examinelist WHERE name = ? AND user_id = ?";
+                    const [examinelistIDResult] = await db.query(getExaminelistIDQuery, [data.name ,res.user_IdValue]);
+                    console.log("Examinelist ID: ", examinelistIDResult[0].id);
+          
+                    const getExamineNameQuery = "SELECT id FROM examine WHERE name = ? AND examinelist_id = ? ";
+                    const [examineNameResult] = await db.query(getExamineNameQuery, [examine.name, examinelistIDResult[0].id ]);
+                    console.log("Examine ID: ", examineNameResult[0].id);
+          
+                    const dataChecklistQuery = `
+                    SELECT 
+                    checklist_examine_row_2.*, 
+                    examinelist.name AS examinelist, 
+                    examinename.name AS examine_name, 
+                    examine.name AS examine,
+                    users.name AS inspector_name,
+                    users.lastname AS inspector_lastname
+                FROM checklist_examine_row_2
+                JOIN examinelist ON checklist_examine_row_2.examinelist_id = examinelist.id
+                JOIN examinename ON checklist_examine_row_2.examinename_id = examinename.id
+                JOIN examine ON checklist_examine_row_2.examine_id = examine.id
+                JOIN users ON checklist_examine_row_2.inspector = users.id
+                WHERE checklist_examine_row_2.date = ? 
+                    AND checklist_examine_row_2.examine_id = ?  
+                    AND checklist_examine_row_2.examinelist_id = ?;
+                
+                  
+                  `;
+                  
+                  const [dataChecklistQueryResult] = await db.query(dataChecklistQuery, [formattedDate, examineNameResult[0].id, examinelistIDResult[0].id]);
+                 
+                    console.log("dataChecklistQueryResult: ", dataChecklistQueryResult,formattedDate, examineNameResult[0].id, examinelistIDResult[0].id);
+          
+                    for (const dataA of dataChecklistQueryResult) {
+                      // console.log("Data Source: ", data.data_source);
+                      console.log("DATA: ", dataA);
+                    
+                        if (!currentItem.examine[examine.name]) {
+                          currentItem.examine[examine.name] = [{ useEmployee: examine.useEmployee, itemA: [] }];
+                        }
+                        currentItem.examine[examine.name][0].itemA.push(dataA);
+                      }
+                      
+                      console.log("currentItem: ",currentItem)
+  
+                      // const seenEmployeeNameIds = new Set();
+  
+                  for (const item of idList) {
+                    // console.log("ITEMSSS: ", item.employee);
+  
+                    for (const emp of item.employee) {
+                      const getExaminelistNameQuery = `
+                        SELECT
+                          checklist_employee_row_2.*,
+                          employee.name AS name,
+                          employee.lastname AS lastname,
+                          employee.employee AS employee,
+                          examinename.name AS examinename_name
+                        FROM 
+                          checklist_employee_row_2
+                        JOIN employee ON checklist_employee_row_2.employee_name_id = employee.id
+                        JOIN examinename ON checklist_employee_row_2.examinename_id = examinename.id
+                        WHERE 
+                          checklist_employee_row_2.date = ?
+                          AND checklist_employee_row_2.examine_id = ?
+                          AND checklist_employee_row_2.employee_name_id = ? 
+                          AND checklist_employee_row_2.examinelist_id = ?`;
+  
+                         
+                        const [examinelistNameResult] = await db.query(getExaminelistNameQuery, [formattedDate,examineNameResult[0].id, emp.id, examinelistIDResult[0].id]);
+  
+                      
+                      console.log("examinelistNameResult: ", examinelistNameResult);
+  
+                      const employee = []
+                      for (const dataB of examinelistNameResult) {
+                        // console.log("Data Source: ", data.data_source);
+                        console.log("DATA: ", dataB);
+                      
+                        if (!currentItem.examine[examine.name]) {
+                          currentItem.examine[examine.name] = [{ useEmployee: examine.useEmployee, itemA: [] }];
+                        }
+                        
+                        const key = dataB.name + ' ' + dataB.lastname;
+                        
+                        if (!currentItem.examine[examine.name][0].itemA.some(item => JSON.stringify(item.key) === JSON.stringify(key))) {
+                          currentItem.examine[examine.name][0].itemA.push({ key, itemB: [] });
+                        }
+                        
+                        // Access the last added itemA and push dataB into its itemB array
+                        const lastItemAIndex = currentItem.examine[examine.name][0].itemA.length - 1;
+                        currentItem.examine[examine.name][0].itemA[lastItemAIndex].itemB.push(dataB);
+                          }
+                        
+                        console.log("currentItem: ",currentItem)
+    
+                    
+                    }}
+  
+                  
+                  } catch (error) {
+                    console.error('Error executing query:', error);
+                  }
+                }
+                resultList.items.push(currentItem);
+  
+              }
+          
+              // Convert the dictionary values into an array
+              // const resultList = Object.values(resultDict);
+          
+              console.log("ResultList: ", resultList);
+          
+              return NextResponse.json({ success: true, dbData: resultList });
+            } catch (error) {
+              console.error('ErrorEditEx:', error);
+              return NextResponse.json({ success: false, error: error.message });
+            }
+          }
+        
+        
+
+        
+    // if (res.selectExamine) {
+    //   try {
+    //     // หา ID จากตาราง examine โดยใช้ชื่อที่มาจาก selectedOption
+        
+    //     const currentDate = new Date();
+    //     const day = currentDate.getDate();
+    //     const month = currentDate.getMonth() + 1; // เพิ่ม 1 เนื่องจากมกราคมเริ่มที่ 0
+    //     const year = currentDate.getFullYear();
+    //     const formattedDate = `${day}/${month}/${year}`;
+
+    //     console.log("Date: ",formattedDate)
+
+    //     const getExaminelistIDQuery = "SELECT id FROM examinelist WHERE name = ?";
+    //     const [examinelistIDResult] = await db.query(getExaminelistIDQuery, [res.selectedOption]);
+
+    //     console.log("000000000000000000: ",examinelistIDResult[0].id)
+    
+    //     // หาชื่อของ examinelist โดยใช้ ID จาก selectedExamineOption
+    //     const getExamineNameQuery = "SELECT id FROM examine WHERE name = ? AND examinelist_id = ?";
+    //     const [examineNameResult] = await db.query(getExamineNameQuery, [res.selectedExamineOption , examinelistIDResult[0].id]);
+    //     console.log("1111111111111111111: ",examineNameResult[0].id)
+
+    //     if (examineNameResult.length > 0) {
+    //       const dataChecklistQuery = `
+    //       SELECT 
+    //         checklist_examine.*, 
+    //         examinename.name AS examinename, 
+    //         examine.name AS examine, 
+    //         users.name AS name, 
+    //         users.lastname AS lastname
+    //       FROM checklist_examine
+    //       JOIN examinename ON checklist_examine.examinename_id = examinename.id
+    //       JOIN examine ON checklist_examine.examine_id = examine.id
+    //       JOIN users ON checklist_examine.inspector = users.id
+    //       WHERE checklist_examine.date = ? AND checklist_examine.examine_id = ? AND checklist_examine.examinelist_id = ?;
+    //     `;
+
+    //     const [dataChecklistQueryResult] = await db.query(dataChecklistQuery ,[formattedDate , examineNameResult[0].id ,examinelistIDResult[0].id])
+
+    //     console.log("listdata: ",dataChecklistQueryResult);
+       
+    
+    //       return NextResponse.json({ success: true, dbData: dataChecklistQueryResult});
+    //     } else {
+    //       return NextResponse.json({ success: false, error: "Examine not found" });
+    //     }
+    //    } catch (error) {
+    //     console.error('ErrorEditEx:', error);
+    //     return NextResponse.json({ success: false, error: error.message });
+    //   }
+    // }
+
+
+  } 
+  catch (error) {
+    console.error('Error:', error);
+    return NextResponse.json({ success: false, error: error.message });
+  }
+  } else {
+    return NextResponse.error('Method Not Allowed');
+  }
+}

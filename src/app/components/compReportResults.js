@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import '@fontsource/ntr';
 import '../globals.css';
 import '@fontsource/mitr';
-import CompNavbar from './compNavbar';
+import CompNavbar from './compNavbar/row_1';
 import axios from 'axios';
 import CompReportResultsForm from './compReportResultsForm';
 import CompReportResultsDisplay from './CompReportResultsDisplay';
@@ -62,10 +62,10 @@ function App() {
         <div className='bg-[#5A985E] mx-auto max-w-[500px] sm:max-w-[350px] py-[100px] rounded-[50px]'></div>
       </div>
   
-      {/* <CompReportResultsForm onSubmit={handleFormSubmit} />
-      {Object.keys(formData).length > 0 && ( */}
+      <CompReportResultsForm onSubmit={handleFormSubmit} />
+      {Object.keys(formData).length > 0 && (
         <CompReportResultsDisplay data={formData}  />
-      {/* )} */}
+        )} 
     </div>
   </div>
   

@@ -2,7 +2,7 @@
 import '@fontsource/ntr'
 import '../globals.css'
 import '@fontsource/mitr';
-import CompNavbar from './compNavbar';
+import CompNavbar from './compNavbar/row_1';
 import axios from 'axios';
 import React, { useState ,useEffect } from 'react';
 import { CompLanguageProvider, useLanguage } from './compLanguageProvider';
@@ -34,9 +34,11 @@ export default function CompReportResultsForm({ onSubmit }) {
   const [selectedOption, setSelectedOption] = useState('');
   const [selectedExamineOption, setSelectedExamineOption] = useState('');
   const [nameExamine , setNameExamine] = useState(''); 
+  const [useEmployee , setUseEmployee] = useState(''); 
 
 
   useEffect(() => {
+    
     // ใน useEffect นี้คุณสามารถใช้ Axios เพื่อดึงข้อมูลจากฐานข้อมูล
     if (typeof window !== 'undefined') {
       const searchParams = new URLSearchParams(window.location.search);
@@ -89,7 +91,7 @@ export default function CompReportResultsForm({ onSubmit }) {
     try {
       console.log('Selected Option: ', selectedOption);
 
-      const AddData = { selectedOption, option: true };
+      const AddData = { selectedOption, id, option: true };
       const data = JSON.stringify(AddData);
       console.log('BB: ', data);
 
@@ -156,7 +158,7 @@ export default function CompReportResultsForm({ onSubmit }) {
   const fetchDataExamine = async () => {
     try {
 
-      const AddData = { selectedOption ,selectedExamineOption , selectExamine: true};
+      const AddData = { selectedOption ,selectedExamineOption ,id, selectExamine: true};
       const fetchdata = JSON.stringify(AddData);
 
       // console.log("444: ",fetchdata)
@@ -169,9 +171,9 @@ export default function CompReportResultsForm({ onSubmit }) {
       if (response.status === 200) {
         if (data.success === true) {
          
-          console.log("Datamm: ",data.dbData)
+          console.log("Datamm: ",data.dbData,data.useEmployee)
      
-
+          if (data.useEmployee === false){
           let checklistToAdd = [];
           
 
@@ -198,7 +200,48 @@ export default function CompReportResultsForm({ onSubmit }) {
           
           const newTodoList = [...checklistToAdd];
           setTodoList(newTodoList)
+          setUseEmployee(false)
           console.log("datachecklist: ",newTodoList)
+
+        } else if (data.useEmployee === true){
+          console.log("TRUEEEEEEEEEE:  ",data.dbData)
+          setUseEmployee(true)
+          let checklistToAdd = [];
+          
+
+          
+          const dbData = data.dbData || [];
+          dbData.forEach((checkListData) => {
+            console.log("checkListData: ",checkListData)
+
+            checkListData.items.forEach((item) => {
+              item.forEach((items) => {
+                console.log("items: ",items)
+
+            const Data = {
+              name: checkListData.name,
+              examinename: item.examinename_name,
+              details: item.details,
+              status: item.status
+            };
+            
+            })
+             const Data_1 = {
+              name: checkListData.name,
+
+            };
+            setcheckList(Data_1)
+            console.log("data.dbData: ",checkList)
+          })
+        })
+
+        checklistToAdd.push(data.dbData);
+
+          const newTodoList = [...data.dbData];
+          setTodoList(newTodoList)
+          console.log("datachecklist: ",newTodoList)
+        }
+        
         } else {
           setMessage(data.error);
         }
@@ -252,11 +295,11 @@ export default function CompReportResultsForm({ onSubmit }) {
 
 
   const handleSubmit = async () => {
-    if (
-      formData.detail === ''
-    ) {
-      setMessage('Please fill out all required fields.');
-    } else {
+    // if (
+    //   formData.detail === ''
+    // ) {
+    //   setMessage('Please fill out all required fields.');
+    // } else {
     const isSuccess = await onSubmit(formData);
 
     if (isSuccess) {
@@ -264,7 +307,7 @@ export default function CompReportResultsForm({ onSubmit }) {
     } else {
       setMessage('An error occurred while submitting the data.');
     }
-  }
+  // }
   };
 
 
@@ -340,6 +383,7 @@ export default function CompReportResultsForm({ onSubmit }) {
 
                       <div className='h-[300px]  md:w-[690px] px-2 font-mitr  text-black text-center mt-[15px] mx-auto justify-center text-sm md:text-[18px] rounded-[10px] w-[235px] py-2 md:py-4 bg-[#F5F5F5] ml-[5px]  overflow-auto'>
                         
+                        {useEmployee === false && (
                         <div className="w-full ">
                           <table className="min-w-full   divide-gray-200 ">
                             <thead className="bg-gray-50 sticky top-0 z-10 ">
@@ -379,9 +423,68 @@ export default function CompReportResultsForm({ onSubmit }) {
                             </tbody>
                           </table>
                         </div>
-                      </div>
-                    </div>
-                    </div>
+                         )}
+                         
+                         {useEmployee === true && (
+                          <>
+                          {console.log("TESTTTTT: ", todoList)}
+                          {todoList.map((item, index) => (
+                            <div key={index}>
+                              {console.log("TESTTTTT111111111: ", item)}
+                              <div className="mt-[10px] md:mt-[10px] md:ml-[-30px] border-t md:border w-full md:w-[750px] border-gray-300"></div>
+                              <h1 className='text-left mt-[10px]'>{index + 1}. {item.employee} {item.name} </h1>
+                              <div className="mt-[5px] md:mt-[10px] md:ml-[-30px] border-t md:border w-full md:w-[750px] border-gray-300"></div>
+
+                              <table className="min-w-full divide-gray-200 mt-[10px]">
+                                <thead className="bg-gray-50 top-0 z-10">
+                                  <tr className='text-center'>
+                                    <th scope="col" style={{ whiteSpace: 'nowrap' }} className="border px-6 py-3 text-xs text-gray-500 uppercase tracking-wider">
+                                      {t('No')}
+                                    </th>
+                                    <th scope="col" style={{ whiteSpace: 'nowrap' }} className="border px-6 py-3 text-xs text-gray-500 uppercase tracking-wider">
+                                      {t('Name')}
+                                    </th>
+                                    <th scope="col" style={{ whiteSpace: 'nowrap' }} className="border px-6 py-3 text-xs text-gray-500 uppercase tracking-wider">
+                                      {t('Status')}
+                                    </th>
+                                    <th scope="col" style={{ whiteSpace: 'nowrap' }} className="border px-6 py-3 text-xs text-gray-500 uppercase tracking-wider">
+                                      {t('Details')}
+                                    </th>
+                                  </tr>
+                                </thead>
+                                <tbody className="bg-white divide-y divide-gray-200">
+                                  {item.items.map((entry, entryIndex) => (
+                                    entry.map((data, dataIndex) => (
+                                      <tr key={dataIndex} className='text-center'>
+                                        {console.log("RRRRRRRRRR: ", entry)}
+                                        <td className="px-6 py-4 border whitespace-nowrap">
+                                          <div>{dataIndex + 1}</div>
+                                        </td>
+                                        <td className="px-6 py-4 border whitespace-nowrap">
+                                          <div className="text-left">{data.examinename_name}</div>
+                                        </td>
+                                        <td className={`px-6 py-4 border whitespace-nowrap ${data.status === 'pass' ? 'text-green-600' : 'text-red-600'}`}>
+                                          <div>{data.status}</div>
+                                        </td>
+                                        <td className="px-6 py-4 border whitespace-nowrap">
+                                          <div>{data.details}</div>
+                                        </td>
+                                      </tr>
+                                    ))
+                                  ))}
+                                </tbody>
+                              </table>
+                            </div>
+                          ))}
+                        </>
+                        )}
+                        </div>
+                        
+                          
+                          </div>
+      
+                                  
+                          </div>
 
 
 {/*                     
@@ -393,11 +496,10 @@ export default function CompReportResultsForm({ onSubmit }) {
                     )} */}
       
 
-                <div >
+                {/* <div >
                     <p className='font-mitr text-[#808080] text-[13px] md:text-[16px] ml-[-160px] md:ml-[-620px] mt-[20px]  md:mt-[15px]'>{t('details')}</p>
                     <textarea type="text" name="detail" value={formData.detail} onChange={handleInputChange} className='align-text-top rounded-[10px] mt-[5px] pl-[15px] w-[230px]  text-[14px] md:ml-[-25px] h-[100px] md:text-[16px] md:w-[680px] md:h-[80px] bg-[#fff] border border-gray-300  p-4 '/>
-                    {/* <textarea value={formData.detail} onChange={handleInputChange} className='border border-gray-300 rounded-md bg-[#F5F5F5] w-[250px] h-[100px] text-black text-sm pl-2 pt-2' /> */}
-                </div>
+                </div> */}
               
 
                 {message && (

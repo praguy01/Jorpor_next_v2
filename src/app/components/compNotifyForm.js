@@ -6,11 +6,12 @@ import '@fontsource/athiti';
 import '@fontsource/prompt';
 import '@fontsource/noto-sans-thai';
 
-import CompNavbar from './compNavbar';
+import CompNavbar from './compNavbar/row_1';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CompLanguageProvider, useLanguage } from './compLanguageProvider';
+import { toUnicode } from 'punycode';
 
 
 // function CompNotifyForm() {
@@ -29,7 +30,7 @@ function CompNotifyForm({ onSubmit }) {
     employee: '',
     location: '',
     work_owner: '',
-    status: '',
+    position: '',
     dateTime: '',
     file: null,
     detail: '',
@@ -37,13 +38,92 @@ function CompNotifyForm({ onSubmit }) {
 
   const [uploadedImage, setUploadedImage] = useState(null);
   const [message, setMessage] = useState('');
+  const [id, setId] = useState('');
+  const [todoList, setTodoList] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const storedUser_id = localStorage.getItem('id');
+        if (storedUser_id) {
+          setId(storedUser_id);
+        }
+
+        const editedData = {
+          storedUser_id,
+          notifyfetch: true
+        };
+        const requestData = JSON.stringify(editedData)
+        console.log("requestData222222222: ",requestData)
+
+        const response = await axios.post('/api/examinelist', requestData, {
+          headers: { 'Content-Type': 'application/json' },
+        });
+
+        const data = response.data;
+
+        if (response.status === 200) {
+          if (data.success === true) {
+            console.log("DATA222222222: ",data)
+
+            // const notifyData = data.dbexaminelist_name.map(item => ({
+              
+            //   examinelist: item.name,
+             
+            // }));
+            console.log("notifyData: ",data.dbexaminelist_name[0])
+
+            setTodoList(data.dbexaminelist_name);
+
+            setFormData({ ...formData, work_owner: data.dbexaminelist_name[0].name, employee: data.dbexaminelist_name[0].employee , position: data.dbexaminelist_name[0].position });
+
+          } else {
+            setMessage(data.error);
+          }
+        } else {
+          setMessage(data.error);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        setMessage('');
+      }
+    };
+
+    fetchData();
+  }, []); // โหลดข้อมูลเมื่อค่า state reloadData เปลี่ยนแปลง
 
   const handleInputChange = (e) => {
-    const { name, value, files } = e.target;
-    setFormData({
-      ...formData,
-      [name]: name === 'file' ? files[0] : value, // แก้ชื่อฟิลด์เป็น 'file'
-    });
+    const { name , value, files } = e.target;
+  
+    // ตรวจสอบว่าชื่อฟิลด์เป็น 'file' และสกุลไฟล์เป็น .jpeg
+    
+    if (name === 'file' && files && files.length > 0) {
+      const allowedExtensions = ['jpg'];
+      const fileExtension = files[0].name.split('.').pop().toLowerCase();
+      setMessage('');
+
+      if (allowedExtensions.includes(fileExtension)) {
+        // ถ้าสกุลไฟล์ถูกต้อง, ให้ทำการอัปเดต state
+        setFormData({
+          ...formData,
+          [name]: files[0],
+          fileName: files[0].name,
+        });
+        // setMessage('');
+      } else {
+        // ถ้าสกุลไฟล์ไม่ถูกต้อง, แจ้งเตือนหรือทำการตอบสนองตามที่คุณต้องการ
+        setMessage('Only .jpg files are accepted')
+        console.log('Only .jpg files are accepted');
+      }
+    } else {
+      // ถ้าไม่ใช่ฟิลด์ 'file' หรือไม่มีไฟล์ที่เลือก, ให้ทำการอัปเดต state
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+     
+    
+    }
   };
 
 
@@ -54,15 +134,15 @@ function CompNotifyForm({ onSubmit }) {
       formData.employee === '' ||
       formData.location === '' ||
       formData.work_owner === '' ||
-      formData.status === '' ||
+      formData.position === '' ||
       formData.dateTime === '' ||
       formData.file === null ||
       formData.detail === ''
     ) {
+      console.log("formDATA: ",formData)
       setMessage('Please fill out all required fields.');
     } else {
     const isSuccess = await onSubmit(formData);
-      console.log("formData: ",formData)
     if (isSuccess) {
       setMessage('');
     } else {
@@ -98,38 +178,80 @@ function CompNotifyForm({ onSubmit }) {
 
               <div className='font-ntr px-2 flex items-center mx-auto w-[250px]  md:ml-[40px] md:w-[720px]  py-[20px] text-black bg-[#F5F5F5] text-center mt-[15px] rounded-[20px]'>
                 <div   className={`${language === 'EN' ? ' font-ntr text-sm  md:text-[18px]' : ' font-mitr  text-[14px] '  }    rounded-[10px] w-[235px] md:w-[600px] py-2 md:py-4 bg-[#F5F5F5] ml-[5px] md:ml-[40px] `} >
-                  
-                    <div className='flex px-3 items-center '>
-                        <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[100px] md:ml-[-11px]' >{t('Employee')}</p>
+                     
+                     <div  className='flex px-3 items-center '>
+                     <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[100px] md:ml-[-11px]' >{t('Employee')}</p>
+                     <p className='pl-2'>:</p>
+                     {/* {todoList.map((todo, index) => ( */}
+
+                     {/* <input
+                        type="text"
+                        name="employee"  // Change to the desired field name
+                        value={formData.employee}
+                        onChange={(e) => handleInputChange(e, index)}
+                        className={`${language === 'EN' ? ' font-ntr text-[14px]' : ' font-mitr text-[12px] '  } rounded-[2px]  items-center p-2 mt-[-2px] ml-[10px] md:ml-[15px] w-[100px] h-[20px] md:text-[17px] md:w-[200px] md:h-[20px] bg-[#D9D9D9]  `}
+                        readOnly/>  */}
+                        <input type="text" name="employee" value={formData.employee} onChange={handleInputChange} className={`${language === 'EN' ? ' font-ntr text-[14px]' : ' font-mitr text-[12px] '  } rounded-[2px]  items-center p-2 mt-[-2px] ml-[10px] md:ml-[15px] w-[100px] h-[20px] md:text-[17px] md:w-[200px] md:h-[20px] bg-[#D9D9D9]  `} readOnly/>
+
+                     </div>
+                   
+                   
+
+                      <div  className='flex px-3  mt-[5px]  items-center'>
+                          <p className='text-[#000] text-left  w-[75px]  ml-[-1px] md:w-[100px] md:ml-[-11px]'>{language === 'EN' ? ' Work Owner' : 'ผู้ดูเเล'  } </p>
+                          <p className='pl-2'>:</p>
+                          <input type="text" name="work_owner" value={formData.work_owner} onChange={handleInputChange} className={`${language === 'EN' ? ' font-ntr text-[14px]' : ' font-mitr text-[12px] '  } rounded-[2px]  items-center p-2 mt-[-2px] ml-[10px] md:ml-[15px] w-[100px] h-[20px] md:text-[17px] md:w-[200px] md:h-[20px] bg-[#D9D9D9]  `} readOnly/>
+                          {/* {todoList.map((todo, index) => (
+                          <p  
+                              key={index} 
+                              name="work_owner"  // Change to the desired field name
+                              value={todo.name}
+                              onChange={(e) => handleInputChange(e, index)}
+                              className='pl-2  w-[110px] h-[20px]  md:text-[17px]  text-[15px] md:w-[200px] overflow-hidden whitespace-nowrap overflow-ellipsis text-left ml-[3px] md:ml-[6px]' >{todo.name}</p>
+
+                          ))} */}
+                     </div>
+
+                      <div className='flex px-3 mt-[5px]  items-center'>
+                        <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[100px] md:ml-[-11px]'>{t('Position')}</p>
                         <p className='pl-2'>:</p>
-                        <input type="text" name="employee" value={formData.employee} onChange={handleInputChange} className=  {`${language === 'EN' ? ' font-ntr text-[14px]' : ' font-mitr text-[12px] '  } rounded-[2px]  items-center p-2 mt-[-2px] md:ml-[15px] ml-[10px] w-[100px] h-[20px] md:text-[17px]  md:w-[200px] md:h-[20px] bg-[#D9D9D9] `}/>
-                    </div>
-                        
-                    <div className='flex px-3  mt-[5px]  items-center'>
-                        <p className='text-[#000] text-left    w-[75px]  ml-[-1px] md:w-[100px] md:ml-[-11px] '>{t('Location')}</p>
-                        <p className='pl-2'>:</p>
-                        <input type="text" name="location" value={formData.location} onChange={handleInputChange} className= {`${language === 'EN' ? ' font-ntr text-[14px]' : ' font-mitr text-[12px] '  } rounded-[2px]  items-center p-2 mt-[-2px] md:ml-[15px] ml-[10px] w-[100px] h-[20px] md:text-[17px]  md:w-[200px] md:h-[20px] bg-[#D9D9D9]  `}/>
+                        <input type="text" name="position" value={formData.position} onChange={handleInputChange} className={`${language === 'EN' ? ' font-ntr text-[14px]' : ' font-mitr text-[12px] '  } rounded-[2px]  items-center p-2 pl-1 mt-[-2px] ml-[10px] md:ml-[15px] w-[100px] h-[20px] md:text-[17px] md:w-[200px] md:h-[20px] bg-[#D9D9D9]  `} readOnly/>
+
+                        {/* {todoList.map((todo, index) => (
+                           <p  
+                           key={index} 
+                           name="position"  // Change to the desired field name
+                           value={formData.position}  
+                            className='pl-2  w-[110px] h-[20px] md:text-[17px] text-[15px]  md:w-[200px] overflow-hidden whitespace-nowrap overflow-ellipsis ml-[3px]' >{todo.position}</p>
+                         
+                        ))}  */}
                     </div>
                    
-                    <div className='flex px-3  mt-[5px]  items-center'>
-                        <p className='text-[#000] text-left  w-[75px]  ml-[-1px] md:w-[100px] md:ml-[-11px]'>{language === 'EN' ? ' Work Owner' : 'ผู้ดูเเล'  } </p>
-                        <p className='pl-2'>:</p>
-                        <input type="text" name="work_owner" value={formData.work_owner} onChange={handleInputChange} className={`${language === 'EN' ? ' font-ntr text-[14px]' : ' font-mitr text-[12px] '  } rounded-[2px]  items-center p-2 mt-[-2px] ml-[10px] md:ml-[15px] w-[100px] h-[20px] md:text-[17px] md:w-[200px] md:h-[20px] bg-[#D9D9D9]  `}/>
+
+                    <div className='flex px-3 mt-[5px] items-center '>
+                      <p className='text-[#000] text-left w-[75px] ml-[-1px] md:w-[100px] md:ml-[-11px]'>{t('Location')}</p>
+                      <p className='pl-2'>:</p>
+
+                      <select
+                        id="dropdown"
+                        name="location"  // Change to the desired field name
+                        value={formData.location}   // Use the correct field name in formData
+                        onChange={(e) => handleInputChange(e)}   // Remove the second argument
+                        className={`${language === 'EN' ? 'font-ntr md:text-[17px]' : 'font-mitr text-[13px]'} items-center rounded-[2px] md:ml-[15px] pl-1 mt-[-2px] ml-[10px] w-[100px] h-[20px] md:w-[200px] md:h-[20px] bg-[#D9D9D9]`}
+                      >
+                        <option value="">{`${language === 'EN' ? 'Select an option' : 'เลือกตัวเลือก'}`}</option>
+
+                        {todoList.map((todo, index) => (
+                          todo.examinelist.map((examinelistItem, subIndex) => (
+                            <option key={`${index}-${subIndex}`} value={examinelistItem} className='font-mitr text-[12px]'>
+                              {examinelistItem}
+                            </option>
+                          ))
+                        ))}
+                      </select>
+
                     </div>
-                   
-                    <div className='flex px-3 mt-[5px]  items-center'>
-                        <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[100px] md:ml-[-11px]'>{t('Status')}</p>
-                        <p className='pl-2'>:</p>
-                        <select id="dropdown" name="status"  value={formData.status} onChange={handleInputChange}  className={`${language === 'EN' ? ' font-ntr md:text-[17px]' : ' font-mitr text-[13px]'  } items-center  rounded-[2px]  md:ml-[15px] pl-1 mt-[-2px] ml-[10px] w-[100px] h-[20px]  md:w-[200px] md:h-[20px] bg-[#D9D9D9]  `} >
-                              <option  >{`${language === 'EN' ? ' Select an option' : ' เลือกตัวเลือก'  }`}</option>
-                              {/* <option  value={`${language === 'EN' ? ' Safety Officer Supervisory level' : 'ระดับหัวหน้า'  }`}>{language === 'EN' ? 'Supervisory level' : 'ระดับหัวหน้า'  }</option>
-                              <option value={language === 'EN' ? "Safety Officer Technical level" : 'ระดับเทคนิค'  }>{language === 'EN' ? 'Technical level' : 'ระดับเทคนิค'  }</option>
-                              <option value={language === 'EN' ? '"Safety Officer Supervisory level"' : 'ระดับบริหาร'  }>{language === 'EN' ? 'Supervisory level' : 'ระดับบริหาร'  }</option> */}
-                              <option  value=' Professional level'> Professional level</option>
-                              <option value='Technical level'>Technical level</option>
-                              <option value='Supervisory level'>Supervisory level</option>
-                        </select>
-                    </div>
+                    
                     
                     <div className='flex px-3  mt-[5px] items-center'>
                         <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[100px] md:ml-[-11px]'>{t('Date')}</p>
@@ -139,7 +261,7 @@ function CompNotifyForm({ onSubmit }) {
                             name="dateTime"
                             value={formData.dateTime}
                             onChange={handleInputChange}
-                            className={`${language === 'EN' ? ' font-ntr md:text-[17px]' : ' font-mitr text-[11px]'  } rounded-[2px]  items-center md:ml-[15px] pl-1 mt-[-2px] ml-[10px] w-[100px] h-[20px]  md:w-[200px] md:h-[20px] bg-[#D9D9D9] `}
+                            className={`${language === 'EN' ? ' font-ntr md:text-[17px]' : ' font-mitr text-[11px]'  } rounded-[2px]   items-center md:ml-[15px] pl-1 mt-[-2px] ml-[10px] w-[100px] h-[20px]  md:w-[200px] md:h-[20px] bg-[#D9D9D9] `}
                           />                    
                         </div>
                    

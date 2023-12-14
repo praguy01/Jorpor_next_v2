@@ -121,13 +121,13 @@ export default function CompConfirm() {
       <div className='w-full bg-[#5A985E] fixed top-0 left-0 ' >
         <div className='container mx-auto flex justify-between  items-center py-2 px-4   w-screen font-ntr '>
           <div className='text-[#fff] font-bold text-[24px]' >
-            <span>JorPor</span>
+          <Link href="login">JorPor</Link>
 
           </div>
-          <div className='text-white font-ntr '>
+          {/* <div className='text-white font-ntr '>
               <Link href="/" className=' text-[20px] px-4 py-1 rounded-md text-[#fff] hover:text-[#5A985E] hover:bg-[#fff]  '>log out</Link>
         
-          </div>
+          </div> */}
         </div>
       </div>
       <div className=' bg-[url("/bg1.png")] bg-cover bg-no-repeat  z-[-1] top-0 left-0 w-full h-full bg-center fixed  overflow-auto'>

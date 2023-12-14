@@ -1,16 +1,17 @@
 // i18n.js
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
+// import { useLanguage } from './components/compLanguageProvider'; // เพิ่มการ import useLanguage
 
-if (typeof window !== 'undefined' && window.localStorage) {
-  const storedLanguage = localStorage.getItem('language') || 'EN'; // ใช้ localStorage ได้ในส่วนบนเซิร์ฟเวอร์
- 
+// const { language: storedLanguage } = useLanguage(); 
 i18n
   .use(initReactI18next)
   .init({
     resources: {
       EN: {
         translation: {
+          'Report results': 'Report results',
+          Evalution: 'Evalution',
           pass: 'pass',
           fail: 'fail',
           Details: 'Details',
@@ -49,6 +50,8 @@ i18n
       },
       TH: {
         translation: {
+          Evalution: 'การประเมินผล',
+          'Report results': 'ผลการรายงาน',
           pass: 'ผ่าน',
           fail: 'ไม่ผ่าน',
           Details: 'รายละเอียด',
@@ -86,12 +89,12 @@ i18n
         },
       },
     },
-    lng: storedLanguage,
+    lng: 'EN',
     fallbackLng: 'EN',
     interpolation: {
       escapeValue: false,
     },
   });
-}
+
 
 export default i18n;

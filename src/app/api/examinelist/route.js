@@ -8,6 +8,69 @@ export async function POST(request) {
       const { examinelist_name , todo } = res;
       console.log("RES_ROUTE_examineRes: ", res);
 
+      if (res.add) {
+        // const checkExamineExistsQuery = "SELECT * FROM examinelist WHERE name = ?";
+        // const [examineExistsResult] = await db.query(checkExamineExistsQuery, [res.examinelist_name]);
+        //   console.log("rusult55555: ",examineExistsResult)
+  
+        // if (examineExistsResult.length === 0) {
+          const insertSql = "INSERT INTO examinelist (name, user_id) VALUES (?,?)";
+          const insertValues = await db.query(insertSql,[res.examinelist_name , res.id]);
+                  console.log("rusult55555: ",insertValues[0].affectedRows)
+  
+          if (insertValues[0].affectedRows > 0){
+             return NextResponse.json({ success: true, message: ` ${res.examinelist_name} created successfully` ,dbexaminelist_name: res.examinelist_name});
+          }
+        }
+
+      if (res.notifyfetch) {
+
+        const getExamineQuery = `
+        SELECT 
+            examinelist.*,
+            examinelist.name AS examinelist_name,
+            users.id,
+            users.employee,
+            users.name,
+            users.lastname,
+            users.position
+        FROM examinelist 
+        JOIN users ON examinelist.user_id = users.id
+        WHERE user_id = ?`;
+    
+    const [examinelistResult] = await db.query(getExamineQuery, [res.storedUser_id]);
+    // const key = examinelistResult.name + ' ' + examinelistResult.lastname;
+
+    const uniqueDataArray = [];
+
+// Iterate through the examinelistResult array
+examinelistResult.forEach(result => {
+  console.log("Data_examineUsersSSSSS: ", result);
+
+  // Check if the ID is not in the array, add it to the array
+  const existingData = uniqueDataArray.find(item => item.id === result.id);
+  if (!existingData) {
+    uniqueDataArray.push({
+      id: result.id,
+      name: result.name + ' ' + result.lastname,
+      employee: result.employee,
+      position:  result.position.replace('Safety Officer', ''),
+      examinelist: [result.examinelist_name]  // Start with an array containing the current value
+    });
+  } else {
+    // If the ID already exists, add the current result.examinelist_name to the existing array
+    existingData.examinelist.push(result.examinelist_name );
+  }
+});
+
+// Convert the set back to an array if needed
+console.log("Data_examineUsers: ", uniqueDataArray);
+      
+  
+  
+        return NextResponse.json({ success: true ,dbexaminelist_name: uniqueDataArray});
+        }
+
       if (res.fetch) {
 
       const getExamineQuery = "SELECT * FROM examinelist WHERE user_id = ? ";
@@ -50,19 +113,9 @@ export async function POST(request) {
         return NextResponse.json({ success: true ,redirect: `/reportResults?date=${res.formattedDate}&id=${res.id}`});
         }
       
-      if (res.add) {
-      const checkExamineExistsQuery = "SELECT * FROM examinelist WHERE name = ?";
-      const [examineExistsResult] = await db.query(checkExamineExistsQuery, [res.examinelist_name]);
+     
+      return NextResponse.json({ success: true});
 
-      if (examineExistsResult.length === 0) {
-        const insertSql = "INSERT INTO examinelist (name, user_id) VALUES (?,?)";
-        const insertValues = [res.examinelist_name , res.User_id];
-        await db.query(insertSql, insertValues);
-
-      }
-
-    }
-    return NextResponse.json({ success: true, message: ` ${res.examinelist_name} created successfully` ,dbexaminelist_name: res.examinelist_name});
     } catch (error) {
       console.error('Error:', error);
       return NextResponse.json({ success: false, error: error.message });
@@ -71,5 +124,3 @@ export async function POST(request) {
     return NextResponse.error('Method Not Allowed');
   }
 }
-
-

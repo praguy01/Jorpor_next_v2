@@ -10,7 +10,7 @@ import {BsCheckCircle} from 'react-icons/bs'
 import {BsFillExclamationTriangleFill} from 'react-icons/bs'
 import { useRouter } from 'next/navigation';
 import '@fontsource/mitr';
-import CompNavbar from './compNavbar';
+import CompNavbar from './compNavbar/row_1';
 import { CompLanguageProvider, useLanguage } from './compLanguageProvider';
 import { useTranslation } from 'react-i18next';
 
@@ -52,7 +52,7 @@ function App() {
   
   useEffect(() => {
     const storedUser_id = localStorage.getItem('id');
-    console.log("user_id: ",storedUser_id);
+    console.log("user_id11: ",storedUser_id);
 
     const fetchData = async () => {
       try {
@@ -120,10 +120,10 @@ function App() {
     
     try {
 
-      console.log("useEmployee name: " ,examinelist_name, User_id  )
+      console.log("useEmployee name: " ,examinelist_name, id  )
 
 
-      const AddData = { examinelist_name , User_id , add: true};
+      const AddData = { examinelist_name , id , add: true};
       const data = JSON.stringify(AddData);
       console.log("data222: ",data)
 
@@ -140,7 +140,7 @@ function App() {
           const updatedTodoList = [...todoList, resdata.dbexaminelist_name];
           setTodoList(updatedTodoList);
           
-
+console.log("ADD: ",resdata.message)
           setShowAddSuccessPopup(true);
           setaddMessage(resdata.message);
 
@@ -268,7 +268,7 @@ function App() {
       </div>
       <div className='mx-auto border w-[300px] md:w-[950px] font-ntr py-[20px] md:h-[600px] h-[550px] text-black flex flex-col   md:rounded-[30px] rounded-[30px] mt-[106px]  bg-[#fff]'>
                 
-        <h1 className={`  ${language === 'EN' ? 'md:text-[35px]  ml-[50px] text-[25px] font-ntr  font-bold' : 'ml-[30px] font-mitr text-[25px] mt-[3px] mb-[5px] md:text-[30px] md:ml-[50px] font-small' }`}>
+        <h1 className={`  ${language === 'EN' ? 'md:text-[35px]  ml-[30px] text-[25px] font-ntr  font-bold' : 'ml-[30px] font-mitr text-[25px] mt-[3px] mb-[5px] md:text-[30px] md:ml-[50px] font-small' }`}>
           {language === 'EN' ? 'Examine List' : 'รายการตรวจสอบ' }
         </h1>
 
@@ -322,7 +322,7 @@ function App() {
               {showAddSuccessPopup && (
                 <div className="bg-white text-[#5A985E] p-8  rounded-lg border-black shadow-lg md:w-[400px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                 <BsCheckCircle className=' text-[50px] mx-auto mb-[10px]'/>
-                {t({addmessage})}
+                {addmessage}
                 </div>
               )}
             

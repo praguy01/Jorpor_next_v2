@@ -16,10 +16,11 @@ export async function POST(request)  {
 
       console.log("JSON.DATA route: ", res);
       
-      if (PIN_confirm === PIN) {
-         
+      if (res.requestData.PIN_confirm === res.requestData.PIN) {
+        console.log("/////////////////////////////////");
 
-        const insertSql = "INSERT INTO users (name, lastname, email, position, employee, password) VALUES (?, ?, ?, ?, ?, ?)";
+
+        const insertSql = "INSERT INTO users_r3 (name, lastname, email, position, employee, password) VALUES (?, ?, ?, ?, ?, ?)";
         const insertValues = [res.requestDataUser.name, res.requestDataUser.last_name, res.requestDataUser.email, res.requestDataUser.position, res.requestDataUser.employee, res.requestDataUser.password];
         const result = await db.query(insertSql, insertValues);
 
@@ -58,11 +59,11 @@ export async function POST(request)  {
 
       console.log("ress: ",data)
 
-      const checkEmailQuery = "SELECT COUNT(*) AS emailCount FROM users WHERE email = ?";
+      const checkEmailQuery = "SELECT COUNT(*) AS emailCount FROM users_r3 WHERE email = ?";
       const [emailCountResult] = await db.query(checkEmailQuery, [data.email]);
       console.log("emailCountResult: ", emailCountResult);
 
-      const checkemployeeQuery = "SELECT COUNT(*) AS employeeCount FROM users WHERE employee = ?";
+      const checkemployeeQuery = "SELECT COUNT(*) AS employeeCount FROM users_r3 WHERE employee = ?";
       const [employeeCountResult] = await db.query(checkemployeeQuery, [data.employee]);
       console.log("employeeCountResult: ", employeeCountResult);
 

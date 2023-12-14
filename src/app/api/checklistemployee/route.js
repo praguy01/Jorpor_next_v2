@@ -164,7 +164,7 @@ export async function POST(request) {
           const getexamine_IdQuery = "SELECT name FROM examine WHERE id = ?";
           const [examine_IdResult] = await db.query(getexamine_IdQuery, [res.examine_Id]);
 
-          return NextResponse.json({ success: true , message: "successfully!" ,redirect: `/checklistExamine?checklistname=${examine_IdResult[0].name}&examinelistId=${res.examinelist_Id}&examineId=${res.examine_Id}`});
+          return NextResponse.json({ success: true , message: "successfully!" ,redirect: `/checklistExamine?checklistname=${examine_IdResult[0].name}&examinelistId=${res.examinelist_Id}&examineId=${res.examine_Id}&examinelist_name=${res.examinelist_name}`});
         } catch (error) {
           console.error('ErrorEditEx:', error);
           return NextResponse.json({ success: false, error: error.message });

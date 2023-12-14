@@ -2,7 +2,7 @@
 import '@fontsource/ntr'
 import '../globals.css'
 import '@fontsource/mitr';
-import CompNavbar from './compNavbar';
+import CompNavbar from './compNavbar/row_1';
 import axios from 'axios';
 import React, { useState ,useEffect } from 'react';
 import { CompLanguageProvider, useLanguage } from './compLanguageProvider';
@@ -12,6 +12,8 @@ import { initReactI18next } from 'react-i18next';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import html2pdf from 'html2pdf.js';
+import {BsFillExclamationTriangleFill} from 'react-icons/bs'
+import {BsCheckCircle} from 'react-icons/bs'
 
 // function  {
 //   return (
@@ -37,11 +39,18 @@ export default function CompReportResultsForm({ onSubmit }) {
   const [selectedExamineOption, setSelectedExamineOption] = useState('');
   const [nameExamine , setNameExamine] = useState([]); 
   const [checklistnameExamine , setChecklistNameExamine] = useState([]); 
-  const element = document.getElementById('your-element-id');
+  const [showPopup, setShowPopup] = useState(false); // เพิ่ม state เพื่อควบคุมการแสดง/ซ่อน popup
+  const [currentDate, setcurrentDate] = useState(false); // เพิ่ม state เพื่อควบคุมการแสดง/ซ่อน popup
+  const [sent, setSent] = useState(''); // เพิ่ม state เพื่อควบคุมการแสดง/ซ่อน popup
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [addmessage, setaddMessage] = useState(false);
+
+  // const element = document.getElementById('your-element-id');
 
 
 
   useEffect(() => {
+    
     // ใน useEffect นี้คุณสามารถใช้ Axios เพื่อดึงข้อมูลจากฐานข้อมูล
     if (typeof window !== 'undefined') {
       const searchParams = new URLSearchParams(window.location.search);
@@ -50,6 +59,14 @@ export default function CompReportResultsForm({ onSubmit }) {
 
      
       console.log("queryDataexamine: ",{user_IdValue , dateValue })
+      const storedDate = localStorage.getItem("date");
+
+      console.log("DATEEE: ",storedDate , dateValue)
+      if (storedDate  <= dateValue) {
+        setSent(true);
+      } else {
+        setSent(true);
+      }
 
     const fetchData = async () => {
       try {
@@ -83,7 +100,6 @@ export default function CompReportResultsForm({ onSubmit }) {
     };
     setMessage('');
     setId(user_IdValue);
-    setDate(dateValue);
     fetchData();
   }
   }, []); // โหลดข้อมูลเมื่อค่า state reloadData เปลี่ยนแปลง
@@ -111,6 +127,13 @@ export default function CompReportResultsForm({ onSubmit }) {
           const checkList_results = []
           const ResultList = resdata.dbData
           console.log("77777777777777 ",ResultList)
+
+          const Date = ResultList.date;
+
+          localStorage.setItem('date' , ResultList.date)
+          setDate(Date)
+          
+          
 
           //  ResultList.forEach(item => {
           //       console.log(`Name: ${item.name}, Examine: ${Object.keys(item.examine)[0]}`);
@@ -170,7 +193,6 @@ export default function CompReportResultsForm({ onSubmit }) {
           // setSelectedExamineOption(resdata.dbExamine[0])
           // console.log('selectexamine: ', resdata.dbExamine[0]);
           // fetchDataExamine();
-         
           
         } else {
           setMessage(resdata.error);
@@ -312,21 +334,97 @@ export default function CompReportResultsForm({ onSubmit }) {
   };
 
 
-  const handleSubmit = async () => {
-    if (
-      formData.detail === ''
-    ) {
-      setMessage('Please fill out all required fields.');
-    } else {
-    const isSuccess = await onSubmit(formData);
+  // const handleSubmit = async () => {
+    // if (
+    //   formData.detail === ''
+    // ) {
+    //   setMessage('Please fill out all required fields.');
+    // } else {
+    // const isSuccess = await onSubmit(formData ,nameExamine );
 
-    if (isSuccess) {
+    // if (isSuccess) {
+    //   setMessage('');
+    // } else {
+    //   setMessage('An error occurred while submitting the data.');
+    // }
+  // }
+  // };
+
+  const handleSubmit = async () => {
+  
+    
+    try {
+     
+      // const formData = new FormData();
+      // formData.append('title', data.title);
+      // formData.append('employee', data.employee);
+      // formData.append('location', data.location);
+      // formData.append('work_owner', data.work_owner);
+      // formData.append('position', data.position);
+      // formData.append('dateTime', data.dateTime);
+      // formData.append('detail', data.detail);
+      // formData.append('file', data.file);
+      // formData.append('file_name', data.file_name);
+
+      const sendData = {
+        nameExamine,
+        send: true
+      };
+
+      const dataform = JSON.stringify(sendData);
+
+      const response = await axios.post('/api/reportResultsPdf', dataform, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+
+      // const requestData = {
+      //   ...data,
+      // };
+      
+      // console.log('Submitted Data:', requestData);
+      
+      // // const dataform = JSON.stringify(requestData);
+      
+      // const response = await axios.post('/api/notify', {
+      //   requestData
+      // }, {
+      //   headers: { 'Content-Type': 'application/json' }
+      // });
+      
+      
+      const resdata = response.data; 
+
+      if (response.status === 200) {
+        const resdata = response.data;
+    
+        if (resdata.success === true) {
+          setShowSuccessPopup(true)
+          setaddMessage(resdata.message);
+          // setnotifyMessage('');
+          setSent(true)
+
+          setTimeout(() => {
+            setShowSuccessPopup(false);
+            window.location.href = resdata.redirect;
+          }, 1000); // 1000 milliseconds = 1 second
+        } else {
+          // setnotifyMessage(resdata.error);
+          setMessage('');
+
+        }
+      } else {
+        // setnotifyMessage(resdata.error);
+        setMessage('');
+
+      }
+    } catch (error) {
+      console.error('Error registering: ', error);
+      // setnotifyMessage(error);
       setMessage('');
-    } else {
-      setMessage('An error occurred while submitting the data.');
-    }
+
+    } 
+  
   }
-  };
 
 
   // Example: Applying specific styles for PDF
@@ -385,7 +483,7 @@ const generatePDF = () => {
                     <div className='flex items-center  mt-[5px]  text-[13px] md:text-[16px] font-mitr md:mt-[20px] text-left ml-[10px] md:ml-[10px] '>
                     <p>{t('Date')}</p>
                     <p className='ml-[10px] '>:</p>
-                    <p className=' ml-[10px]'>{nameExamine.date}</p>
+                    <p className=' ml-[10px]'>{nameExamine.date} น.</p>
 
                     </div>
 
@@ -401,72 +499,165 @@ const generatePDF = () => {
 
                       <div  className='h-[300px]  md:w-[690px] px-2 font-mitr  text-black text-center mt-[15px] mx-auto justify-center text-sm md:text-[18px] rounded-[10px] w-[310px] py-2 md:py-4 bg-[#F5F5F5] ml-[5px]  overflow-auto'>
                       <div id="pdf-content"   className="w-full  ">
+                      {nameExamine &&
+                            nameExamine.items &&
+                            nameExamine.items.map((item, index) => (
+                              <div key={index}>
+                                {/* {console.log("NAME RESULT: ", index,item.examine)} */}
 
-                      {nameExamine && nameExamine.items && nameExamine.items.map((item, index) => (
-                      <div key={index}>
-                        <div className="mt-[10px] md:mt-[10px] md:ml-[-30px] border-t md:border w-full md:w-[750px] border-gray-300"></div>
-                        <h1 className='text-left mt-[10px]'>Examine : {item.name}</h1>
-                        <div className="mt-[5px] md:mt-[10px] md:ml-[-30px] border-t md:border w-full md:w-[750px] border-gray-300"></div>
+                                <div className="mt-[10px] md:mt-[10px] md:ml-[-30px] border-t md:border w-full md:w-[750px] border-gray-300"></div>
+                                <h1 className="text-left text-green-600 mt-[10px]">Examine: {item.name}</h1>
+                                <div className="mt-[5px] md:mt-[10px] md:ml-[-30px] border-t md:border w-full md:w-[750px] border-gray-300"></div>
 
-                        {Object.keys(item.examine).map((examKey, examIndex) => (
-                          <div key={examIndex}>
-                            <h2 className='text-left mt-[10px]'>{examKey}</h2>
-                            <table className="min-w-full divide-gray-200 mt-[10px]">
-                          <thead className="bg-gray-50 top-0 z-10">
-                            <tr className="text-center">
-                              <th scope="col" style={{ whiteSpace: 'nowrap' }} className="border w-[30px] py-1 text-[12px] text-gray-500 uppercase tracking-wider">
-                                {t('No')}
-                              </th>
-                              <th scope="col" style={{ whiteSpace: 'nowrap' }} className="border w-[100px] py-1 text-[12px] text-gray-500 uppercase tracking-wider">
-                                {t('Name')}
-                              </th>
-                              <th scope="col" style={{ whiteSpace: 'nowrap' }} className="border w-[50px] py-1 text-[12px] text-gray-500 uppercase tracking-wider">
-                                {t('Status')}
-                              </th>
-                              <th scope="col" style={{ whiteSpace: 'nowrap' }} className="border w-[200px] py-1 text-[12px] text-gray-500 uppercase tracking-wider">
-                                {t('Details')}
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody className="bg-white text-[13px] divide-y divide-gray-200">
-                            {item.examine[examKey].map((entry, entryIndex) => (
-                              <tr key={entryIndex} className='text-center'>
-                                <td className="py-4 border whitespace-nowrap">
-                                  <div>{entryIndex + 1}</div>
-                                </td>
-                                <td className="py-4 border whitespace-nowrap">
-                                  <div className="text-left ml-[10px]">{entry.examinename}</div>
-                                </td>
-                                <td className={`py-4 border whitespace-nowrap ${entry.status === 'pass' ? 'text-green-600' : 'text-red-600'}`}>
-                                  <div>{entry.status}</div>
-                                </td>
-                                <td className="py-4 border">
-                                  <div className={` break-words  ${entry.details === '-' ? 'text-center' : 'text-left ml-[10px]'}`}>
-                                      <span className={`  break-words ${entry.details === '-' ? '' : ' ml-[10px]'}`}>{entry.details}</span>
-                                
-                                  </div>
-                                </td>
-                              </tr>
-                              
-                            ))} 
-                          </tbody>
-                        </table>
+                                {Object.keys(item.examine).map((examKey, examIndex) => (
+                                  <div key={examIndex}>
+                                    {/* {console.log("888888: ",examKey,item.examine[examKey][0])}
+                                    {console.log("8888884444444: ",item.examine[examKey][0].itemA[0])} */}
 
+                                    {item.examine[examKey][0].useEmployee === 'false' ? (
+                                      <div key={examIndex}>
+                                        {/* {console.log("888888: ", examKey, item.examine[examKey][0])}
+                                        {console.log("8888884444444: ", item.examine[examKey][0].itemA[0])} */}
 
-                        </div>
-                        ))}
+                                        <h2 className="text-left mt-[10px]">{examKey}</h2>
 
-                      </div>
-                      
+                                        <table className="min-w-full divide-gray-200 mt-[10px]">
+                                          <thead className="bg-gray-50 top-0 z-10">
+                                            <tr className="text-center">
+                                              <th scope="col" style={{ whiteSpace: 'nowrap' }} className="border w-[30px] py-1 text-[12px] text-gray-500 uppercase tracking-wider">
+                                                {t('No')}
+                                              </th>
+                                              <th scope="col" style={{ whiteSpace: 'nowrap' }} className="border w-[100px] py-1 text-[12px] text-gray-500 uppercase tracking-wider">
+                                                {t('Name')}
+                                              </th>
+                                              <th scope="col" style={{ whiteSpace: 'nowrap' }} className="border w-[50px] py-1 text-[12px] text-gray-500 uppercase tracking-wider">
+                                                {t('Status')}
+                                              </th>
+                                              <th scope="col" style={{ whiteSpace: 'nowrap' }} className="border w-[200px] py-1 text-[12px] text-gray-500 uppercase tracking-wider">
+                                                {t('Details')}
+                                              </th>
+                                            </tr>
+                                          </thead>
+                                          <tbody className="bg-white text-[13px] divide-y divide-gray-200">
+                                            {item.examine[examKey][0].itemA.map((entry, entryIndex) => (
+                                              // console.log("ITEMA: ", entry),
+                                              <tr key={entryIndex} className="text-center">
+                                                <td className="py-4 border whitespace-nowrap">
+                                                  <div>{entryIndex + 1}</div>
+                                                </td>
+                                                <td className="py-4 border whitespace-nowrap">
+                                                  <div className="text-left ml-[10px]">{entry.examine_name}</div>
+                                                </td>
+                                                <td className={`py-4 border whitespace-nowrap ${entry.status === 'pass' ? 'text-green-600' : 'text-red-600'}`}>
+                                                  <div>{entry.status}</div>
+                                                </td>
+                                                <td className="py-4 border">
+                                                  <div className={`break-words ${entry.details === '-' ? 'text-center' : 'text-left ml-[10px]'}`}>
+                                                    <span className={`break-words ${entry.details === '-' ? '' : 'ml-[10px]'}`}>{entry.details}</span>
+                                                  </div>
+                                                </td>
+                                              </tr>
+                                            ))}
+                                          </tbody>
+                                        </table>
+                                      </div>
+                                    ) : (
+                                        <div key={examIndex}>
+                                          {/* {console.log("888888แต่งกาย: ", examKey, item.examine[examKey][0].itemA)}
+                                          {console.log("8888884444444แต่งกาย: ", item.examine[examKey][0].itemA[0].itemB[0])} */}
+  
+                                          <h2 className="text-left mt-[10px]">{examKey}</h2>
+                                          {item.examine[examKey][0].itemA.map((exameKey, exameIndex) => (
+                                        <div key={exameIndex}>
+                                            {/* {console.log("YYYY: ",exameKey.itemB)} */}
+                                          <div className="mt-[10px] md:mt-[10px] md:ml-[-30px] border-t md:border w-full md:w-[750px] border-gray-300"></div>
+
+                                            <h1 className='text-left mt-[10px]'>{exameIndex + 1}. {exameKey.key} </h1>
+
+                                          <table className="min-w-full divide-gray-200 mt-[10px]">
+                                            <thead className="bg-gray-50 top-0 z-10">
+                                              <tr className="text-center">
+                                                <th scope="col" style={{ whiteSpace: 'nowrap' }} className="border w-[30px] py-1 text-[12px] text-gray-500 uppercase tracking-wider">
+                                                  {t('No')}
+                                                </th>
+                                                <th scope="col" style={{ whiteSpace: 'nowrap' }} className="border w-[100px] py-1 text-[12px] text-gray-500 uppercase tracking-wider">
+                                                  {t('Name')}
+                                                </th>
+                                                <th scope="col" style={{ whiteSpace: 'nowrap' }} className="border w-[50px] py-1 text-[12px] text-gray-500 uppercase tracking-wider">
+                                                  {t('Status')}
+                                                </th>
+                                                <th scope="col" style={{ whiteSpace: 'nowrap' }} className="border w-[200px] py-1 text-[12px] text-gray-500 uppercase tracking-wider">
+                                                  {t('Details')}
+                                                </th>
+                                              </tr>
+                                            </thead>
+                                            <tbody className="bg-white text-[13px] divide-y divide-gray-200">
+                                              {exameKey.itemB.map((entry, entryIndex) => (
+                                                // console.log("ITEMA: ", entry),
+                                                // entry.itemB.map((entry, entryIndex) => (
+
+                                                <tr key={entryIndex} className="text-center">
+                                                  <td className="py-4 border whitespace-nowrap">
+                                                    <div>{entryIndex + 1}</div>
+                                                  </td>
+                                                  <td className="py-4 border whitespace-nowrap">
+                                                    <div className="text-left ml-[10px]">{entry.examinename_name}</div>
+                                                  </td>
+                                                  <td className={`py-4 border whitespace-nowrap ${entry.status === 'pass' ? 'text-green-600' : 'text-red-600'}`}>
+                                                    <div>{entry.status}</div>
+                                                  </td>
+                                                  <td className="py-4 border">
+                                                    <div className={`break-words ${entry.details === '-' ? 'text-center' : 'text-left ml-[10px]'}`}>
+                                                      <span className={`break-words ${entry.details === '-' ? '' : 'ml-[10px]'}`}>{entry.details}</span>
+                                                    </div>
+                                                  </td>
+                                                </tr>
+                                              // ))
                                               ))}
-                    </div>
-                    
-                        
-                      
 
-                    </div>
-                    </div>
-                    </div>
+                                            </tbody>
+                                          </table>
+                                        </div>
+
+                                        ))}
+                                       </div>
+
+                                    )
+                                    
+                                    }
+
+                                  </div>
+
+                              ))}
+                              </div>
+                            ))}
+                            
+                            </div> 
+                          </div>
+                        </div>
+                            {/* //  Map over itemA
+
+                            //   console.log("555555: ", entryIndex, entry)
+                            //   return entry.itemA.map((itemAEntry, itemAIndex) => (
+                            //     <tr key={itemAIndex} className='text-center'>
+                            //       {console.log("3333333: ", itemAIndex, itemAEntry)}
+                            //       <td className="py-4 border whitespace-nowrap">
+                            //         <div>{itemAIndex + 1}</div>
+                            //       </td>
+                            //       <td className="py-4 border whitespace-nowrap">
+                            //         <div className="text-left ml-[10px]">{itemAEntry.examine_name}</div>
+                            //       </td>
+                            //       <td className={`py-4 border whitespace-nowrap ${itemAEntry.status === 'pass' ? 'text-green-600' : 'text-red-600'}`}>
+                            //         <div>{itemAEntry.status}</div>
+                            //       </td>
+                            //       <td className="py-4 border">
+                            //         <div className={`break-words ${itemAEntry.details === '-' ? 'text-center' : 'text-left ml-[10px]'}`}>
+                            //           <span className={`break-words ${itemAEntry.details === '-' ? '' : 'ml-[10px]'}`}>{itemAEntry.details}</span>
+                            //         </div>
+                            //       </td>
+                            //     </tr> */}
+
+                        
 
 
 {/*                     
@@ -482,7 +673,12 @@ const generatePDF = () => {
                     <p className='font-mitr text-[#808080] text-[13px] md:text-[16px] ml-[-160px] md:ml-[-620px] mt-[20px]  md:mt-[15px]'>{t('details')}</p>
                     <textarea type="text" name="detail" value={formData.detail} onChange={handleInputChange} className='align-text-top rounded-[10px] mt-[5px] pl-[15px] w-[230px]  text-[14px] md:ml-[-25px] h-[100px] md:text-[16px] md:w-[680px] md:h-[80px] bg-[#fff] border border-gray-300  p-4 '/>
                 </div> */}
-              
+              {showSuccessPopup && (
+                <div className="bg-white text-[#5A985E] text-[16px]  w-[300px] p-8  rounded-lg border-black shadow-lg md:w-[400px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <BsCheckCircle className=' text-[50px] mx-auto mb-[10px]'/>
+                {addmessage}
+                </div>
+              )}
 
                 {message && (
                   <p className='mt-3 text-red-500 text-xs py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-lg md:mt-[30px]'>
@@ -495,22 +691,38 @@ const generatePDF = () => {
                   </p>
                 )} */}
 
-                <div className=  {`${language === 'EN' ? ' font-ntr text-md md:text-[20px]' : ' font-mitr text-[15px] md:text-[17px] '  } flex items-center mx-auto md:px-10  md:mt-[20px]`} >
+                {showPopup && (
+              <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-[9999]">
+                <div className="bg-white p-4 rounded-lg border-black shadow-lg md:w-[400px] w-[300px] ">
+                <BsFillExclamationTriangleFill className=' text-[50px] text-[#5A985E] mx-auto mb-[10px]'/>
+                <p className='md:text-[18px] text-[#5A985E] text-[16px]  '>{`${language === 'EN' ? 'Can be sent only one time. Are you sure you have checked? ' : 'สามารถส่งได้เพียงครั้้งเดียวเท่านั้น คุณแน่ใจว่าตรวจสอบเรียบร้อยเเล้ว ? '  }`}</p>
+                  <div className=  {`${language === 'EN' ? ' font-ntr text-[19px]' : ' font-mitr text-[16px] '  } flex justify-center mt-[20px]`}>
+                    <button className="flex justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={() => {handleSubmit() ,setShowPopup(false)}}>{t('Yes')}</button> 
+
+                    <button className="flex justify-center items-center bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600" onClick={() => setShowPopup(false)}>{t('Cancel')}</button>
+                  </div>
+                </div> 
+                </div>
+              )}
+
+              {sent ? (
+                <div className=  {`${language === 'EN' ? ' font-ntr text-md md:text-[20px]' : ' font-mitr text-[15px] md:text-[17px] '  } flex items-center  mx-auto md:px-10  md:mt-[20px]`} >
                   {/* <button type= "submit" href="/NotifyTwo" className=' mt-[20px] text-md md:text-[20px] md:ml-[480px] border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>Submit</button> */}
-                    <button type='submit' onClick={handleSubmit} className=' mt-[20px]   border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>{t('confirm')}</button>
+                    <button type='submit' onClick={(e) => setShowPopup(true)} className=' mt-[20px]   border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200  mx-auto  '>{t('send')}</button>
                     {/* <button onClick={generatePDF}>Generate PDF</button> */}
 
-
-                   
                 </div>
-              {/* </form> */}
-              
+              ) : (
+                <p className='md:text-[18px] mt-[10px]'>{`${language === 'EN' ? "Today's information has been sent. " : 'ข้อมูลของวันนี้้ถูกส่งไปแล้ว'  }`}</p>
+              )}
         
+              </div>
 
           </div> 
           </div>
         </div>
         </div>
+        
     ) 
  }
   

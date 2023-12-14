@@ -17,7 +17,7 @@ import {BsFillExclamationTriangleFill} from 'react-icons/bs'
 import { useRouter } from 'next/navigation';
 
 import '@fontsource/mitr';
-import CompNavbar from './compNavbar';
+import CompNavbar from './compNavbar/row_1';
 import { CompLanguageProvider, useLanguage } from './compLanguageProvider';
 import { useTranslation } from 'react-i18next';
 import i18n from '../i18n'; 
@@ -56,15 +56,14 @@ function App() {
 
  
  
+ 
+
   useEffect(() => {
     const storedId = localStorage.getItem('id');
     if (storedId) {
       setId(storedId);
       console.log("Stored: ",storedId)
     }
-  }, []);
-
-  useEffect(() => {
     // ใน useEffect นี้คุณสามารถใช้ Axios เพื่อดึงข้อมูลจากฐานข้อมูล
     if (typeof window !== 'undefined') {
       const searchParams = new URLSearchParams(window.location.search);
@@ -75,7 +74,7 @@ function App() {
     console.log("STARTExamine: ",useEmployee);
     const fetchData = async () => {
       try {
-        const AddData = { examinelist_nameValue, fetch: true};
+        const AddData = { examinelist_nameValue,storedId, fetch: true};
         const fetchdata = JSON.stringify(AddData);
 
         const response = await axios.post('/api/examine', fetchdata, {
@@ -147,7 +146,7 @@ function App() {
 
       const useEmployeeAsString = useEmployee.toString(); // แปลงค่า useEmployee เป็น string
 
-      const AddData = { examine_name ,useEmployeeAsString ,examinelist_name , add: true};
+      const AddData = { examine_name ,useEmployeeAsString ,examinelist_name ,id, add: true};
       const data = JSON.stringify(AddData);
       console.log("data222: ",data)
 
@@ -200,7 +199,7 @@ function App() {
 
   const deleteTodo = async (index, todo) => {
     try {
-      const editedData = { todo,examinelist_name,  edit: true };
+      const editedData = { todo, examinelist_name,  edit: true };
       const data = JSON.stringify(editedData)
 
       const response = await axios.post('/api/examine', data,  {
@@ -293,8 +292,11 @@ function App() {
       </div>
       <div className='mx-auto border w-[300px] md:w-[950px] font-ntr py-[20px] md:h-[600px] h-[550px] text-black flex flex-col   md:rounded-[30px] rounded-[30px] mt-[106px]  bg-[#fff]'>
                 
-          <h1 className=  {`${language === 'EN' ? ' font-ntr font-bold md:ml-[50px] ml-[30px]  text-[25px] md:text-[35px] ' : ' font-mitr md:ml-[50px] ml-[30px] text-[25px] md:text-[30px] '  }  `}>{t('Examine')}</h1>
-
+          {/* <h1 className=  {`${language === 'EN' ? ' font-ntr font-bold md:ml-[50px] ml-[30px]  text-[25px] md:text-[35px] ' : ' font-mitr md:ml-[50px] ml-[30px] text-[25px] md:text-[30px] '  }  `}>{t('Examine')}</h1> */}
+          <div className='flex items-center text-[#5A985E]'>
+              <h1  className=  {`${language === 'EN' ? ' font-ntr font-bold md:ml-[50px] ml-[30px]  text-[25px] md:text-[35px] ' : ' font-mitr md:ml-[50px] ml-[30px] text-[25px] md:text-[30px] '  }  `}>{t('Examine')}</h1>
+              <p className='text-black text-sm md:text-[20px] ml-[8px] font-mitr '>( {examinelist_name} )</p>
+          </div>
 
         <div className="mt-[5px] border-t border-gray-300"></div>
         {!isEditing && (
@@ -311,7 +313,7 @@ function App() {
                     className={`cursor-pointer border-[#F5F5F5] border-[5px] w-[90px] md:w-[150px] py-[30px] px-2 text-black flex-col bg-[#BEE3BA] text-center rounded-[15px] ${index % 2 === 0 ? 'clear-left' : ''}`}
                     onClick={() => {
                       if (!isEditing) {
-                        router.push(`/checklistExamine?checklistname=${todo}&examinelistId=${examinelist_Id}&examineId=${examine_Id[0][index]}&index=${index}&useEmployee=${useEmployee ? 'true' : 'false'}`);
+                        router.push(`/checklistExamine?checklistname=${todo}&examinelistId=${examinelist_Id}&examinelist_name=${examinelist_name}&examineId=${examine_Id[0][index]}&index=${index}&useEmployee=${useEmployee ? 'true' : 'false'}`);
                       }
                     }}
                   >

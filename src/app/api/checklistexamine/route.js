@@ -13,8 +13,8 @@ export async function POST(request) {
       if (res.add) {
         try {
 
-          const checkExamineExistsQuery =  'SELECT id FROM examine WHERE name = ?';
-          const [examinenameResult] = await db.query(checkExamineExistsQuery, [res.checklistname]);
+          const checkExamineExistsQuery =  'SELECT id FROM examine WHERE name = ? AND examinelist_id =? ';
+          const [examinenameResult] = await db.query(checkExamineExistsQuery, [res.checklistname , res.examinelist_Id]);
           console.log("ID examine: ",examinenameResult[0].id)
 
 
@@ -31,6 +31,7 @@ export async function POST(request) {
 
       if (res.checkbox) {
         try {
+
           const getnameQuery = "SELECT * FROM examinename WHERE examine_id = ?";
           const [nameResult] = await db.query(getnameQuery, [res.examine_Id]);
           const names = nameResult.map(item => item.name);
@@ -49,11 +50,12 @@ export async function POST(request) {
             const nameData = res.todoStatus[name];
             console.log("11111111111: ", nameData.name);
 
-            const getname_idQuery = "SELECT id FROM examinename WHERE name = ?";
-            const [name_idResult] = await db.query(getname_idQuery, [nameData.name]);
+            const getname_idQuery = "SELECT id FROM examinename WHERE name = ? AND examine_id = ? ";
+            const [name_idResult] = await db.query(getname_idQuery, [nameData.name , res.examine_Id]);
             console.log("name_idResult: ", name_idResult[0].id);
 
             IdChecklistname.push(name_idResult[0].id);
+
           }
 
           console.log("IDcheck: ", IdChecklistname);

@@ -3,7 +3,7 @@ import React, { useState ,useEffect } from 'react';
 import '@fontsource/ntr'
 import '../globals.css'
 import '@fontsource/mitr';
-import CompNavbar from './compNavbar';
+import CompNavbar from './compNavbar/row_1';
 import axios from 'axios';
 import {BiSolidDownload} from 'react-icons/bi'
 import {BsCheckCircle} from 'react-icons/bs'
@@ -31,12 +31,14 @@ export default function CompNotifyDisplay({ data , onSubmit}) {
   const [openpopup, setopenpopup] = useState(false);
   const [message, setMessage] = useState('');
   const [addmessage, setAddMessage] = useState('');
+  const [formattedDate, setFormattedDate] = useState('');
 
   const [openedFile, setOpenedFile] = useState(null);
+  const [id, setId] = useState('');
 
 
   const fileName = data.file.name; // ชื่อไฟล์ที่อัปโหลด
-  const fileExtension = fileName.split('.').pop(); // ดึงนามสกุลไฟล์
+  // const fileExtension = fileName.split('.').pop(); // ดึงนามสกุลไฟล์
 
   // useEffect(() => {
   //   // ใช้ useEffect เพื่อตรวจสอบและอัปเดต state เมื่อ fileExtension เปลี่ยนแปลง
@@ -53,7 +55,24 @@ export default function CompNotifyDisplay({ data , onSubmit}) {
   //   }
   // }, [fileExtension]);
 
+  useEffect(() => {
+    const storedId = localStorage.getItem("id");
+    setId(storedId)
 
+    console.log('Submitted Data:',data.file);
+
+    const date = new Date(data.dateTime);
+    const formattedDate = new Intl.DateTimeFormat('th-TH', {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: false,
+    }).format(date);
+
+    setFormattedDate(formattedDate);
+  }, [data.dateTime]);
   
   const openFileInNewTab = () => {
     window.open(URL.createObjectURL(data.file), '_blank');
@@ -64,48 +83,27 @@ export default function CompNotifyDisplay({ data , onSubmit}) {
   
     
     try {
-    
+     
       const formData = new FormData();
       formData.append('title', data.title);
       formData.append('employee', data.employee);
       formData.append('location', data.location);
       formData.append('work_owner', data.work_owner);
-      formData.append('status', data.status);
+      formData.append('position', data.position);
       formData.append('dateTime', data.dateTime);
       formData.append('detail', data.detail);
       formData.append('file', data.file);
       formData.append('file_name', data.file_name);
+      formData.append('id', id);
 
-      
 
-
-      // console.log('Title:', formData.get('title'));
-      // console.log('Employee:', formData.get('employee'));
-      // console.log('Location:', formData.get('location'));
-      // console.log('Work Owner:', formData.get('work_owner'));
-      // console.log('Status:', formData.get('status'));
-      // console.log('Date:', formData.get('date'));
-      // console.log('Detail:', formData.get('detail'));
-      // console.log('File:', formData.get('file'));
 
       
       const response = await axios.post('/api/notify', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
-      // const requestData = {
-      //   ...data,
-      // };
       
-      // console.log('Submitted Data:', requestData);
-      
-      // // const dataform = JSON.stringify(requestData);
-      
-      // const response = await axios.post('/api/notify', {
-      //   requestData
-      // }, {
-      //   headers: { 'Content-Type': 'application/json' }
-      // });
       
       
       const resdata = response.data; 
@@ -121,7 +119,7 @@ export default function CompNotifyDisplay({ data , onSubmit}) {
           setTimeout(() => {
             setShowSuccessPopup(false);
             window.location.href = resdata.redirect;
-          }, 1000); // 1000 milliseconds = 1 second
+          }, 1000); 
         } else {
           setnotifyMessage(resdata.error);
           setMessage('');
@@ -174,34 +172,35 @@ export default function CompNotifyDisplay({ data , onSubmit}) {
                     <div className='flex px-3 '>
                         <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[100px] md:ml-[-11px]'>Employee</p>
                         <p>:</p>
-                        <p className='md:ml-[15px] ml-[10px]'>{data.employee}</p>
+                        <p className='md:ml-[15px]  ml-[10px]  overflow-hidden md:w-[200px] w-[120px] whitespace-nowrap overflow-ellipsis text-left'>{data.employee}</p>
                     </div>
                    
-                      
                     <div className='flex px-3  mt-[5px]'>
-                      <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[100px] md:ml-[-11px]'>Location</p>
-                      <p>:</p>    
-                      <p className='md:ml-[15px] ml-[10px]'>{data.location}</p>
-                    </div>
-                 
-                      <div className='flex px-3  mt-[5px]'>
                         <p className='text-[#000] text-left  w-[75px]  ml-[-1px] md:w-[100px] md:ml-[-11px]'>Work Owner </p>
                         <p>:</p>
-                        <p className='md:ml-[15px] ml-[10px]'>{data.work_owner}</p>
+                        <p className='md:ml-[15px] ml-[10px]  overflow-hidden md:w-[200px] w-[120px] whitespace-nowrap overflow-ellipsis'>{data.work_owner}</p>
                     </div>
+                    
+                    <div className='flex px-3  mt-[5px]'>
+                      <p className='text-[#000] text-left    ml-[-1px]  w-[75px]  md:w-[100px] md:ml-[-11px]  '>Location</p>
+                      <p>:</p>    
+                      <p className='md:ml-[15px] ml-[10px]  overflow-hidden md:w-[200px] w-[120px] whitespace-nowrap overflow-ellipsis text-left'>{data.location}</p>
+                    </div>
+                 
+                      
                  
                       
                       <div className='flex px-3 mt-[5px]'>
-                        <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[100px] md:ml-[-11px]'>Status</p>
+                        <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[100px] md:ml-[-11px]'>Position</p>
                         <p>:</p>
-                        <p className='md:ml-[15px] text-left md:w-[350px] w-[120px] ml-[10px]'>{data.status}</p>
+                        <p className='md:ml-[15px] text-left  ml-[10px]  overflow-hidden md:w-[200px] w-[120px] whitespace-nowrap overflow-ellipsis'>{data.position}</p>
                     </div>
                  
                      
                       <div className='flex px-3  mt-[5px]'>
                         <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[100px] md:ml-[-11px]'>Date</p>
                         <p>:</p>
-                        <p className='md:ml-[15px] ml-[10px]'>{data.dateTime}</p>
+                        <p className='md:ml-[15px] ml-[10px]  overflow-hidden md:w-[200px] w-[120px] text-left whitespace-nowrap overflow-ellipsis'>{formattedDate} น.</p>
                     </div>
                       
                     </div>

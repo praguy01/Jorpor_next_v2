@@ -1,7 +1,7 @@
-import CompExamineName from '../components/compChecklistExamine'
+import CompChecklistExamine from '../components/compChecklistExamine'
 
-export default function ExamineName() {
+export default function ChecklistExamine() {
   return (
-      <CompExamineName/>
+      <CompChecklistExamine/>
   );
 }

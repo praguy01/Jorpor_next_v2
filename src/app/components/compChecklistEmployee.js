@@ -5,7 +5,7 @@ import '../globals.css'
 import '@fontsource/ntr'
 import '@fontsource/mitr';
 import { BsPlusCircleFill } from 'react-icons/bs';
-import CompNavbar from './compNavbar';
+import CompNavbar from './compNavbar/row_1';
 import {BsCalendar2Minus} from 'react-icons/bs';
 import { BsTrash } from 'react-icons/bs'; // Add this import for the trash can icon
 import { BsPencilSquare } from 'react-icons/bs'; // Add this import for the edit button
@@ -14,8 +14,23 @@ import {BsCheckCircle} from 'react-icons/bs';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import {RxCross2} from 'react-icons/rx'
+import { CompLanguageProvider, useLanguage } from './compLanguageProvider';
+import { useTranslation } from 'react-i18next';
+import i18n from '../i18n'; 
+import { initReactI18next } from 'react-i18next';
 
-export default function ChecklistEmployee() {
+
+function ChecklistEmployee() {
+  return (
+    <CompLanguageProvider>
+      <App />
+    </CompLanguageProvider>
+  );
+}
+
+function App() {
+  const { language, toggleLanguage } = useLanguage();
+  const { t } = useTranslation();
 
     const router = useRouter();
 
@@ -47,6 +62,7 @@ export default function ChecklistEmployee() {
     const [examinelist_Id, setexaminelist_Id] = useState('');
     const [examine_Id, setexamine_Id] = useState('');
     const [todoStatus, setTodoStatus] = useState({});
+    const [examinelist_name, setexaminelist_name] = useState('');
 
     useEffect(() => {
       const storedId = localStorage.getItem('id');
@@ -68,9 +84,10 @@ export default function ChecklistEmployee() {
         const idemployeeValue = searchParams.get('idemployee') ; // กำหนดค่าเริ่มต้นว่างไว้ถ้าไม่มีค่า
         const examinelist_IdValue = searchParams.get('examinelist_Id') ; // กำหนดค่าเริ่มต้นว่างไว้ถ้าไม่มีค่า
         const examine_IdValue = searchParams.get('examine_Id') ; // กำหนดค่าเริ่มต้นว่างไว้ถ้าไม่มีค่า
+        const examinelist_nameValue = searchParams.get('examinelist_name') ; // กำหนดค่าเริ่มต้นว่างไว้ถ้าไม่มีค่า
 
        
-        console.log("queryData: ",{checklistnameValue,examine_IdValue,examinenameValue ,employeeValue ,idemployeeValue })
+        console.log("queryData: ",{checklistnameValue,examine_IdValue,examinenameValue ,employeeValue ,idemployeeValue,examinelist_nameValue })
 
        
       
@@ -112,6 +129,7 @@ export default function ChecklistEmployee() {
         setExaminename(examinenameValue);
         setEmployee_Id(employeeValue);
         setidEmployee(idemployeeValue);
+        setexaminelist_name(examinelist_nameValue)
         fetchData();
       }
     }, [reloadData]); // โหลดข้อมูลเมื่อค่า state reloadData เปลี่ยนแปลง
@@ -155,7 +173,7 @@ export default function ChecklistEmployee() {
         //   .map(([todo]) => todo);
     
 
-        const editedData = {todoStatus , checklistname ,examine_Id,examinelist_Id,examinename, employee_Id ,currentDate,idemployee, id, details, checkbox: true };
+        const editedData = {todoStatus , checklistname ,examine_Id,examinelist_Id,examinename,examinelist_name, employee_Id ,currentDate,idemployee, id, details, checkbox: true };
         console.log("checkbox: ",editedData)
         const data = JSON.stringify(editedData)
         console.log("checkboxDataEmployee: ",data)
@@ -217,25 +235,25 @@ export default function ChecklistEmployee() {
               
             </div>
 
-            <div className={`mx-auto w-[300px] font-mitr font-blod md:w-[800px] border ${isEditing ? 'h-[500px]' : 'h-[640px]'} mb-[50px] text-black flex flex-col bg-[#FFF] ${isEditing ? 'rounded-[10px]' : 'rounded-[30px] md:rounded-[50px]'} mt-[10px] `}>
-            <div className='  mx-auto w-[280px]   md:w-[800px] h-[560px] text-black flex flex-col  bg-[#FFF]  rounded-[30px] md:rounded-[50px] mt-[30px] overflow-auto'>
+            <div className={`mx-auto w-[300px] font-mitr font-blod md:w-[800px] border ${isEditing ? 'h-[500px]' : 'h-[560px]'} mb-[50px] text-black flex flex-col bg-[#FFF] ${isEditing ? 'rounded-[10px]' : 'rounded-[30px] md:rounded-[50px]'} mt-[10px] `}>
+            <div className='  mx-auto w-[280px]   md:w-[800px] h-[500px] text-black flex flex-col  bg-[#FFF] rounded-[30px] md:rounded-[50px] mt-[10px] overflow-auto'>
 
             {todoList.map((todo, index) => (
               <div key={index}>
                 {!useEmployee ? (
-                  <div className='font-mitr text-sm md:text-[20px] mt-[10px] w-[250px] rounded-[10px] md:w-[740px] py-2 md:py-4 bg-[#F5F5F5] mx-auto'>
+                  <div className='font-mitr text-sm md:text-[20px] mt-[10px] w-[250px] rounded-[10px] md:w-[340px] py-2 md:py-4 bg-[#F5F5F5] mx-auto'>
                     <div className='flex px-3'>
                     <div >
-                      <p className='text-[#000]   w-[210px] '>{todo} </p>
+                      <p className='text-[#000] md:text-[17px]   w-[210px] '>{todo} </p>
                       <div className="mt-[8px] border-t border-gray-300"></div> 
                       <div className='flex items-center mt-[8px]'> 
                       <div className='flex items-center'>
                         <input
                           type="checkbox"
-                          className='mr-[8px] md:ml-[20px] items-center'
+                          className='mr-[8px] md:ml-[5px] items-center'
                           checked={todoStatus[todo]?.pass || false}
                           onChange={(e) => handleCheckboxChange(todo, e.target.checked, !e.target.checked ? todoStatus[todo]?.fail : false)}
-                          /><span className='text-[13px] '>ผ่าน</span>
+                          /><span className='text-[13px] md:text-[15px] '>ผ่าน</span>
                       </div>
                       <div className='flex items-center'>
                         <input
@@ -243,12 +261,12 @@ export default function ChecklistEmployee() {
                           className='mr-[8px] ml-[10px] md:ml-[20px] items-center'
                           checked={todoStatus[todo]?.fail || false}
                           onChange={(e) => handleCheckboxChange(todo, !e.target.checked ? todoStatus[todo]?.pass : false, e.target.checked)}
-                          /><span className='text-[13px] '>ไม่ผ่าน</span>
+                          /><span className='text-[13px] md:text-[15px] '>ไม่ผ่าน</span>
                         </div>
                         </div>
                         <input
                             type='text'
-                            className='rounded-md mt-[8px] p-2 border text-[13px] w-[225px] h-[30px]'
+                            className='rounded-md mt-[8px] p-2 border text-[13px] w-[225px] md:w-[315px] h-[30px]'
                             placeholder='รายละเอียด'
                             onChange={(e) => {
                               handleCheckboxChange(todo, todoStatus[todo]?.pass, todoStatus[todo]?.fail, e.target.value);
@@ -358,8 +376,8 @@ export default function ChecklistEmployee() {
                       </div>
                     )}
 
-                    <div className='h-[300px]'>
-                      {!isEditing && (
+                    <div className=' text-center w-full'>
+                      {/* {!isEditing && (
                         <div className='w-[250px] h-[100px] mt-[20px] mx-auto'>
                           <p className='font-mitr text-sm mb-2'>รายละเอียด</p>
                           <textarea
@@ -368,9 +386,9 @@ export default function ChecklistEmployee() {
                             className='border border-gray-300 rounded-md bg-[#F5F5F5] w-[250px] h-[100px] text-sm pl-2 pt-2'
                           />
                         </div>
-                      )}
+                      )} */}
                      
-                        <button onClick={handleSubmit} className= 'ml-[85px] mt-[45px] text-md md:text-[20px] md:ml-[600px] md:mt-[60px] border-[#64CE3F] bg-[#64CE3F] px-10 py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>Submit</button>
+                        <button onClick={handleSubmit} className= ' text-md md:text-[18px]   border-[#64CE3F] bg-[#64CE3F] px-10 py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>Submit</button>
                         
                     
                   </div>
@@ -385,3 +403,4 @@ export default function ChecklistEmployee() {
   )
   
 }
+export default  ChecklistEmployee;

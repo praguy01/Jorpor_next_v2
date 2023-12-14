@@ -1,7 +1,7 @@
 // Import necessary modules
 import { createContext, useContext, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import axios from 'axios';  // Import axios
+import axios from 'axios';
 
 // Create a context for language
 const LanguageContext = createContext();
@@ -63,10 +63,7 @@ export function CompLanguageProvider({ children }) {
 
   // Set up language context based on the availability of localStorage
   if (typeof window !== 'undefined' && window.localStorage) {
-    // const lang = localStorage.getItem('language') || 'EN';
     const [language, setLanguage] = useState(i18n.language);
-    // console.log("LANGUAGE: ",i18n.language)
-
 
     const toggleLanguage = () => {
       setLanguage((prevLanguage) => (prevLanguage === 'EN' ? 'TH' : 'EN'));
@@ -86,7 +83,8 @@ export function CompLanguageProvider({ children }) {
     const [language, setLanguage] = useState('EN');
 
     const toggleLanguage = () => {
-      setLanguage((prevLanguage) => (prevLanguage === 'EN' ? 'TH' : 'EN'));
+      const newLanguage = language === 'EN' ? 'TH' : 'EN';
+      setLanguage(newLanguage);
     };
 
     const contextValue = { language, toggleLanguage };

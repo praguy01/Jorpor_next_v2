@@ -27,6 +27,42 @@ export async function POST(request) {
           return NextResponse.json({ success: false, error: error.message });
         }
       }
+      if (res.fetch_role_3) {
+        try {
+
+         
+
+          const getEmployeeQuery = "SELECT * FROM users_r2 WHERE users_r3_id  = ?";
+          const [employeeResult] = await db.query(getEmployeeQuery, [ res.storedId ]);
+
+          console.log("employeeResult: ",employeeResult);
+
+        
+          return NextResponse.json({ success: true ,dbemployee_name: employeeResult});
+        } catch (error) {
+          console.error('ErrorEditEx:', error);
+          return NextResponse.json({ success: false, error: error.message });
+        }
+      }
+
+      if (res.fetch_role_2) {
+        try {
+
+         
+
+          const getEmployeeQuery = "SELECT * FROM users WHERE role_2_id  = ?";
+          const [employeeResult] = await db.query(getEmployeeQuery, [ res.storedId ]);
+
+          console.log("employeeResult: ",employeeResult);
+
+        
+          return NextResponse.json({ success: true ,dbemployee_name: employeeResult});
+        } catch (error) {
+          console.error('ErrorEditEx:', error);
+          return NextResponse.json({ success: false, error: error.message });
+        }
+      }
+
 
       if (res.fetch) {
         try {
@@ -46,6 +82,39 @@ export async function POST(request) {
           return NextResponse.json({ success: false, error: error.message });
         }
       }
+
+      if (res.add_role_2) {
+        try {
+          console.log("22222555555")
+
+          const insertSql = `INSERT INTO users ( employee, name ,	lastname ,password, role_2_id ) VALUES (?,?,?,?,?)`;
+          const insertValues = await db.query(insertSql,[res.employee ,res.name , res.lastname , res.password , res.id]);
+        
+          console.log("22222: ",insertValues)
+
+          return NextResponse.json({ success: true, message: ` employee ${res.employee} created successfully` ,dbemployee: res});
+        } catch (error) {
+          console.error('ErrorEditEx:', error);
+          return NextResponse.json({ success: false, error: error.message });
+        }
+      }
+
+      if (res.add_role_3) {
+        try {
+          console.log("22222555555")
+
+          const insertSql = `INSERT INTO users_r2 ( employee, name ,	lastname ,password, users_r3_id ) VALUES (?,?,?,?,?)`;
+          const insertValues = await db.query(insertSql,[res.employee ,res.name , res.lastname , res.password , res.id]);
+        
+          console.log("22222: ",insertValues)
+
+          return NextResponse.json({ success: true, message: ` employee ${res.employee} created successfully` ,dbemployee: res});
+        } catch (error) {
+          console.error('ErrorEditEx:', error);
+          return NextResponse.json({ success: false, error: error.message });
+        }
+      }
+
 
       const getNameExamineListQuery = "SELECT name FROM examinelist WHERE user_id = ?";
       const [nameExamineListResult] = await db.query(getNameExamineListQuery, [res.storedId]);

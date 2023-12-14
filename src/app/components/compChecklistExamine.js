@@ -5,7 +5,7 @@ import '../globals.css'
 import '@fontsource/ntr'
 import '@fontsource/mitr';
 import { BsPlusCircleFill } from 'react-icons/bs';
-import CompNavbar from './compNavbar';
+import CompNavbar from './compNavbar/row_1';
 import {BsCalendar2Minus} from 'react-icons/bs';
 import { BsTrash } from 'react-icons/bs'; // Add this import for the trash can icon
 import { BsPencilSquare } from 'react-icons/bs'; // Add this import for the edit button
@@ -21,7 +21,7 @@ import i18n from '../i18n';
 import { initReactI18next } from 'react-i18next';
 
 
-function ChecklistExamine()  {
+function CompChecklistExamine()  {
   return (
     <CompLanguageProvider>
       <App />
@@ -67,6 +67,7 @@ function App() {
     const [examinelist_Id, setexaminelist_Id] = useState('');
     const [examine_Id, setexamine_Id] = useState('');
     const [todoStatus, setTodoStatus] = useState({});
+    const [examinelist_name, setexaminelist_name] = useState('');
 
    
     
@@ -90,8 +91,9 @@ function App() {
         const idemployeeValue = searchParams.get('idemployee') ; // กำหนดค่าเริ่มต้นว่างไว้ถ้าไม่มีค่า
         const examinelist_IdValue = searchParams.get('examinelistId') ; // กำหนดค่าเริ่มต้นว่างไว้ถ้าไม่มีค่า
         const examine_IdValue = searchParams.get('examineId') ; // กำหนดค่าเริ่มต้นว่างไว้ถ้าไม่มีค่า
+        const examinelist_nameValue = searchParams.get('examinelist_name') ; // กำหนดค่าเริ่มต้นว่างไว้ถ้าไม่มีค่า
 
-        console.log("queryDataexamine: ",{checklistnameValue,indexValue ,checkedValue ,idemployeeValue,examinelist_IdValue,examine_IdValue })
+        console.log("queryDataexamine1: ",{checklistnameValue,indexValue ,checkedValue ,idemployeeValue,examinelist_IdValue,examine_IdValue ,examinelist_nameValue})
 
        
       
@@ -141,7 +143,7 @@ function App() {
         setChecklistname(checklistnameValue);
         const checkedValueBool = JSON.parse(checkedValue);
         setchecked(checkedValueBool);
-
+        setexaminelist_name(examinelist_nameValue)
         
 
         const fetchEmployeeData = async () => {
@@ -356,7 +358,7 @@ function App() {
     }
   
     try {
-      const AddData = { input, checklistname, add: true };
+      const AddData = { input, checklistname,examinelist_Id, add: true };
       const data = JSON.stringify(AddData);
   
       const response = await axios.post('/api/checklistexamine', data, {
@@ -457,7 +459,7 @@ function App() {
     
         if (useEmployee === "false") {
 
-        // console.log("checklist: ",todoStatus)
+        console.log("checklist: ",todoStatus)
         const editedData = {todoStatus,examine_Id,examinelist_Id,id, checkbox: true };
         // const data = JSON.stringify(editedData)
         // console.log("checkboxData: ",data)
@@ -490,7 +492,8 @@ function App() {
 
 
         } else {
-          router.push('/examine')
+          console.log("TEEEEEE: ",examinelist_name)
+          router.push(`/examine?examinelist_name=${examinelist_name}`)
         }
 
         
@@ -599,21 +602,21 @@ function App() {
                   </div>
                 ) : (
                   selectedOption === 'Checklist' ? (
-                  <div className=' justify-center items-center   flex'> 
-                  <Link href={`/checklistEmployee?checklistname=${todo}&examine_Id=${examine_Id}&examinelist_Id=${examinelist_Id}&examinename=${checklistname}&employeeName=${employee[index]}&idemployee=${idemployee[index]}`} key={idemployee[index]}>
+                  <div className=' justify-center mx-auto items-center   flex'> 
+                  {/* <Link href={`/checklistEmployee?checklistname=${todo}&examine_Id=${examine_Id}&examinelist_Id=${examinelist_Id}&examinename=${checklistname}&employeeName=${employee[index]}&idemployee=${idemployee[index]}`} key={idemployee[index]}> */}
                     <div className='font-mitr text-sm md:text-[20px] mt-[10px] w-[250px] rounded-[10px] md:w-[340px] py-2 md:py-4 bg-[#F5F5F5] mx-auto'>
-                      <div className='flex items-center px-3'>
+                      <div className='flex items-center px-3 '>
                         {/* <input type="checkbox" className='mr-[10px]' /> */}
                         
 
-                        <p className ='text-[#000] ml-[10px] text-[14px] w-[200px]  whitespace-nowrap overflow-hidden overflow-ellipsis'>{todo}  </p>
+                        <p className =' text-[#000] ml-[10px] text-[14px] w-[200px]  whitespace-nowrap overflow-hidden overflow-ellipsis'>{todo} </p>
                         {/* <Link href='' className='text-[#000]'>{todo}  {index}</Link> */}
                       </div>
                     </div>
-                  </Link>
+                  {/* </Link> */}
 
                   {isEditing && (
-                        <div className='flex   items-center text-[13px] md:text-[18px] justify-end space-x-2 w-[50px] md:w-[50px] ml-[-15px]  md:ml-[-20px] h-[15px]  '>
+                        <div className='flex absolute items-center text-[13px] md:text-[18px] justify-end  space-x-2 w-[20px] md:w-[50px]  ml-[215px] mt-[8px]  md:ml-[270px] h-[15px]  '>
                         <RxCross2
                         onClick={(e) => {
                           e.stopPropagation();
@@ -626,7 +629,7 @@ function App() {
                   </div>
                   ) : (
                     <div className=' justify-center items-center   flex'> 
-                    <Link href={`/checklistEmployee?checklistname=${todo}&examine_Id=${examine_Id}&examinelist_Id=${examinelist_Id}&examinename=${checklistname}&employee_Id=${employee[index]}&idemployee=${idemployee[index]}`} key={idemployee[index]}>
+                    <Link href={`/checklistEmployee?checklistname=${todo}&examine_Id=${examine_Id}&examinelist_Id=${examinelist_Id}&examinelist_name=${examinelist_name}&examinename=${checklistname}&employee_Id=${employee[index]}&idemployee=${idemployee[index]}`} key={idemployee[index]}>
                       <div className='font-mitr text-sm md:text-[20px] mt-[10px] w-[250px] rounded-[10px] md:w-[340px] py-2 md:py-4 bg-[#F5F5F5] mx-auto'>
                         <div className='flex items-center px-3'>
                           {/* <input type="checkbox" className='mr-[10px]' /> */}
@@ -744,8 +747,16 @@ function App() {
                       {isEditing ? (
                         <button onClick={() => setIsEditing(false)} className={`flex mx-auto   border-[#64CE3F] bg-[#64CE3F] px-10 py-1  rounded-[20px]   text-[#fff] hover:-translate-y-0.5 duration-200  `}>{t('confirm')}</button>
                       ) : (
-                        <button onClick= {handleSubmit} className= {` ${useEmployee ? 'ml-[-12px]' :  'ml-[0px]'}     border-[#64CE3F] bg-[#64CE3F] px-10 py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200  `}>{t('submit')}</button>
-
+                        <button
+                          onClick={handleSubmit}
+                          className={`
+                            ${useEmployee === "true" && selectedOption !== "User" ? 'ml-[-12px]' : ''}
+                            ${useEmployee === "true" && selectedOption === "User" ? 'mx-auto' : ''}
+                            border-[#64CE3F] bg-[#64CE3F] px-10 py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200
+                          `}
+                        >
+                          {t('submit')}
+                        </button>
                       )}                      
                       <div>
                       <div className="flex items-center ml-[0px] ">
@@ -758,7 +769,7 @@ function App() {
                         </button>
                       )}
 
-                      {useEmployee === "true" && selectedOption === "Checklist" && (
+                      {useEmployee === "true" && selectedOption === "Checklist" &&  isEditing === false && (
                         <button
                           onClick={openPopup}
                           className="item-center text-[#5A985E] md:mt-[-340px] ml-[10px] text-4xl hover:-translate-y-0.5 duration-200"
@@ -783,4 +794,4 @@ function App() {
   )
   
 }
-export default ChecklistExamine;
+export default CompChecklistExamine;
