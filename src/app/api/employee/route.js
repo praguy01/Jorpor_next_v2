@@ -7,9 +7,98 @@ export async function POST(request) {
     try {
       const {data } = res;
       console.log("RES_ROUTE_employee: ", res);
-      console.log("RES_ROUTE_employeeinput: ", res.input);
+      console.log("RES_ROUTE_employeeinput: ", res.employee);
+
+      if (res.edit_role_1) {
+        try {
+         
+          // console.log("Data_examinelistEdit: ",ExamineEditResult)
+
+          const deleteExamineQuery = "DELETE FROM employee WHERE employee = ?";
+          await db.query(deleteExamineQuery, [res.employee]);
+
+          const getIDExamineListQuery = "SELECT id FROM examinelist WHERE name = ? AND user_id = ?";
+          const [idExamineListResult] = await db.query(getIDExamineListQuery, [ res.selectedOption , res.id ]);
+          console.log("WWW: ",idExamineListResult)
+
+          const getEmployeeQuery = "SELECT * FROM employee WHERE examinelist_id  = ?";
+          const [employeeResult] = await db.query(getEmployeeQuery, [ idExamineListResult[0].id ]);
+
+          const customSort = (a, b) => {
+            const idA = isNaN(a.employee) ? a.employee : parseInt(a.employee, 10);
+            const idB = isNaN(b.employee) ? b.employee : parseInt(b.employee, 10);
+            return idA - idB;
+          };
+
+          // Sort the array based on the custom sorting function
+          const sortedEmployeeResult = employeeResult.sort(customSort);
+
+        
+          return NextResponse.json({ success: true , message: 'delete successfully!' ,dbemployee_name: sortedEmployeeResult});
+        } catch (error) {
+          console.error('ErrorEditEx:', error);
+          return NextResponse.json({ success: false, error: error.message });
+        }
+      }
+
+      if (res.edit_role_2) {
+        try {
+         
+          // console.log("Data_examinelistEdit: ",ExamineEditResult)
+
+          const deleteExamineQuery = "DELETE FROM users WHERE employee = ?";
+          await db.query(deleteExamineQuery, [res.employee]);
+
+        
+          const getEmployeeQuery = "SELECT * FROM users WHERE role_2_id  = ?";
+          const [employeeResult] = await db.query(getEmployeeQuery, [ res.id ]);
 
 
+          console.log("employeeResult: ",employeeResult);
+
+          const customSort = (a, b) => {
+            const idA = isNaN(a.employee) ? a.employee : parseInt(a.employee, 10);
+            const idB = isNaN(b.employee) ? b.employee : parseInt(b.employee, 10);
+            return idA - idB;
+          };
+
+    // Sort the array based on the custom sorting function
+          const sortedEmployeeResult = employeeResult.sort(customSort);
+        
+          return NextResponse.json({ success: true , message: 'delete successfully!' ,dbemployee_name: sortedEmployeeResult});
+        } catch (error) {
+          console.error('ErrorEditEx:', error);
+          return NextResponse.json({ success: false, error: error.message });
+        }
+      }
+
+      if (res.edit_role_3) {
+        try {
+         
+          // console.log("Data_examinelistEdit: ",ExamineEditResult)
+
+          const deleteExamineQuery = "DELETE FROM users_r2 WHERE employee = ?";
+          await db.query(deleteExamineQuery, [res.employee]);
+
+        
+          const getEmployeeQuery = "SELECT * FROM users_r2 WHERE users_r3_id  = ?";
+          const [employeeResult] = await db.query(getEmployeeQuery, [ res.id ]);
+
+          const customSort = (a, b) => {
+            const idA = isNaN(a.employee) ? a.employee : parseInt(a.employee, 10);
+            const idB = isNaN(b.employee) ? b.employee : parseInt(b.employee, 10);
+            return idA - idB;
+          };
+
+    // Sort the array based on the custom sorting function
+          const sortedEmployeeResult = employeeResult.sort(customSort);
+
+          return NextResponse.json({ success: true , message: 'delete successfully!' ,dbemployee_name: sortedEmployeeResult});
+        } catch (error) {
+          console.error('ErrorEditEx:', error);
+          return NextResponse.json({ success: false, error: error.message });
+        }
+      }
 
       if (res.add) {
         try {
@@ -20,13 +109,28 @@ export async function POST(request) {
           const insertSql = `INSERT INTO employee ( employee, name, lastname ,examinelist_id ,users_id ) VALUES (?,?,?,?,?)`;
           const insertValues = [res.employee ,res.name , res.lastname ,idExamineListResult[0].id, res.id];
           await db.query(insertSql, insertValues);
+
+
+          const getEmployeeQuery = "SELECT * FROM employee WHERE examinelist_id  = ?";
+          const [employeeResult] = await db.query(getEmployeeQuery, [idExamineListResult[0].id]);
+
+          // Custom sorting function for alphanumeric ids
+          const customSort = (a, b) => {
+            const idA = isNaN(a.employee) ? a.employee : parseInt(a.employee, 10);
+            const idB = isNaN(b.employee) ? b.employee : parseInt(b.employee, 10);
+            return idA - idB;
+          };
+
+    // Sort the array based on the custom sorting function
+          const sortedEmployeeResult = employeeResult.sort(customSort);
         
-          return NextResponse.json({ success: true, message: ` employee ${res.employee} created successfully` ,dbemployee: res});
+          return NextResponse.json({ success: true, message: ` employee ${res.employee} created successfully` ,dbemployee: sortedEmployeeResult});
         } catch (error) {
           console.error('ErrorEditEx:', error);
           return NextResponse.json({ success: false, error: error.message });
         }
       }
+
       if (res.fetch_role_3) {
         try {
 
@@ -37,8 +141,17 @@ export async function POST(request) {
 
           console.log("employeeResult: ",employeeResult);
 
+          const customSort = (a, b) => {
+            const idA = isNaN(a.employee) ? a.employee : parseInt(a.employee, 10);
+            const idB = isNaN(b.employee) ? b.employee : parseInt(b.employee, 10);
+            return idA - idB;
+          };
+
+    // Sort the array based on the custom sorting function
+          const sortedEmployeeResult = employeeResult.sort(customSort);
         
-          return NextResponse.json({ success: true ,dbemployee_name: employeeResult});
+        
+          return NextResponse.json({ success: true ,dbemployee_name: sortedEmployeeResult});
         } catch (error) {
           console.error('ErrorEditEx:', error);
           return NextResponse.json({ success: false, error: error.message });
@@ -55,8 +168,16 @@ export async function POST(request) {
 
           console.log("employeeResult: ",employeeResult);
 
+          const customSort = (a, b) => {
+            const idA = isNaN(a.employee) ? a.employee : parseInt(a.employee, 10);
+            const idB = isNaN(b.employee) ? b.employee : parseInt(b.employee, 10);
+            return idA - idB;
+          };
+
+    // Sort the array based on the custom sorting function
+          const sortedEmployeeResult = employeeResult.sort(customSort);
         
-          return NextResponse.json({ success: true ,dbemployee_name: employeeResult});
+          return NextResponse.json({ success: true ,dbemployee_name: sortedEmployeeResult});
         } catch (error) {
           console.error('ErrorEditEx:', error);
           return NextResponse.json({ success: false, error: error.message });
@@ -64,19 +185,26 @@ export async function POST(request) {
       }
 
 
-      if (res.fetch) {
+     if (res.fetch) {
         try {
-
           const getIDExamineListQuery = "SELECT id FROM examinelist WHERE name = ?";
-          const [idExamineListResult] = await db.query(getIDExamineListQuery, [ res.selectedOption ]);
-          console.log("WWW: ",idExamineListResult)
+          const [idExamineListResult] = await db.query(getIDExamineListQuery, [res.selectedOption]);
+          console.log("WWW: ", idExamineListResult);
 
           const getEmployeeQuery = "SELECT * FROM employee WHERE examinelist_id  = ?";
-          const [employeeResult] = await db.query(getEmployeeQuery, [ idExamineListResult[0].id ]);
+          const [employeeResult] = await db.query(getEmployeeQuery, [idExamineListResult[0].id]);
 
-         
-        
-          return NextResponse.json({ success: true ,dbemployee_name: employeeResult});
+          // Custom sorting function for alphanumeric ids
+          const customSort = (a, b) => {
+            const idA = isNaN(a.employee) ? a.employee : parseInt(a.employee, 10);
+            const idB = isNaN(b.employee) ? b.employee : parseInt(b.employee, 10);
+            return idA - idB;
+          };
+
+          // Sort the array based on the custom sorting function
+          const sortedEmployeeResult = employeeResult.sort(customSort);
+
+          return NextResponse.json({ success: true, dbemployee_name: sortedEmployeeResult });
         } catch (error) {
           console.error('ErrorEditEx:', error);
           return NextResponse.json({ success: false, error: error.message });
@@ -87,12 +215,28 @@ export async function POST(request) {
         try {
           console.log("22222555555")
 
-          const insertSql = `INSERT INTO users ( employee, name ,	lastname ,password, role_2_id ) VALUES (?,?,?,?,?)`;
+          const insertSql = `INSERT INTO users ( position ,employee, name ,	lastname ,password, role_2_id ) VALUES ('Safety Officer Professional level',?,?,?,?,?)`;
           const insertValues = await db.query(insertSql,[res.employee ,res.name , res.lastname , res.password , res.id]);
         
           console.log("22222: ",insertValues)
 
-          return NextResponse.json({ success: true, message: ` employee ${res.employee} created successfully` ,dbemployee: res});
+          const getEmployeeQuery = "SELECT * FROM users WHERE role_2_id  = ?";
+          const [employeeResult] = await db.query(getEmployeeQuery, [ res.id ]);
+
+          console.log("employeeResult: ",employeeResult);
+
+          const customSort = (a, b) => {
+            const idA = isNaN(a.employee) ? a.employee : parseInt(a.employee, 10);
+            const idB = isNaN(b.employee) ? b.employee : parseInt(b.employee, 10);
+            return idA - idB;
+          };
+
+    // Sort the array based on the custom sorting function
+          const sortedEmployeeResult = employeeResult.sort(customSort);
+    // Sort the array based on the custom sorting function
+        
+
+          return NextResponse.json({ success: true, message: ` employee ${res.employee} created successfully` ,dbemployee: sortedEmployeeResult});
         } catch (error) {
           console.error('ErrorEditEx:', error);
           return NextResponse.json({ success: false, error: error.message });
@@ -103,12 +247,26 @@ export async function POST(request) {
         try {
           console.log("22222555555")
 
-          const insertSql = `INSERT INTO users_r2 ( employee, name ,	lastname ,password, users_r3_id ) VALUES (?,?,?,?,?)`;
+          const insertSql = `INSERT INTO users_r2 ( position , employee, name ,	lastname ,password, users_r3_id ) VALUES ('Safety Officer Technical level',?,?,?,?,?)`;
           const insertValues = await db.query(insertSql,[res.employee ,res.name , res.lastname , res.password , res.id]);
         
           console.log("22222: ",insertValues)
+          const getEmployeeQuery = "SELECT * FROM users_r2 WHERE users_r3_id  = ?";
+          const [employeeResult] = await db.query(getEmployeeQuery, [ res.id ]);
 
-          return NextResponse.json({ success: true, message: ` employee ${res.employee} created successfully` ,dbemployee: res});
+          console.log("employeeResult: ",employeeResult);
+
+          const customSort = (a, b) => {
+            const idA = isNaN(a.employee) ? a.employee : parseInt(a.employee, 10);
+            const idB = isNaN(b.employee) ? b.employee : parseInt(b.employee, 10);
+            return idA - idB;
+          };
+
+    // Sort the array based on the custom sorting function
+          const sortedEmployeeResult = employeeResult.sort(customSort);
+    // Sort the array based on the custom sorting function
+
+          return NextResponse.json({ success: true, message: ` employee ${res.employee} created successfully` ,dbemployee: sortedEmployeeResult});
         } catch (error) {
           console.error('ErrorEditEx:', error);
           return NextResponse.json({ success: false, error: error.message });

@@ -16,10 +16,16 @@ export async function POST(request) {
         // if (examineExistsResult.length === 0) {
           const insertSql = "INSERT INTO examinelist (name, user_id) VALUES (?,?)";
           const insertValues = await db.query(insertSql,[res.examinelist_name , res.id]);
-                  console.log("rusult55555: ",insertValues[0].affectedRows)
+          console.log("rusult55555: ",insertValues[0])
+
+                
   
           if (insertValues[0].affectedRows > 0){
-             return NextResponse.json({ success: true, message: ` ${res.examinelist_name} created successfully` ,dbexaminelist_name: res.examinelist_name});
+            const getExamineQuery = "SELECT * FROM examinelist WHERE user_id = ? ";
+            const [examinelistResult] = await db.query(getExamineQuery , res.id);
+      
+            console.log("Data_examine: ",examinelistResult[0])
+             return NextResponse.json({ success: true, message: ` ${res.examinelist_name} created successfully` ,dbexaminelist_name: examinelistResult});
           }
         }
 
@@ -76,7 +82,7 @@ console.log("Data_examineUsers: ", uniqueDataArray);
       const getExamineQuery = "SELECT * FROM examinelist WHERE user_id = ? ";
       const [examinelistResult] = await db.query(getExamineQuery , res.storedUser_id);
 
-      console.log("Data_examine: ",examinelistResult[0].name)
+      console.log("Data_examine: ",examinelistResult[0])
 
 
       return NextResponse.json({ success: true ,dbexaminelist_name: examinelistResult});
@@ -85,15 +91,17 @@ console.log("Data_examineUsers: ", uniqueDataArray);
 
       if (res.edit) {
         try {
-          const getExamineEditQuery = "SELECT * FROM examinelist WHERE name = ?";
-          const [ExamineEditResult] = await db.query(getExamineEditQuery, [res.todo]);
+          console.log("Data_examinelistEdit888: ",res.id)
+
+          const getExamineEditQuery = "SELECT * FROM examinelist WHERE name = ? AND id = ?";
+          const [ExamineEditResult] = await db.query(getExamineEditQuery, [res.todo.name , res.todo.id]);
     
-          console.log("Data_examinelistEdit: ",ExamineEditResult)
 
-          const deleteExamineQuery = "DELETE FROM examinelist WHERE name = ?";
-          await db.query(deleteExamineQuery, [res.todo]);
+          const deleteExamineQuery = "DELETE FROM examinelist WHERE name = ? AND id = ?";
+          await db.query(deleteExamineQuery, [res.todo.name , res.todo.id]);
 
-
+      
+    
          
 
           // const showTablesQuery = "SHOW TABLES;";
@@ -101,7 +109,7 @@ console.log("Data_examineUsers: ", uniqueDataArray);
 
           // console.log("รายชื่อตารางทั้งหมดในฐานข้อมูล:", tableList);
         
-          return NextResponse.json({ success: true , message: 'delete successfully!'});
+          return NextResponse.json({ success: true , message: 'delete successfully!' });
         } catch (error) {
           console.error('ErrorEditEx:', error);
           return NextResponse.json({ success: false, error: error.message });

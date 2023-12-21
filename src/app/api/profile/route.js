@@ -76,8 +76,8 @@ export async function POST(request) {
 
       // if (userResult) {
         // ค้นพบข้อมูลผู้ใช้งาน ดังนั้นเราจะตรวจสอบการเปลี่ยนแปลง
-        if (res.edit_role_2) {
-          console.log("RES.Route profile_EDITTT222222222: ",res.picture.data.length);
+        if (res.edit_role_1) {
+          console.log("RES.Route profile_EDITTT222222222: ",res);
 
           // const file = formData.get('file');
           // const fileBuffer = await res.picture.arrayBuffer();
@@ -132,7 +132,7 @@ export async function POST(request) {
             return NextResponse.json({success: false,message: 'User update failed',
             });
           }
-        } else if (res.picture.data.length === 0) {
+        } else {
           const updateQuery = `
             UPDATE users
             SET
@@ -164,7 +164,7 @@ export async function POST(request) {
           if (updatedUserResult[0].affectedRows > 0) {
             // อัปเดตข้อมูลสำเร็จ
             // ส่งข้อมูลผู้ใช้งานที่อัปเดตแล้วกลับไปยัง client
-            const updatedUserQuery = "SELECT * FROM users WHERE id = ?";
+            const updatedUserQuery = "SELECT * FROM users_r2 WHERE id = ?";
             const [updatedUser] = await db.query(updatedUserQuery, [id]);
             
             return NextResponse.json({success: true ,message: 'User updated successfully',profile: updatedUser,
@@ -224,7 +224,7 @@ export async function POST(request) {
           if (updatedUserResult[0].affectedRows > 0) {
             // อัปเดตข้อมูลสำเร็จ
             // ส่งข้อมูลผู้ใช้งานที่อัปเดตแล้วกลับไปยัง client
-            const updatedUserQuery = "SELECT * FROM users WHERE id = ?";
+            const updatedUserQuery = "SELECT * FROM users_r3 WHERE id = ?";
             const [updatedUser] = await db.query(updatedUserQuery, [id]);
             
             return NextResponse.json({success: true ,message: 'User updated successfully',profile: updatedUser,
@@ -233,7 +233,7 @@ export async function POST(request) {
             return NextResponse.json({success: false,message: 'User update failed',
             });
           }
-        } else if (res.picture.data.length === 0) {
+        } else {
           const updateQuery = `
             UPDATE users_r2
             SET
@@ -276,7 +276,7 @@ export async function POST(request) {
           }
         }
 
-        }  if (res.edit_role_2) {
+        }  if (res.edit_role_3) {
           console.log("RES.Route profile_EDITTT222222222: ",res.picture.data.length);
 
           // const file = formData.get('file');
@@ -332,7 +332,7 @@ export async function POST(request) {
             return NextResponse.json({success: false,message: 'User update failed',
             });
           }
-        } else if (res.picture.data.length === 0) {
+        } else {
           const updateQuery = `
             UPDATE users_r3
             SET
@@ -382,6 +382,7 @@ export async function POST(request) {
       //   // ถ้าไม่พบข้อมูลผู้ใช้งาน
       //   return NextResponse.json({ success: false, message: 'User not found' });
       // }
+      return NextResponse.json({ success: true});
 
       
     } catch (error) {

@@ -2,7 +2,7 @@
 import React, { useState , useEffect} from 'react';
 import axios from 'axios';
 import '../../globals.css'
-import '@fontsource/ntr';
+// import '@fontsource/ntr';
 import Link from 'next/link';
 import { BsPlusCircleFill } from 'react-icons/bs';
 import {MdEmail} from 'react-icons/md'
@@ -12,7 +12,7 @@ import {BsFillPersonFill} from 'react-icons/bs'
 import {BsFillTelephoneFill} from 'react-icons/bs'
 import {BsCheckCircle} from 'react-icons/bs'
 import '@fontsource/mitr';
-import CompNavbar from '../compNavbar/row_1';
+import CompNavbar from '../compNavbar/row_3';
 import { CompLanguageProvider, useLanguage } from '../compLanguageProvider';
 import { useTranslation } from 'react-i18next';
 import i18n from '../../i18n'; 
@@ -141,6 +141,8 @@ function App() {
             // }
 
             setEditedProfileData({ ...resdata.profile[0] });
+            setProfileData({ ...resdata.profile[0] });
+
             setMessage('');
           } else {
             setMessage(resdata.error);
@@ -160,7 +162,8 @@ function App() {
   const handleEditClick = () => {
     setIsEditing(true);
     // คัดลอกข้อมูล profileData เพื่อแก้ไข
-    setEditedProfileData({ ...profileData });
+    console.log("editedProfileData: ",editedProfileData)
+    setEditedProfileData({ ...editedProfileData });
   };
   
 
@@ -296,6 +299,14 @@ function App() {
   };
     
 
+
+  const handleCancelClick = () => {
+    setIsEditing(false);
+    // คัดลอกข้อมูล profileData เพื่อแก้ไข
+    // console.log("editedProfileData: ",editedProfileData)
+    setEditedProfileData({ ...profileData });
+  };
+
   return (
     <div>
       
@@ -310,8 +321,8 @@ function App() {
               <div className='  mx-auto  w-[330px] py-[200px] md:w-[500px]  md:py-[243px] md:mt-[160px] text-black flex flex-col  bg-[#5A985E]/50 text-center rounded-[50px] mt-[140px] '>
               </div>
             <div>
-              <div className='absolute inset-[0] container mx-auto px-4 z-10 items-center  font-ntr  '>
-                <div className='font-ntr mx-auto md:mt-[200px] md:w-[700px] md:h-[400px] py-[30px] text-black flex flex-col  bg-[#5A985E] text-center rounded-[50px] mt-[106px]  h-[460px] w-[300px]'>
+              <div className='absolute inset-[0] container mx-auto px-4 z-10 items-center  '>
+                <div className=' mx-auto md:mt-[200px] md:w-[700px] md:h-[400px] py-[30px] text-black flex flex-col  bg-[#5A985E] text-center rounded-[50px] mt-[106px]  h-[460px] w-[300px]'>
                 <form onSubmit={handleSaveClick} >
                 
                 <div className=''>
@@ -323,19 +334,17 @@ function App() {
                     {/* <div className=' mx-auto md:ml-[50px] w-32 h-32 bg-white rounded-full flex items-center justify-center relative'>  opacity-0  */}
                     {isEditing ? (
                     <>
-                    <div className='mt-[20px] md:mt-0'>
                       <input
                         type="file"
                         accept="image/*"
-                        className="  absolute md:ml-[-50px] ml-[-65px]  z-10 ring-2 ring-white ring-offset-2 ring-offset-[#5A985E]  w-32 h-32  md:w-[150px] md:h-[150px] rounded-full opacity-0 cursor-pointer"
+                        className="  absolute md:ml-[-50px] ml-[-65px] md:mt-[30px] mt-[30px] z-10 ring-2 ring-white ring-offset-2 ring-offset-[#5A985E]  w-32 h-32  md:w-[150px] md:h-[150px] rounded-full opacity-0 cursor-pointer"
                         onChange={handleImageUpload}
                       />
                       <img
                         src={selectedImage || fileData || "/img/profile.jpg"}
                         alt="Profile Image"
-                        className="ring-2  md:ml-[50px] mx-auto ring-white ring-offset-2  ring-offset-[#5A985E] w-32 h-32   md:w-[150px] md:h-[150px] rounded-full object-cover cursor-pointer"
+                        className="ring-2 ring-white  ring-offset-2 md:mt-[30px] mt-[30px] ring-offset-[#5A985E] w-32 h-32   mx-auto  md:w-[150px] md:h-[150px] rounded-full object-cover"
                       />
-                      </div>
                       </>
                     ) : (
                       <img
@@ -346,10 +355,10 @@ function App() {
                     )}
                   </div>
 
-                <div className='  md:absolute mx-auto  md:h-[100px] mt-5 md:mt-0 md:ml-[250px] md:w-[300px] md:text-left  '>
+                  <div className='  md:absolute mx-auto  md:h-[100px] mt-5 md:mt-0 md:ml-[250px] md:w-[300px] md:text-left  '>
                   <div className='flex flex-col  '>
                   {isEditing ? (
-                    <div className=' flex mx-auto ml-[15px] md:ml-[0]'>
+                    <div className=' flex mx-auto ml-[15px] md:ml-[0] mt-[6px]'>
                       {console.log("EDITdata: ",editedProfileData)}
                       <input
                         type="text"
@@ -357,7 +366,7 @@ function App() {
                         onChange={(e) =>
                           setEditedProfileData({ ...editedProfileData, name: e.target.value })
                         }
-                        className='  pl-2 w-[100px] text-black mr-2 md:w-[150px] md:text-[24px] md:mt-[10px] mt-[8px] md:ml-[0px] ml-[5px] '
+                        className='  pl-2 w-[103px] text-black mr-2 md:w-[161px] md:text-[24px] md:mt-[10px] mt-[8px] md:ml-[0px] ml-[5px] '
                       />  
 
                       <input
@@ -366,17 +375,19 @@ function App() {
                         onChange={(e) =>
                           setEditedProfileData({ ...editedProfileData, lastname: e.target.value })
                         }
-                        className='  pl-2 w-[100px] text-black mr-2 md:w-[150px] md:text-[24px] md:mt-[10px] mt-[8px] md:ml-[0px]'
+                        className='  pl-2 w-[103px] text-black mr-2 md:w-[161px] md:text-[24px] md:mt-[10px] mt-[8px] md:ml-[0px]'
                       />  
                     </div>
                    
                     
                   ) : (
-                    <p className='  md:mt-[10px] mt-[8px]  text-[#fff] md:text-[24px] text-[20px] font-bold'>    {editedProfileData.name} {editedProfileData.lastname}                    </p>                               
+                    <p className='md:mt-[10px] mt-[8px] text-[#fff] md:text-[24px] md:w-[350px] text-[16px] font-bold overflow-ellipsis' style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      {editedProfileData.name} {editedProfileData.lastname}
+                    </p>
                   )}
                   </div>
 
-                  {isEditing ? (
+                  {/* {isEditing ? (
                     <select 
                       id="dropdown" 
                       placeholder={editedProfileData.position}
@@ -389,17 +400,17 @@ function App() {
                       <option value="Safety Officer Supervisory level">Supervisory level</option>
                     </select>
               
-                  ) : (
-                    <p className="md:mt-[5px] mt-[2px]  text-[#fff] md:text-[17px] ">
+                  ) : ( */}
+                    <p className="md:mt-[5px] mt-[2px] text-[14px] text-[#fff] md:text-[17px] ">
                       {editedProfileData.position || "-"}
                     </p>
-                  )}
+                  {/* )} */}
                   </div>
                   </div>
 
-                  <div className='   w-[280px] md:w-[500px] md:mt-[110px] md:ml-[170px] ml-[20px] mt-5'>
+                  <div className='  text-[14px]  w-[280px] md:w-[500px] md:mt-[110px] md:ml-[170px] ml-[20px] mt-5'>
                     <div className='flex  text-[#fff] md:text-[20px] md:ml-[100px]'>
-                        <BsFillPersonFill className='md:mr-[10px] mr-[10px] mt-[3px]'/> Employee
+                        <BsFillPersonFill className='md:mr-[10px] mr-[10px] mt-[3px]'/> <span className=' text-left w-[72px] md:w-[100px]  '>Employee</span>:
                         {/* <div className='md:ml-[20px] ml-[20px]  font-bold '>
                           {editedProfileData.employee || "-"}                        
                         </div>  */}
@@ -408,59 +419,59 @@ function App() {
                               type="text"
                               placeholder={editedProfileData.employee}
                               onChange={(e) => setEditedProfileData({ ...editedProfileData, employee: e.target.value })}
-                              className='pl-2 ml-5 w-[130px]  text-black'
+                              className='pl-2 ml-[19px] w-[130px] md:w-[181px] text-black'
                             />
 
                           ) : (
-                            <div className='md:ml-[20px] ml-[20px]  font-bold '>
+                            <div className='md:ml-[20px] ml-[15px]   '>
                               {editedProfileData.employee || "-"}                        
                             </div>                        
                           )}
 
                     </div>
                     <div className='flex  text-[#fff] md:text-[20px] md:ml-[100px] md:mt-[10px] mt-[5px]'>
-                        <FaPhoneVolume className='md:mr-[10px] mr-[10px] mt-[4px] text-[13px]'/>{t(' Phone')}
+                        <FaPhoneVolume className='md:mr-[14px] mr-[10px] mt-[4px] text-[15px]'/><span className=' w-[72px] md:w-[100px]   text-left'>{t(' Phone')}</span>:
                         {isEditing ? (
                             <input
                               type="text"
                               placeholder={editedProfileData.phone}
                               onChange={(e) => setEditedProfileData({ ...editedProfileData, phone: e.target.value })}
-                              className='pl-2 ml-[41.5px] w-[130px] md:w-[181px] md:ml-[48px] text-black'
+                              className='pl-2 ml-[19px] w-[130px] md:w-[181px] text-black'
                             />
                           ) : (
-                            <div className='md:ml-[42px] ml-[42px]  font-bold'>
+                            <div className='md:ml-[20px] ml-[15px]    '>
                                 {editedProfileData.phone || "-"}
                             </div>                       
                           )}
                         
                     </div>
                     <div className='flex  text-[#fff] md:text-[20px] md:ml-[100px] md:mt-[10px] mt-[5px]'>
-                        <FaLine className='md:mr-[10px] mr-[10px] mt-[3px]'/> Line
+                        <FaLine className='md:mr-[10px] mr-[10px] mt-[3px]'/> <span className=' text-left w-[72px] md:w-[100px]  '>Line</span>:
                         {isEditing ? (
                             <input
                               type="text"
                               placeholder={editedProfileData.line}
                               onChange={(e) => setEditedProfileData({ ...editedProfileData, line: e.target.value })}
-                              className='pl-2 ml-[55px] w-[130px] md:w-[181px] md:ml-[65px] text-black'
+                              className='pl-2 ml-[19px] w-[130px] md:w-[181px] text-black'
                             />
                           ) : (
-                            <div className='md:ml-[62px] ml-[56px]  font-bold'>
+                            <div className='md:ml-[20px] ml-[15px]    '>
                               {editedProfileData.line || "-"}
                             </div>                       
                           )}
                         
                     </div>
                     <div className='flex  text-[#fff] md:text-[20px] md:ml-[100px] md:mt-[10px] mt-[5px]'>
-                        <MdEmail className='md:mr-[10px] mr-[10px] mt-[2px]'/> Email
+                        <MdEmail className='md:mr-[10px] mr-[10px] mt-[2px]'/> <span className=' text-left w-[72px] md:w-[100px]  '>Email</span>:
                         {isEditing ? (
                             <input
                               type="email"
                               placeholder={editedProfileData.email}
                               onChange={(e) => setEditedProfileData({ ...editedProfileData, email: e.target.value })}
-                              className='pl-2 ml-[47px] w-[130px] md:w-[181px] md:ml-[55px] text-black'
+                              className='pl-2 ml-[19px] w-[130px] md:w-[181px] text-black'
                             />
                           ) : (
-                            <div className='md:ml-[50px] ml-[48px]  font-bold'>
+                            <div className='md:ml-[20px] ml-[15px]    '>
                               {editedProfileData.email || "-"}
                             </div>                     
                           )}
@@ -469,12 +480,29 @@ function App() {
                     
                   </div>
                   <div className='mx-auto'>
-                      {isEditing && (
-                        <button type="submit" onSubmit={handleSaveClick} className=" mt-5 w-[100px] text-sm md:text-lg  border-[#5A985E] bg-[#fff] px-4 py-1 md:py-2 rounded-[20px] text-[#5A985E] hover:-translate-y-0.5 duration-200">Comfirm</button>
-                      )}
+                    {isEditing && (
+                      <div className='mt-[10px]'>
+                      
+                        <button
+                          type="button"
+                          onClick={handleCancelClick} // Pass a function reference
+                          className=" mt-5 w-[100px] text-sm md:text-lg border-[#5A985E] bg-[#fff] px-4 py-1 md:py-2 rounded-[20px] text-[#5A985E] hover:-translate-y-0.5 duration-200"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          type="submit"
+                          onSubmit={handleSaveClick}
+                          className="ml-3 mt-5 w-[100px] text-sm md:text-lg border-[#5A985E] bg-[#fff] px-4 py-1 md:py-2 rounded-[20px] text-[#5A985E] hover:-translate-y-0.5 duration-200"
+                        >
+                          Confirm
+                        </button>
+                      </div>
+                    )}
+
                     </div>
                     {showSuccessPopup && (
-                      <div className="bg-white text-[#5A985E] p-8  rounded-lg border-black shadow-lg md:w-[400px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                      <div className="bg-white text-[#5A985E] p-8 w-[250px] rounded-lg border-black shadow-lg md:w-[400px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                       <BsCheckCircle className=' text-[50px] mx-auto mb-[10px]'/>
                         {popupMessage}
                       </div>

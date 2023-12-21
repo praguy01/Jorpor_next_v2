@@ -1,7 +1,7 @@
 'use client'
-import '@fontsource/ntr'
+// import '@fontsource/ntr'
 import '../globals.css'
-import '@fontsource/mitr';
+// import '@fontsource/mitr';
 import CompNavbar from './compNavbar/row_1';
 import axios from 'axios';
 import React, { useState ,useEffect } from 'react';
@@ -41,7 +41,7 @@ export default function CompReportResultsForm({ onSubmit }) {
   const [checklistnameExamine , setChecklistNameExamine] = useState([]); 
   const [showPopup, setShowPopup] = useState(false); // เพิ่ม state เพื่อควบคุมการแสดง/ซ่อน popup
   const [currentDate, setcurrentDate] = useState(false); // เพิ่ม state เพื่อควบคุมการแสดง/ซ่อน popup
-  const [sent, setSent] = useState(''); // เพิ่ม state เพื่อควบคุมการแสดง/ซ่อน popup
+  const [sent, setSent] = useState(true); // เพิ่ม state เพื่อควบคุมการแสดง/ซ่อน popup
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const [addmessage, setaddMessage] = useState(false);
 
@@ -59,14 +59,7 @@ export default function CompReportResultsForm({ onSubmit }) {
 
      
       console.log("queryDataexamine: ",{user_IdValue , dateValue })
-      const storedDate = localStorage.getItem("date");
-
-      console.log("DATEEE: ",storedDate , dateValue)
-      if (storedDate  <= dateValue) {
-        setSent(true);
-      } else {
-        setSent(true);
-      }
+      
 
     const fetchData = async () => {
       try {
@@ -80,11 +73,35 @@ export default function CompReportResultsForm({ onSubmit }) {
 
         if (response.status === 200) {
           if (data.success === true) {
-           
+            
             console.log("Data1222: ",data.dbnameExamineList)
             setSelectedOption(data.dbnameExamineList[0]);
             setNameExamineList(data.dbnameExamineList);
+            console.log("Data88888: ",data.dbsentdate)
+            data.dbsentdate.reverse();
+            data.dbsentdate.splice(1);
+            const datesOnly = data.dbsentdate.map(item => item.date);
 
+            console.log("Data9999: ",datesOnly)
+            const storedDate = localStorage.getItem("date");
+            // let isCurrentTime = parseFloat(`${new Date().getHours().toString().padStart(2, '0')}.${new Date().getMinutes().toString().padStart(2, '0')} `)
+            // let isTime = parseFloat(`${newEndTime.substring(0, 5).replace(':', '.')}`)
+            // console.log("DATEEEE: ", formattedDate,selectedDate);
+            const date1 = new Date(dateValue.split("/").reverse().join("-"));
+            const date2 = new Date(datesOnly[0].split("/").reverse().join("-"));
+      
+            console.log("DATEEE: ",date1 , date2)
+
+            const dateString1 = date1.toDateString(); 
+            const dateString2 = date2.toDateString();
+
+            if (dateString1 === dateString2) {
+              setSent(false);
+              console.log("วันที่เท่ากัน");
+            } else {
+              setSent(true);
+              console.log("วันที่ไม่เท่ากัน");
+            }
 
           } else {
             setMessage(data.error);
@@ -463,10 +480,10 @@ const generatePDF = () => {
              <div className='bg-[#5A985E] mx-auto max-w-[500px] sm:max-w-[350px] py-[100px] rounded-[50px]'></div>
           </div>
 
-          <div className='mx-auto w-[350px] md:w-[800px] font-ntr mb-[50px]  py-[30px] text-black flex flex-col  bg-[#FFF] text-center md:rounded-[50px] rounded-[30px] mt-[106px]  '>
+          <div className='mx-auto w-[350px] md:w-[800px]  mb-[50px]  py-[30px] text-black flex flex-col  shadow-lg bg-[#FFF] text-center md:rounded-[50px] rounded-[30px] mt-[106px]  '>
           
                     <div  >
-                    <div  className=  {`${language === 'EN' ? ' font-ntr font-bold text-[22px] md:text-[27px] ' : ' font-mitr font-bold text-[20px] md:text-[25px]'  } ml-[20px] md:ml-[50px] w-[310px]  md:w-[600px] `}>
+                    <div  className=  {` font-bold text-[20px] md:text-[25px] ml-[20px] md:ml-[50px] w-[310px]  md:w-[600px] `}>
 
                     <h1 className=' text-[#5A985E]  ml-[10px] md:ml-[0] md:w-[300px]  text-left  '>  {`${language === 'EN' ? 'Verified information ' : ' ข้อมูลตรวจสอบวันนี้ '  }`}</h1>
                     <div className="mt-[5px] md:mt-[10px] md:ml-[-30px] border-t md:border w-full md:w-[750px] border-gray-300"></div>
@@ -480,14 +497,15 @@ const generatePDF = () => {
 
                     <div className='mx-auto md:w-[705px] text-black   w-[310px] '>
 
-                    <div className='flex items-center  mt-[5px]  text-[13px] md:text-[16px] font-mitr md:mt-[20px] text-left ml-[10px] md:ml-[10px] '>
+                    <div className='flex items-center  mt-[5px]  text-[13px] md:text-[16px]  md:mt-[20px] text-left ml-[10px] md:ml-[10px] '>
                     <p>{t('Date')}</p>
                     <p className='ml-[10px] '>:</p>
-                    <p className=' ml-[10px]'>{nameExamine.date} น.</p>
-
+                    {nameExamine ? (
+                      <p className='ml-[10px]'>{nameExamine.date} น.</p>
+                    ) : null}
                     </div>
 
-                    <div className='flex items-center mt-[8px]  text-[13px] md:text-[16px] font-mitr md:mt-[15px] text-left ml-[10px] md:ml-[10px] '>
+                    <div className='flex items-center mt-[8px]  text-[13px] md:text-[16px]  md:mt-[15px] text-left ml-[10px] md:ml-[10px] '>
                     
                     <p>{t('Inspector')}</p>
                     <p className='ml-[10px]'>:</p>
@@ -497,7 +515,7 @@ const generatePDF = () => {
 
                     <div  className='mx-auto '>
 
-                      <div  className='h-[300px]  md:w-[690px] px-2 font-mitr  text-black text-center mt-[15px] mx-auto justify-center text-sm md:text-[18px] rounded-[10px] w-[310px] py-2 md:py-4 bg-[#F5F5F5] ml-[5px]  overflow-auto'>
+                      <div  className='h-[300px]  md:w-[690px] px-2   text-black text-center mt-[15px] mx-auto justify-center text-sm md:text-[18px] rounded-[10px] w-[310px] py-2 md:py-4 bg-[#F5F5F5] ml-[5px]  overflow-auto'>
                       <div id="pdf-content"   className="w-full  ">
                       {nameExamine &&
                             nameExamine.items &&
@@ -696,7 +714,7 @@ const generatePDF = () => {
                 <div className="bg-white p-4 rounded-lg border-black shadow-lg md:w-[400px] w-[300px] ">
                 <BsFillExclamationTriangleFill className=' text-[50px] text-[#5A985E] mx-auto mb-[10px]'/>
                 <p className='md:text-[18px] text-[#5A985E] text-[16px]  '>{`${language === 'EN' ? 'Can be sent only one time. Are you sure you have checked? ' : 'สามารถส่งได้เพียงครั้้งเดียวเท่านั้น คุณแน่ใจว่าตรวจสอบเรียบร้อยเเล้ว ? '  }`}</p>
-                  <div className=  {`${language === 'EN' ? ' font-ntr text-[19px]' : ' font-mitr text-[16px] '  } flex justify-center mt-[20px]`}>
+                  <div className=  {` text-[16px]  flex justify-center mt-[20px]`}>
                     <button className="flex justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={() => {handleSubmit() ,setShowPopup(false)}}>{t('Yes')}</button> 
 
                     <button className="flex justify-center items-center bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600" onClick={() => setShowPopup(false)}>{t('Cancel')}</button>
@@ -706,14 +724,14 @@ const generatePDF = () => {
               )}
 
               {sent ? (
-                <div className=  {`${language === 'EN' ? ' font-ntr text-md md:text-[20px]' : ' font-mitr text-[15px] md:text-[17px] '  } flex items-center  mx-auto md:px-10  md:mt-[20px]`} >
+                <div className=  {`  text-[15px] md:text-[17px]  flex items-center  mx-auto md:px-10  md:mt-[20px]`} >
                   {/* <button type= "submit" href="/NotifyTwo" className=' mt-[20px] text-md md:text-[20px] md:ml-[480px] border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>Submit</button> */}
                     <button type='submit' onClick={(e) => setShowPopup(true)} className=' mt-[20px]   border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200  mx-auto  '>{t('send')}</button>
                     {/* <button onClick={generatePDF}>Generate PDF</button> */}
 
                 </div>
               ) : (
-                <p className='md:text-[18px] mt-[10px]'>{`${language === 'EN' ? "Today's information has been sent. " : 'ข้อมูลของวันนี้้ถูกส่งไปแล้ว'  }`}</p>
+                <p className='md:text-[18px] text-[12px] mt-[10px]'>{`${language === 'EN' ? "Today's information has been sent. " : 'ข้อมูลของวันนี้้ถูกส่งไปแล้ว'  }`}</p>
               )}
         
               </div>

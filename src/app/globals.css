@@ -1,10 +1,12 @@
+/* Import Tailwind CSS */
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
-@import url('https://fonts.googleapis.com/css2?family=Athiti:wght@200&family=Mitr:wght@300;400&family=NTR&family=Noto+Sans+Thai:wght@100&family=Prompt:wght@200&display=swap');
 
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Athiti:wght@200&family=Mitr:wght@200&family=NTR&family=Noto+Sans+Thai:wght@100&family=Prompt:wght@200&display=swap');
 
-
+/* Dark mode styles */
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
@@ -13,15 +15,13 @@
   }
 }
 
-
+/* Body styles */
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+    to bottom,
+    transparent,
+    rgb(var(--background-end-rgb))
+  ) rgb(var(--background-start-rgb));
+  font-family: 'Mitr', sans-serif; /* Use the 'Mitr' font */
 }
-
-

@@ -2,8 +2,8 @@
 import React, { useState , useEffect} from 'react';
 import Link from 'next/link'
 import '../globals.css'
-import '@fontsource/ntr'
-import '@fontsource/mitr';
+// import '@fontsource/ntr'
+// import '@fontsource/mitr';
 import { BsPlusCircleFill } from 'react-icons/bs';
 import CompNavbar from './compNavbar/row_1';
 import {BsCalendar2Minus} from 'react-icons/bs';
@@ -225,23 +225,23 @@ function App() {
           <div className='md:w-[1000px] mx-auto '>
             <div className=' w-[280px] mx-auto md:w-[963px]'>
               <div className='left-0 md:ml-[90px] w-[600px]  flex items-center md:mt-[100px] mt-[90px] '>
-                  <h1 className=' text-[#5A985E] text-[25px] md:text-[40px] font-ntr font-bold mr-[10px] '>Examine</h1>
-                  <p className='text-black font-mitr  w-[400px] text-sm md:text-[20px] '>({checklistname})</p>
+                  <h1 className=' text-[#5A985E] text-[25px] md:text-[40px]  mr-[10px] '>Examine</h1>
+                  <p className='text-black   w-[400px] text-sm md:text-[20px] mt-[2px] '>({checklistname})</p>
               </div>
-              <div className='flex items-center text-center w-[110px] h-[24px] md:w-[140px] md:h-[30px] rounded-[5px] text-[#fff] border-[#000] bg-[#000] md:ml-[90px] '>
+              <div className='flex items-center text-center  w-[110px] h-[24px] md:w-[140px] md:h-[30px] rounded-[5px] text-[#fff] border-[#000] bg-[#000] md:ml-[90px] '>
                     <div className=' md:ml-[10px] ml-[10px] '><BsCalendar2Minus/></div>
-                    <p className=" font-ntr mt-[2px] ml-[8px]  text-sm md:text-[20px] md:ml-[8px] ">{currentDate}</p>
+                    <p className="  mt-[2px] ml-[8px]  md:text-[17px] text-[12px] md:ml-[8px] ">{currentDate}</p>
               </div>            
               
             </div>
 
-            <div className={`mx-auto w-[300px] font-mitr font-blod md:w-[800px] border ${isEditing ? 'h-[500px]' : 'h-[560px]'} mb-[50px] text-black flex flex-col bg-[#FFF] ${isEditing ? 'rounded-[10px]' : 'rounded-[30px] md:rounded-[50px]'} mt-[10px] `}>
+            <div className={`mx-auto w-[300px]  font-blod md:w-[800px] border ${isEditing ? 'h-[500px]' : 'h-[560px]'} mb-[50px] text-black flex flex-col bg-[#FFF] ${isEditing ? 'rounded-[10px]' : 'rounded-[30px] md:rounded-[50px]'} mt-[10px] `}>
             <div className='  mx-auto w-[280px]   md:w-[800px] h-[500px] text-black flex flex-col  bg-[#FFF] rounded-[30px] md:rounded-[50px] mt-[10px] overflow-auto'>
 
             {todoList.map((todo, index) => (
               <div key={index}>
                 {!useEmployee ? (
-                  <div className='font-mitr text-sm md:text-[20px] mt-[10px] w-[250px] rounded-[10px] md:w-[340px] py-2 md:py-4 bg-[#F5F5F5] mx-auto'>
+                  <div className=' text-sm md:text-[20px] mt-[10px] w-[250px] rounded-[10px] md:w-[340px] py-2 md:py-4 bg-[#F5F5F5] mx-auto'>
                     <div className='flex px-3'>
                     <div >
                       <p className='text-[#000] md:text-[17px]   w-[210px] '>{todo} </p>
@@ -290,7 +290,7 @@ function App() {
                   <div className=' justify-center items-center   flex'> 
                   <Link href={`/checklistEmployee?checklistname=${todo}&index=${index}`} key={index}>
 
-                  <div className='font-mitr text-sm md:text-[20px] mt-[10px] w-[250px] rounded-[10px] md:w-[740px] py-2 md:py-4 bg-[#F5F5F5] mx-auto'>
+                  <div className=' text-sm md:text-[20px] mt-[10px] w-[250px] rounded-[10px] md:w-[740px] py-2 md:py-4 bg-[#F5F5F5] mx-auto'>
                     <div className='flex px-3'>
                       <input type="checkbox" className='mr-[10px]' />
                       <p className='text-[#000] text-[14px] w-[180px]  whitespace-nowrap overflow-hidden overflow-ellipsis'>{todo}</p>
@@ -338,7 +338,7 @@ function App() {
                         <div className="bg-white p-4 rounded-lg border-black shadow-lg md:w-[380px] md:h-[150px] ">
                           {/* เนื้อหาของ popup */}
                           <div className='md:text-[30px] text-[22px] flex justify-center items-center'>
-                          <h2 className='text-[18px] md:text-[20px] text-[#5A985E] mt-[10px] font-ntr font-bold'>Do you want to delete <span style={{ color: '#FF6B6B' }}>{showEditPopup.todo}</span> ?</h2>
+                          <h2 className='text-[18px] md:text-[20px] text-[#5A985E] mt-[10px]  font-bold'>Do you want to delete <span style={{ color: '#FF6B6B' }}>{showEditPopup.todo}</span> ?</h2>
                           </div>
                           <div className="flex justify-center mt-[10px]  md:mt-[30px]">
                             <button className="flex justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={() => deleteChecklist(showEditPopup.todo, showEditPopup.checklistname)} >Yes</button>
@@ -355,7 +355,7 @@ function App() {
                       <div className="text-center fixed top-0 left-0 w-full h-full flex items-center justify-center ">
                         <div className="bg-white p-4 rounded-lg border-black shadow-lg md:w-[400px] ">
                           {/* เนื้อหาของ popup */}
-                          <h2 className='text-[30px] text-[#5A985E] font-ntr font-bold'>Add Examine</h2>
+                          <h2 className='text-[30px] text-[#5A985E]  font-bold'>Add Examine</h2>
                             <div className="mt-1">
                               {/* <label htmlFor="name" className="md:text-[18px] font-mitr block text-sm font-medium text-gray-700">ชื่อ-นามสกุล</label> */}
                               <input className='mt-1 p-2 w-full border border-gray-300 rounded-md'value={input} onChange={(e) => setInput(e.target.value)} placeholder="add checklist"/>

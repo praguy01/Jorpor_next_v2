@@ -2,8 +2,8 @@
 import React, { useState ,useEffect} from 'react';
 import '../../globals.css'
 import Link from 'next/link'
-import '@fontsource/ntr'
-import '@fontsource/mitr';
+// import '@fontsource/ntr'
+// import '@fontsource/mitr';
 import { BsPlusCircleFill } from 'react-icons/bs';
 import CompNavbar from '../compNavbar/row_1';
 import {BsCalendar2Minus} from 'react-icons/bs';
@@ -17,6 +17,7 @@ import { CompLanguageProvider, useLanguage } from '../compLanguageProvider';
 import { useTranslation } from 'react-i18next';
 import i18n from '../../i18n'; 
 import { initReactI18next } from 'react-i18next';
+import {RxCross2} from 'react-icons/rx'
 
 
 
@@ -44,6 +45,8 @@ function App() {
     const [id, setId] = useState('');
     const [nameExamineList , setNameExamineList] = useState(''); // สร้าง state เพื่อเก็บค่าที่เลือก
     const [selectedOption, setSelectedOption] = useState('');
+    const [showEditPopup, setShowEditPopup] = useState(false);
+    const [deletemessage, setdeleteMessage] = useState(false);
 
 
     useEffect(() => {
@@ -177,14 +180,7 @@ function App() {
 
    
           // Add the new item to the todoList
-          setTodoList((prevTodoList) => [
-            ...prevTodoList,
-            {
-              employee: resdata.dbemployee.employee,
-              name: resdata.dbemployee.name,
-              lastname: resdata.dbemployee.lastname,
-            },
-          ]);  
+          setTodoList(resdata.dbemployee);  
           setShowAddSuccessPopup(true);
           setaddMessage(resdata.message);
   
@@ -314,6 +310,57 @@ function App() {
     transition: 'width 0.3s ease',
   };
 
+  const handleEditClick = () => {
+    setIsEditing(true);
+  };
+
+  const openEditPopup = async (index, todo ) => {
+    console.log("TODOO: ",todo)
+    setMessage('');
+    setShowEditPopup({ isOpen: true, index, todo  }); 
+  };
+
+  const deleteTodo = async (index, todo) => {
+    try {
+      // ตรงนี้คุณใช้ตัวแปร id ที่ไม่ได้ถูกกำหนดค่า
+      const editedData = { ...todo, id, selectedOption, edit_role_1: true };
+      const data = JSON.stringify(editedData)
+      console.log("datadelete: ",data)
+
+      const response = await axios.post('/api/employee', data,  {
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      setShowEditPopup(false)
+
+      const resdata = response.data;
+  
+      if (response.status === 200) {
+        if (resdata.success === true) {
+          setReloadData(prev => !prev);
+
+          console.log("Message: ", resdata.dbemployee_name);
+          setdeleteMessage(resdata.message);
+          setTodoList(resdata.dbemployee_name);  
+
+          setTimeout(() => {
+            setdeleteMessage(false);
+          }, 1000); 
+          console.log("UPDATE: ",todoList)
+
+        } else {
+          setMessage(resdata.error);
+        }
+      } else {
+        setMessage(resdata.error);
+      }
+    } catch (error) {
+      console.error('Error Examine:', error);
+      setMessage('');
+    }
+}
+
+
   return (
     <div>
       
@@ -322,8 +369,8 @@ function App() {
         <div className=' bg-[url("/bg1.png")]  bg-cover bg-no-repeat absolute z-[-1] top-0 left-0 w-full h-full bg-center overflow-auto  '>
           <div className='md:w-[1000px] mx-auto '>
             <div className='flex  w-[330px] mx-auto  md:w-[800px]'>
-            <div className='mx-auto  w-[330px] md:w-[800px] font-ntr text-black   mt-[106px]  '>
-                  <h1 className={`text-[25px] text-black md:text-[30px]   ${language === 'EN' ? ' font-ntr' : ' font-mitr font-small'  } font-bold `}>  {`${language === 'EN' ? 'Employee List' : ' รายชื่อพนักงาน'  }`}</h1>
+            <div className='mx-auto  w-[330px] md:w-[800px]  text-black   md:mt-[106px] mt-[80px]  '>
+                  <h1 className={`text-[25px] text-black md:text-[30px]  font-bold `}>  {`${language === 'EN' ? 'Employee List' : ' รายชื่อพนักงาน'  }`}</h1>
               </div>
                 <div className='flex md:mt-[50px]   md:ml-[430px]'>
                    
@@ -347,7 +394,7 @@ function App() {
                           }`}
                           onClick={handleOffClick}
                         >
-                          <span className={`${language === 'EN' ? ' font-ntr text-[15px]' : ' font-mitr font-small text-[13px]'  }`}>{t('off')}</span>
+                          <span className={` text-[13px] `}>{t('off')}</span>
                         </button>
                         <button
                           style={{
@@ -361,7 +408,7 @@ function App() {
                           }`}
                           onClick={handleOnClick}
                         >
-                          <span className=  {`${language === 'EN' ? ' font-ntr text-[15px]' : ' font-mitr font-small text-[13px]'  }`}>{t('on')}</span>
+                          <span className=  {`  text-[13px]`}>{t('on')}</span>
                         </button>
                         
 
@@ -370,13 +417,13 @@ function App() {
 
 
                         <div>
-                          <p className="text-[13px] text-[#5A985E] ml-[10px] font-ntr font-bold">{`${language === 'EN' ? 'add employee list from file' : 'เพิ่มรายชื่อจากไฟล์'  }`}</p>
+                          <p className="text-[13px] text-[#5A985E] ml-[10px] ">{`${language === 'EN' ? 'add employee list from file' : 'เพิ่มรายชื่อจากไฟล์'  }`}</p>
                         </div>
                       </div>
-                       <h2 className={`text-[30px] text-[#5A985E] mt-[15px]   ${language === 'EN' ? ' font-ntr' : ' font-mitr font-small'  } font-bold`}>{`${language === 'EN' ? 'Add employee list' : 'เพิ่มรายชื่อ'  }`}</h2>
+                       <h2 className={`text-[25px] text-[#5A985E] mt-[15px] `}>{`${language === 'EN' ? 'Add employee list' : 'เพิ่มรายชื่อ'  }`}</h2>
                        {isOn && (  
                        <div className="mt-[20px]  w-[310px] h-[166px]">
-                         <label htmlFor="name" className="md:text-[18px] font-mitr block text-sm font-medium text-gray-700">ชื่อ-นามสกุล</label>
+                         <label htmlFor="name" className="md:text-[18px] block text-sm font-medium text-gray-700">ชื่อ-นามสกุล</label>
                          <div className="flex">
                                 
                          <input
@@ -411,8 +458,8 @@ function App() {
                         <div className="mt-1  w-[310px] h-[170px]">
                           <div className="mt-4">
                             
-                                <label htmlFor="file" className="md:text-[18px] font-mitr block text-sm font-medium text-gray-700 cursor-pointer">  {`${language === 'EN' ? ' Select Excel file' : ' เลือกไฟล์ Excel'  }`}</label>
-                                <input type="file"id="file" className="text-[#000] mt-1 p-2 w-full border border-gray-300 rounded-md" onChange={handleFileChange}/>
+                                <label htmlFor="file" className="md:text-[18px] block text-sm font-medium text-gray-700 cursor-pointer">  {`${language === 'EN' ? ' Select Excel file' : ' เลือกไฟล์ Excel'  }`}</label>
+                                <input type="file"id="file" className="text-[#000] mt-1 p-2 w-full border border-gray-300 text-[12px] rounded-md" onChange={handleFileChange}/>
                             </div>
                           <div className="flex justify-center mt-[20px]">
                             <button className="flex justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={addTodo}>{t('Add')}</button>
@@ -459,43 +506,102 @@ function App() {
 
             </div>
             <div className='mt-[25px] '>
-            <div className=  {`${language === 'EN' ? ' font-bold font-ntr text-[18px] md:text-[25px]' : ' font-mitr font-small text-[14px] md:text-[25px]'  } flex mx-auto items-center  bg-[#5A985E] w-[330px] md:w-[800px] md:mt-[-px] rounded-t-[20px] md:rounded-t-[20px] py-2`}>
+            <div className=  {` font-small text-[14px] md:text-[20px] flex mx-auto items-center  bg-[#5A985E] w-[330px] md:w-[800px] md:mt-[-px] rounded-t-[20px] md:rounded-t-[20px] py-2`}>
               <p className='text-center text-white   md:w-[180px] w-[30px]  md:ml-[43px] ml-[32px]  '>{t('No')}. </p>
               <p className='text-center text-white   md:w-[200px] w-[80px] md:ml-[-68px] ml-[15px] '>{t('Employee')}</p>
               <p className='text-center text-white   md:w-[180px] w-[70px] md:ml-[20px] ml-[35px]  '>{t('Name')}</p>
+              {!isEditing && (
+              <PiPencilSimpleFill onClick={handleEditClick} className='absolute text-[#FFF] md:text-[20px] text-[13px]  md:ml-[750px] md:mt-[7px] ml-[300px]  mt-[3px] cursor-pointer ' />
+              )}
             </div>
 
-            <div className='mx-auto w-[330px] md:w-[800px] h-[400px]  text-black flex flex-col  bg-[#FFF]  rounded-b-[20px] md:rounded-b-[20px]   overflow-auto'>
-                    
-               
+            <div className='mx-auto w-[330px] md:w-[800px] h-[400px]  text-black flex flex-col  bg-[#FFF] mb-[50px] rounded-b-[20px] md:rounded-b-[20px]   overflow-auto'>
+              <div className='mx-auto w-[330px] md:w-[800px] h-[380px]  text-black flex flex-col bg-[#FFF] mb-[20px] rounded-b-[20px] md:rounded-b-[20px]   overflow-auto'>
+
                 {todoList.map((todo, index) => (
-                  <div key={index} className={`font-mitr text-sm md:text-[20px] w-[290px] rounded-[10px] md:w-[740px] py-2 md:py-4 bg-[#F5F5F5] mx-auto ${index === 0 ? 'mt-[10px]' : 'mt-[8px]'}`}>
+                  <div key={index} className={`text-sm md:text-[20px] w-[290px] rounded-[10px] md:w-[740px] py-2 md:py-4 bg-[#F5F5F5] mx-auto ${index === 0 ? 'mt-[10px]' : 'mt-[8px]'}`}>
                   <div className='flex '>
                     <div className='flex flex-col w-full   '>
-                      <Link href="/" className=' flex text-[#000] '>
-                        <div className=' md:w-[100px] w-[150px]  md:ml-[38px]  '>
-                            <div style={{ flex: 1,textAlign: 'center'}} >{index + 1} </div>
-                        </div> 
-                        <div className='md:w-[180px] w-[250px]  ml-[15px] md:ml-[40px]'>
-                            <div style={{ flex: 1 }} >{todo.employee} </div>
-                        </div>
-                        <div className='md:w-[300px] w-[400px]  '>
-                            <div style={{ flex: 1}}>{todo.name}  {todo.lastname}  </div>
-                        </div>
-                      </Link>
+                      <div className=' flex text-[#000] '>
+                      {isEditing ? (
+                      <div>
+                       
+                        <div className='flex'>
+                      <div className='md:w-[100px] w-[50px] md:ml-[38px]'>
+                        <div style={{ flex: 1, textAlign: 'center' }}>{index + 1}</div>
+                      </div> 
+                      <div className='md:w-[180px] w-[80px]  ml-[15px] md:ml-[40px]'>
+                        <div style={{ flex: 1 }}>{todo.employee}</div>
+                      </div>
+                      <div className='md:w-[300px] w-[120px]  text-ellipsis whitespace-nowrap overflow-hidden'>
+                        <div style={{ flex: 1 }}>{todo.name} {todo.lastname}</div>
+                      </div>
+                      <RxCross2
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            openEditPopup(index,todo, todo.id ,todo.employee);
+                          }}
+                          className="text-[#5A985E] inline-block ml-[5px] md:ml-[50px] mt-[4px] md:mt-[1px] text-[12px] md:text-[16px] hover:-translate-y-0.5 duration-200"
+                        />
+                      </div>
+                      </div>
+                    ) : (
+                      <div className='flex'>
+                      <div className='md:w-[100px] w-[50px] md:ml-[38px]'>
+                        <div style={{ flex: 1, textAlign: 'center' }}>{index + 1}</div>
+                      </div> 
+                      <div className='md:w-[180px] w-[80px]  ml-[15px] md:ml-[40px]'>
+                        <div style={{ flex: 1 }}>{todo.employee}</div>
+                      </div>
+                      <div className='md:w-[300px] w-[120px] text-ellipsis whitespace-nowrap overflow-hidden'>
+                        <div style={{ flex: 1 }}>{todo.name} {todo.lastname}</div>
+                      </div>
+                      </div>
+                    )}
+
+
+                      </div>
                     </div>
-                    <div className='flex items-center justify-end space-x-2 w-[50px] md:w-[50px] ml-[1px] md:ml-[60px] mt-20px'>
-                      {isEditing && (
-                        <>
-                          <BsPencilSquare className='text-[#5A985E] hover:text-[#64CE3F]' /> {/* Edit button */}
-                          <BsTrash onClick={() => openPopupDelete(index)} className='text-[#5A985E] hover:text-[#64CE3F]' /> {/* Delete Text */}
-                        </>
-                      )}
-                    </div>
+                    {/* <div className='flex items-center justify-end space-x-2 w-[50px] md:w-[50px] ml-[1px] md:ml-[60px] mt-20px'>
+                      
+                    </div> */}
                   </div>
                 </div>
               ))}
+              
+              </div>
 
+              {isEditing && (
+                <div className='items-center mb-[20px]' >
+                  <button onClick={() => setIsEditing(false)}  className={`flex mx-auto  border-[#64CE3F] bg-[#64CE3F] px-10 py-1  rounded-[20px]    text-[#fff] hover:-translate-y-0.5 duration-200 `}>{t('confirm')}</button>
+                </div>
+                )}
+
+               {showEditPopup.isOpen && (
+              <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center ">
+                <div className="bg-white p-4 text-center rounded-lg border-black shadow-lg md:w-[380px] md:h-[150px] ">
+                  <h2 className= {` text-[18px] md:text-[20px] text-[#5A985E] mt-[10px] `}>{`${language === 'EN' ? ' Do you want to delete ' : 'คุณต้องการที่จะลบ '  }`} <span style={{ color: '#FF6B6B' }}>{showEditPopup.todo.employee}</span> ?</h2>
+                  
+                  {message && (
+                    <p className='mt-3 text-red-500 text-xs py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-lg md:mt-[30px]'>
+                      {message}
+                    </p>
+                  )}
+                  <div className=   {`text-[16px] flex justify-center mt-[10px]  md:mt-[30px]`}>
+                    <button className="flex justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={() => deleteTodo(showEditPopup.index, showEditPopup.todo)}>{t('Yes')}</button>
+
+                    <button className="flex justify-center items-center bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600" onClick={() => setShowEditPopup(false)}>{t('Cancel')}</button>
+                  </div>
+
+                </div>
+              </div>
+            )}
+              {deletemessage && (
+                <div className="bg-white text-[#5A985E] p-8  rounded-lg border-black shadow-lg md:w-[400px] w-[250px] text-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <BsCheckCircle className=' text-[50px] mx-auto mb-[10px]'/>
+                {deletemessage}
+                </div>
+              )}
               {showAddSuccessPopup && (
                 <div className="text-center  bg-white text-[#5A985E] p-8  rounded-lg border-black shadow-lg md:w-[400px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                 <BsCheckCircle className=' text-[50px] mx-auto mb-[10px]'/>
@@ -503,13 +609,12 @@ function App() {
                 </div>
               )}
 
-              {ShowPopupDelete && (
+              {/* {ShowPopupDelete && (
               <div className="text-center fixed top-0 left-0 w-full h-full flex items-center justify-center ">
                   <div className="bg-white p-4 rounded-lg border-black shadow-lg md:w-[400px] ">
-                  {/* เนื้อหาของ popup */}
                   <div className='md:text-[30px] text-[22px] flex justify-center items-center'>
-                      <h2 className='text-[#5A985E] font-ntr font-bold'>  {`${language === 'EN' ? 'Do you want to ' : 'คุณต้องการที่จะลบ'  }`}</h2>
-                      <h2 className=' ml-[8px] text-red-700 font-ntr font-bold'>  {`${language === 'EN' ? ' Delete ?' : 'ไหม ?'  }`}</h2>
+                      <h2 className='text-[#5A985E]  font-bold'>  {`${language === 'EN' ? 'Do you want to ' : 'คุณต้องการที่จะลบ'  }`}</h2>
+                      <h2 className=' ml-[8px] text-red-700  font-bold'>  {`${language === 'EN' ? ' Delete ?' : 'ไหม ?'  }`}</h2>
                   </div>
                   <div className="flex justify-center mt-[10px]">
                       <button className="flex justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={handleDeleteClick} >Yes</button>
@@ -517,7 +622,7 @@ function App() {
                   </div>
                   </div>
               </div>
-              )}  
+              )}   */}
               
 
 

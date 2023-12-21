@@ -84,7 +84,7 @@ export async function POST(request) {
   
       if (res.fetch) {
 
-        
+     
 
         const getNameExamineListQuery = "SELECT name FROM examinelist WHERE user_id = ?";
         const [nameExamineListResult] = await db.query(getNameExamineListQuery, [res.user_IdValue]);
@@ -94,7 +94,7 @@ export async function POST(request) {
         // console.log("employee: ",nameExamineListResultmap);
   
   
-        return NextResponse.json({ success: true  , dbnameExamineList: nameExamineListResultmap});
+        return NextResponse.json({ success: true  , dbnameExamineList: nameExamineListResultmap  });
         }
 
 

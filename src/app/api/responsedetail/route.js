@@ -42,7 +42,7 @@ console.log("RESS11: ",res)
     }
 
     
-    if (res.submit_row_3) {
+    if (res.submit_row_2) {
       try {
 
         const getQuery = `
@@ -63,7 +63,7 @@ console.log("RESS11: ",res)
           // const updatedUserQuery = "SELECT * FROM users WHERE id = ?";
           // const [updatedUser] = await db.query(updatedUserQuery, [id]);
         
-          return NextResponse.json({ success: true , message: 'successfully!' , redirect: '/response_row_3'});
+          return NextResponse.json({ success: true , message: 'successfully!' , redirect: '/response_row_2'});
         } else {
             return NextResponse.json({success: false,message: 'approve failed',
           });
@@ -74,7 +74,8 @@ console.log("RESS11: ",res)
       }
     }
 
-    
+    return NextResponse.json({ success: true });
+
     } catch (error) {
       console.error('Error notify:', error);
       return NextResponse.json({ success: false, error: error.message });

@@ -2,7 +2,7 @@
 import React, { useState , useEffect} from 'react';
 import Link from 'next/link'
 import '../globals.css'
-import '@fontsource/ntr'
+// import '@fontsource/ntr'
 import '@fontsource/mitr';
 import { BsPlusCircleFill } from 'react-icons/bs';
 import CompNavbar from './compNavbar/row_1';
@@ -414,7 +414,7 @@ function App() {
 
     const deleteChecklist = async (todo , checklistname ) => {
       try {
-        const editedData = { todo , checklistname , edit: true };
+        const editedData = { todo , checklistname ,examine_Id, id, edit_role_1: true };
         console.log("delete: ",editedData)
         const data = JSON.stringify(editedData)
         console.log("deleteData: ",data)
@@ -429,7 +429,8 @@ function App() {
     
         if (response.status === 200) {
           if (resdata.success === true) {
-            setReloadData(prev => !prev);
+            setTodoList(resdata.dbchecklist);
+
 
             console.log("Message: ", resdata);
             setShowDeleteSuccessPopup(true);
@@ -518,14 +519,14 @@ function App() {
         <div className=' bg-[url("/bg1.png")] overflow-auto bg-cover bg-no-repeat absolute z-[-1] top-0 left-0 w-full h-full bg-center   '>
           <div className='md:w-[1000px] mx-auto '>
             <div className=' w-[280px] mx-auto md:w-[963px]'>
-              <div className=  {`${language === 'EN' ? 'font-ntr font-bold text-[25px] md:text-[35px]' : ' font-mitr text-[21px] md:text-[35px] '  } left-0 md:ml-[90px] w-[300px] flex items-center md:mt-[100px] mt-[90px] `}>
+              <div className=  {` text-[21px] md:text-[35px] left-0 md:ml-[90px] w-[300px] flex items-center md:mt-[100px] mt-[90px] `}>
                   <h1 className=' text-[#5A985E]   mr-[10px] '>{t('Examine')}</h1>
-                  <p className='text-black text-sm md:text-[20px]  font-mitr '>({checklistname})</p>
+                  <p className='text-black text-sm md:text-[20px]  '>({checklistname})</p>
               </div>
-              <div className='flex items-center text-center mt-[5px] w-[110px] h-[24px] md:w-[140px] md:h-[30px] rounded-[5px] text-[#fff] border-[#000] bg-[#000] md:ml-[90px] '>
+              <div className='flex items-center text-center  w-[110px] h-[24px] md:w-[140px] md:h-[30px] rounded-[5px] text-[#fff] border-[#000] bg-[#000] md:ml-[90px] '>
                     <div className=' md:ml-[10px] ml-[10px] '><BsCalendar2Minus/></div>
-                    <p className=" font-ntr mt-[2px] ml-[8px]  text-sm md:text-[20px] md:ml-[8px] ">{currentDate}</p>
-              </div>            
+                    <p className="  mt-[2px] ml-[8px]  md:text-[17px] text-[12px] md:ml-[8px] ">{currentDate}</p>
+              </div>             
               {useEmployee === "false" && !isEditing &&   (
                <PiPencilSimpleFill onClick={handleEditClick} className='absolute text-black md:text-[18px] text-[13px] md:ml-[840px] md:mt-[28px] ml-[265px] mt-[25px] cursor-pointer ' />
               )}
@@ -536,7 +537,7 @@ function App() {
                  <div className='md:ml-[90px]'>
                  <label className="block mt-[10px] text-gray-700 text-[15px] font-bold mb-2">Select an option:</label>
                  <select
-                   className="w-[100px] text-[13px] text-black border rounded-md px-4 py-1 outline-none"
+                   className="w-[120px] text-[13px] text-black border rounded-md px-4 py-1 outline-none"
                    value={selectedOption}
                    onChange={handleDropdownChange}
                  >
@@ -547,25 +548,25 @@ function App() {
               )}
             </div>
 
-            <div className={`mx-auto w-[300px] font-mitr font-blod md:w-[800px] h-[480px] mb-[50px] text-black flex flex-col md:rounded-[50px] bg-[#FFF] ${isEditing ? 'rounded-[30px]' : 'rounded-[30px] md:rounded-[50px]'} mt-[10px]`}>
+            <div className={`mx-auto w-[300px]  font-blod md:w-[800px] h-[480px] mb-[50px] text-black flex flex-col md:rounded-[50px] bg-[#FFF] ${isEditing ? 'rounded-[30px]' : 'rounded-[30px] md:rounded-[50px]'} mt-[10px]`}>
             <div className='mx-auto w-[280px]  md:ml-[10px] md:w-[400px] h-[900px] text-black flex flex-col bg-[#FFF] rounded-[30px] md:rounded-[50px] mt-[30px] overflow-auto'>
             
             {todoList.map((todo, index) => (
               <div key={index}>
                 {useEmployee === "false" ? (
-                  <div className='font-mitr  text-sm md:ml-[25px] md:text-[18px] mt-[10px] w-[250px] rounded-[10px] md:w-[340px] py-2 md:py-4 bg-[#F5F5F5] mx-auto'>
+                  <div className='  text-sm md:ml-[25px] md:text-[18px] mt-[10px] w-[250px] rounded-[10px] md:w-[340px] py-2 md:py-4 bg-[#F5F5F5] mx-auto'>
                     <div className='flex px-3'>
                       <div >
                       <p className='text-[#000] md:ml-[15px] w-[210px]  '>{todo} </p>
                       <div className="mt-[8px] md:w-[310px]  border-t border-gray-300"></div> 
                       <div className='flex items-center mt-[8px] '> 
-                      <div className=  {`${language === 'EN' ? ' font-ntr ' : ' font-mitr '  } flex items-center `}>
+                      <div className=  {` flex items-center `}>
                         <input
                           type="checkbox"
                           className='mr-[8px] md:ml-[15px] items-center'
                           checked={todoStatus[todo]?.pass || false}
                           onChange={(e) => handleCheckboxChange(todo, e.target.checked, !e.target.checked ? todoStatus[todo]?.fail : false)}
-                          /><span className='text-[13px] md:text-[15px] font-mitr '>{t('pass')}</span>
+                          /><span className='text-[13px] md:text-[15px] '>{t('pass')}</span>
                       </div>
                       <div className='flex items-center'>
                         <input
@@ -604,7 +605,7 @@ function App() {
                   selectedOption === 'Checklist' ? (
                   <div className=' justify-center mx-auto items-center   flex'> 
                   {/* <Link href={`/checklistEmployee?checklistname=${todo}&examine_Id=${examine_Id}&examinelist_Id=${examinelist_Id}&examinename=${checklistname}&employeeName=${employee[index]}&idemployee=${idemployee[index]}`} key={idemployee[index]}> */}
-                    <div className='font-mitr text-sm md:text-[20px] mt-[10px] w-[250px] rounded-[10px] md:w-[340px] py-2 md:py-4 bg-[#F5F5F5] mx-auto'>
+                    <div className=' text-sm md:text-[20px] mt-[10px] w-[250px] rounded-[10px] md:w-[340px] py-2 md:py-4 bg-[#F5F5F5] mx-auto'>
                       <div className='flex items-center px-3 '>
                         {/* <input type="checkbox" className='mr-[10px]' /> */}
                         
@@ -630,7 +631,7 @@ function App() {
                   ) : (
                     <div className=' justify-center items-center   flex'> 
                     <Link href={`/checklistEmployee?checklistname=${todo}&examine_Id=${examine_Id}&examinelist_Id=${examinelist_Id}&examinelist_name=${examinelist_name}&examinename=${checklistname}&employee_Id=${employee[index]}&idemployee=${idemployee[index]}`} key={idemployee[index]}>
-                      <div className='font-mitr text-sm md:text-[20px] mt-[10px] w-[250px] rounded-[10px] md:w-[340px] py-2 md:py-4 bg-[#F5F5F5] mx-auto'>
+                      <div className=' text-sm md:text-[20px] mt-[10px] w-[250px] rounded-[10px] md:w-[340px] py-2 md:py-4 bg-[#F5F5F5] mx-auto'>
                         <div className='flex items-center px-3'>
                           {/* <input type="checkbox" className='mr-[10px]' /> */}
                           {checked && (
@@ -672,20 +673,17 @@ function App() {
 
               
 
-                    {showAddSuccessPopup && (
-                      <div className="text-center fixed top-0 left-0 w-full h-full flex items-center justify-center ">
-                        <div className="text-center  bg-white text-[#5A985E] p-8  rounded-lg border-black shadow-lg md:w-[400px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                        <BsCheckCircle className=' text-[50px] mx-auto mb-[10px]'/>
-                        {addmessage}
-                        </div>
+                    {showDeleteSuccessPopup && (
+                      <div className="bg-white w-[250px] text-[#5A985E] p-8 text-center rounded-lg border-black shadow-lg  absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                      <BsCheckCircle className=' text-[50px] mx-auto mb-[10px]'/>
+                      {deletemessage}
                       </div>
                     )}
-                    {showDeleteSuccessPopup && (
-                      <div className="text-center fixed top-0 left-0 w-full h-full flex items-center justify-center ">
-                        <div className=" text-center bg-white text-[#5A985E] p-8  rounded-lg border-black shadow-lg md:w-[400px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                        <BsCheckCircle className=' text-[50px] mx-auto mb-[10px]'/>
-                        {deletemessage}
-                        </div>
+
+                    {showAddSuccessPopup && (
+                      <div className="bg-white text-center text-[#5A985E] p-8  rounded-lg border-black shadow-lg  absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                      <BsCheckCircle className=' text-[50px] mx-auto mb-[10px]'/>
+                      {addmessage}
                       </div>
                     )}
 
@@ -694,7 +692,7 @@ function App() {
                         <div className="bg-white p-4 rounded-lg border-black shadow-lg md:w-[380px] md:h-[150px]  ">
                           {/* เนื้อหาของ popup */}
                           <div className='md:text-[30px]  text-[22px] flex justify-center items-center'>
-                          <h2 className= {`${language === 'EN' ? ' font-ntr font-bold' : ' font-mitr '  } text-[18px] md:text-[20px] text-[#5A985E] mt-[10px] `}>{`${language === 'EN' ? ' Do you want to delete ' : 'คุณต้องการที่จะลบ '  }`} <span style={{ color: '#FF6B6B' }}>{showEditPopup.todo}</span> ?</h2>
+                          <h2 className= {`font-mitr  text-[18px] md:text-[20px] text-[#5A985E] mt-[10px] `}>{`${language === 'EN' ? ' Do you want to delete ' : 'คุณต้องการที่จะลบ '  }`} <span style={{ color: '#FF6B6B' }}>{showEditPopup.todo}</span> ?</h2>
                           </div>
                           <div className="flex justify-center mt-[10px] md:mt-[30px]">
                             <button className="flex justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={() => deleteChecklist(showEditPopup.todo, showEditPopup.checklistname)} >Yes</button>
@@ -709,9 +707,9 @@ function App() {
                     
                     {showPopup && (
                       <div className="text-center fixed top-0 left-0 w-full h-full flex items-center justify-center ">
-                        <div className="bg-white p-4 rounded-lg border-black shadow-lg md:w-[400px] ">
+                        <div className="bg-white p-4 rounded-lg py-[30px] shadow-lg border border-gray-200 md:w-[400px] ">
                           {/* เนื้อหาของ popup */}
-                          <h2 className='text-[30px] text-[#5A985E] font-ntr font-bold'>Add Examine</h2>
+                          <h2 className='text-[25px] text-[#5A985E]  font-bold'>Add Examine</h2>
                             <div className="mt-1">
                               {/* <label htmlFor="name" className="md:text-[18px] font-mitr block text-sm font-medium text-gray-700">ชื่อ-นามสกุล</label> */}
                               <input className='mt-1 p-2 w-full border border-gray-300 rounded-md'value={input} onChange={(e) => setInput(e.target.value)} placeholder="add checklist"/>
@@ -719,7 +717,7 @@ function App() {
                             {/* <div>
                             <input className='mt-1 p-2 w-full border border-gray-300 rounded-md'value={lastname} onChange={(e) => setlastname(e.target.value)}placeholder="Lastname"/>
                             </div> */}
-                          <div className="flex justify-center mt-[10px]">
+                          <div className="flex justify-center mt-[20px]">
                             <button className="flex justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={addTodo}>Add</button>
                             <button className="flex justify-center items-center bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600" onClick={() => closePopup(false)}>Cancel</button>
                           </div>
@@ -743,7 +741,7 @@ function App() {
                           />
                         </div>
                       )} */}
-                      <div className= {` items-center ${language === 'EN' ? ' font-ntr text-[17px] md:text-[20px]' : ' font-mitr text-[15px] md:text-[17px]'  } flex justify-end  w-[250px] md:mt-[40px] mt-[60px]  mx-auto md:w-[800px]  md:px-10 `} >
+                      <div className= {` items-center text-[15px] md:text-[17px] flex justify-end  w-[250px] md:mt-[40px] mt-[60px]  mx-auto md:w-[800px]  md:px-10 `} >
                       {isEditing ? (
                         <button onClick={() => setIsEditing(false)} className={`flex mx-auto   border-[#64CE3F] bg-[#64CE3F] px-10 py-1  rounded-[20px]   text-[#fff] hover:-translate-y-0.5 duration-200  `}>{t('confirm')}</button>
                       ) : (
@@ -772,7 +770,7 @@ function App() {
                       {useEmployee === "true" && selectedOption === "Checklist" &&  isEditing === false && (
                         <button
                           onClick={openPopup}
-                          className="item-center text-[#5A985E] md:mt-[-340px] ml-[10px] text-4xl hover:-translate-y-0.5 duration-200"
+                          className="item-center text-[#5A985E] md:mt-[-3px] ml-[10px] text-4xl hover:-translate-y-0.5 duration-200"
                         >
                           <BsPlusCircleFill />
                         </button>

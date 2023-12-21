@@ -97,7 +97,19 @@ export async function POST(request) {
         // }
         const dateArray = getChecklist_R2QueryResult.map(result => result.date);
 
+        dateArray.reverse();
+        
+        console.log("Reversed Distinct Dates:", dateArray);
+
         const hasMatchingDate = dateArray.includes(formattedDate);
+         if (!hasMatchingDate) {
+            dateArray.push(formattedDate);
+            dateArray.splice(5);
+          } else {
+            dateArray.splice(5);
+          }
+          dateArray.reverse();
+
         console.log(`Does the checklist have a date matching ${formattedDate}? ${hasMatchingDate}`);
         console.log("DATEE-------------------: ",dateArray)
         // let recentDates = getChecklist_R2QueryResult.map(result => result.date);
@@ -110,30 +122,52 @@ export async function POST(request) {
         // let Date = `${day}/${month}/${year}`;
         // const dateArray = [formattedDate];
 
-        if (!hasMatchingDate) {
-          dateArray.push(formattedDate);
-        }
-        console.log("DATEE1111-------------------: ",dateArray)
-
+        
+        console.log("DATEE1111-------------------: ",getChecklist_R2QueryResult.length , getChecklist_R2QueryResult)
         // If there are more than 5 dates, take the most recent 5
-        if (getChecklist_R2QueryResult.length >= 5) {
+        if (dateArray.length >= 5) {
           // const day = currentDate.getDate() - 5;
           // const month = currentDate.getMonth() + 1; 
           // const year = currentDate.getFullYear();
           // formattedDateA = `${day}/${month}/${year}`;
+          if (!dateArray.includes(formattedDate)) {
+            dateArray.push(formattedDate);
+            dateArray.reverse();
+            dateArray.splice(5);
+            dateArray.reverse();
 
+           
+          } else if (dateArray.includes(formattedDate)) {
+            while (dateArray.length < 5) {
+              console.log("CHECKKKKK///////////////////2222: ",dateArray)
+
+              currentDate.setDate(currentDate.getDate() - 1);
+            
+              const day = currentDate.getDate();
+              const month = currentDate.getMonth() + 1; 
+              const year = currentDate.getFullYear();
+              const formattedDateI = `${day}/${month}/${year}`;
+            
+              if (!dateArray.includes(formattedDateI)) {
+                dateArray.unshift(formattedDateI);
+              }            
+            }
+          } 
+          else {
           while (dateArray.length < 5) {
             currentDate.setDate(currentDate.getDate() - 1);
           
             const day = currentDate.getDate();
             const month = currentDate.getMonth() + 1; 
             const year = currentDate.getFullYear();
-            const formattedDate = `${day}/${month}/${year}`;
-            
-            // Add the formatted date to the beginning of the array only if it's not already present
-            if (!dateArray.includes(formattedDate)) {
-              dateArray.unshift(formattedDate);
+            const formattedDateI = `${day}/${month}/${year}`;
+
+            if (!dateArray.includes(formattedDateI)) {
+              dateArray.unshift(formattedDateI);
             }
+          }
+            // Add the formatted date to the beginning of the array only if it's not already present
+            
           }
           
           
@@ -158,7 +192,7 @@ export async function POST(request) {
           // const year = currentDate.getFullYear();
           // formattedDateA = `${day}/${month}/${year}`;
         }
-        console.log("Date Array:", dateArray);
+        console.log("Date Array*********************************:", dateArray);
 
         console.log("Recent Dates:", formattedDateA );
 
@@ -179,7 +213,7 @@ export async function POST(request) {
         
         const getexamineList_r1Query = "SELECT id , name FROM examinelist WHERE user_id = ?";
         const [getexamineList_r1QueryResult] = await db.query(getexamineList_r1Query, [user_r1]);
-      console.log("getexamineList_r1QueryResult88888888: ",getexamineList_r1QueryResult)
+      // console.log("getexamineList_r1QueryResult88888888: ",getexamineList_r1QueryResult)
         if (!dataPercent[user_r1]) {
           dataPercent[user_r1] = [];
         }
@@ -235,14 +269,14 @@ export async function POST(request) {
                 examineInfo.name_id = getexaminenameQueryResultMap
                 const getChecklist_R2Query = "SELECT date , examinename_id ,	status FROM checklist_examine_row_2 WHERE  examine_id = ? AND date = ? ";
                 const [getChecklist_R2QueryResult] = await db.query(getChecklist_R2Query, [examineInfo.id ,  currentDateA]);
-                console.log("11111111111111111111111111111: ", getChecklist_R2QueryResult ,  currentDateA);
+                // console.log("11111111111111111111111111111: ", getChecklist_R2QueryResult ,  currentDateA);
                 
                 const passCount = getChecklist_R2QueryResult.filter(item => item.status === 'pass').length;
 
                 const percentage = (passCount / getexaminenameQueryResultMap.length) * 100;
 
-                console.log("getexaminenameQueryResultMap.length:", examineInfo.id);
-                console.log("Percentage:", Math.floor(percentage), examineInfo.id);
+                // console.log("getexaminenameQueryResultMap.length:", examineInfo.id);
+                // console.log("Percentage:", Math.floor(percentage), examineInfo.id);
                 examineInfo.percentage = Math.floor(percentage);
                 totalPercentage += percentage;
             } else if ( examineInfo.useEmployee === 'true' ){
@@ -251,7 +285,7 @@ export async function POST(request) {
 
                 examine_idArray.push({ examineInfo });
 
-                const getexaminenameQuery = "SELECT 	id FROM examinename WHERE  examine_id = ? ";
+                const getexaminenameQuery = "SELECT id FROM examinename WHERE  examine_id = ? ";
                 const [getexaminenameQueryResult] = await db.query(getexaminenameQuery, [examineInfo.id]);
                 // console.log("getChecklist_R2QueryResult: ", examineInfo.id, getexaminenameQueryResult);
 
@@ -265,13 +299,13 @@ export async function POST(request) {
                 // console.log("8888888888: ", getemployeeQueryResultMap, idValue );
 
                 for (const employee of getemployeeQueryResultMap){
-                  console.log("99999: ",employee,examineInfo.id)
+                  // console.log("99999: ",employee,examineInfo.id)
                 const getChecklist_R2Query = "SELECT  examinename_id ,	status FROM checklist_employee_row_2 WHERE  examine_id = ? AND employee_name_id = ? AND date = ?";
                 const [getChecklist_R2QueryResult] = await db.query(getChecklist_R2Query, [examineInfo.id , employee ,  currentDateA]);
-                console.log("getChecklist_R2QueryResult: ", getChecklist_R2QueryResult);
+                // console.log("getChecklist_R2QueryResult: ", getChecklist_R2QueryResult);
 
                 const passCount = getChecklist_R2QueryResult.filter(item => item.status === 'pass').length;
-                console.log("Pass count:", passCount, examineInfo.id);
+                // console.log("Pass count:", passCount, examineInfo.id);
                 totalPassCount += passCount;
 
                 const percentage = Math.floor((passCount / getexaminenameQueryResultMap.length) * 100);
@@ -403,7 +437,19 @@ export async function POST(request) {
         // }
         const dateArray = getChecklist_R2QueryResult.map(result => result.date);
 
+        dateArray.reverse();
+        
+        console.log("Reversed Distinct Dates:", dateArray);
+
         const hasMatchingDate = dateArray.includes(formattedDate);
+         if (!hasMatchingDate) {
+            dateArray.push(formattedDate);
+            dateArray.splice(5);
+          } else {
+            dateArray.splice(5);
+          }
+          dateArray.reverse();
+
         console.log(`Does the checklist have a date matching ${formattedDate}? ${hasMatchingDate}`);
         console.log("DATEE-------------------: ",dateArray)
         // let recentDates = getChecklist_R2QueryResult.map(result => result.date);
@@ -416,30 +462,52 @@ export async function POST(request) {
         // let Date = `${day}/${month}/${year}`;
         // const dateArray = [formattedDate];
 
-        if (!hasMatchingDate) {
-          dateArray.push(formattedDate);
-        }
-        console.log("DATEE1111-------------------: ",dateArray)
-
+        
+        console.log("DATEE1111-------------------: ",getChecklist_R2QueryResult.length , getChecklist_R2QueryResult)
         // If there are more than 5 dates, take the most recent 5
-        if (getChecklist_R2QueryResult.length >= 5) {
+        if (dateArray.length >= 5) {
           // const day = currentDate.getDate() - 5;
           // const month = currentDate.getMonth() + 1; 
           // const year = currentDate.getFullYear();
           // formattedDateA = `${day}/${month}/${year}`;
+          if (!dateArray.includes(formattedDate)) {
+            dateArray.push(formattedDate);
+            dateArray.reverse();
+            dateArray.splice(5);
+            dateArray.reverse();
 
+           
+          } else if (dateArray.includes(formattedDate)) {
+            while (dateArray.length < 5) {
+              console.log("CHECKKKKK///////////////////2222: ",dateArray)
+
+              currentDate.setDate(currentDate.getDate() - 1);
+            
+              const day = currentDate.getDate();
+              const month = currentDate.getMonth() + 1; 
+              const year = currentDate.getFullYear();
+              const formattedDateI = `${day}/${month}/${year}`;
+            
+              if (!dateArray.includes(formattedDateI)) {
+                dateArray.unshift(formattedDateI);
+              }            
+            }
+          } 
+          else {
           while (dateArray.length < 5) {
             currentDate.setDate(currentDate.getDate() - 1);
           
             const day = currentDate.getDate();
             const month = currentDate.getMonth() + 1; 
             const year = currentDate.getFullYear();
-            const formattedDate = `${day}/${month}/${year}`;
-            
-            // Add the formatted date to the beginning of the array only if it's not already present
-            if (!dateArray.includes(formattedDate)) {
-              dateArray.unshift(formattedDate);
+            const formattedDateI = `${day}/${month}/${year}`;
+
+            if (!dateArray.includes(formattedDateI)) {
+              dateArray.unshift(formattedDateI);
             }
+          }
+            // Add the formatted date to the beginning of the array only if it's not already present
+            
           }
           
           

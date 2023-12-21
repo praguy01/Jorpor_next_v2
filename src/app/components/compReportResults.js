@@ -1,8 +1,8 @@
 'use client'
 import React, { useState, useEffect } from 'react';
-import '@fontsource/ntr';
+// import '@fontsource/ntr';
 import '../globals.css';
-import '@fontsource/mitr';
+// import '@fontsource/mitr';
 import CompNavbar from './compNavbar/row_1';
 import axios from 'axios';
 import CompReportResultsForm from './compReportResultsForm';

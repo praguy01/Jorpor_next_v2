@@ -2,46 +2,67 @@ import db from '../../../lib/db';
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
-
 export async function POST(request) {
   if (request.method === 'POST') {
     const res = await request.json();
-    
+
     try {
-      const checkEmailQuery = "SELECT COUNT(*) AS emailCount FROM users WHERE email = ?";
-      const [emailCountResult] = await db.query(checkEmailQuery, [res.email]);
+      const checkEmailQuery1 = "SELECT COUNT(*) AS emailCount FROM users WHERE email = ?";
+      const [emailCountResult1] = await db.query(checkEmailQuery1, [res.email]);
 
-      if (emailCountResult[0].emailCount === 0) {
-        return NextResponse.json({ success: false, error: 'Account not found.' }, { res });
+      console.log("3333: ",emailCountResult1)
+      if (emailCountResult1[0]?.emailCount === 0) {
+        const checkEmailQuery2 = "SELECT COUNT(*) AS emailCount FROM users_r2 WHERE email = ?";
+        const [emailCountResult2] = await db.query(checkEmailQuery2, [res.email]);
+        console.log("4444: ",emailCountResult2)
+
+        if (emailCountResult2[0]?.emailCount === 0) {
+          const checkEmailQuery3 = "SELECT COUNT(*) AS emailCount FROM users_r3 WHERE email = ?";
+          const [emailCountResult3] = await db.query(checkEmailQuery3, [res.email]);
+          console.log("5555: ",emailCountResult3)
+
+          if (emailCountResult3[0]?.emailCount === 0) {
+            return NextResponse.json({ success: false, error: 'Account not found.' }, { res });
+          }
+        }
       }
+            // Send email to the user to confirm password change
+            const transporter = nodemailer.createTransport({
+              service: 'Gmail',
+              auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS,
+              },
+            });
 
-      // ส่งอีเมล์ไปยังอีเมล์ผู้ใช้เพื่อยืนยันการเปลี่ยนรหัสผ่าน
-      const transporter = nodemailer.createTransport({
-        service: 'Gmail',
-        auth: {
-          user: process.env.EMAIL_USER,
-          pass: process.env.EMAIL_PASS,
-        },
-      });
+            const confirmationCode = Math.floor(100000 + Math.random() * 900000);
 
-      // สร้างรหัสยืนยันแบบสุ่ม 6 ตัว
-      const confirmationCode = Math.floor(100000 + Math.random() * 900000);
+            const mailOptions = {
+              from: process.env.EMAIL_USER,
+              to: res.email,
+              subject: 'Confirm Password Change',
+              text: `Confirmation Code: ${confirmationCode}`,
+            };
 
-      const mailOptions = {
-        from: process.env.EMAIL_USER,
-        to: res.email,
-        subject: 'ยืนยันการเปลี่ยนรหัสผ่าน',
-        text: `รหัสยืนยัน: ${confirmationCode}`,
-      };
+            await transporter.sendMail(mailOptions);
 
-      await transporter.sendMail(mailOptions);
+            // Save the confirmation code in the database or send it to the relevant part for confirmation
 
-      // บันทึกรหัสยืนยันลงในฐานข้อมูล หรือส่งไปยังส่วนที่เกี่ยวข้องกับการยืนยัน
+            return NextResponse.json({
+              success: true,
+              message: 'Confirmation code sent successfully',
+              redirect: '/confirm',
+              email: res.email,
+              PIN: confirmationCode,
+            });
+          
+        
+      
 
-      return NextResponse.json({ success: true, message: 'ส่งรหัสยืนยันสำเร็จ', redirect: '/confirm' , email: res.email ,PIN: confirmationCode });
+      return NextResponse.json({ success: false, error: 'Account not found.' }, { res });
     } catch (error) {
-      console.error('เกิดข้อผิดพลาดในการส่งอีเมล์:', error);
-      return NextResponse.json({ success: false, error: 'เกิดข้อผิดพลาดในการส่งอีเมล์' }, { res });
+      console.error('Error sending email:', error);
+      return NextResponse.json({ success: false, error: 'Error sending email' }, { res });
     }
   } else {
     return NextResponse.json('Method not allowed', { res });

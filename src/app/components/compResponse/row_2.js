@@ -2,7 +2,6 @@
 import React, { useState ,useEffect } from 'react';
 import Link from 'next/link'
 import '../../globals.css'
-import '@fontsource/ntr'
 import '@fontsource/mitr';
 import axios from 'axios';
 import CompNavbar from '../compNavbar/row_2';
@@ -102,27 +101,27 @@ function App() {
                 </div>
 
                 
-                <div className='mx-auto border w-[320px] md:w-[800px] font-ntr py-[20px] md:h-[600px] h-[550px] text-black flex flex-col   md:rounded-[30px] rounded-[30px] mt-[106px]  bg-[#fff]'>
+                <div className='mx-auto border w-[320px] md:w-[800px] py-[20px] md:h-[600px] h-[550px] text-black flex flex-col   md:rounded-[30px] rounded-[30px] mt-[106px]  bg-[#fff]'>
                 
-                    <h1 className='text-[25px] md:text-[35px] font-ntr font-bold ml-[30px]'>{t('Response')}</h1>
+                    <h1 className='text-[22px] md:text-[25px]  font-bold ml-[30px]'>{t('Response')}</h1>
                                     
                 <div className="mt-[5px] md:mt-[10px]  border w-full md:w-[750px] border-gray-300"></div>
 
-                <div className='mx-auto w-[280px] md:w-[750px] font-ntr py-[20px] md:h-[600px] h-[500px] text-black flex flex-col  bg-[#D9D9D9] md:rounded-[30px] rounded-[30px] mt-[20px] overflow-auto '>
+                <div className='mx-auto w-[280px] md:w-[750px]  py-[20px] md:h-[600px] h-[500px] text-black flex flex-col  bg-[#D9D9D9] md:rounded-[30px] rounded-[30px] mt-[20px] overflow-auto '>
                 
                 {todoList.map((todo, index) => (
                   <Link href={`/responsedetail_row_2?response=${todo.title}&id=${todo.id}`} key={index}>
                   <div key={index} className={'mx-auto  mt-[8px] w-[250px] p-2 h-[100px] md:h-[105px] md:w-[700px] px-2 text-black flex-col bg-[#FFF] text-center rounded-[15px] '}>
                     {console.log("TODOLIST: ",todoList)}
                     <div className='flex justify-center  h-[40px]  md:ml-[20px] mt-[5px]'>
-                      <p className='text-[#000] font-mitr ml-[5px] md:ml-[0px] text-[14px] text-left md:text-[18px] w-[250px] md:w-[700px] break-words whitespace-pre-wrap'>
-                        {todo.title}  <span className='text-gray-500'>{formatDateTime(todo.date) } น.</span>
+                      <p className='text-[#000]  ml-[5px]  text-[14px] text-left md:text-[18px] w-[250px] md:w-[700px] break-words whitespace-pre-wrap'>
+                        {todo.title}  <span className='text-gray-500 text-[12px] md:text-[15px]'>{formatDateTime(todo.date) } น.</span>
                       </p>
                     </div>
-                    <div className="mt-[5px] border-t border-gray-300"></div>
+                    <div className=" border-t mt-[5px] md:mt-0 border-gray-300"></div>
                     <div className='flex  items-center justify-between'>
-                    <div className=' bg-[#F5F5F5] mt-[5px] md:w-[470px] w-[90px] md:ml-[15px] ml-[5px] h-[25px] md:h-[30px] rounded-[10px]'></div>
-                    <div className='items-center mt-[5px] text-[13px] md:text-[14px] md:h-[30px] h-[25px] border-[#64CE3F] bg-[#64CE3F] px-5 md:px-10 rounded-[20px]  text-[#fff] flex'>{todo.Verification_status}</div>
+                    <div className=' bg-[#F5F5F5] mt-[10px] md:w-[450px] w-[90px] md:ml-[15px] ml-[5px] h-[25px] md:h-[30px] rounded-[10px]'></div>
+                    <div className='items-center mt-[10px] text-[11px] md:text-[14px] md:h-[30px] h-[25px] border-[#64CE3F] bg-[#64CE3F] px-5 md:px-10 rounded-[20px]  text-[#fff] flex'>{todo.Verification_status}</div>
 
                   </div>
                   </div>

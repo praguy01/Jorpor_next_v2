@@ -96,14 +96,23 @@ export async function POST(request) {
         }
       }
 
-      if (res.edit) {
+      if (res.edit_role_1) {
         try {
+          console.log("55555: ",res.todo , res.examine_Id)
+          const deleteExamineQuery = `DELETE FROM examinename WHERE name = ? AND examine_id = ?`;
+          await db.query(deleteExamineQuery, [res.todo , res.examine_Id]);
 
-          const deleteExamineQuery = `DELETE FROM ${res.checklistname} WHERE ${res.checklistname}_name = ?`;
-          await db.query(deleteExamineQuery, [res.todo]);
+          const checkExamineQuery =  `SELECT * FROM examinename WHERE examine_id  = ?  `;
+          const [examineResult] = await db.query(checkExamineQuery ,[res.examine_Id]);
+    
+          const examineResultmap = examineResult.map(row => row.name);
+    
+    
+          console.log("result_tableExamine: ",examineResultmap)
+            
 
         
-          return NextResponse.json({ success: true , message: 'delete successfully!'});
+          return NextResponse.json({ success: true , message: 'delete successfully!',dbchecklist: examineResultmap});
         } catch (error) {
           console.error('ErrorEditEx:', error);
           return NextResponse.json({ success: false, error: error.message });

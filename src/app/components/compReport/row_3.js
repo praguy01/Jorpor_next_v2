@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
 import Link from 'next/link';
 import '../../globals.css';
+import '@fontsource/mitr';
 import { BsFillBarChartFill } from 'react-icons/bs';
 import { FaHardHat, FaTshirt } from 'react-icons/fa';
 import { BsShieldFillCheck } from 'react-icons/bs';
@@ -43,8 +44,28 @@ function App() {
   const [todoList, setTodoList] = useState([]);
   const [todoZone, setTodoZone] = useState([]);
   const [todoAll, setTodoAll] = useState([]);
-
+  const [chartWidth, setChartWidth] = useState(600);
+  const [chartHeight, setChartHeight] = useState(300);
  
+  useEffect(() => {
+    const handleResize = () => {
+      setChartWidth(window.innerWidth < 768 ? 350 : 600);
+      setChartHeight(window.innerWidth < 768 ? 200 : 300);
+      console.log("WINDOWW: ", window.innerWidth);
+    };
+
+    // Attach the event listener when the component mounts
+    window.addEventListener('resize', handleResize);
+
+    // Initialize chartWidth and chartHeight based on window size
+    setChartWidth(window.innerWidth < 768 ? 350 : 600);
+    setChartHeight(window.innerWidth < 768 ? 200 : 300);
+
+    // Detach the event listener when the component is unmounted
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
 
   useEffect(() => {
@@ -247,6 +268,12 @@ function App() {
   
   const data = [];
   const Zone = []
+  const currentDateT = new Date();
+  const day = currentDateT.getDate();
+  const month = currentDateT.getMonth() + 1; 
+  const year = currentDateT.getFullYear();
+  const formattedDateT = `${day}/${month}/${year}`;
+  
   for (const day of todoAll) {
     const newDataItem = {
       name: day.currentDateA,
@@ -312,8 +339,8 @@ function App() {
     <div>
       <CompNavbarTec />
       <div className='bg-[url("/bg1.png")] overflow-auto bg-cover bg-no-repeat absolute z-[-1] top-0 left-0 w-full h-full bg-center '>
-        <div className='md:mt-[100px] mt-[80px] md:flex justify-center items-center  h-[800px]  mx-auto md:w-[1158px]'>
-          <div className=' md:ml-[80px] md:mt-[70px]  mx-auto'>
+      <div className='md:mt-[100px] mt-[80px] md:flex mb-[50px] justify-center items-center    mx-auto md:w-[1158px]'>
+        <div className=' md:ml-[80px] md:mt-[10px]  mx-auto'>
             <div>
             <div className='mx-auto flex items-center w-[350px] h-[120px] md:w-[600px] md:h-[160px] overflow-auto'>
             <div className='justify-center flex flex-row'>
@@ -324,8 +351,8 @@ function App() {
                     className="flex items-center justify-center ml-[10px] text-center bg-[#9FD4A3] md:w-[138px] w-[108px] md:rounded-[30px] rounded-[20px] md:h-[122px] h-[80px] shadow-lg"
                   >
                     <div className=''>
-                      <p className='text-[#000] font-ntr mt-[10px] text-sm md:text-[35px] font-bold'>{item.percentageZone} %</p>
-                      <h2 className='text-[#000] font-mitr py-2 text-sm text-[9px] md:text-[15px]'>{item.name}</h2>
+                      <p className='text-[#000]  mt-[10px] text-[16px] md:text-[25px] font-bold'>{item.percentageZone} %</p>
+                      <h2 className='text-[#000]  py-1  text-[10px] md:text-[15px]'>{item.name}</h2>
                     </div>
                   </div>
                 ))}
@@ -333,9 +360,12 @@ function App() {
           </div>
 
               
-              <div className=' mx-auto mt-[50px]  md:mt-[20px] flex-col items-center justify-center'>
-              <div className=' flex mb-[50px] mx-auto  flex-col mt-[20px] w-[591px] rounded-[30px] md:rounded-[50px] md:mt-[10px] '>
-              <ResponsiveContainer width="100%" height={300}>
+          <div className=' mx-auto   md:mt-[20px] flex-col items-center justify-center'>
+              <div className=' flex mb-[20px] mx-auto justify-center mt-[20px] md:w-[591px] w-[370px] rounded-[30px] md:rounded-[50px] md:mt-[10px] '>
+              {/* const isLargeScreen = window.innerWidth > 768; */}
+{console.log("////////////////////////: ",chartWidth,chartHeight)}
+              <ResponsiveContainer width={chartWidth} height={chartHeight}>
+                
 
                 <LineChart
                   // width={300}
@@ -399,9 +429,9 @@ function App() {
                           </LineChart>
                         </ResponsiveContainer> */}
                 
-              </div>
-              <div className=' flex mb-[50px] mx-auto  flex-col mt-[20px] w-[591px] rounded-[30px] md:rounded-[50px] md:mt-[10px] '>
-              <ResponsiveContainer width="100%" height={300}>
+                </div>
+              <div className=' flex mb-[50px]  mx-auto justify-center  mt-[10px] md:w-[591px] w-[370px] rounded-[30px] md:rounded-[50px] md:mt-[10px] '>
+              <ResponsiveContainer width={chartWidth} height={chartHeight}>
 
                   <BarChart  data={data}  margin={{ top: 30, right: 30, left: 20, bottom: 5 }} radius={[20]} className=' bg-[#fff] rounded-[20px] text-[10px] '>
                     <CartesianGrid strokeDasharray="3 3" />
@@ -465,23 +495,23 @@ function App() {
             </div> */}
           </div>
 
-          <div className='mx-auto  mt-[-130px]  justify-center mb-[50px]'>
+          <div className='mx-auto  md:mt-[-210px] mt-[30px] justify-center '>
             <div className=' text-sm md:text-[20px] w-[300px]  md:ml-[50px] h-[500px] md:h-[600px]  md:w-[587px] py-2 rounded-[20px]  md:py-4 bg-[#D9D9D9] mx-auto shadow-lg'>
               <div className=' flex items-center bg-[#5A985E] w-[300px] md:w-[587px] md:h-[64px] mt-[-10px] h-[44px] rounded-t-[20px] md:mt-[-15px]'>
                <div className=' w-full '>
-                <p className='flex font-ntr  text-left md:text-[20px] text-[15px] py-2  ml-[10px] text-[#fff] items-center'><BsFillBarChartFill className = 'py-2 text-3xl md:text-4xl'/><span className='mt-[2px] text-[18px] md:text-[21px]'>Overview</span></p>
+                <p className='flex  text-left md:text-[20px] text-[15px] py-2  ml-[10px] text-[#fff] items-center'><BsFillBarChartFill className = 'py-2 text-3xl md:text-4xl'/><span className='mt-[2px] text-[18px] md:text-[21px]'>Overview</span></p>
 
                </div>
                 </div>
-                <div className='mx-auto w-[280px] md:w-[550px] font-ntr  md:h-[500px]  h-[440px] text-black flex flex-col    bg-[#D9D9D9] md:rounded-[30px] rounded-[30px] mt-[10px] overflow-auto '>
+                <div className='mx-auto w-[280px] md:w-[550px]   md:h-[500px]  h-[440px] text-black flex flex-col    bg-[#D9D9D9] md:rounded-[30px] rounded-[30px] mt-[10px] overflow-auto '>
 
                 {todoList.key && Array.isArray(todoList.key) && todoList.key.map((item, index) => (
                   
-                  <Link href={`/reportingResults_row_2?id=${item.id}`} key={index}>
+                  <Link href={`/reportingResults_row_3?id=${item.id}`} key={index}>
                   <div className={'mx-auto mt-[8px] w-[250px] p-2 h-[100px] md:h-[120px] md:w-[500px] px-2 text-black flex-col bg-[#FFF] text-center rounded-[15px] '}>
                     {/* {console.log("TODOLIST: ",key)} */}
                     <div className='flex justify-center  h-[40px]  md:ml-[8px]  mt-[5px]'>
-                      <p className='text-[#000] ml-[5px]  text-[14px] text-left md:text-[18px] w-[250px] md:w-[700px] break-words whitespace-pre-wrap'>
+                      <p className='text-[#000] ml-[5px]  text-[12px] text-left md:text-[15px] w-[250px] md:w-[700px] break-words whitespace-pre-wrap'>
                       <span className='text-[#5A985E] font-bold'>inspector: </span> {item.name}  <span className='text-gray-500'>{todoList.date} น.</span>
                       </p>
                     </div>
@@ -493,7 +523,7 @@ function App() {
                       <div key={itemindex}>
                         {/* {console.log("ZONE: ", { zoneItem })} */}
                         <div className='flex '>
-                          <p className='text-gray-300 font-mitr text-[12px] ml-[5px]'>{zoneItem}</p>
+                        <p className='text-gray-300  text-[12px] ml-[5px]'>{zoneItem}</p>
                           {itemindex < item.zone.length - 1 && <p className='text-gray-300 font-mitr text-[12px] ml-[5px]'>, </p>}
                         </div>
                       </div>

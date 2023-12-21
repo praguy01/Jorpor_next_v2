@@ -235,7 +235,7 @@ export default function CompRegister() {
   return (
     <div >
       <div className='w-full bg-[#5A985E] fixed top-0 left-0 '>
-        <div className='container mx-auto flex justify-between items-center py-2 px-4 w-screen font-ntr '>
+        <div className='container mx-auto flex justify-between items-center py-2 px-4 w-screen  '>
           <div className='text-[#fff] font-bold text-[24px]'>
             <Link href="login">JorPor</Link>
           </div>
@@ -257,31 +257,31 @@ export default function CompRegister() {
 
                 </div>
                 <div>
-                  <div className='absolute inset-[0] container mx-auto px-4 z-10 items-center font-ntr'>
+                  <div className='absolute inset-[0]  container mx-auto px-4 z-10 items-center'>
                     <div className='mx-auto w-[300px] md:w-[490px] py-[30px] text-black flex flex-col bg-[#D1E6D3] text-center rounded-[50px] mt-[106px] '>
                       <div className='mt-[15px] md:mt-[30px] '>
-                        <h1 className='text-[22px] md:text-[40px] font-bold'>Create New Account</h1>
-                        <div className='flex justify-center items-center text-sm md:text-[20px] mt-2'>
+                        <h1 className='text-[20px]  md:text-[25px] font-bold'>Create New Account</h1>
+                        <div className='flex justify-center items-center text-[12px] md:text-[16px] mt-2'>
                           <div className='mr-2'>Already Registered?</div>
                           <Link href="/login" className='text-[#5A985E]'>Log in</Link>
                         </div>
                         <form onSubmit={handleSubmit}>
-                        <div className='flex justify-center items-center text-sm md:text-lg mt-2'>
+                        <div className='flex justify-center items-center text-[12px] md:text-[16px] mt-2'>
                           <div className='mr-2 '>
-                            <p className='mt-4 text-left text-xs md:text-lg ml-[10px]'>Name</p>
+                            <p className='mt-4 text-left text-[11px] md:text-[16px] ml-[10px]'>Name</p>
                             <input type="text" name="name" value={formData.name} onChange={handleInputChange} className='rounded-[50px] pl-2  text-sm md:text-lg w-[100px]  h-[25px]  md:w-[211px] md:h-[41px]' />
                           </div>
                           <div>
-                            <p className='mt-4 text-left text-xs md:text-lg ml-[10px]'>Last Name</p>
+                            <p className='mt-4 text-left text-[11px] md:text-[16px] ml-[10px]'>Last Name</p>
                             <input type="text" name="last_name" value={formData.last_name} onChange={handleInputChange} className='rounded-[50px]  pl-2  text-sm md:text-lg w-[100px]  h-[25px]  md:w-[211px] md:h-[41px]' />
                           </div>
                         </div>
-                        <p className='text-left text-xs ml-[55px] md:ml-[40px] mt-[15px] md:text-lg'>Email</p>
+                        <p className='text-left text-[11px] ml-[55px] md:ml-[40px] mt-[15px] md:text-[16px]'>Email</p>
                         <input type="text" name="email" value={formData.email} onChange={handleInputChange} className='rounded-[20px]  pl-[15px] w-[210px]  h-[25px] text-sm md:text-lg md:w-[430px] md:h-[41px]' />
-                        <div className='flex justify-center items-center  text-xs md:text-[20px]   mt-[5px]' >
+                        <div className='flex justify-center items-center  text-[11px] md:text-[20px]   mt-[5px]' >
                           <div className='mr-[10px]'>
-                            <p className='text-left text-xs ml-[10px] md:ml-[10px] mt-[15px]  md:text-lg'>Position</p>
-                            <select id="dropdown" name="position" value={formData.position} onChange={handleInputChange} className='rounded-[20px]  pl-[15px] w-[100px]  h-[25px] text-xs md:text-lg md:w-[211px] md:h-[41px] ' >
+                            <p className='text-left text-[11px] ml-[10px] md:ml-[10px] mt-[15px]  md:text-[16px]'>Position</p>
+                            <select id="dropdown" name="position" value={formData.position} onChange={handleInputChange} className='rounded-[20px]  pl-[15px] w-[100px]  h-[25px] text-[11px] md:text-[16px] md:w-[211px] md:h-[41px] ' >
                               <option value="">Select an option</option>
                               {/* <option value="Safety Officer Professional level">Professional level</option>
                               <option value="Safety Officer Technical level">Technical level</option> */}
@@ -289,34 +289,34 @@ export default function CompRegister() {
                             </select>
                           </div>
                           <div>
-                            <p className='text-left text-xs ml-[10px] md:ml-[10px] mt-[15px]  md:text-lg'>Employee</p>
+                            <p className='text-left text-[11px] ml-[10px] md:ml-[10px] mt-[15px]  md:text-[16px]'>Employee</p>
                             <input type="text" name="employee" value={formData.employee} onChange={handleInputChange} className='rounded-[20px]  pl-[15px] w-[100px]  h-[25px] text-sm md:text-lg md:w-[211px] md:h-[41px]' />
                           </div>
                         </div>
-                        <p className="text-left text-xs ml-[55px] md:ml-[40px] mt-[15px] md:text-lg">Password</p>
-                        <input type="password" name="password" value={formData.password} onChange={handleInputChange} className="rounded-[20px]  pl-[15px] w-[210px] h-[25px] text-sm md:text-lg md:w-[430px] md:h-[41px]" />
+                        <p className="text-left text-[11px] ml-[55px] md:ml-[40px] mt-[15px] md:text-[16px]">Password</p>
+                        <input type="password" name="password" value={formData.password} onChange={handleInputChange} className="rounded-[20px]  pl-[15px] w-[210px] h-[25px] text-[12px] md:text-[16px] md:w-[430px] md:h-[41px]" />
                         <div className='flex flex-col'>
                         
 
 
                           {message && (
-                            <p className='mt-3 text-red-500 text-xs py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-lg md:mt-[30px]'>
+                            <p className='mt-3 text-red-500 text-[11px] py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-[16px] md:mt-[30px]'>
                               {message}
                             </p>
                           )}
                           {registrationMessage && (
-                            <p className=' mt-3 text-red-500 text-xs py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-lg md:mt-[30px]'>
+                            <p className=' mt-3 text-red-500 text-[11px] py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-[16px] md:mt-[30px]'>
                               {registrationMessage}
                             </p>
                           )}
                           {registrationMessagePass && (
-                            <div className=' mt-3 text-green-600 text-xs py-2 bg-[#ACE9A7] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-lg md:mt-[30px]'>
+                            <div className=' mt-3 text-green-600 text-[11px] py-2 bg-[#ACE9A7] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-[16px] md:mt-[30px]'>
                               {registrationMessagePass}
                             </div>
                             
                           )}
                           
-                          <button type="submit" className="mx-auto w-[100px] mt-5 text-sm md:text-lg md:mt-8 border-[#5A985E] bg-[#5A985E] px-4 py-1 md:py-2 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200">
+                          <button type="submit" className="mx-auto w-[100px] mt-5 text-[12px] md:text-lg md:mt-8 border-[#5A985E] bg-[#5A985E] px-4 py-1 md:py-2 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200">
                             Sign in
                           </button>
                         </div>
@@ -363,7 +363,7 @@ export default function CompRegister() {
                                   )}     
                                   </div>
                                  <div>
-                                    <button onClick={handleConfirmSubmit} className=" mx-auto mb-[10px] w-[100px] mt-[10px] md:mt-[240px] text-sm md:text-lg  border-[#5A985E] bg-[#5A985E] px-4 py-1 md:py-2 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200">Comfirm</button>
+                                    <button onClick={handleConfirmSubmit} className=" mx-auto mb-[10px] w-[100px] mt-[10px] md:mt-[240px] text-[12px] md:text-[16px]  border-[#5A985E] bg-[#5A985E] px-4 py-1 md:py-2 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200">Comfirm</button>
                                   </div>
                                   </div>
                                   </div>

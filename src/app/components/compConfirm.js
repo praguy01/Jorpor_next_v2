@@ -119,7 +119,7 @@ export default function CompConfirm() {
     <div className='fixed bg-[#F5F5F5] top-0 h-screen w-screen z-20 border '>
 
       <div className='w-full bg-[#5A985E] fixed top-0 left-0 ' >
-        <div className='container mx-auto flex justify-between  items-center py-2 px-4   w-screen font-ntr '>
+        <div className='container mx-auto flex justify-between  items-center py-2 px-4   w-screen  '>
           <div className='text-[#fff] font-bold text-[24px]' >
           <Link href="login">JorPor</Link>
 
@@ -137,19 +137,19 @@ export default function CompConfirm() {
 
         <div className='absolute inset-[0]'>
           <div>
-            <div className='  mx-auto  w-[330px] py-[180px] md:w-[530px]  md:py-[260px] text-black flex flex-col  bg-[#D1E6D3]/50 text-center rounded-[50px] mt-[140px] xs:w-[350px]'>
+            <div className='  mx-auto  w-[330px] py-[180px] md:w-[530px]  md:py-[260px] text-black flex flex-col  bg-[#D1E6D3]/50 text-center rounded-[50px] mt-[140px]'>
           </div>
           <div>
-            <div className='absolute inset-[0] container mx-auto px-4 z-10 items-center  font-ntr  '>
-              <div className='mx-auto w-[300px]  md:w-[490px]  py-[30px] text-black flex flex-col  bg-[#D1E6D3] text-center rounded-[50px] mt-[106px] xs:w-[350px] '>
+            <div className='absolute inset-[0] container mx-auto px-4 z-10 items-center    '>
+              <div className='mx-auto w-[300px]  md:w-[490px]  py-[30px] text-black flex flex-col  bg-[#D1E6D3] text-center rounded-[50px] mt-[106px]  '>
               <div>
-                <div className='mt-[15px] md:mt-[30px] '>
+                <div className='mt-[15px] text-[14px] md:text-[18px] md:mt-[30px] '>
                
                   <form onSubmit={handleSubmit}>
                           <div className='mt-10 md:mt-20 '>
                             <p>กรุณากรอกรหัสยืนยันที่ถูกส่งไปยังอีเมลของคุณ</p>
                      
-                            <div className="flex ml-[10px]">
+                            <div className="flex  justify-center">
                             {[1, 2, 3, 4, 5, 6].map((index) => (
                               <input
                                 key={index}
@@ -157,29 +157,29 @@ export default function CompConfirm() {
                                 name={`PIN${index}`}
                                 value={formData[`PIN${index}`]}
                                 onChange={handleChange}
-                                className="mt-[20px] text-center w-[30px] h-[30px] text-lg md:text-lg md:w-[50px] md:h-[50px] md:ml-[18px] mx-2"
+                                className="mt-[20px] text-center w-[30px] h-[30px] text-[13px] md:text-lg md:w-[50px] md:h-[50px] md:ml-[18px] mx-1"
                                 maxLength={1}
                               />
                             ))}
               
                             </div>   
                             {message && (
-                              <p className='mt-3 text-red-500 text-xs py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[340px] mx-auto md:text-lg md:mt-[30px]'>
+                              <p className='mt-3 text-red-500 text-[12px] py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[340px] mx-auto md:text-lg md:mt-[30px]'>
                                 {message}
                               </p>
                             )}
                             {messagePass && (
-                              <p className=' mt-3 text-green-600 text-xs py-2 bg-[#ACE9A7] rounded-[10px] inline-block px-4 w-[210px] md:w-[340px] mx-auto md:text-lg md:mt-[30px]'>
+                              <p className=' mt-3 text-green-600 text-[12px] py-2 bg-[#ACE9A7] rounded-[10px] inline-block px-4 w-[210px] md:w-[340px] mx-auto md:text-lg md:mt-[30px]'>
                                 {messagePass}
                               </p>
                             )}                        
-                            <button type="submit" className=" mx-auto mb-[10px] w-[100px] mt-[220px] md:mt-[240px] text-sm md:text-lg  border-[#5A985E] bg-[#5A985E] px-4 py-1 md:py-2 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200">Comfirm</button>
+                            <button type="submit" className=" mx-auto mb-[10px] w-[100px] mt-[220px] md:mt-[240px] text-[12px] md:text-[16px]  border-[#5A985E] bg-[#5A985E] px-4 py-1 md:py-2 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200">Comfirm</button>
                           </div>
                           {isLoading && (
                         <div className='flex mx-auto  mt-[15px] ' >
                           <div className="mx-auto mt-[15px]  mr-[3px] inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status">
                           </div>
-                          <p className="mx-auto mt-[14px] md:mt-[10px] ml-[3px] md:ml-[5px] font-ntr text-sm md:text-lg">Loading...</p>
+                          <p className="mx-auto mt-[14px] md:mt-[10px] ml-[3px] md:ml-[5px]  text-[12px] md:text-lg">Loading...</p>
                         </div>
                       )}
                         </form>

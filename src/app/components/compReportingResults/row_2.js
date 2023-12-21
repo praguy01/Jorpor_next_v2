@@ -450,168 +450,261 @@ function App() {
 //     });
 // };
 
-const generatePDF = async () => {
-  // สร้าง container ในขนาด A4
-  const container = document.createElement("div");
-  container.style.width = "680px"; // ขนาด A4 ในพิกเซล
-  container.style.height = "1000px";
-  container.style.margin = "60px";
 
-  const content = document.createElement("div");
+const generatePDF = async () => {
+  let currentHeight = 0;
+  const maxPageHeight = 800; // Set the maximum height of a page
+  const container = document.createElement("div");
+  container.style.width = "610px"; // Adjust the width to fit the paper size (A4 width in pixels)
+  container.style.minHeight = "1123px"; // A4 height in pixels (approx. 297mm * 3.78 pixels/mm)
+  container.style.margin = "0 auto"; // Center the content
+  
+
+  const createNewPage = () => {
+    const newContent = document.createElement("div");
+    newContent.style.width = "100%";
+    newContent.style.height = "100%";
+    newContent.innerHTML = '<ul></ul>';
+    container.appendChild(newContent);
+    currentHeight = 0;
+    return newContent;
+  };
+
+  let currentPage = createNewPage();
+  let content = currentPage;
+
   content.id = "pdf-content";
   content.innerHTML = `
-      <div class="text-center mb-4"> 
-          <h1 class=" text-black  ">แบบรายงานผลการตรวจสอบความปลอดภัย</h1>
-      </div>
-      <div class="data-summary text-black">
-          <p className='mt-[5px]'>ผู้ตรวจสอบความปลอดภัย : ${nameExamine.inspector}</p>
-          <p className='mt-[10px]'>วัน เดือน ปี เวลา ที่ตรวจ : ${nameExamine.date}</p>
-          <ul></ul>
-      </div>
+    <div class="text-center mb-4"> 
+      <h1 class="text-black text-[16px] ">แบบรายงานผลการตรวจสอบความปลอดภัย</h1>
+    </div>
+    <div class="data-summary text-black text-[14px]">
+      <p class='mt-5 '>ผู้ตรวจสอบความปลอดภัย : ${nameExamine.inspector}</p>
+      <p class='mt-2 '>วัน เดือน ปี เวลา ที่ตรวจ : ${nameExamine.date} น.</p>
+      <ul></ul>
+    </div>
   `;
-
-  // Loop through nameExamine items
+  
   if (nameExamine && nameExamine.items) {
-    nameExamine.items.forEach((item, index) => {
-      const itemContainer = document.createElement("div");
+    try {
+      for (const item of nameExamine.items) {
+        const itemContainer = document.createElement("div");
+        const examineHeader = document.createElement("h1");
+        examineHeader.classList.add("text-left", "text-black", "text-[13px]", 'font-bold', "mt-[10px]");
+        examineHeader.textContent = ` ${item.name}`;
+        itemContainer.appendChild(examineHeader);
 
-      const examineHeader = document.createElement("h1");
-      examineHeader.classList.add("text-left", "text-black", "text-[15px]", 'font-bold', "mt-[10px]");
-      examineHeader.textContent = ` ${item.name}`;
+        if (item.examine) {
+          for (const [examKey, examValue] of Object.entries(item.examine)) {
+            const subContainer = document.createElement("div");
 
-      itemContainer.appendChild(examineHeader);
+            if (examValue[0].useEmployee === 'false') {
+              const examineHeader = document.createElement("h2");
+              examineHeader.classList.add("text-left", "ml-[10px]", "text-[13px]", "text-black", "mt-[10px]");
+              examineHeader.textContent = ` ${examKey}`;
+              subContainer.appendChild(examineHeader);
 
-      if (item.examine) {
-        Object.keys(item.examine).forEach((examKey, examIndex) => {
-          const subContainer = document.createElement("div");
+              if (examValue[0].itemA) {
+                const table = document.createElement("table");
+                table.className = "min-w-full divide-gray-200 mt-[10px]";
 
-          if (item.examine[examKey][0].useEmployee === 'false') {
-            const examineHeader = document.createElement("h2");
-            examineHeader.classList.add("text-left", "text-black", "text-[16px]", 'font-bold', "ml-[10px]", "mt-[10px]");
-            examineHeader.textContent = ` ${examKey}`;
-            subContainer.appendChild(examineHeader);
+                const thead = document.createElement("thead");
+                thead.className = "bg-gray-50 top-0 z-10";
+                const headerRow = document.createElement("tr");
+                headerRow.className = "text-center items-center";
 
-            if (item.examine && item.examine[examKey][0].itemA) {
-              // Create the table
-              const table = document.createElement("table");
-              table.className = "min-w-full divide-gray-200 mt-[10px]";
-
-              // Create the table head
-              const thead = document.createElement("thead");
-              thead.className = "bg-gray-50 top-0 z-10";
-              const headerRow = document.createElement("tr");
-              headerRow.className = "text-center items-center";
-
-              // Create and append the header cells
-              ["ลำดับ", "รายการตรวจสอบ", "สถานะ", "รายละเอียด"].forEach((key) => {
-                const th = document.createElement("th");
-                th.scope = "col";
-                th.style.whiteSpace = 'nowrap';
-                th.className = "border w-[200px] py-1 text-[12px] text-gray-500 uppercase tracking-wider";
-                th.textContent = key;
-                headerRow.appendChild(th);
-              });
-
-              thead.appendChild(headerRow);
-              table.appendChild(thead);
-
-              // Create the table body
-              const tbody = document.createElement("tbody");
-              tbody.className = "bg-white text-[13px] divide-y divide-gray-200";
-
-              // Iterate over itemA and create table rows
-              item.examine[examKey][0].itemA.forEach((entry, entryIndex) => {
-                console.log("55555555555555: ",entry)
-                const tableRow = document.createElement("tr");
-
-                // Create and append cells (td) to the table row
-                ["ลำดับ", "รายการตรวจสอบ", "สถานะ", "รายละเอียด"].forEach((key) => {
-                  const cell = document.createElement("td");
-                  cell.className = `py-4 border whitespace-nowrap ${key === 'Name' ? 'text-black' : ''}`;
-                  cell.innerHTML = `<div>${key === 'ลำดับ' ? entryIndex + 1 : entry[key.toLowerCase()]}</div>`;
-                  tableRow.appendChild(cell);
+                ["ลำดับ", "รายการตรวจสอบ", "สถานะ", "รายละเอียด"].forEach((key, columnIndex) => {
+                  const th = document.createElement("th");
+                  th.scope = "col";
+                  th.style.whiteSpace = 'nowrap';
+                  th.className = `border py-1 text-[12px] text-gray-500 uppercase tracking-wider`;
+                  
+                  // Set a specific width for each column (adjust the values as needed)
+                  if (columnIndex === 0) {
+                    th.style.width = "50px"; // Adjust the width for the first column
+                  } else if (columnIndex === 1) {
+                    th.style.width = "100px"; // Adjust the width for the second column
+                  } else {
+                    th.style.width = "80px"; // Adjust the width for other columns as needed
+                  }
+                
+                  th.textContent = key;
+                  headerRow.appendChild(th);
                 });
 
-                tbody.appendChild(tableRow);
-              });
+                thead.appendChild(headerRow);
+                table.appendChild(thead);
 
-              table.appendChild(tbody);
-              subContainer.appendChild(table);
-            }
-          } else {
-            const examineHeader = document.createElement("h2");
-            examineHeader.classList.add("text-left", "ml-[10px]", "text-black", "mt-[10px]");
-            examineHeader.textContent = `Examine: ${examKey}`;
-            subContainer.appendChild(examineHeader);
+                const tbody = document.createElement("tbody");
+                tbody.className = "bg-white text-[13px] divide-y divide-gray-200 items-center";
 
-            if (item.examine && item.examine[examKey][0].itemA) {
-              // Create the table
-              const table = document.createElement("table");
-              table.className = "min-w-full divide-gray-200 mt-[10px]";
+                for (const [entryIndex, entry] of examValue[0].itemA.entries()) {
+                  const tableRow = document.createElement("tr");
 
-              // Create the table head
-              const thead = document.createElement("thead");
-              thead.className = "bg-gray-50 top-0 z-10";
-              const headerRow = document.createElement("tr");
-              headerRow.className = "text-center";
+                  ["ลำดับ", "รายการตรวจสอบ", "สถานะ", "รายละเอียด"].forEach((key) => {
+                    const cell = document.createElement("td");
+                    cell.className = `py-3 border whitespace-nowrap ${key === 'ลำดับ' ? 'text-black' : ''} text-center items-center`;
 
-              // Create and append the header cells
-              ["No", "Name", "Status", "Details"].forEach((key) => {
-                const th = document.createElement("th");
-                th.scope = "col";
-                th.style.whiteSpace = 'nowrap';
-                th.className = "border w-[200px] py-1 text-[12px] text-gray-500 uppercase tracking-wider";
-                th.textContent = key;
-                headerRow.appendChild(th);
-              });
+                    let content = '';
 
-              thead.appendChild(headerRow);
-              table.appendChild(thead);
+                    if (key === 'ลำดับ') {
+                      content = entryIndex + 1;
+                    } else if (key === 'รายการตรวจสอบ') {
+                      content = entry.examine_name;
+                    } else if (key === 'สถานะ') {
+                      content = entry.status;
+                    } else if (key === 'รายละเอียด') {
+                      content = entry.details;
+                    }
 
-              // Create the table body
-              const tbody = document.createElement("tbody");
-              tbody.className = "bg-white text-[13px] divide-y divide-gray-200";
+                    cell.innerHTML = `<div>${content}</div>`;
+                    tableRow.appendChild(cell);
+                  });
 
-              // Iterate over itemA and create table rows
-              item.examine[examKey][0].itemA.forEach((entry, entryIndex) => {
-                const tableRow = document.createElement("tr");
+                  const rowHeight = tableRow.offsetHeight;
+                  currentHeight += rowHeight;
 
-                // Create and append cells (td) to the table row
-                ["No", "Name", "Status", "Details"].forEach((key) => {
-                  const cell = document.createElement("td");
-                  cell.className = `py-4 border whitespace-nowrap ${key === 'Name' ? 'text-black' : ''}`;
-                  cell.innerHTML = `<div>${key === 'No' ? entryIndex + 1 : entry[key.toLowerCase()]}</div>`;
-                  tableRow.appendChild(cell);
+                  if (currentHeight > maxPageHeight) {
+                    content = createNewPage();
+                    currentPage = content;
+                    currentHeight = rowHeight;
+                  }
+
+                  tbody.appendChild(tableRow);
+                  subContainer.appendChild(table);
+                  // content.querySelector('ul').appendChild(subContainer);
+                }
+
+                table.appendChild(tbody);
+                subContainer.appendChild(table);
+              }
+            } else {
+              const examKeyHeader = document.createElement("h2");
+              examKeyHeader.classList.add("text-left", "ml-[10px]", "text-[13px]", "text-black", "mt-[10px]");
+              examKeyHeader.textContent = ` ${examKey}`;
+              subContainer.appendChild(examKeyHeader);
+
+              for (const [entryIndex, entry] of examValue[0].itemA.entries()) {
+                const entryHeader = document.createElement("h2");
+                entryHeader.classList.add("text-left", "ml-[10px]", "text-[13px]", "text-black", "mt-[10px]");
+                entryHeader.textContent = `${entryIndex + 1} ${entry.key}`;
+                subContainer.appendChild(entryHeader);
+
+                const table = document.createElement("table");
+                table.className = "min-w-full divide-gray-200 mt-[10px]";
+
+                const thead = document.createElement("thead");
+                thead.className = "bg-gray-50 top-0 z-10";
+                const headerRow = document.createElement("tr");
+                headerRow.className = "text-center items-center";
+
+                ["ลำดับ", "รายการตรวจสอบ", "สถานะ", "รายละเอียด"].forEach((key, columnIndex) => {
+                  const th = document.createElement("th");
+                  th.scope = "col";
+                  th.style.whiteSpace = 'nowrap';
+                  th.className = `border py-1 text-[12px] text-gray-500 uppercase tracking-wider`;
+                  
+                  // Set a specific width for each column (adjust the values as needed)
+                  if (columnIndex === 0) {
+                    th.style.width = "50px"; // Adjust the width for the first column
+                  } else if (columnIndex === 1) {
+                    th.style.width = "100px"; // Adjust the width for the second column
+                  } else {
+                    th.style.width = "80px"; // Adjust the width for other columns as needed
+                  }
+                
+                  th.textContent = key;
+                  headerRow.appendChild(th);
                 });
 
-                tbody.appendChild(tableRow);
-              });
+                thead.appendChild(headerRow);
+                table.appendChild(thead);
 
-              table.appendChild(tbody);
-              subContainer.appendChild(table);
+                const tbody = document.createElement("tbody");
+                tbody.className = "bg-white text-[13px] divide-y divide-gray-200 items-center";
+
+                for (const [itemIndex, item] of entry.itemB.entries()) {
+                  const tableRow = document.createElement("tr");
+
+                  ["ลำดับ", "รายการตรวจสอบ", "สถานะ", "รายละเอียด"].forEach((key) => {
+                    const cell = document.createElement("td");
+                    cell.className = `py-3 border whitespace-nowrap ${key === 'ลำดับ' ? 'text-black' : ''} text-center items-center`;
+
+                    let content = '';
+
+                    if (key === 'ลำดับ') {
+                      content = itemIndex + 1;
+                    } else if (key === 'รายการตรวจสอบ') {
+                      content = item.examinename_name;
+                    } else if (key === 'สถานะ') {
+                      content = item.status;
+                    } else if (key === 'รายละเอียด') {
+                      content = item.details;
+                    }
+
+                    cell.innerHTML = `<div>${content}</div>`;
+                    tableRow.appendChild(cell);
+                  });
+
+                  const rowHeight = tableRow.offsetHeight;
+                  currentHeight += rowHeight;
+
+                  if (currentHeight > maxPageHeight) {
+                    content = createNewPage();
+                    currentPage = content;
+                    currentHeight = rowHeight;
+                  }
+
+                  tbody.appendChild(tableRow);
+                  subContainer.appendChild(table);
+                  // content.querySelector('ul').appendChild(subContainer);
+                }
+
+                table.appendChild(tbody);
+                subContainer.appendChild(table);
+              }
             }
+
+            itemContainer.appendChild(subContainer);
           }
+        }
 
-          // Append subContainer to itemContainer
-          itemContainer.appendChild(subContainer);
-        });
+        content.querySelector("ul").appendChild(itemContainer);
       }
 
-      content.querySelector("ul").appendChild(itemContainer);
-    });
-  }
+      // Additional pages
+      createNewPage();
+      createNewPage();
 
-  container.appendChild(content);
+      const pdfBlob = await new Promise((resolve, reject) => {
+        html2pdf(container, {
+          margin: 10,
+          filename: 'แบบรายงานผลการตรวจสอบความปลอดภัย.pdf',
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2 },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+          pagebreak: { mode: ['css', 'legacy'] }
+        }, resolve, reject);
+      });
 
-  const pdfBlob = await html2pdf(container);
+      if (pdfBlob instanceof Blob) {
+        const pdfUrl = URL.createObjectURL(pdfBlob);
 
-  if (pdfBlob instanceof Blob) {
-    const pdfUrl = URL.createObjectURL(pdfBlob);
-    window.open(pdfUrl, '_blank');
-  } else {
-    console.error('html2pdf did not return a Blob:', pdfBlob);
-  }
+        // Open the PDF in a new tab
+        window.open(pdfUrl, '_blank');
+
+        // Show success popup (optional)
+        setShowSuccessPopup(true);
+      } else {
+        console.error('html2pdf did not return a Blob:', pdfBlob);
+      }
+    } catch (error) {
+      console.error('Error during PDF generation:', error);
+    }
+  };
 };
+
+
 
 
   return (
@@ -625,10 +718,10 @@ const generatePDF = async () => {
              <div className='bg-[#5A985E] mx-auto max-w-[500px] sm:max-w-[350px] py-[100px] rounded-[50px]'></div>
           </div>
 
-          <div className='mx-auto w-[350px] md:w-[800px] font-ntr mb-[50px]  py-[30px] text-black flex flex-col  bg-[#FFF] text-center md:rounded-[50px] rounded-[30px] mt-[106px]  '>
+          <div className='mx-auto w-[350px] md:w-[800px] mb-[50px]  py-[30px] text-black flex flex-col  bg-[#FFF] text-center md:rounded-[50px] rounded-[30px] mt-[106px]  '>
           
                     <div  >
-                    <div  className=  {`${language === 'EN' ? ' font-ntr font-bold text-[22px] md:text-[27px] ' : ' font-mitr font-bold text-[20px] md:text-[25px]'  } ml-[20px] md:ml-[50px] w-[310px]  md:w-[600px] `}>
+                    <div  className=  {`font-bold text-[20px] md:text-[25px] ml-[20px] md:ml-[50px] w-[310px]  md:w-[600px] `}>
 
                     <h1 className=' text-[#5A985E]  ml-[10px] md:ml-[0] md:w-[300px]  text-left  '>  {`${language === 'EN' ? 'Verified information ' : ' ข้อมูลตรวจสอบวันนี้ '  }`}</h1>
                     <div className="mt-[5px] md:mt-[10px] md:ml-[-30px] border-t md:border w-full md:w-[750px] border-gray-300"></div>
@@ -642,14 +735,14 @@ const generatePDF = async () => {
 
                     <div className='mx-auto md:w-[705px] text-black   w-[310px] '>
 
-                    <div className='flex items-center  mt-[5px]  text-[13px] md:text-[16px] font-mitr md:mt-[20px] text-left ml-[10px] md:ml-[10px] '>
+                    <div className='flex items-center  mt-[5px]  text-[13px] md:text-[16px] md:mt-[20px] text-left ml-[10px] md:ml-[10px] '>
                     <p>{t('Date')}</p>
                     <p className='ml-[10px] '>:</p>
                     <p className=' ml-[10px]'>{nameExamine.date}</p>
 
                     </div>
 
-                    <div className='flex items-center mt-[8px]  text-[13px] md:text-[16px] font-mitr md:mt-[15px] text-left ml-[10px] md:ml-[10px] '>
+                    <div className='flex items-center mt-[8px]  text-[13px] md:text-[16px]  md:mt-[15px] text-left ml-[10px] md:ml-[10px] '>
                     
                     <p>{t('Inspector')}</p>
                     <p className='ml-[10px]'>:</p>
@@ -659,7 +752,7 @@ const generatePDF = async () => {
 
                     <div  className='mx-auto '>
 
-                      <div  className='h-[300px]  md:w-[690px] px-2 font-mitr  text-black text-center mt-[15px] mx-auto justify-center text-sm md:text-[18px] rounded-[10px] w-[310px] py-2 md:py-4 bg-[#F5F5F5] ml-[5px]  overflow-auto'>
+                      <div  className='h-[300px]  md:w-[690px] px-2 text-black text-center mt-[15px] mx-auto justify-center text-sm md:text-[18px] rounded-[10px] w-[310px] py-2 md:py-4 bg-[#F5F5F5] ml-[5px]  overflow-auto'>
                       <div id="pdf-content"   className="w-full  ">
                       {nameExamine &&
                             nameExamine.items &&
@@ -858,7 +951,7 @@ const generatePDF = async () => {
                 <div className="bg-white p-4 rounded-lg border-black shadow-lg md:w-[400px] w-[300px] ">
                 <BsFillExclamationTriangleFill className=' text-[50px] text-[#5A985E] mx-auto mb-[10px]'/>
                 <p className='md:text-[18px] text-[#5A985E] text-[16px]  '>{`${language === 'EN' ? 'Can be sent only one time. Are you sure you have checked? ' : 'สามารถส่งได้เพียงครั้้งเดียวเท่านั้น คุณแน่ใจว่าตรวจสอบเรียบร้อยเเล้ว ? '  }`}</p>
-                  <div className=  {`${language === 'EN' ? ' font-ntr text-[19px]' : ' font-mitr text-[16px] '  } flex justify-center mt-[20px]`}>
+                  <div className=  {`text-[16px] flex justify-center mt-[20px]`}>
                     <button className="flex justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={() => {handleSubmit() ,setShowPopup(false)}}>{t('Yes')}</button> 
 
                     <button className="flex justify-center items-center bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600" onClick={() => setShowPopup(false)}>{t('Cancel')}</button>
@@ -867,7 +960,7 @@ const generatePDF = async () => {
                 </div>
               )}
 
-                <div className=  {`${language === 'EN' ? ' font-ntr text-md md:text-[20px]' : ' font-mitr text-[15px] md:text-[17px] '  } left-0 flex items-center   md:px-10  md:mt-[20px]`} >
+                <div className=  {`text-[15px] md:text-[17px]  left-0 flex items-center   md:px-10  md:mt-[20px]`} >
                   {/* <button type= "submit" href="/NotifyTwo" className=' mt-[20px] text-md md:text-[20px] md:ml-[480px] border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>Submit</button> */}
                     <button onClick={generatePDF} className=' mt-[20px]   border-[#64CE3F] bg-[#64CE3F] px-5  py-1  text-[#fff] hover:-translate-y-0.5 duration-200  mx-auto flex items-center '><IoMdDownload /><span className='ml-[5px]'>Dowload</span></button>
                     {/* <button onClick={generatePDF}>Generate PDF</button> */}

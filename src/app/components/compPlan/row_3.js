@@ -1,6 +1,8 @@
 'use client'
 import React, { useState ,useEffect} from 'react';
+import { registerLocale, setDefaultLocale } from "react-datepicker";
 import DatePicker from 'react-datepicker';
+import '@fontsource/mitr';
 import 'react-datepicker/dist/react-datepicker.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
@@ -12,6 +14,8 @@ import { initReactI18next } from 'react-i18next';
 import axios from 'axios';
 import {BsCheckCircle} from 'react-icons/bs'
 import { BsTrash } from 'react-icons/bs'; // Add this import for the trash can icon
+import { BiError } from "react-icons/bi";
+import enGB from "date-fns/locale/en-GB";
 
 
 function CompPlan() {
@@ -42,6 +46,8 @@ function App() {
   const [selectedDateForHighlight, setSelectedDateForHighlight] = useState(null);
   const [NamePlanToAdd, setNamePlanToAdd] = useState({}); // Define NamePlanToAdd state
   const [showEditPopup, setShowEditPopup] = useState(false);
+  const [errmessage, seterrMessage] = useState(false);
+  const [useMeeting, setUseMeeting] = useState(false);
 
   const fetchData = async () => {
     try {
@@ -51,7 +57,7 @@ function App() {
         console.log('Stored: ', storedId);
       }
   
-      const AddData = { storedId };
+      const AddData = { storedId ,data_role_3:true};
       const data = JSON.stringify(AddData);
       console.log('DD: ', data);
   
@@ -166,8 +172,43 @@ function App() {
 
   const addActivity = async () => {
 
-
+    
     if (newStartTime !== '' && newEndTime !== '' && newActivity !== '' && selectedDate !== null) {
+      const originalDate = new Date();
+
+      const day = originalDate.getDate().toString().padStart(2, '0');
+      const month = (originalDate.getMonth() + 1).toString().padStart(2, '0');
+      const year = originalDate.getFullYear();
+      
+      const formattedDate = `${day}/${month}/${year}`;
+
+      const selectDate = new Date(selectedDate);
+
+      const dayselected = selectDate.getDate().toString().padStart(2, '0');
+      const monthselected = (selectDate.getMonth() + 1).toString().padStart(2, '0');
+      const yearselected = selectDate.getFullYear();
+      
+      const selectedformattedDate = `${dayselected}/${monthselected}/${yearselected}`;
+
+      let isCurrentTime = parseFloat(`${new Date().getHours().toString().padStart(2, '0')}.${new Date().getMinutes().toString().padStart(2, '0')} `)
+      let isTime = parseFloat(`${newEndTime.substring(0, 5).replace(':', '.')}`)
+      console.log("DATEEEE: ", formattedDate,selectedformattedDate);
+      const date1 = new Date(formattedDate.split("/").reverse().join("-"));
+      const date2 = new Date(selectedformattedDate.split("/").reverse().join("-"));
+      console.log("DATEEEE777: ", date1,date2);
+
+
+      if (date1.toDateString() === date2.toDateString() && isCurrentTime > isTime) {
+        seterrMessage(`Time has passed. It's now ${isCurrentTime}`)
+        setTimeout(() => {
+          seterrMessage('');
+        }, 2000); 
+      } else if (date1 > date2) {
+        seterrMessage(`That day has passed and now it's ${formattedDate}`)
+        setTimeout(() => {
+          seterrMessage('');
+        }, 2000); 
+      } else {
 
       const storedUser_id = localStorage.getItem('id');
       console.log("user_id: ",storedUser_id);
@@ -181,8 +222,9 @@ function App() {
       
       const formattedDate = `${day}/${month}/${year}`;
       
+      const useMeetingAsString = useMeeting.toString(); // แปลงค่า useEmployee เป็น string
 
-      const AddData = {newStartTime, newEndTime, newActivity ,formattedDate ,storedUser_id, add: true };
+      const AddData = {useMeetingAsString,newStartTime, newEndTime, newActivity ,formattedDate ,storedUser_id, add_role_3: true };
       const data = JSON.stringify(AddData);
     
       const response = await axios.post('/api/plan', data, {
@@ -244,7 +286,7 @@ function App() {
                 let isTime = parseFloat(`${item.endTime.substring(0, 5).replace(':', '.')}`)
                 console.log("Time: ", isCurrentTime,isTime);
               
-                if (isCurrentTime > isTime) {
+                if (isCurrentTime < isTime) {
                   console.log("ITEm",item)
 
                   console.log("End",item.endTime)
@@ -259,7 +301,9 @@ function App() {
               
               
                 PlanToAdd.push(highlightedPlan);
-              }
+                // console.log("highlightedPlan: ", highlightedPlan);
+
+              } 
               } else if ( convertedDate1.getTime() < convertedDate2.getTime())  {
                 
 
@@ -275,14 +319,16 @@ function App() {
               
               
                 PlanToAdd.push(highlightedPlan);
+                // console.log("highlightedPlan: ", highlightedPlan);
 
               }
 
           });
   
-          setSchedule(PlanToAdd);
-            console.log("Testt: ", PlanToAdd);
+            setSchedule(PlanToAdd);
+            console.log("Testt2: ", PlanToAdd);
 
+            setUseMeeting(false)
             setSelectedDate('');
             setNewStartTime('');
             setNewEndTime('');
@@ -300,7 +346,7 @@ function App() {
         } else {
           setMessage(resdata.error);
         }
-      }
+      }}
       setSelectedDate('');
       setNewStartTime('');
       setNewEndTime('');
@@ -369,7 +415,7 @@ function App() {
     try {
       console.log("22345: ",item)
 
-      const editedData = { item , id, edit: true };
+      const editedData = { item , id, edit_role_3: true };
       const data = JSON.stringify(editedData)
       console.log("delete data: ",data)
 
@@ -421,7 +467,7 @@ function App() {
             <div className='mx-auto   md:h-[450px] md:w-[950px]  '>
               <table className='tracking-wider mx-auto px-4 w-[950px]  text-center table-auto shadow '>
                 <thead>
-                  <tr className={`  ${language === 'EN' ? ' font-ntr text-[15px]' : ' font-mitr  text-[15px] '  } bg-[#5A985E] text-white    uppercase`}>
+                  <tr className={`  text-[15px]  bg-[#5A985E] text-white    uppercase`}>
                   <th                   
                   style={{ whiteSpace: 'nowrap' }} className='border py-2 w-[40px] '>{t('No')}</th>
                     <th                   
@@ -463,8 +509,7 @@ function App() {
                           value={newDate}
                           onChange={handleDateChange}
                           dateFormat="dd/MM/yyyy"
-                          locale="en-GB"
-                        />
+                          locale={enGB}                        />
                       ) : (item.date)
                       }
                         </td>
@@ -505,20 +550,20 @@ function App() {
                           </button>
                         ) : (
                           <div className='flex items-center justify-center'>
-                          <div>
+                          {/* <div>
                           <FontAwesomeIcon
                           className='  cursor-pointer w-[15px] '
                             icon={faPencilAlt}
                             onClick={() => editField(item.id)}
                           />
-                          </div>
-                          <div className='ml-[10px] cursor-pointer w-[15px]'>
-                          <BsTrash onClick={(e) => {
+                          </div> */}
+                          {/* <div className='ml-[10px] cursor-pointer w-[15px]'> */}
+                          <BsTrash className='cursor-pointer' onClick={(e) => {
                           e.stopPropagation();
                           openEditPopup(item) }}  />
                           
                           </div>
-                          </div>
+                          // </div>
                         )}
                       </td>
                     </tr>
@@ -533,14 +578,22 @@ function App() {
                   <table className='mx-auto mt-[-1px] w-[950px]  text-center table-auto  '>
                   <tbody className=''>
                   <tr className='text-black  h-[50px]   ' >
-                  <td className='py-2  w-[40px] border '></td>
+                  <td className='py-2  w-[40px] border '>
+                  <input
+                    type='checkbox'
+                    checked={useMeeting}
+                    onChange={(e) => setUseMeeting(e.target.checked)}
+                    className='text-[12px]'
+                  />                  
+                  <p className='text-[11px] mt-[-8px]'>meeting</p>
+                  </td>
                     <td className=' w-[130px] border '>
                     <DatePicker
                       className='border rounded-[10px] text-[14px] py-1 pl-2 pr-2 w-[105px] text-center'
                       selected={selectedDate}
                       onChange={date => setSelectedDate(date)}
                       dateFormat="dd/MM/yyyy"
-                      locale="en-GB"
+                      locale={enGB}                      
                       placeholderText="dd/mm/yyyy"
                     />
                 
@@ -550,7 +603,7 @@ function App() {
                         type='time'
                         value={newStartTime}
                         onChange={(e) => setNewStartTime(e.target.value)}
-                        className='border rounded-[10px] py-1 w-[120px]  pl-2 pr-2'
+                        className='border rounded-[10px] py-1 w-[120px] text-[14px] pl-2 pr-2'
                       />
                     </td>
                     <td className=' w-[130px] border '>
@@ -558,7 +611,7 @@ function App() {
                         type='time'
                         value={newEndTime}
                         onChange={(e) => setNewEndTime(e.target.value)}
-                        className=' border rounded-[10px] py-1 w-[120px]  pl-2 pr-2'
+                        className=' border rounded-[10px] py-1 w-[120px] text-[14px] pl-2 pr-2'
                       />
                     </td >
                     <td className=' w-[130px] border '>
@@ -567,11 +620,11 @@ function App() {
                         value={newActivity}
                         onChange={(e) => setNewActivity(e.target.value)}
                         placeholder='Add Activity'
-                        className='border rounded-[10px]  py-1 w-[150px]  pl-2'
+                        className='border rounded-[10px]  py-1 w-[150px] text-[14px] pl-2'
                       />
                     </td>
                     <td className=' w-[50px] border '>
-                      <button onClick={addActivity} className='bg-[#5A985E] text-white p-2 rounded-[10px]'>
+                      <button onClick={addActivity} className='text-[14px] bg-[#5A985E] text-white p-2 rounded-[10px]'>
                         Add
                       </button>
                     </td>
@@ -592,16 +645,22 @@ function App() {
           </div>
         </div>
          
-        {showDeleteSuccessPopup && (
-                <div className="mx-auto bg-white text-[#5A985E] p-8  rounded-lg border-black shadow-lg md:w-[400px] w-[200px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+              {showDeleteSuccessPopup && (
+                <div className="mx-auto bg-white text-[#5A985E] p-8 text-center rounded-lg border-black shadow-lg md:w-[300px] w-[200px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                 <BsCheckCircle className=' text-[50px] text-center mx-auto mb-[10px]'/>
                 {deletemessage}
                 </div>
               )}
               {showAddSuccessPopup && (
-                <div className="mx-auto bg-white text-center text-[#5A985E] p-8  rounded-lg border-black shadow-lg md:w-[300px] w-[300px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <div className="mx-auto bg-white text-center text-[#5A985E] p-8  rounded-lg border-black shadow-lg md:w-[350px] w-[300px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                 <BsCheckCircle className=' text-[50px] mx-auto text-center mb-[10px]'/>
                 {addmessage}
+                </div>
+              )}
+              {errmessage && (
+                <div className="mx-auto bg-white text-center text-[#5A985E] p-8  rounded-lg border-black shadow-lg md:w-[330px] w-[300px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <BiError className=' text-[50px] mx-auto text-center mb-[10px]'/>
+                {errmessage}
                 </div>
               )}
                {showEditPopup.isOpen && (

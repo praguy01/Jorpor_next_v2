@@ -12,6 +12,9 @@ export async function POST(request) {
 
   
       if (res.fetch) {
+        const getdate_R2Query = "SELECT DISTINCT date FROM checklist_examine_row_2 WHERE  inspector = ? ";
+        const [getdate_R2QueryResult] = await db.query(getdate_R2Query, [res.user_IdValue]);
+
 
         // const checkExaminelistQuery = "SELECT * FROM checklist_examine WHERE date = ? AND  inspector = ? ";
         // const [examinelistResult] = await db.query(checkExaminelistQuery, [res.dateValue , res.user_IdValue]);
@@ -44,7 +47,7 @@ export async function POST(request) {
         console.log("employee: ",nameExamineListResultmap);
   
   
-        return NextResponse.json({ success: true  , dbnameExamineList: nameExamineListResultmap});
+        return NextResponse.json({ success: true  , dbnameExamineList: nameExamineListResultmap , dbsentdate: getdate_R2QueryResult});
         }
 
 

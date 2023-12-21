@@ -1,7 +1,7 @@
 'use client'
 import React, { useState , useEffect} from 'react';
 import Link from 'next/link'
-import '@fontsource/ntr'
+// import '@fontsource/ntr'
 import '../../globals.css'
 import '@fontsource/mitr';
 import {BsFillPeopleFill} from 'react-icons/bs'
@@ -44,7 +44,7 @@ function App() {
             console.log('Stored: ', storedId);
           }
     
-          const AddData = { storedId };
+          const AddData = { storedId ,meet_role_3:true};
           const data = JSON.stringify(AddData);
           console.log('DD: ', data);
     
@@ -171,30 +171,44 @@ function App() {
               <div className='left-0 md:ml-[90px] flex items-center md:mt-[150px] mt-[120px]'>
               <div
               style={{ whiteSpace: 'nowrap' }}
-              className='text-[#fff] font-mitr items-center text-center text-[25px] md:text-[65px] font-bold mr-[10px] border-[#5A985E] bg-[#5A985E] px-10 rounded-[50px] md:w-[310px] md:h-[100px]'
+              className='text-[#fff]  items-center  text-center text-[25px] md:text-[45px]  font-bold border-[#5A985E] bg-[#5A985E] px-10 rounded-[50px] md:py-2'
             >
-              {NamePlanToAdd.activity || ''}
-            </div>
-
- 
-              
+              {NamePlanToAdd && NamePlanToAdd.activity ? (
+                NamePlanToAdd.activity
+              ) : (
+                '-'
+              )}            
               </div>
-              <div className='left-0 md:ml-[60px] ml-[-30px] flex items-center md:mt-[10px] mt-[5px]'>
-              <h5 style={{ whiteSpace: 'nowrap' }} className='text-[#5A985E] text-[12px] md:text-[20px] font-mitr mr-[10px] px-10  py-1 '>
-                {NamePlanToAdd.startTime} - {NamePlanToAdd.endTime} 
+
+              </div>
+              <div 
+              className='text-[#fff] flex items-center  text-center text-[25px] md:text-[45px]  md:ml-[105px] ml-[10px] mt-[5px]  py-2'>
+              <h5 style={{ whiteSpace: 'nowrap' }} className='text-[#5A985E] text-[12px] md:text-[20px]  mr-[10px] '>
+              {NamePlanToAdd && NamePlanToAdd.activity ? (
+                `${NamePlanToAdd.date}`
+              ) : (
+                '-'
+              )}
+              </h5>   
+              <h5 style={{ whiteSpace: 'nowrap' }} className='text-[#5A985E] text-[12px] md:text-[20px]  '>
+              {NamePlanToAdd && NamePlanToAdd.activity ? (
+                `${NamePlanToAdd.startTime} - ${NamePlanToAdd.endTime}`
+              ) : (
+                '-'
+              )}
               </h5>              
               </div>
               
 
-              <div className=  {`${language === 'EN' ? ' font-ntr text-[25px] md:text-[60px]' : ' font-mitr font-small text-[20px] md:text-[50px] '  } left-0 md:ml-[60px] ml-[-30px] flex items-center md:mt-[5px]`}>
-                    <h1 className='text-[#5A985E]    mr-[10px] px-10  py-1 ' >  {`${language === 'EN' ? ' Meeting' : ' ห้อง'  }`} </h1>
+              <div className=  {` text-[20px] md:text-[50px]  left-0 md:ml-[60px] ml-[-30px] flex items-center md:mt-[5px]`}>
+                  <h1 className='text-[#5A985E]    mr-[10px] px-10  py-1 ' >  {`${language === 'EN' ? ' Meeting' : ' ห้อง'  }`} </h1>
               </div>
-              <div className={`${language === 'EN' ? ' font-ntr text-[25px] md:text-[60px] md:mt-[-30px]' : ' font-mitr font-small text-[20px] md:text-[50px]'  } left-0 md:ml-[60px] ml-[-30px] flex items-center  mt-[-15px]`}>
-                    <h1 className='text-[#5A985E]   mr-[10px] px-10  py-1 ' >{`${language === 'EN' ? ' Room' : ' ประชุม'  }`} </h1>
+              <div className={` text-[20px] md:text-[50px] left-0 md:ml-[60px] ml-[-30px] flex items-center  mt-[-15px]`}>
+                  <h1 className='text-[#5A985E]   mr-[10px] px-10  py-1 ' >{`${language === 'EN' ? ' Room' : ' ประชุม'  }`} </h1>
               </div>
             
               <div className='left-0 md:ml-[90px] flex items-center '>
-                  <button onClick={openMeeting} className=  {`${language === 'EN' ? ' font-ntr  font-bold text-[15px] md:text-[25px]   ' : ' font-mitr font-small text-[15px] md:text-[23px] mt-[15px]'  } text-[#fff] flex   border-[#5A985E] bg-[#5A985E] md:px-5 md:py-1 px-3 py-1 rounded-[50px] `} ><BsFillPeopleFill className=  {`${language === 'EN' ? ' mr-3 mt-[4px]' : ' mr-3 mt-[6px]'  }`}  /> {t('Join')}</button>
+                  <button onClick={openMeeting} className=  {` text-[15px] md:text-[23px] mt-[15px] text-[#fff] flex   border-[#5A985E] bg-[#5A985E] md:px-5 md:py-1 px-3 py-1 rounded-[50px] `} ><BsFillPeopleFill className=  {`${language === 'EN' ? ' mr-3 mt-[4px]' : ' mr-3 mt-[6px]'  }`}  /> {t('Join')}</button>
               </div>
 
               <div>

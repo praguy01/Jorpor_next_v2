@@ -2,7 +2,7 @@
 import React, { useState ,useEffect } from 'react';
 import Link from 'next/link'
 import '../../globals.css'
-import '@fontsource/ntr'
+// import '@fontsource/ntr'
 import '@fontsource/mitr';
 import axios from 'axios';
 import CompNavbar from '../compNavbar/row_3';
@@ -321,12 +321,12 @@ function App() {
           </div>
           {todoList.map((todo, index) => (
 
-          <div  key={index} className='mx-auto w-[300px] md:w-[800px] font-ntr mb-[50px]  py-[30px] text-black flex flex-col  bg-[#FFF] text-center md:rounded-[50px] rounded-[30px] mt-[106px]  '>
+          <div  key={index} className='mx-auto w-[300px] md:w-[800px] mb-[50px]  py-[30px] text-black flex flex-col  bg-[#FFF] text-center md:rounded-[50px] rounded-[30px] mt-[106px]  '>
           {console.log("TODOOO: ",todoList)}
             
                 <div className='md:mt-[30px]'>
               
-                <div className=' md:text-[20px] ml-[30px] text-[15px] md:w-[500px] md:ml-[40px] text-left '>
+                <div className=' md:text-[20px] ml-[32px] text-[15px] md:w-[500px] md:ml-[45px] text-left '>
                     <p>{todo.title}</p>
                 </div>
                  
@@ -334,38 +334,38 @@ function App() {
                 <div className="mt-[10px] border-t border-gray-300"></div> 
               </div>
 
-              <div className='font-ntr px-2 flex items-center mx-auto w-[250px]  md:ml-[40px] md:w-[720px]  py-[20px] text-black bg-[#F5F5F5] text-center mt-[15px] rounded-[20px]'>
-                <div className='  font-ntr text-sm md:text-[18px]  rounded-[10px] w-[235px] md:w-[600px] py-2 md:py-4 bg-[#F5F5F5] ml-[5px] md:ml-[40px]'>
+              <div className=' px-2 flex items-center mx-auto w-[250px]  md:ml-[40px] md:w-[720px]  py-[20px] text-black bg-[#F5F5F5] text-center mt-[15px] rounded-[20px]'>
+                <div className='  text-[12px] md:text-[18px]  rounded-[10px] w-[235px] md:w-[600px] py-2 md:py-4 bg-[#F5F5F5] ml-[5px] md:ml-[40px]'>
                 
                     <div className='flex px-3 '>
-                        <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[100px] md:ml-[-11px]'>Employee</p>
+                        <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[130px] md:ml-[-11px]'>Employee</p>
                         <p>:</p>
                         <p className='md:ml-[15px] ml-[10px] whitespace-nowrap overflow-ellipsis overflow-hidden md:w-[200px] text-left w-[110px]'>{todo.employee}</p>
                     </div>
                    
                       
                     <div className='flex px-3  mt-[5px]'>
-                      <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[100px] md:ml-[-11px]'>Location</p>
+                      <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[130px] md:ml-[-11px]'>Location</p>
                       <p>:</p>    
                       <p className='md:ml-[15px] ml-[10px] whitespace-nowrap overflow-ellipsis overflow-hidden md:w-[200px] text-left w-[110px]'>{todo.location}</p>
                     </div>
                  
                       <div className='flex px-3  mt-[5px]'>
-                        <p className='text-[#000] text-left  w-[75px]  ml-[-1px] md:w-[100px] md:ml-[-11px]'>Work Owner </p>
+                        <p className='text-[#000] text-left  w-[75px]  ml-[-1px] md:w-[130px] md:ml-[-11px]'>Work Owner </p>
                         <p>:</p>
                         <p className='md:ml-[15px] ml-[10px] w-[120px] whitespace-nowrap overflow-ellipsis overflow-hidden md:w-[200px] text-left'>{todo.work_owner}</p>
                     </div>
                  
                       
                       <div className='flex px-3 mt-[5px]'>
-                        <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[100px] md:ml-[-11px]'>Position</p>
+                        <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[130px] md:ml-[-11px]'>Position</p>
                         <p>:</p>
                         <p className='md:ml-[15px] text-left  w-[120px] ml-[10px] whitespace-nowrap overflow-ellipsis overflow-hidden md:w-[200px] '>{todo.position}</p>
                     </div>
                  
                      
                       <div className='flex px-3  mt-[5px]'>
-                        <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[100px] md:ml-[-11px]'>Date</p>
+                        <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[130px] md:ml-[-11px]'>Date</p>
                         <p>:</p>
                         <p className='md:ml-[15px] ml-[10px] whitespace-nowrap overflow-ellipsis overflow-hidden md:w-[200px] text-left w-[120px]'>{formatDateTime(todo.date)} น.</p>
                     </div>
@@ -374,7 +374,7 @@ function App() {
                 </div>
 
                 <div className='mx-auto'>
-                <p className="text-[#808080] text-[13px] md:text-[16px] font-mitr md:mt-[20px] md:ml-[-660px] ml-[-150px] mt-[10px]">รูปภาพที่อัพโหลด</p>
+                <p className="text-[#808080] text-[13px] md:text-[16px] md:mt-[20px] md:ml-[-600px] ml-[-150px] mt-[10px]">รูปภาพที่อัพโหลด</p>
 
                 {/* <h1 className=" whitespace-nowrap overflow-hidden overflow-ellipsis ml-[25px] text-left w-[245px] md:w-[705px] py-1 px-2 border mt-[5px] md:mt-[10px] md:ml-[35px] border-gray-300 p-4 rounded-lg cursor-pointer "
                   onClick={() => openFileInNewTab()}>{detectAndDisplayFileType(todo.file)}</h1> */}
@@ -442,9 +442,14 @@ function App() {
 
                 
                   <div>
-                    <p className='font-mitr text-[#808080] text-[13px] md:text-[16px] ml-[-170px] md:ml-[-640px] mt-[20px]  md:mt-[16px]'>รายละเอียด</p>
-                    <textarea type="text" name="detail" placeholder={todo.detail} className='rounded-[10px] mt-[5px] pl-[15px] w-[250px] md:ml-[-25px] h-[100px] md:text-[20px] md:w-[705px] md:h-[80px] bg-[#fff] border border-gray-300  p-4 '/>
-                    {/* <textarea value={formData.detail} onChange={handleInputChange} className='border border-gray-300 rounded-md bg-[#F5F5F5] w-[250px] h-[100px] text-black text-sm pl-2 pt-2' /> */}
+                    <p className=' text-[#808080] text-[13px] md:text-[16px] ml-[-170px] md:ml-[-640px] mt-[20px]  md:mt-[16px]'>รายละเอียด</p>
+                    <textarea
+                      type="text"
+                      name="detail"
+                      placeholder={todo.detail}
+                      className='rounded-[10px] mt-[5px] pl-[15px] w-[250px] md:ml-[-25px] h-[100px]  md:text-[16px] text-[13px] md:w-[705px] md:h-[80px] bg-[#fff] border border-gray-300 p-4'
+                      readOnly
+                    />                    {/* <textarea value={formData.detail} onChange={handleInputChange} className='border border-gray-300 rounded-md bg-[#F5F5F5] w-[250px] h-[100px] text-black text-sm pl-2 pt-2' /> */}
                 </div>
                 
 
@@ -455,7 +460,7 @@ function App() {
                 )}
                 
                 <div className='flex items-center md:px-10  md:mt-[20px]' >
-                 <button type= "submit" onClick={handleSubmit} className=' mt-[20px] text-md md:text-[20px] md:ml-[300px] ml-[85px] border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>{t('evalution')}</button>
+                 <button type= "submit" onClick={handleSubmit} className=' mt-[20px] text-md md:text-[20px] md:ml-[300px] ml-[85px] border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200'>{t('Evalution')}</button>
                 </div>
 
                 {showSuccessPopup && (
