@@ -13,7 +13,7 @@ export async function POST(request) {
       if (res.add) {
         try {
 
-          const checkExamineExistsQuery =  'SELECT id FROM examine WHERE name = ? AND examinelist_id =? ';
+          const checkExamineExistsQuery =  'SELECT id FROM examine WHERE name = ? AND examinelist_id = ? ';
           const [examinenameResult] = await db.query(checkExamineExistsQuery, [res.checklistname , res.examinelist_Id]);
           console.log("ID examine: ",examinenameResult[0].id)
 

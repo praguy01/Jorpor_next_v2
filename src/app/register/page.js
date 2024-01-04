@@ -4,10 +4,6 @@ import '@fontsource/ntr';
 import CompRegister from '../components/compRegister'
 
 
-export const metadata = {
-  title: 'register'
-}
-
 function Register() {
 
   return (

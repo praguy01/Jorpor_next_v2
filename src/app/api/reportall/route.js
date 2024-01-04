@@ -53,16 +53,56 @@ export async function POST(request) {
         // console.log("nameResult4444: ", nameInspectorResult);
         const name = nameInspectorResult[0].name + ' ' + nameInspectorResult[0].lastname;
         // console.log("NAMEEENAMEEE",name);
-        const getexamineListQuery = "SELECT * FROM examinelist WHERE user_id = ?";
-        const [getexamineListQueryResult] = await db.query(getexamineListQuery, [data.inspector]);
+        const currentDate = new Date();
+        const day = currentDate.getDate();
+        const month = currentDate.getMonth() + 1; 
+        const year = currentDate.getFullYear();
+        const formattedDate = `${day}/${month}/${year}`;
+  
+        const getIdQuery = "SELECT select_id FROM `select` WHERE date = ? AND user_id = ?";
+        const [idResult] = await db.query(getIdQuery, [formattedDate ,data.inspector]);
+        const idResultmap = idResult.map(row => row.select_id)[0]; // Extract the string from the array
+        // console.log("4444idResult: ", idResultmap);
+  
+        let item_id = [];
+  
+        // Check if idResultmap is defined before parsing
+        if (idResultmap) {
+          try {
+            item_id = JSON.parse(idResultmap);
+            console.log("Parsed item_id: ", item_id);
+          } catch (error) {
+            console.error("Error parsing JSON:", error);
+            // Handle the error appropriately, e.g., log the error or set a default value
+          }
+        } else {
+          console.warn("idResultmap is undefined or null");
+          // Handle the case where idResultmap is undefined or null
+        }
         
-        const nameExamineList = getexamineListQueryResult.map(item => item.name);
-        
+        const nameList = [];
+        let flattenedNameList = []
+      
+        for (const item of item_id) {
+          // console.log("4444: ",item)
+      
+          const getNameExamineListQuery = "SELECT name FROM examinelist WHERE id = ? AND user_id = ?";
+          const [nameExamineListResult] = await db.query(getNameExamineListQuery, [item, data.inspector]);
+      
+          // const nameExamineListResultmap = nameExamineListResult.map(row => row.name);
+          nameList.push(nameExamineListResult);
+          // console.log("nameList: ", nameList);
+          flattenedNameList = nameList.flatMap(zone => zone.map(item => item.name));
+          // console.log("Flattened nameList: ", flattenedNameList);
+          // const uniqueFlattenedNameList = [...new Set(flattenedNameList)];
+          // console.log("Unique flattened nameList: ", uniqueFlattenedNameList);
+          
+        }
 
         const dataitem = {
           id: data.inspector,
           name: name,
-          zone: nameExamineList
+          zone: flattenedNameList
 
         };
         
@@ -83,13 +123,14 @@ export async function POST(request) {
       };
 
       // แสดงผลลัพธ์
-      console.log("resultGroup",res.storedId);
+      // console.log("resultGroup",res.storedId);
       const calPercent = []
+      let reversedCalPercentCopy = []
       const getChecklist_R2Query = "SELECT DISTINCT date FROM checklist_examine_row_2 WHERE r2_id = ?";
         const [getChecklist_R2QueryResult] = await db.query(getChecklist_R2Query, [res.storedId]);
    
-        console.log("Distinct Dates:", getChecklist_R2QueryResult.map(result => result.date));
-        console.log("Number of Dates:", getChecklist_R2QueryResult.length);
+        // console.log("Distinct Dates:", getChecklist_R2QueryResult.map(result => result.date));
+        // console.log("Number of Dates:", getChecklist_R2QueryResult.length);
         
         // for (const i in getChecklist_R2QueryResult.map(result => result.date)) {
         //   if ( i === formattedDate) {
@@ -97,21 +138,23 @@ export async function POST(request) {
         // }
         const dateArray = getChecklist_R2QueryResult.map(result => result.date);
 
-        dateArray.reverse();
         
-        console.log("Reversed Distinct Dates:", dateArray);
+        // console.log("Reversed Distinct Dates:", dateArray);
 
         const hasMatchingDate = dateArray.includes(formattedDate);
          if (!hasMatchingDate) {
             dateArray.push(formattedDate);
+            // console.log("Reversed Distinct Dates22222:", dateArray);
+            dateArray.reverse();
+
             dateArray.splice(5);
           } else {
             dateArray.splice(5);
           }
-          dateArray.reverse();
+          // dateArray.reverse();
 
-        console.log(`Does the checklist have a date matching ${formattedDate}? ${hasMatchingDate}`);
-        console.log("DATEE-------------------: ",dateArray)
+        // console.log(`Does the checklist have a date matching ${formattedDate}? ${hasMatchingDate}`);
+        // console.log("DATEE-------------------: ",dateArray)
         // let recentDates = getChecklist_R2QueryResult.map(result => result.date);
         // const currentDate = new Date();
         // const formattedCurrentDate = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`;
@@ -123,7 +166,7 @@ export async function POST(request) {
         // const dateArray = [formattedDate];
 
         
-        console.log("DATEE1111-------------------: ",getChecklist_R2QueryResult.length , getChecklist_R2QueryResult)
+        // console.log("DATEE1111-------------------: ",getChecklist_R2QueryResult.length , getChecklist_R2QueryResult)
         // If there are more than 5 dates, take the most recent 5
         if (dateArray.length >= 5) {
           // const day = currentDate.getDate() - 5;
@@ -139,7 +182,7 @@ export async function POST(request) {
            
           } else if (dateArray.includes(formattedDate)) {
             while (dateArray.length < 5) {
-              console.log("CHECKKKKK///////////////////2222: ",dateArray)
+              // console.log("CHECKKKKK///////////////////2222: ",dateArray)
 
               currentDate.setDate(currentDate.getDate() - 1);
             
@@ -192,44 +235,82 @@ export async function POST(request) {
           // const year = currentDate.getFullYear();
           // formattedDateA = `${day}/${month}/${year}`;
         }
-        console.log("Date Array*********************************:", dateArray);
+        // console.log("Date Array*********************************:", dateArray);
 
-        console.log("Recent Dates:", formattedDateA );
+        // console.log("Recent Dates:", formattedDateA );
 
         // Subtract one day at a time until dateArray has 5 elements
      
         for (const currentDateA of dateArray) {
-          console.log("currentDate :", currentDateA );
+          // console.log("currentDate :", currentDateA );
 
       const getId_r1Query = "SELECT id FROM users WHERE role_2_id = ?";
       const [getId_r1QueryResult] = await db.query(getId_r1Query, [res.storedId]);
       const getId_r1QueryResultMap = getId_r1QueryResult.map(item => item.id);
-      
 
-      const dataAll = { currentDateA}
+      const dataAll = {currentDateA}
       const dataPercent = {};
       for (const user_r1 of getId_r1QueryResultMap) {
         
         
-        const getexamineList_r1Query = "SELECT id , name FROM examinelist WHERE user_id = ?";
-        const [getexamineList_r1QueryResult] = await db.query(getexamineList_r1Query, [user_r1]);
-      // console.log("getexamineList_r1QueryResult88888888: ",getexamineList_r1QueryResult)
+
+        const getIdQuery = "SELECT select_id FROM `select` WHERE date = ? AND user_id = ?";
+        const [idResult] = await db.query(getIdQuery, [currentDateA,user_r1]);
+        const idResultmap = idResult.map(row => row.select_id)[0]; // Extract the string from the array
+        // console.log("4444idResult: ", idResultmap);
+
+        let item_id = [];
+
+        // Check if idResultmap is defined before parsing
+        if (idResultmap) {
+          try {
+            item_id = JSON.parse(idResultmap);
+            console.log("Parsed item_id: ", item_id);
+          } catch (error) {
+            console.error("Error parsing JSON:", error);
+            // Handle the error appropriately, e.g., log the error or set a default value
+          }
+        } else {
+          console.warn("idResultmap is undefined or null");
+          // Handle the case where idResultmap is undefined or null
+        }
+        
+        const nameList = [];
+        let flattenedNameList = []
+      
+        for (const item of item_id) {
+          // console.log("4444: ",item)
+      
+          const getNameExamineListQuery = "SELECT id ,name FROM examinelist WHERE id = ? AND user_id = ?";
+          const [nameExamineListResult] = await db.query(getNameExamineListQuery, [item, user_r1]);
+      
+          // const nameExamineListResultmap = nameExamineListResult.map(row => row.name);
+          nameList.push(nameExamineListResult);
+          // console.log("nameList: ", nameList);
+          flattenedNameList = nameList.flatMap(zone => zone.map(item => item));
+          // console.log("Flattened nameList: ", flattenedNameList);
+          // const uniqueFlattenedNameList = [...new Set(flattenedNameList)];
+          // console.log("Unique flattened nameList: ", uniqueFlattenedNameList);
+          
+        }
+
         if (!dataPercent[user_r1]) {
           dataPercent[user_r1] = [];
         }
 
         
       
-        for (const idResult of getexamineList_r1QueryResult ) {
+        for (const idResult of flattenedNameList ) {
+          // console.log("idResult: ",idResult)
           const examineObject = {
             [idResult.id]: {
               examine_id: [],
-              examine_count: getexamineList_r1QueryResult.length
+              examine_count: flattenedNameList.length
             }
             ,name: idResult.name,
 
           };
-          console.log("id:: ",idResult.id , examineObject)
+          // console.log("id:: ",idResult.id , examineObject)
 
           dataPercent[user_r1].push(examineObject);
         }
@@ -311,7 +392,7 @@ export async function POST(request) {
                 const percentage = Math.floor((passCount / getexaminenameQueryResultMap.length) * 100);
                 examineInfo[employee] = {employee , passCount , percentage }
 
-                console.log("totalPassCount:",totalPassCount, examineInfo.id);
+                // console.log("totalPassCount:",totalPassCount, examineInfo.id);
 
                 // console.log("getexaminenameQueryResultMap.length:", getexaminenameQueryResultMap.length);
                 // console.log("Percentage:", Math.floor(percentage), examineInfo.id);
@@ -320,7 +401,7 @@ export async function POST(request) {
           examineInfo.totalPassCount = totalPassCount;
 
           const percentageAll = Math.floor((totalPassCount / (getexaminenameQueryResultMap.length * getemployeeQueryResultMap.length)) * 100);
-          console.log("percentageAll:", totalPassCount,percentageAll );
+          // console.log("percentageAll:", totalPassCount,percentageAll );
           examineInfo.percentageAll = percentageAll;
           totalPercentage += percentageAll;
 
@@ -328,7 +409,7 @@ export async function POST(request) {
 
         }
         const percentageZone = Math.floor((totalPercentage / (idObject[idValue].examine_id.length * 100)) * 100);
-        console.log("percentageZone:", percentageZone , idValue);
+        // console.log("percentageZone:", percentageZone , idValue);
         idObject.percentageZone = percentageZone;
         
         // console.log("8888888888888888888:", totalPercentage, idValue);
@@ -340,12 +421,17 @@ export async function POST(request) {
       dataAll.data = dataPercent
       console.log(dataAll. currentDateA); // แสดงค่า currentDate ที่อยู่ในอ็อบเจ็กต์ dataAll
 
-      console.log("Final dataPercent:", dataPercent);
-      console.log("Final dataPercent dataAll ------------------------:",  dataAll);
+      // console.log("Final dataPercent:", dataPercent);
+      // console.log("Final dataPercent dataAll ------------------------:",  dataAll);
       calPercent.push(dataAll)
+      reversedCalPercentCopy = [...calPercent].reverse();
+      console.log("CalPercentCopy----------------:", calPercent);
+      console.log("reversedCalPercentCopy----------------:", reversedCalPercentCopy);
+
+
 
     }
-      return NextResponse.json({ success: true ,dbnotify_name: groupedData ,percent: calPercent});
+      return NextResponse.json({ success: true ,dbnotify_name: groupedData ,percent: reversedCalPercentCopy});
     }
 
 
@@ -393,16 +479,56 @@ export async function POST(request) {
         // console.log("nameResult4444: ", nameInspectorResult);
         const name = nameInspectorResult[0].name + ' ' + nameInspectorResult[0].lastname;
         // console.log("NAMEEENAMEEE",name);
-        const getexamineListQuery = "SELECT * FROM examinelist WHERE user_id = ?";
-        const [getexamineListQueryResult] = await db.query(getexamineListQuery, [data.inspector]);
+        const currentDate = new Date();
+        const day = currentDate.getDate();
+        const month = currentDate.getMonth() + 1; 
+        const year = currentDate.getFullYear();
+        const formattedDate = `${day}/${month}/${year}`;
+  
+        const getIdQuery = "SELECT select_id FROM `select` WHERE date = ? AND user_id = ?";
+        const [idResult] = await db.query(getIdQuery, [formattedDate ,data.inspector]);
+        const idResultmap = idResult.map(row => row.select_id)[0]; // Extract the string from the array
+        // console.log("4444idResult: ", idResultmap);
+  
+        let item_id = [];
+  
+        // Check if idResultmap is defined before parsing
+        if (idResultmap) {
+          try {
+            item_id = JSON.parse(idResultmap);
+            console.log("Parsed item_id: ", item_id);
+          } catch (error) {
+            console.error("Error parsing JSON:", error);
+            // Handle the error appropriately, e.g., log the error or set a default value
+          }
+        } else {
+          console.warn("idResultmap is undefined or null");
+          // Handle the case where idResultmap is undefined or null
+        }
         
-        const nameExamineList = getexamineListQueryResult.map(item => item.name);
-        
+        const nameList = [];
+        let flattenedNameList = []
+      
+        for (const item of item_id) {
+          // console.log("4444: ",item)
+      
+          const getNameExamineListQuery = "SELECT name FROM examinelist WHERE id = ? AND user_id = ?";
+          const [nameExamineListResult] = await db.query(getNameExamineListQuery, [item, data.inspector]);
+      
+          // const nameExamineListResultmap = nameExamineListResult.map(row => row.name);
+          nameList.push(nameExamineListResult);
+          // console.log("nameList: ", nameList);
+          flattenedNameList = nameList.flatMap(zone => zone.map(item => item.name));
+          // console.log("Flattened nameList: ", flattenedNameList);
+          // const uniqueFlattenedNameList = [...new Set(flattenedNameList)];
+          // console.log("Unique flattened nameList: ", uniqueFlattenedNameList);
+          
+        }
 
         const dataitem = {
           id: data.inspector,
           name: name,
-          zone: nameExamineList
+          zone: flattenedNameList
 
         };
         
@@ -425,6 +551,7 @@ export async function POST(request) {
       // แสดงผลลัพธ์
       console.log("resultGroup",res.storedId);
       const calPercent = []
+      let reversedCalPercentCopy = []
       const getChecklist_R2Query = "SELECT DISTINCT date FROM checklist_examine_row_2 ";
         const [getChecklist_R2QueryResult] = await db.query(getChecklist_R2Query);
    
@@ -437,18 +564,20 @@ export async function POST(request) {
         // }
         const dateArray = getChecklist_R2QueryResult.map(result => result.date);
 
-        dateArray.reverse();
         
         console.log("Reversed Distinct Dates:", dateArray);
 
         const hasMatchingDate = dateArray.includes(formattedDate);
          if (!hasMatchingDate) {
             dateArray.push(formattedDate);
+            console.log("Reversed Distinct Dates22222:", dateArray);
+            dateArray.reverse();
+
             dateArray.splice(5);
           } else {
             dateArray.splice(5);
           }
-          dateArray.reverse();
+          // dateArray.reverse();
 
         console.log(`Does the checklist have a date matching ${formattedDate}? ${hasMatchingDate}`);
         console.log("DATEE-------------------: ",dateArray)
@@ -551,25 +680,64 @@ export async function POST(request) {
       for (const user_r1 of getId_r1QueryResultMap) {
         
         
-        const getexamineList_r1Query = "SELECT id , name FROM examinelist WHERE user_id = ?";
-        const [getexamineList_r1QueryResult] = await db.query(getexamineList_r1Query, [user_r1]);
-      console.log("getexamineList_r1QueryResult88888888: ",getexamineList_r1QueryResult)
+
+        const getIdQuery = "SELECT select_id FROM `select` WHERE date = ? AND user_id = ?";
+        const [idResult] = await db.query(getIdQuery, [currentDateA,user_r1]);
+        const idResultmap = idResult.map(row => row.select_id)[0]; // Extract the string from the array
+        // console.log("4444idResult: ", idResultmap);
+
+        let item_id = [];
+
+        // Check if idResultmap is defined before parsing
+        if (idResultmap) {
+          try {
+            item_id = JSON.parse(idResultmap);
+            console.log("Parsed item_id: ", item_id);
+          } catch (error) {
+            console.error("Error parsing JSON:", error);
+            // Handle the error appropriately, e.g., log the error or set a default value
+          }
+        } else {
+          console.warn("idResultmap is undefined or null");
+          // Handle the case where idResultmap is undefined or null
+        }
+        
+        const nameList = [];
+        let flattenedNameList = []
+      
+        for (const item of item_id) {
+          // console.log("4444: ",item)
+      
+          const getNameExamineListQuery = "SELECT id ,name FROM examinelist WHERE id = ? AND user_id = ?";
+          const [nameExamineListResult] = await db.query(getNameExamineListQuery, [item, user_r1]);
+      
+          // const nameExamineListResultmap = nameExamineListResult.map(row => row.name);
+          nameList.push(nameExamineListResult);
+          // console.log("nameList: ", nameList);
+          flattenedNameList = nameList.flatMap(zone => zone.map(item => item));
+          // console.log("Flattened nameList: ", flattenedNameList);
+          // const uniqueFlattenedNameList = [...new Set(flattenedNameList)];
+          // console.log("Unique flattened nameList: ", uniqueFlattenedNameList);
+          
+        }
+
         if (!dataPercent[user_r1]) {
           dataPercent[user_r1] = [];
         }
 
         
       
-        for (const idResult of getexamineList_r1QueryResult ) {
+        for (const idResult of flattenedNameList ) {
+          // console.log("idResult: ",idResult)
           const examineObject = {
             [idResult.id]: {
               examine_id: [],
-              examine_count: getexamineList_r1QueryResult.length
+              examine_count: flattenedNameList.length
             }
             ,name: idResult.name,
 
           };
-          console.log("id:: ",idResult.id , examineObject)
+          // console.log("id:: ",idResult.id , examineObject)
 
           dataPercent[user_r1].push(examineObject);
         }
@@ -683,9 +851,13 @@ export async function POST(request) {
       console.log("Final dataPercent:", dataPercent);
       console.log("Final dataPercent dataAll ------------------------:",  dataAll);
       calPercent.push(dataAll)
+      reversedCalPercentCopy = [...calPercent].reverse();
+      console.log("CalPercentCopy----------------:", calPercent);
+      console.log("reversedCalPercentCopy----------------:", reversedCalPercentCopy);
+
 
     }
-      return NextResponse.json({ success: true ,dbnotify_name: groupedData ,percent: calPercent});
+      return NextResponse.json({ success: true ,dbnotify_name: groupedData ,percent: reversedCalPercentCopy});
     }
 
     if (res.responseDetail) {
@@ -710,7 +882,7 @@ export async function POST(request) {
       }
     }
 
-    if (res.responseDetail_row_3) {
+    if (res.responseDetail_role_3) {
       try {
 
 
@@ -729,7 +901,7 @@ export async function POST(request) {
 
 
     
-    if (res.response_row_2) {
+    if (res.response_role_2) {
       try {
 
 
@@ -746,7 +918,7 @@ export async function POST(request) {
       }
     }
 
-    if (res.response_row_3) {
+    if (res.response_role_3) {
       try {
 
 

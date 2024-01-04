@@ -5,7 +5,7 @@ import '../globals.css'
 // import '@fontsource/ntr'
 // import '@fontsource/mitr';
 import { BsPlusCircleFill } from 'react-icons/bs';
-import CompNavbar from './compNavbar/row_1';
+import CompNavbar from './compNavbar/role_1';
 import {BsCalendar2Minus} from 'react-icons/bs';
 import { BsTrash } from 'react-icons/bs'; // Add this import for the trash can icon
 import { BsPencilSquare } from 'react-icons/bs'; // Add this import for the edit button

@@ -5,7 +5,7 @@ import '../globals.css'
 // import '@fontsource/ntr'
 import '@fontsource/mitr';
 import { BsPlusCircleFill } from 'react-icons/bs';
-import CompNavbar from './compNavbar/row_1';
+import CompNavbar from './compNavbar/role_1';
 import {BsCalendar2Minus} from 'react-icons/bs';
 import { BsTrash } from 'react-icons/bs'; // Add this import for the trash can icon
 import { BsPencilSquare } from 'react-icons/bs'; // Add this import for the edit button
@@ -358,7 +358,7 @@ function App() {
     }
   
     try {
-      const AddData = { input, checklistname,examinelist_Id, add: true };
+      const AddData = { input, checklistname, examinelist_Id, add: true };
       const data = JSON.stringify(AddData);
   
       const response = await axios.post('/api/checklistexamine', data, {
@@ -414,7 +414,7 @@ function App() {
 
     const deleteChecklist = async (todo , checklistname ) => {
       try {
-        const editedData = { todo , checklistname ,examine_Id, id, edit_role_1: true };
+        const editedData = { todo , checklistname , examine_Id , id, edit_role_1: true };
         console.log("delete: ",editedData)
         const data = JSON.stringify(editedData)
         console.log("deleteData: ",data)

@@ -16,7 +16,7 @@ import {BsCheckCircle} from 'react-icons/bs'
 import {BsFillExclamationTriangleFill} from 'react-icons/bs'
 import { useRouter } from 'next/navigation';
 import '@fontsource/mitr';
-import CompNavbar from './compNavbar/row_1';
+import CompNavbar from './compNavbar/role_1';
 import { CompLanguageProvider, useLanguage } from './compLanguageProvider';
 import { useTranslation } from 'react-i18next';
 import i18n from '../i18n'; 
@@ -67,7 +67,8 @@ function App() {
     if (typeof window !== 'undefined') {
       const searchParams = new URLSearchParams(window.location.search);
       const examinelist_nameValue = searchParams.get('examinelist_name') ; // กำหนดค่าเริ่มต้นว่างไว้ถ้าไม่มีค่า
-     
+      const examinelist_idValue = searchParams.get('id') ; // กำหนดค่าเริ่มต้นว่างไว้ถ้าไม่มีค่า
+
       console.log("queryDataexamine: ",{examinelist_nameValue})
 
     console.log("STARTExamine: ",useEmployee);
@@ -83,16 +84,18 @@ function App() {
 
         if (response.status === 200) {
           if (data.success === true) {
-            const examineNames = data.dbexamine_name.map(item => item.name);
-            const examineId = data.dbexamine_name.map(item => item.id);
-            let AllexamineId = [];
+            console.error('data:', data);
 
-            AllexamineId.push(examineId);
+            // const examineNames = data.dbexamine_name.map(item => item.name);
+            // const examineId = data.dbexamine_name.map(item => item.id);
+            // let AllexamineId = [];
+
+            // AllexamineId.push(examineId);
 
             
-            setexamine_Id(AllexamineId);
-            setexaminelist_Id(data.examinelistId);
-            setTodoList(examineNames);
+            // setexamine_Id(AllexamineId);
+            // setexaminelist_Id(data.examinelistId);
+            setTodoList(data.dbexamine_name);
 
           } else {
             setMessage(data.error);
@@ -105,6 +108,7 @@ function App() {
         setMessage('');
       }
     };
+    setexaminelist_Id(examinelist_idValue)
     setexaminelist_name(examinelist_nameValue);
     fetchData();
   }
@@ -159,8 +163,8 @@ function App() {
         if (resdata.success === true) {
           console.log("Message: ", resdata);
 
-          const updatedTodoList = [...todoList, resdata.dbexamine_name];
-          setTodoList(updatedTodoList);
+          // const updatedTodoList = [...todoList, resdata.dbexamine_name];
+          setTodoList(resdata.dbexamine_name);
           
           setShowAddSuccessPopup(true);
           setaddMessage(resdata.message);
@@ -198,7 +202,7 @@ function App() {
 
   const deleteTodo = async (index, todo) => {
     try {
-      const editedData = { todo, examinelist_name,  edit: true };
+      const editedData = { todo, examinelist_name,id,  edit: true };
       const data = JSON.stringify(editedData)
 
       const response = await axios.post('/api/examine', data,  {
@@ -312,26 +316,27 @@ function App() {
                     className={`cursor-pointer border-[#F5F5F5] border-[5px] w-[90px] md:w-[150px] py-[30px] px-2 text-black flex-col bg-[#BEE3BA] text-center rounded-[15px] ${index % 2 === 0 ? 'clear-left' : ''}`}
                     onClick={() => {
                       if (!isEditing) {
-                        router.push(`/checklistExamine?checklistname=${todo}&examinelistId=${examinelist_Id}&examinelist_name=${examinelist_name}&examineId=${examine_Id[0][index]}&index=${index}&useEmployee=${useEmployee ? 'true' : 'false'}`);
+                        router.push(`/checklistExamine?checklistname=${todo.name}&examinelistId=${examinelist_Id}&examinelist_name=${examinelist_name}&examineId=${todo.id}&index=${index}&useEmployee=${useEmployee ? 'true' : 'false'}`);
                       }
                     }}
                   >
+                    {console.log("todooooo: ",todo)}
                     {isEditing ? (
                       <div>
                         <RxCross2
                           onClick={(e) => {
                             e.stopPropagation();
-                            openEditPopup(index, todo);
+                            openEditPopup(index, todo.name);
                           }}
                           className="text-[#5A985E] inline-block ml-[55px] md:ml-[115px] mt-[-65px] text-[12px] hover:-translate-y-0.5 duration-200"
                         />
                         <div className='flex justify-center'>
-                          <p className='text-[#000] text-[14px] md:text-[18px] mt-[-20px] w-[60px] md:w-[100px] break-words whitespace-pre-wrap'>{todo}</p>
+                          <p className='text-[#000] text-[14px] md:text-[18px] mt-[-20px] w-[60px] md:w-[100px] break-words whitespace-pre-wrap'>{todo.name}</p>
                         </div>
                       </div>
                     ) : (
                       <div className='flex justify-center'>
-                        <p className='text-[#000]  text-[14px] md:text-[18px] md:w-[100px] w-[60px] break-words whitespace-pre-wrap'>{todo}</p>
+                        <p className='text-[#000]  text-[14px] md:text-[18px] md:w-[100px] w-[60px] break-words whitespace-pre-wrap'>{todo.name}</p>
                       </div>
                     )}
                   </div>

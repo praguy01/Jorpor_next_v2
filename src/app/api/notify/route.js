@@ -35,7 +35,7 @@ export async function POST(request) {
 
       if (result[0].affectedRows === 1) {
         const insertedId = result[0].insertId;
-        return NextResponse.json({ success: true, id: insertedId, message: 'Notification has been sent successfully.', redirect: '/response_row_1' });
+        return NextResponse.json({ success: true, id: insertedId, message: 'Notification has been sent successfully.', redirect: '/response_role_1' });
       } else {
         return NextResponse.json({ success: false, error: 'Failed to insert notify data' });
       }

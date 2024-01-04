@@ -95,16 +95,34 @@ export async function POST(request) {
               console.error("User not found or missing name/lastname information.");
             }   
 
-            const getexamineListQuery = "SELECT * FROM examinelist WHERE user_id = ?";
-            const [getexamineListQueryResult] = await db.query(getexamineListQuery, [res.user_IdValue]);
-            
-            const nameExamineList = getexamineListQueryResult.map(item => item.name);
-            
+            const getdate_R2Query = "SELECT DISTINCT date FROM checklist_examine_row_2 WHERE inspector = ?";
+            const [getdate_R2QueryResult] = await db.query(getdate_R2Query, [res.user_IdValue]);
+          
+            const getIdQuery = "SELECT select_id FROM `select` WHERE user_id = ?";
+            const [idResult] = await db.query(getIdQuery, [res.user_IdValue]);
+            const idResultmap = idResult.map(row => row.select_id);
+            console.log("4444idResult: ",JSON.parse(idResultmap))
+            const item_id = JSON.parse(idResultmap)
 
-            console.log("EXAMINELISTTT: ",nameExamineList)
+
+            const nameList = [];
+          
+            for (const item of item_id) {
+              console.log("4444: ",item)
+          
+              const getNameExamineListQuery = "SELECT name FROM examinelist WHERE id = ? AND user_id = ?";
+              const [nameExamineListResult] = await db.query(getNameExamineListQuery, [item, res.user_IdValue]);
+          
+              const nameExamineListResultmap = nameExamineListResult.map(row => row.name);
+              nameList.push(nameExamineListResultmap);
+              console.log("nameList: ", nameList,nameExamineListResult);
+            }
+          
+
+            console.log("EXAMINELISTTT: ", nameList)
 
                   
-            for (const name of nameExamineList) {
+            for (const name of  nameList) {
               console.log("NAME: ", name);
               const getExamineIDQuery = "SELECT id FROM examinelist WHERE name = ? AND user_id = ?";
               const [examineIDResult] = await db.query(getExamineIDQuery, [name , res.user_IdValue]);
@@ -305,16 +323,34 @@ export async function POST(request) {
                 console.error("User not found or missing name/lastname information.");
               }   
   
-              const getexamineListQuery = "SELECT * FROM examinelist WHERE user_id = ?";
-              const [getexamineListQueryResult] = await db.query(getexamineListQuery, [res.user_IdValue]);
-              
-              const nameExamineList = getexamineListQueryResult.map(item => item.name);
-              
+              const getdate_R2Query = "SELECT DISTINCT date FROM checklist_examine_row_2 WHERE inspector = ?";
+              const [getdate_R2QueryResult] = await db.query(getdate_R2Query, [res.user_IdValue]);
+            
+              const getIdQuery = "SELECT select_id FROM `select` WHERE user_id = ?";
+              const [idResult] = await db.query(getIdQuery, [res.user_IdValue]);
+              const idResultmap = idResult.map(row => row.select_id);
+              console.log("4444idResult: ",JSON.parse(idResultmap))
+              const item_id = JSON.parse(idResultmap)
   
-              console.log("EXAMINELISTTT: ",nameExamineList)
+  
+              const nameList = [];
+            
+              for (const item of item_id) {
+                console.log("4444: ",item)
+            
+                const getNameExamineListQuery = "SELECT name FROM examinelist WHERE id = ? AND user_id = ?";
+                const [nameExamineListResult] = await db.query(getNameExamineListQuery, [item, res.user_IdValue]);
+            
+                const nameExamineListResultmap = nameExamineListResult.map(row => row.name);
+                nameList.push(nameExamineListResultmap);
+                console.log("nameList: ", nameList,nameExamineListResult);
+              }
+            
+  
+              console.log("EXAMINELISTTT: ", nameList)
   
                     
-              for (const name of nameExamineList) {
+              for (const name of  nameList) {
                 console.log("NAME: ", name);
                 const getExamineIDQuery = "SELECT id FROM examinelist WHERE name = ? AND user_id = ?";
                 const [examineIDResult] = await db.query(getExamineIDQuery, [name , res.user_IdValue]);

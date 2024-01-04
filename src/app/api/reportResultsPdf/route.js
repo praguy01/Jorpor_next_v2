@@ -83,16 +83,29 @@ export async function POST(request) {
 
   
       if (res.fetch) {
+        const getdate_R2Query = "SELECT DISTINCT date FROM checklist_examine_row_2 WHERE inspector = ?";
+        const [getdate_R2QueryResult] = await db.query(getdate_R2Query, [res.user_IdValue]);
+      
+        const getIdQuery = "SELECT select_id FROM `select` WHERE user_id = ?";
+        const [idResult] = await db.query(getIdQuery, [res.user_IdValue]);
+        const idResultmap = idResult.map(row => row.select_id);
+        console.log("4444idResult: ",JSON.parse(idResultmap))
+        const item_id = JSON.parse(idResultmap)
 
-     
 
-        const getNameExamineListQuery = "SELECT name FROM examinelist WHERE user_id = ?";
-        const [nameExamineListResult] = await db.query(getNameExamineListQuery, [res.user_IdValue]);
-  
-        const nameExamineListResultmap = nameExamineListResult.map(row => row.name);
-  
-        // console.log("employee: ",nameExamineListResultmap);
-  
+        const nameList = [];
+      
+        for (const item of item_id) {
+          console.log("4444: ",item)
+      
+          const getNameExamineListQuery = "SELECT name FROM examinelist WHERE id = ? AND user_id = ?";
+          const [nameExamineListResult] = await db.query(getNameExamineListQuery, [item, res.user_IdValue]);
+      
+          const nameExamineListResultmap = nameExamineListResult.map(row => row.name);
+          nameList.push(nameExamineListResultmap);
+          console.log("nameList: ", nameList,nameExamineListResult);
+        }
+      
   
         return NextResponse.json({ success: true  , dbnameExamineList: nameExamineListResultmap  });
         }

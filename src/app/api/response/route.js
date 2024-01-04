@@ -41,7 +41,7 @@ export async function POST(request) {
       }
     }
 
-    if (res.responseDetail_row_3) {
+    if (res.responseDetail_role_3) {
       try {
 
 
@@ -60,7 +60,7 @@ export async function POST(request) {
 
 
     
-    if (res.response_row_2) {
+    if (res.response_role_2) {
       try {
 
 
@@ -77,7 +77,7 @@ export async function POST(request) {
       }
     }
 
-    if (res.response_row_3) {
+    if (res.response_role_3) {
       try {
 
 

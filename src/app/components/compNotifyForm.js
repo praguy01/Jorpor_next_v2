@@ -6,7 +6,7 @@ import '../globals.css'
 // import '@fontsource/prompt';
 // import '@fontsource/noto-sans-thai';
 
-import CompNavbar from './compNavbar/row_1';
+import CompNavbar from './compNavbar/role_1';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import React, { useEffect, useState } from 'react';

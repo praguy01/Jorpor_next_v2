@@ -7,6 +7,8 @@ import '../globals.css'
 // import '@fontsource/ntr'
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import '@fontsource/mitr'
+
 
 
 

@@ -78,12 +78,12 @@ export async function POST(request)  {
 
         if (userResult[0].position === 'Safety Officer Professional level '){
           console.log("111111")
-          return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/examineList' , profile: userResult ,token});
+          return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/select' , profile: userResult ,token});
         } else if (userResult[0].position === 'Safety Officer Technical level'){
           console.log("22222")
-          return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_row_2' , profile: userResult ,token});
+          return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_role_2' , profile: userResult ,token});
         } else if (userResult[0].position === 'Safety Officer Supervisory level'){
-          return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_row_3' , profile: userResult ,token});
+          return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_role_3' , profile: userResult ,token});
         } 
         
       }
@@ -165,12 +165,12 @@ export async function POST(request)  {
         
                 if (position === 'Safety Officer Professional level '){
                   console.log("111111")
-                  return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/examineList' , profile: userResult ,token});
+                  return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/select' , profile: userResult ,token});
                 } else if (position === 'Safety Officer Technical level'){
                   console.log("22222")
-                  return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_row_2' , profile: userResult ,token});
+                  return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_role_2' , profile: userResult ,token});
                 } else if (position === 'Safety Officer Supervisory level'){
-                  return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_row_3' , profile: userResult ,token});
+                  return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_role_3' , profile: userResult ,token});
                 }               }
             }
           }
@@ -193,13 +193,13 @@ export async function POST(request)  {
 
         if (position === 'Safety Officer Professional level') {
           console.log("111111");
-          return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/examineList', profile: userResult, token });
+          return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/select', profile: userResult, token });
         } else if (position === 'Safety Officer Technical level') {
           console.log("22222");
-          return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_row_2', profile: userResult, token });
+          return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_role_2', profile: userResult, token });
         } else if (position === 'Safety Officer Supervisory level') {
           console.log("33333");
-          return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_row_3', profile: userResult, token });
+          return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_role_3', profile: userResult, token });
         }
             
       }

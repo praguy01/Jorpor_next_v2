@@ -2,7 +2,7 @@
 // import '@fontsource/ntr'
 import '../globals.css'
 // import '@fontsource/mitr';
-import CompNavbar from './compNavbar/row_1';
+import CompNavbar from './compNavbar/role_1';
 import axios from 'axios';
 import React, { useState ,useEffect } from 'react';
 import { CompLanguageProvider, useLanguage } from './compLanguageProvider';

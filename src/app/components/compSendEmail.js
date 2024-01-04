@@ -9,9 +9,6 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
 
-export const metadata = {
-  title: 'send email'
-}
 
 export default function compSendEmail() {
 
