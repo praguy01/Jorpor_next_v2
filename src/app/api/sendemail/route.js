@@ -30,15 +30,15 @@ export async function POST(request) {
             const transporter = nodemailer.createTransport({
               service: 'Gmail',
               auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS,
+                user: 'platformsjorpor@gmail.com',
+                pass: 'qnzhidjxikwyiocl',
               },
             });
 
             const confirmationCode = Math.floor(100000 + Math.random() * 900000);
 
             const mailOptions = {
-              from: process.env.EMAIL_USER,
+              from: 'platformsjorpor@gmail.com',
               to: res.email,
               subject: 'Confirm Password Change',
               text: `Confirmation Code: ${confirmationCode}`,
