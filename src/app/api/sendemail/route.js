@@ -28,7 +28,7 @@ export async function POST(request) {
       }
             // Send email to the user to confirm password change
             const transporter = nodemailer.createTransport({
-              service: 'Gmail',
+              service: 'gmail',
               auth: {
                 user: 'platformsjorpor@gmail.com',
                 pass: 'qnzhidjxikwyiocl',
