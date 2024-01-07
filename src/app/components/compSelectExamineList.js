@@ -11,7 +11,7 @@ import {BsFillExclamationTriangleFill} from 'react-icons/bs'
 import { useRouter } from 'next/navigation';
 import '@fontsource/mitr';
 import CompNavbar from './compNavbar/role_1';
-import { CompLanguageProvider, useLanguage } from './compLanguageProvider';
+import { CompLanguageProvider, useLanguage } from './compLanguageProvider_role_1';
 import { useTranslation } from 'react-i18next';
 import {BsCalendar2Minus} from 'react-icons/bs';
 import {i18n } from '../i18n'; // import i18n instance

@@ -12,7 +12,7 @@ import CompNavbarTec from '../compNavbar/role_2';
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend , ResponsiveContainer} from 'recharts';
-import { CompLanguageProvider, useLanguage } from '../compLanguageProvider';
+import { CompLanguageProvider, useLanguage } from '../compLanguageProvider_role_2';
 import { useTranslation } from 'react-i18next';
 import i18n from '../../i18n'; 
 import { initReactI18next } from 'react-i18next';
@@ -48,6 +48,7 @@ function App() {
   const [chartWidth, setChartWidth] = useState(600);
   const [chartHeight, setChartHeight] = useState(300);
   const [dataToday, setdataToday] = useState(true);
+  const [id, setId] = useState('');
 
   useEffect(() => {
     const handleResize = () => {

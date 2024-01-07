@@ -3,14 +3,14 @@ import React, { useState, useEffect } from 'react';
 // import '@fontsource/ntr';
 import '../globals.css';
 // import '@fontsource/mitr';
-import CompNavbar from './compNavbar/role_1';
-import axios from 'axios';
+// import CompNavbar from './compNavbar/role_1';
+// import axios from 'axios';
 import CompReportResultsForm from './compReportResultsForm';
 import CompReportResultsDisplay from './CompReportResultsDisplay';
-import { CompLanguageProvider, useLanguage } from './compLanguageProvider';
+import { CompLanguageProvider, useLanguage } from './compLanguageProvider_role_1';
 import { useTranslation } from 'react-i18next';
-import i18n from '../i18n'; 
-import { initReactI18next } from 'react-i18next';
+// import i18n from '../i18n'; 
+// import { initReactI18next } from 'react-i18next';
 
 
 function compReportResults() {

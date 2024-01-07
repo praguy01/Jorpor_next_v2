@@ -16,6 +16,10 @@ export default  function CompLogin() {
 
   const router = useRouter();
   const [userRemember, setUserRemember] = useState([]);
+  const [formData, setFormData] = useState({
+    employee: '', 
+    password: '', 
+  });
 
   useEffect(() => {
             const TOKEN = localStorage.user_login;
@@ -109,17 +113,15 @@ export default  function CompLogin() {
       if (rememberedDataArray.length > 0) {
         const lastItem = rememberedDataArray[rememberedDataArray.length - 1];
 
-        setFormData({ ...formData, employee: lastItem.employee, password: lastItem.password });
+        setFormData((prevFormData) => ({ ...prevFormData, employee: lastItem.employee, password: lastItem.password }));
+
        
       }
       }
   
-  }, []);
+  }, [setFormData,router]);
 
-  const [formData, setFormData] = useState({
-    employee: '', 
-    password: '', 
-  });
+
 
   const [loginMessage, setLoginMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false); // เพิ่มตัวแปรสถานะ isLoading
@@ -328,7 +330,7 @@ console.log("resdata.profile[0]: ",resdata.profile)
 
                       <div className='flex justify-center items-center text-center text-[12px] md:text-[16px]   mt-[15px]' >
                         
-                        <p className='mr-[10px] '>Don't Have an Account? </p>
+                        <p className='mr-[10px] '>Don&apos;t Have an Account? </p>
                         <Link href="/register" className=' text-[#5A985E] '>sign in</Link>
                       </div>
 

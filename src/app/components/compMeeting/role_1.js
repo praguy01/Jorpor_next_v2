@@ -1,12 +1,13 @@
 'use client'
 import React, { useState , useEffect} from 'react';
 import Link from 'next/link'
+import Image from 'next/image';
 // import '@fontsource/ntr'
 import '../../globals.css'
 // import '@fontsource/mitr';
 import {BsFillPeopleFill} from 'react-icons/bs'
 import CompNavbar from '../compNavbar/role_1';
-import { CompLanguageProvider, useLanguage } from '../compLanguageProvider';
+import { CompLanguageProvider, useLanguage } from '../compLanguageProvider_role_1';
 import { useTranslation } from 'react-i18next';
 import i18n from '../../i18n'; 
 import { initReactI18next } from 'react-i18next';
@@ -212,7 +213,7 @@ function App() {
               </div>
 
               <div>
-                <img src="img/meeting.png" className="md:w-[420px] md:ml-[350px] md:mt-[-180px] w-[220px] ml-[90px] mt-[-80px]" ></img>
+              <Image src="/img/meeting.png" width={420} height={280} className="md:w-[420px] md:ml-[350px] md:mt-[-180px] w-[220px] ml-[90px] mt-[-80px]" alt="Meeting Image" />
               </div>
 
             </div>

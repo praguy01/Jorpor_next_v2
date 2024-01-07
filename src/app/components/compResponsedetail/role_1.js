@@ -6,10 +6,12 @@ import '../../globals.css'
 import '@fontsource/mitr';
 import axios from 'axios';
 import CompNavbar from '../compNavbar/role_1';
-import { CompLanguageProvider, useLanguage } from '../compLanguageProvider';
+import { CompLanguageProvider, useLanguage } from '../compLanguageProvider_role_1';
 import { useTranslation } from 'react-i18next';
 import i18n from '../../i18n'; 
 import { initReactI18next } from 'react-i18next';
+import Image from 'next/image';
+import { BsCheckCircle } from "react-icons/bs";
 
 
 function CompResponsedetail() {
@@ -331,7 +333,7 @@ function App() {
              {/* ตัวอย่าง: แสดงรูปภาพ */}
              {fileData && (
                 <div className="border mt-[20px] border-grey-800 p-2 w-[235px] ">
-                  <img src={fileData} alt="รูปภาพ" className="w-full h-full" />
+                  <Image width={150} height={150} src={fileData} alt="รูปภาพ" className="w-full h-full" />
                 </div>
               )}
               </div>

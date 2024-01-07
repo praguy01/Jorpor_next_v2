@@ -14,7 +14,7 @@ import {BsCheckCircle} from 'react-icons/bs';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import {RxCross2} from 'react-icons/rx'
-import { CompLanguageProvider, useLanguage } from './compLanguageProvider';
+import { CompLanguageProvider, useLanguage } from './compLanguageProvider_role_1';
 import { useTranslation } from 'react-i18next';
 import i18n from '../i18n'; 
 import { initReactI18next } from 'react-i18next';
@@ -132,7 +132,7 @@ function App() {
         setexaminelist_name(examinelist_nameValue)
         fetchData();
       }
-    }, [reloadData]); // โหลดข้อมูลเมื่อค่า state reloadData เปลี่ยนแปลง
+    }, [reloadData, useEmployee]); // โหลดข้อมูลเมื่อค่า state reloadData เปลี่ยนแปลง
 
     
    

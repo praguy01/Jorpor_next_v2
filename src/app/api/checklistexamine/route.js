@@ -89,7 +89,7 @@ export async function POST(request) {
           const [examinelist_IdResult] = await db.query(getexaminelist_IdQuery, [res.examinelist_Id]);
           console.log("inspector: ", examinelist_IdResult[0]);
 
-          return NextResponse.json({ success: true , message: "successfully!" ,redirect: `/examine?examinelist_name=${examinelist_IdResult[0].name}`});
+          return NextResponse.json({ success: true , message: "successfully!" ,redirect: `/examine?examinelist_name=${examinelist_IdResult[0].name}&id=${res.examinelist_Id}`});
         } catch (error) {
           console.error('ErrorEditEx:', error);
           return NextResponse.json({ success: false, error: error.message });
@@ -143,7 +143,7 @@ export async function POST(request) {
       if (res.check) {
         try {
 
-          const getUserQuery = "SELECT useEmployee FROM examine WHERE name = ?";
+          const getUserQuery = "SELECT id,useEmployee FROM examine WHERE name = ?";
           const [userResult] = await db.query(getUserQuery, [res.checklistnameValue]);
           console.log("use111: ",userResult);
 

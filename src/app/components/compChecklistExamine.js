@@ -15,7 +15,7 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import {RxCross2} from 'react-icons/rx'
 import {BsFillCheckCircleFill} from 'react-icons/bs'
-import { CompLanguageProvider, useLanguage } from './compLanguageProvider';
+import { CompLanguageProvider, useLanguage } from './compLanguageProvider_role_1';
 import { useTranslation } from 'react-i18next';
 import i18n from '../i18n'; 
 import { initReactI18next } from 'react-i18next';
@@ -107,8 +107,8 @@ function App() {
             fetchEmployeeData();
 
 
-            if (useEmployee === "false") {
-            // console.log("TODO: ",checklistnameValue)
+            if (useEmployee === false) {
+            console.log("TODO88888888888888888888: ",checklistnameValue)
             const AddData = { examine_IdValue};
             const datacheck = JSON.stringify(AddData);
 
@@ -160,7 +160,7 @@ function App() {
       
             if (checkUseEmployee.status === 200) {
               if (data.success === true) {
-                // console.log("Datachecklist: ",data.ResultUseEmployee[0].useEmployee)
+                console.log("Datachecklist: ",data.ResultUseEmployee[0].useEmployee)
 
                 // const stateUseEmployee = (data.ResultUseEmployee[0].useEmployee);
                 // console.log("stateUseEmployee: ",stateUseEmployee)
@@ -277,10 +277,7 @@ function App() {
 
         fetchData();
       }
-    }, [reloadData, useEmployee, selectedOption]); // โหลดข้อมูลเมื่อค่า state reloadData เปลี่ยนแปลง
-
-
-
+    // โหลดข้อมูลเมื่อค่า state reloadData เปลี่ยนแปลง
     const fetchidEmployeeData = async () => {
       try {
         const Checkid = {checklistname ,checkid : true};
@@ -311,7 +308,10 @@ function App() {
           setMessage('');
     }
 } 
-    
+  }, [reloadData,checklistname,examine_Id,examinelist_Id,selectedOption,useEmployee]);  
+
+   
+
 
 
   const handleEditClick = () => {

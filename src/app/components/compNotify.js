@@ -7,7 +7,7 @@ import CompNavbar from './compNavbar/role_1';
 import axios from 'axios';
 import CompNotifyForm from './compNotifyForm';
 import CompNotifyDisplay from './CompNotifyDisplay';
-import { CompLanguageProvider, useLanguage } from './compLanguageProvider';
+import { CompLanguageProvider, useLanguage } from './compLanguageProvider_role_1';
 
 
 function CompNotify() {

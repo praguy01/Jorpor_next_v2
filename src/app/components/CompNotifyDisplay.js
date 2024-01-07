@@ -7,7 +7,7 @@ import CompNavbar from './compNavbar/role_1';
 import axios from 'axios';
 import {BiSolidDownload} from 'react-icons/bi'
 import {BsCheckCircle} from 'react-icons/bs'
-import { CompLanguageProvider, useLanguage } from './compLanguageProvider';
+import { CompLanguageProvider, useLanguage } from './compLanguageProvider_role_1';
 import { useTranslation } from 'react-i18next';
 import i18n from '../i18n'; 
 import { initReactI18next } from 'react-i18next';
@@ -72,7 +72,7 @@ export default function CompNotifyDisplay({ data , onSubmit}) {
     }).format(date);
 
     setFormattedDate(formattedDate);
-  }, [data.dateTime]);
+  }, [data.dateTime ,data.file ]);
   
   const openFileInNewTab = () => {
     window.open(URL.createObjectURL(data.file), '_blank');

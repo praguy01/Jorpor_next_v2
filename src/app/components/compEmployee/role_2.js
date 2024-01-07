@@ -13,7 +13,7 @@ import { PiPencilSimpleFill } from 'react-icons/pi';
 import {BsCheckCircle} from 'react-icons/bs';
 import * as XLSX from 'xlsx';
 import axios from 'axios';
-import { CompLanguageProvider, useLanguage } from '../compLanguageProvider';
+import { CompLanguageProvider, useLanguage } from '../compLanguageProvider_role_2';
 import { useTranslation } from 'react-i18next';
 import i18n from '../../i18n'; 
 import { initReactI18next } from 'react-i18next';

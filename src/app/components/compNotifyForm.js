@@ -10,7 +10,7 @@ import CompNavbar from './compNavbar/role_1';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import React, { useEffect, useState } from 'react';
-import { CompLanguageProvider, useLanguage } from './compLanguageProvider';
+import { CompLanguageProvider, useLanguage } from './compLanguageProvider_role_1';
 import { toUnicode } from 'punycode';
 
 
@@ -75,8 +75,13 @@ function CompNotifyForm({ onSubmit }) {
 
             setTodoList(data.dbexaminelist_name);
 
-            setFormData({ ...formData, work_owner: data.dbexaminelist_name[0].name, employee: data.dbexaminelist_name[0].employee , position: data.dbexaminelist_name[0].position });
-
+            setFormData((prevData) => ({
+              ...prevData,
+              work_owner: data.dbexaminelist_name[0].name,
+              employee: data.dbexaminelist_name[0].employee,
+              position: data.dbexaminelist_name[0].position
+            }));
+            
           } else {
             setMessage(data.error);
           }

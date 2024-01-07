@@ -42,7 +42,7 @@ export default function CompChangepass() {
       setEmail(storedEmail); // Set the email state
     }    console.log("LOCAL :", email);
    
-  }, [])
+  }, [email])
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

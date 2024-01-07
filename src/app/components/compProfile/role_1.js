@@ -13,12 +13,13 @@ import {BsFillTelephoneFill} from 'react-icons/bs'
 import {BsCheckCircle} from 'react-icons/bs'
 import '@fontsource/mitr';
 import CompNavbar from '../compNavbar/role_1';
-import { CompLanguageProvider, useLanguage } from '../compLanguageProvider';
+import { CompLanguageProvider, useLanguage } from '../compLanguageProvider_role_1';
 import { useTranslation } from 'react-i18next';
 import i18n from '../../i18n'; 
 import { initReactI18next } from 'react-i18next';
 import { FaPhoneVolume } from "react-icons/fa6";
 import { FaLine } from "react-icons/fa";
+import Image from 'next/image';
 
 
 function CompProfile1()  {
@@ -341,18 +342,22 @@ function App() {
                         className="  absolute md:ml-[-50px] ml-[-65px] md:mt-[30px] mt-[30px] z-10 ring-2 ring-white ring-offset-2 ring-offset-[#5A985E]  w-32 h-32  md:w-[150px] md:h-[150px] rounded-full opacity-0 cursor-pointer"
                         onChange={handleImageUpload}
                       />
-                      <img
-                        src={selectedImage || fileData || "/img/profile.jpg"}
-                        alt="Profile Image"
-                        className="ring-2 ring-white  ring-offset-2 md:mt-[30px] mt-[30px] ring-offset-[#5A985E] w-32 h-32   mx-auto  md:w-[150px] md:h-[150px] rounded-full object-cover"
-                      />
-                      </>
-                    ) : (
-                      <img
-                        src={fileData || "/img/profile.jpg"}
-                        alt="Profile Image"
-                        className="ring-2 ring-white  ring-offset-2 ring-offset-[#5A985E] w-32 h-32   mx-auto  md:w-[150px] md:h-[150px] rounded-full object-cover"
-                      />
+                       <Image
+                              src={selectedImage || fileData || "/img/profile.jpg"}
+                              alt="Profile Image"
+                              width={150}
+                              height={150}
+                              className="ring-2 ring-white ring-offset-2 md:mt-[30px] mt-[30px] ring-offset-[#5A985E] w-32 h-32 mx-auto md:w-[150px] md:h-[150px] rounded-full object-cover"
+                            />
+                          </>
+                        ) : (
+                          <Image
+                            src={fileData || "/img/profile.jpg"}
+                            alt="Profile Image"
+                            width={150}
+                            height={150}
+                            className="ring-2 ring-white ring-offset-2 ring-offset-[#5A985E] w-32 h-32 mx-auto md:w-[150px] md:h-[150px] rounded-full object-cover"
+                          />
                     )}
                   </div>
 

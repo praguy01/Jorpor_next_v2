@@ -1,9 +1,9 @@
 // i18n.js
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-// import { useLanguage } from './components/compLanguageProvider'; // เพิ่มการ import useLanguage
+import { useLanguage } from './components/compLanguageProvider_role_1'; // เพิ่มการ import useLanguage
 
-// const { language: storedLanguage } = useLanguage(); 
+
 i18n
   .use(initReactI18next)
   .init({

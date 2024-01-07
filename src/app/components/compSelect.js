@@ -7,7 +7,7 @@ import CompNavbar from './compNavbar/role_1';
 import axios from 'axios';
 import CompExamineList from './compExamineList';
 import CompSelectExamineList from './compSelectExamineList'
-import { CompLanguageProvider, useLanguage } from './compLanguageProvider';
+import { CompLanguageProvider, useLanguage } from './compLanguageProvider_role_1';
 
 
 function CompSelect() {

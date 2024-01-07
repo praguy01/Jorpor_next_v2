@@ -4,16 +4,17 @@ import '../globals.css'
 // import '@fontsource/mitr';
 import CompNavbar from './compNavbar/role_1';
 import axios from 'axios';
-import React, { useState ,useEffect } from 'react';
-import { CompLanguageProvider, useLanguage } from './compLanguageProvider';
+import React, { useState ,useEffect ,useCallback } from 'react';
+import {useLanguage } from './compLanguageProvider_role_1';
 import { useTranslation } from 'react-i18next';
-import i18n from '../i18n'; 
-import { initReactI18next } from 'react-i18next';
+// import i18n from '../i18n'; 
+// import { initReactI18next } from 'react-i18next';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-import html2pdf from 'html2pdf.js';
+// import html2pdf from 'html2pdf.js';
 import {BsFillExclamationTriangleFill} from 'react-icons/bs'
 import {BsCheckCircle} from 'react-icons/bs'
+import { useRouter } from 'next/navigation';
 
 // function  {
 //   return (
@@ -44,238 +45,142 @@ export default function CompReportResultsForm({ onSubmit }) {
   const [sent, setSent] = useState(true); // เพิ่ม state เพื่อควบคุมการแสดง/ซ่อน popup
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const [addmessage, setaddMessage] = useState(false);
+  const router = useRouter();
 
   // const element = document.getElementById('your-element-id');
 
 
-
   useEffect(() => {
-    
     // ใน useEffect นี้คุณสามารถใช้ Axios เพื่อดึงข้อมูลจากฐานข้อมูล
     if (typeof window !== 'undefined') {
       const searchParams = new URLSearchParams(window.location.search);
-      const user_IdValue = searchParams.get('id') ; // กำหนดค่าเริ่มต้นว่างไว้ถ้าไม่มีค่า
-      const dateValue = searchParams.get('date') ; // กำหนดค่าเริ่มต้นว่างไว้ถ้าไม่มีค่า
-
-     
-      console.log("queryDataexamine: ",{user_IdValue , dateValue })
-      
-
-    const fetchData = async () => {
-      try {
-        const AddData = { user_IdValue , dateValue , user_IdValue , fetch: true};
-        const fetchdata = JSON.stringify(AddData);
-
-        const response = await axios.post('/api/reportResults', fetchdata, {
-          headers: { 'Content-Type': 'application/json' },
-        });    
-        const data = response.data;
-
-        if (response.status === 200) {
-          if (data.success === true) {
-            
-            console.log("Data1222: ",data.dbnameExamineList)
-            setSelectedOption(data.dbnameExamineList[0]);
-            setNameExamineList(data.dbnameExamineList);
-            console.log("Data88888: ",data.dbsentdate)
-            data.dbsentdate.reverse();
-            data.dbsentdate.splice(1);
-            const datesOnly = data.dbsentdate.map(item => item.date);
-
-            console.log("Data9999: ",datesOnly)
-            const storedDate = localStorage.getItem("date");
-            // let isCurrentTime = parseFloat(`${new Date().getHours().toString().padStart(2, '0')}.${new Date().getMinutes().toString().padStart(2, '0')} `)
-            // let isTime = parseFloat(`${newEndTime.substring(0, 5).replace(':', '.')}`)
-            // console.log("DATEEEE: ", formattedDate,selectedDate);
-            const date1 = new Date(dateValue.split("/").reverse().join("-"));
-            const date2 = new Date(datesOnly[0].split("/").reverse().join("-"));
-      
-            console.log("DATEEE: ",date1 , date2)
-
-            const dateString1 = date1.toDateString(); 
-            const dateString2 = date2.toDateString();
-
-            if (dateString1 === dateString2) {
-              setSent(false);
-              console.log("วันที่เท่ากัน");
+      const user_IdValue = searchParams.get('id');
+      const dateValue = searchParams.get('date');
+  
+      console.log("queryDataexamine: ", { user_IdValue, dateValue })
+  
+      const fetchData = async () => {
+        try {
+          const AddData = { user_IdValue, dateValue, user_IdValue, fetch: true };
+          const fetchdata = JSON.stringify(AddData);
+  
+          const response = await axios.post('/api/reportResults', fetchdata, {
+            headers: { 'Content-Type': 'application/json' },
+          });
+  
+          const data = response.data;
+  
+          if (response.status === 200) {
+            if (data.success === true) {
+              console.log("Data1222: ", data.dbnameExamineList)
+              setSelectedOption(data.dbnameExamineList[0]);
+              setNameExamineList(data.dbnameExamineList);
+              console.log("Data88888: ", data.dbsentdate)
+              data.dbsentdate.reverse();
+              data.dbsentdate.splice(1);
+              const datesOnly = data.dbsentdate.map(item => item.date);
+              console.log("Data9999: ", datesOnly)
+  
+              const storedDate = localStorage.getItem("date");
+              const date1 = new Date(dateValue.split("/").reverse().join("-"));
+              const date2 = new Date(datesOnly[0].split("/").reverse().join("-"));
+  
+              console.log("DATEEE: ", date1, date2)
+  
+              const dateString1 = date1.toDateString();
+              const dateString2 = date2.toDateString();
+  
+              if (dateString1 === dateString2) {
+                setSent(false);
+                console.log("วันที่เท่ากัน");
+              } else {
+                setSent(true);
+                console.log("วันที่ไม่เท่ากัน");
+              }
+  
             } else {
-              setSent(true);
-              console.log("วันที่ไม่เท่ากัน");
+              setMessage(data.error);
             }
-
           } else {
             setMessage(data.error);
+  
+          }
+        } catch (error) {
+          console.error('Error fetching data:', error);
+          setMessage('');
+        }
+      };
+      setMessage('');
+      setId(user_IdValue);
+      fetchData();
+    } else {
+      console.log("ERRORRR")
+    }
+    }, []); // โหลดข้อมูลเมื่อค่า state reloadData เปลี่ยนแปลง
+  
+  // เลื่อน fetchDataForSelectedOption ไปใน useEffect callback
+  useEffect(() => {
+    const fetchDataForSelectedOption = async () => {
+      try {
+        console.log('Selected Option: ', nameExamineList);
+  
+        const AddData = { nameExamineList, id, option: true };
+        const data = JSON.stringify(AddData);
+        console.log('BB: ', data);
+  
+        const response = await axios.post('/api/reportResultsPdf', data, {
+          headers: { 'Content-Type': 'application/json' },
+        });
+  
+        const resdata = response.data;
+        console.log('DATA111: ', resdata);
+  
+        if (response.status === 200) {
+          if (resdata.success === true) {
+            const checkList_results = []
+            const ResultList = resdata.dbData
+            console.log("77777777777777 ", ResultList)
+  
+            const Date = ResultList.date;
+  
+            localStorage.setItem('date', ResultList.date)
+            setDate(Date)
+  
+            setNameExamine(ResultList)
+          } else {
+            setMessage(resdata.error);
           }
         } else {
-          setMessage(data.error);
-          
+          setMessage(resdata.error);
         }
       } catch (error) {
         console.error('Error fetching data:', error);
         setMessage('');
       }
-    };
-    setMessage('');
-    setId(user_IdValue);
-    fetchData();
-  }
-  }, []); // โหลดข้อมูลเมื่อค่า state reloadData เปลี่ยนแปลง
-
- 
- 
-  const fetchDataForSelectedOption = async () => {
-    try {
-      console.log('Selected Option: ', nameExamineList);
-
-      const AddData = { nameExamineList ,id, option: true };
-      const data = JSON.stringify(AddData);
-      console.log('BB: ', data);
-
-      const response = await axios.post('/api/reportResultsPdf', data, {
-        headers: { 'Content-Type': 'application/json' },
-      });
-
-      const resdata = response.data;
-      console.log('DATA111: ', resdata);
-
-      if (response.status === 200) {
-        if (resdata.success === true) {
-
-          const checkList_results = []
-          const ResultList = resdata.dbData
-          console.log("77777777777777 ",ResultList)
-
-          const Date = ResultList.date;
-
-          localStorage.setItem('date' , ResultList.date)
-          setDate(Date)
-          
-          
-
-          //  ResultList.forEach(item => {
-          //       console.log(`Name: ${item.name}, Examine: ${Object.keys(item.examine)[0]}`);
-          //       const data = item.examine[Object.keys(item.examine)[0]];
-          //       checkList_results.push(item.name)
-          //       data.forEach((entry, index) => {
-          //         console.log(`  Data ${index + 1}: ${JSON.stringify(entry)}`);
-          //       });
-          //     });
-          // const uniqueNames = new Set(); // เก็บชื่อที่ไม่ซ้ำ
-
-
-          // ResultList.forEach(item => {
-          //   const name = item.name;
-          //   const examineKey = Object.keys(item.examine)[0];
-          //   const data = item.examine[examineKey];
-          
-          //   // ตรวจสอบว่าชื่อนี้ยังไม่ถูกเพิ่มใน Set หรือไม่
-          //   if (!uniqueNames.has(name)) {
-          //     uniqueNames.add(name); // เพิ่มชื่อลงใน Set
-          //     console.log(`Name: ${name}, Examine: ${examineKey}`);
-          //     const groupedData = data.reduce((acc, entry) => {
-          //       const examineName = entry.examinename;
-        
-          //       // ตรวจสอบว่ามี key สำหรับ examineName อยู่แล้วหรือไม่
-          //       if (!acc[examineName]) {
-          //           acc[examineName] = [];
-          //       }
-        
-          //       // เพิ่มข้อมูลที่มี Examine เหมือนกันลงในอาร์เรย์เดียวกัน
-          //       acc[examineName].push({
-          //           examinename: entry.examinename,
-          //           status: entry.status,
-          //           details: entry.details
-          //       });
-        
-          //       return acc;
-          //   }, {});
-        
-          //   const filteredData = Object.values(groupedData);
-
-          //   checkList_results.push({ name, examine: examineKey, data: filteredData }); // Include examine name
-        
-          //   filteredData.forEach((group, index) => {
-          //       console.log(`  Group ${index + 1}: ${JSON.stringify(group)}`);
-          //   });
-          //   }
-          // });
-          
-          // ตอนนี้ checkList_results จะมีโครงสร้างเป็น [{ name: 'Name1', data: [...] }, { name: 'Name2', data: [...] }, ...]
-          
-
-              
-          setNameExamine(ResultList)
-          // setChecklistNameExamine(checkList_results)
-          // console.log("000: ",resdata.dbExamine[0])
-          // setSelectedExamineOption(resdata.dbExamine[0])
-          // console.log('selectexamine: ', resdata.dbExamine[0]);
-          // fetchDataExamine();
-          
-        } else {
-          setMessage(resdata.error);
-        }
-      } else {
-        setMessage(resdata.error);
-      }
-    } catch (error) {
-      console.error('Error fetching data:', error);
       setMessage('');
-    }
-    setMessage('');
-
-
-          
-  };
-
-  useEffect(() => {
+    };
+  
     if (selectedOption) {
       fetchDataForSelectedOption();
     }
-  }, [selectedOption]);
-
-  useEffect(() => {
-    if (selectedExamineOption) {
-      fetchDataExamine();
-    }
-  }, [selectedExamineOption]);
-
+  }, [selectedOption, nameExamineList, id]);
   
-
-  const handleDropdownChange = (event) => {
-    console.log("event.target.value: ",event.target.value)
-    setSelectedOption(event.target.value); // เมื่อเลือกตัวเลือกใน Dropdown ให้อัปเดต state
-  };
-
-
-  const handleDropdownExamineChange = (event) => {
-    console.log("event.target.value: ",event.target.value)
-    setSelectedExamineOption(event.target.value); // เมื่อเลือกตัวเลือกใน Dropdown ให้อัปเดต state
-  };
-
-
-  const fetchDataExamine = async () => {
+  const fetchDataExamine = useCallback(async () => {
     try {
-
-      const AddData = { selectedOption ,selectedExamineOption , selectExamine: true};
+      const AddData = { selectedOption, selectedExamineOption, selectExamine: true };
       const fetchdata = JSON.stringify(AddData);
-
-      // console.log("444: ",fetchdata)
-
+  
       const response = await axios.post('/api/reportResults', fetchdata, {
         headers: { 'Content-Type': 'application/json' },
-      });    
+      });
       const data = response.data;
-
+  
       if (response.status === 200) {
         if (data.success === true) {
-         
-          console.log("Datamm: ",data.dbData)
-     
-
+          console.log("Datamm: ", data.dbData)
+  
           let checklistToAdd = [];
-          
-
-          
+  
           const dbData = data.dbData || [];
           dbData.forEach((checkListData) => {
             const Data = {
@@ -283,22 +188,20 @@ export default function CompReportResultsForm({ onSubmit }) {
               details: checkListData.details,
               status: checkListData.status
             };
-             checklistToAdd.push(Data);
-             const Data_1 = {
+            checklistToAdd.push(Data);
+            const Data_1 = {
               date: checkListData.date,
               name: checkListData.name,
               lastname: checkListData.lastname
-
             };
             setcheckList(Data_1)
-            console.log("data.dbData: ",checkList)
-
-        })
-
-          
+            console.log("data.dbData: ", checkList)
+  
+          })
+  
           const newTodoList = [...checklistToAdd];
           setTodoList(newTodoList)
-          console.log("datachecklist: ",newTodoList)
+          console.log("datachecklist: ", newTodoList)
         } else {
           setMessage(data.error);
         }
@@ -310,8 +213,13 @@ export default function CompReportResultsForm({ onSubmit }) {
       setMessage('');
     }
     setMessage('');
-
-  };
+  }, [selectedOption, selectedExamineOption,checkList]);
+  
+  useEffect(() => {
+    if (selectedExamineOption) {
+      fetchDataExamine();
+    }
+  }, [selectedExamineOption, fetchDataExamine]);
 
 
   // Call the second useEffect function when the selected option changes
@@ -422,7 +330,7 @@ export default function CompReportResultsForm({ onSubmit }) {
 
           setTimeout(() => {
             setShowSuccessPopup(false);
-            window.location.href = resdata.redirect;
+            router.push(resdata.redirect)
           }, 1000); // 1000 milliseconds = 1 second
         } else {
           // setnotifyMessage(resdata.error);

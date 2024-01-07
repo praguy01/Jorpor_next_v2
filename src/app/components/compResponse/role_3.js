@@ -6,7 +6,7 @@ import '../../globals.css'
 import '@fontsource/mitr';
 import axios from 'axios';
 import CompNavbar from '../compNavbar/role_3';
-import { CompLanguageProvider, useLanguage } from '../compLanguageProvider';
+import { CompLanguageProvider, useLanguage } from '../compLanguageProvider_role_3';
 import { useTranslation } from 'react-i18next';
 import i18n from '../../i18n'; 
 import { initReactI18next } from 'react-i18next';

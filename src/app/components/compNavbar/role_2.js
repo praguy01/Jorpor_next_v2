@@ -6,7 +6,7 @@ import '@fontsource/mitr';
 import {FiMenu} from 'react-icons/fi';
 import {AiOutlineClose} from 'react-icons/ai';
 import {usePathname } from 'next/navigation';
-import { CompLanguageProvider, useLanguage } from '../compLanguageProvider';
+import { CompLanguageProvider, useLanguage } from '../compLanguageProvider_role_2';
 import { useTranslation } from 'react-i18next';
 
 

@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation';
 
 
 
-export default function compSendEmail() {
+const CompSendEmail = () => {
 
   const router = useRouter();
 
@@ -157,4 +157,6 @@ export default function compSendEmail() {
   </div>
     );
 }
+export default CompSendEmail;
+
 

@@ -1,14 +1,12 @@
 'use client'
-import '@fontsource/ntr'
 import '../globals.css'
 import '@fontsource/mitr';
 import CompNavbar from './compNavbar/role_1';
 import axios from 'axios';
 import React, { useState ,useEffect } from 'react';
-import { CompLanguageProvider, useLanguage } from './compLanguageProvider';
+import {useLanguage } from './compLanguageProvider_role_1';
 import { useTranslation } from 'react-i18next';
-import i18n from '../i18n'; 
-import { initReactI18next } from 'react-i18next';
+
 
 
 // function  {
@@ -23,7 +21,7 @@ import { initReactI18next } from 'react-i18next';
 
 export default function CompReportResultsForm({ onSubmit }) {
 
-  const { language, toggleLanguage } = useLanguage();
+  const { language} = useLanguage();
   const { t } = useTranslation();
   // const [reloadData, setReloadData] = useState(false); // เพิ่ม state นี้
   const [id, setId] = useState('');
@@ -35,6 +33,7 @@ export default function CompReportResultsForm({ onSubmit }) {
   const [selectedExamineOption, setSelectedExamineOption] = useState('');
   const [nameExamine , setNameExamine] = useState(''); 
   const [useEmployee , setUseEmployee] = useState(''); 
+  // const [fetchDataExamineMemoized, setFetchDataExamineMemoized] = useState(false);
 
 
   useEffect(() => {
@@ -82,64 +81,68 @@ export default function CompReportResultsForm({ onSubmit }) {
     setId(user_IdValue);
     setDate(dateValue);
     fetchData();
+  } else {
+    console.log("ERRORRR")
   }
+
   }, []); // โหลดข้อมูลเมื่อค่า state reloadData เปลี่ยนแปลง
 
  
  
-  const fetchDataForSelectedOption = async () => {
-    try {
-      console.log('Selected Option: ', selectedOption);
-
-      const AddData = { selectedOption, id, option: true };
-      const data = JSON.stringify(AddData);
-      console.log('BB: ', data);
-
-      const response = await axios.post('/api/reportResults', data, {
-        headers: { 'Content-Type': 'application/json' },
-      });
-
-      const resdata = response.data;
-      console.log('DATA111: ', resdata);
-
-      if (response.status === 200) {
-        if (resdata.success === true) {
-
-
-          setNameExamine(resdata.dbExamine)
-          console.log("000: ",resdata.dbExamine[0])
-          setSelectedExamineOption(resdata.dbExamine[0])
-          console.log('selectexamine: ', resdata.dbExamine[0]);
-          fetchDataExamine();
-         
-          
+  useEffect(() => {
+    const fetchDataForSelectedOption = async () => {
+      try {
+        console.log('Selected Option: ', selectedOption);
+  
+        const AddData = { selectedOption, id, option: true };
+        const data = JSON.stringify(AddData);
+        console.log('BB: ', data);
+  
+        const response = await axios.post('/api/reportResults', data, {
+          headers: { 'Content-Type': 'application/json' },
+        });
+  
+        const resdata = response.data;
+        console.log('DATA111: ', resdata);
+  
+        if (response.status === 200) {
+          if (resdata.success === true) {
+            setNameExamine(resdata.dbExamine)
+            console.log("000: ", resdata.dbExamine[0])
+            setSelectedExamineOption(resdata.dbExamine[0])
+            console.log('selectexamine: ', resdata.dbExamine[0]);
+            // setFetchDataExamineMemoized(true)
+          } else {
+            setMessage(resdata.error);
+          }
         } else {
           setMessage(resdata.error);
         }
-      } else {
-        setMessage(resdata.error);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        setMessage('');
       }
-    } catch (error) {
-      console.error('Error fetching data:', error);
       setMessage('');
-    }
-    setMessage('');
-
-
-          
-  };
-
-  useEffect(() => {
+    };
+  
     if (selectedOption) {
       fetchDataForSelectedOption();
     }
-  }, [selectedOption]);
+  }, [selectedOption,id]);
+  
 
-  useEffect(() => {
-    if (selectedExamineOption) {
-      fetchDataExamine();
-    }
-  }, [selectedExamineOption]);
+
+  // useEffect(() => {
+  //   if (selectedOption) {
+  //     fetchDataForSelectedOption();
+  //   }
+  // }, [selectedOption]);
+
+  // useEffect(() => {
+  //   if (selectedExamineOption) {
+  //     fetchDataExamine();
+  //   }
+  // }, [selectedExamineOption]);
 
   
 
@@ -154,7 +157,7 @@ export default function CompReportResultsForm({ onSubmit }) {
     setSelectedExamineOption(event.target.value); // เมื่อเลือกตัวเลือกใน Dropdown ให้อัปเดต state
   };
 
-
+  useEffect(() => {
   const fetchDataExamine = async () => {
     try {
 
@@ -253,11 +256,22 @@ export default function CompReportResultsForm({ onSubmit }) {
       setMessage('');
     }
     setMessage('');
+  }
+    if (selectedExamineOption) {
+      fetchDataExamine();
+      setSelectedExamineOption(false)
+    }
+  }, [selectedExamineOption, selectedOption, id, checkList]);
 
-  };
-
-
-  // Call the second useEffect function when the selected option changes
+  // useEffect(() => {
+  //   // โค้ดที่ใช้งาน fetchDataExamine จะเป็นที่นี่
+  //   if (selectedExamineOption) {
+  //     fetchDataExamineMemoized();
+  //   }
+  // }, [selectedExamineOption, selectedOption, id, fetchDataExamineMemoized]);
+  
+  
+  
 
 
   const [formData, setFormData] = useState({

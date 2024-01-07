@@ -11,7 +11,7 @@ import {BsFillExclamationTriangleFill} from 'react-icons/bs'
 import { useRouter } from 'next/navigation';
 import '@fontsource/mitr';
 import CompNavbar from './compNavbar/role_1';
-import { CompLanguageProvider, useLanguage } from './compLanguageProvider';
+import { CompLanguageProvider, useLanguage } from './compLanguageProvider_role_1';
 import { useTranslation } from 'react-i18next';
 import {BsCalendar2Minus} from 'react-icons/bs';
 
@@ -58,12 +58,12 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
   const router = useRouter();
   
   useEffect(() => {
-    const storedCheckedItems = localStorage.getItem('checkedItems');
-    console.log("storedCheckedItems: ",JSON.parse(storedCheckedItems));
+    // const storedCheckedItems = localStorage.getItem('checkedItems');
+    // console.log("storedCheckedItems: ",JSON.parse(storedCheckedItems));
 
-    const checkedItems = JSON.parse(storedCheckedItems)
-    // if (checkedItems) {
-      setCheckedItems(checkedItems);
+    // const checkedItems = JSON.parse(storedCheckedItems)
+    // // if (checkedItems) {
+    //   setCheckedItems(checkedItems);
     // }
 
     const storedUser_id = localStorage.getItem('id');
@@ -84,10 +84,14 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
         if (response.status === 200) {
           if (data.success === true) {
             const examinelistNames = data.dbexaminelist_name.map(item => ({ id: item.id, name: item.name }));
-            console.log("DATAAA:22 ",examinelistNames)
+            console.log("DATAAA:22 ",data.dbexaminelist_name)
 
             setTodoList(examinelistNames);
             setUser_id(storedUser_id);
+            const examinelistId = data.dbexaminelist_name.map(item => item.id );
+            console.log("DATAAA:22examinelistId ",examinelistId)
+
+            setCheckedItems(examinelistId);
 
           } else {
             setMessage(data.error);
@@ -369,12 +373,14 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
     } else {
       setCheckedItems([...(checkedItems || []), todoId].sort((a, b) => a - b));
     }
+    console.log("TODOIDcheckedItems: ", checkedItems);
+
   };
   
 
   const handleCheckboxAdd = async () => {
     try {
-      const AddData = { id, checkedItems, selectedUpdate: true};
+      const AddData = { id, checkedItems , selectedUpdate: true};
       const fetchdata = JSON.stringify(AddData);
 
       const response = await axios.post('/api/examinelist', fetchdata, {
@@ -460,7 +466,10 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
     }
   };
 
-
+  const resetCheckboxes = () => {
+    setCheckedItems([]);
+  };
+  
   
   return (
     <div>
@@ -607,7 +616,7 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
                   <div className="flex justify-center mt-[20px]">
                     <button className="flex justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={handleCheckboxAdd}>{language === 'EN' ? 'Add' : 'ยืนยัน' }</button>
 
-                    <button className="flex justify-center items-center bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600" onClick={() => closePopup(false)}>{language === 'EN' ? 'Cancel' : 'ยกเลิก' }</button>
+                    <button className="flex justify-center items-center bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600"  onClick={() => { closePopup(false);   resetCheckboxes(); }}>{language === 'EN' ? 'Cancel' : 'ยกเลิก' }</button>
                   </div>
 
                 </div>

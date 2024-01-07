@@ -77,6 +77,12 @@ export async function POST(request) {
 
       if (res.fetch_role_2) {
         try {
+          const currentDate = new Date();
+          const day = currentDate.getDate();
+          const month = currentDate.getMonth() + 1; // Adding 1 because January starts at 0
+          const year = currentDate.getFullYear();
+          const formattedDate = `${day}/${month}/${year}`;
+
           console.log("XXXXXXXXXXXXXXXXx")
 
             const idList = [];
@@ -98,12 +104,14 @@ export async function POST(request) {
             const getdate_R2Query = "SELECT DISTINCT date FROM checklist_examine_row_2 WHERE inspector = ?";
             const [getdate_R2QueryResult] = await db.query(getdate_R2Query, [res.user_IdValue]);
           
-            const getIdQuery = "SELECT select_id FROM `select` WHERE user_id = ?";
-            const [idResult] = await db.query(getIdQuery, [res.user_IdValue]);
+            const getIdQuery = "SELECT select_id FROM `select` WHERE user_id = ? AND date = ?";
+            const [idResult] = await db.query(getIdQuery, [res.user_IdValue , formattedDate]);
             const idResultmap = idResult.map(row => row.select_id);
-            console.log("4444idResult: ",JSON.parse(idResultmap))
-            const item_id = JSON.parse(idResultmap)
+            // console.log("4444idResult: ",JSON.parse(idResultmap))
+            const selectIdString = idResult[0].select_id;
 
+            const item_id = JSON.parse(selectIdString);
+            console.log("4444idResult: ",item_id)
 
             const nameList = [];
           
@@ -150,11 +158,7 @@ export async function POST(request) {
             }
         
            
-            const currentDate = new Date();
-            const day = currentDate.getDate();
-            const month = currentDate.getMonth() + 1; // Adding 1 because January starts at 0
-            const year = currentDate.getFullYear();
-            const formattedDate = `${day}/${month}/${year}`;
+         
         
             console.log("Date: ", formattedDate);
 
@@ -305,6 +309,11 @@ export async function POST(request) {
 
         if (res.fetch_role_3) {
           try {
+            const currentDate = new Date();
+            const day = currentDate.getDate();
+            const month = currentDate.getMonth() + 1; // Adding 1 because January starts at 0
+            const year = currentDate.getFullYear();
+            const formattedDate = `${day}/${month}/${year}`;
             console.log("XXXXXXXXXXXXXXXXx")
   
               const idList = [];
@@ -326,11 +335,13 @@ export async function POST(request) {
               const getdate_R2Query = "SELECT DISTINCT date FROM checklist_examine_row_2 WHERE inspector = ?";
               const [getdate_R2QueryResult] = await db.query(getdate_R2Query, [res.user_IdValue]);
             
-              const getIdQuery = "SELECT select_id FROM `select` WHERE user_id = ?";
-              const [idResult] = await db.query(getIdQuery, [res.user_IdValue]);
-              const idResultmap = idResult.map(row => row.select_id);
-              console.log("4444idResult: ",JSON.parse(idResultmap))
-              const item_id = JSON.parse(idResultmap)
+              const getIdQuery = "SELECT select_id FROM `select` WHERE user_id = ? AND date = ?";
+              const [idResult] = await db.query(getIdQuery, [res.user_IdValue ,formattedDate]);
+              // const idResultmap = idResult.map(row => row.select_id);
+              const selectIdString = idResult[0].select_id;
+
+              const item_id = JSON.parse(selectIdString);
+              console.log("4444idResult: ",item_id)
   
   
               const nameList = [];
@@ -378,11 +389,7 @@ export async function POST(request) {
               }
           
              
-              const currentDate = new Date();
-              const day = currentDate.getDate();
-              const month = currentDate.getMonth() + 1; // Adding 1 because January starts at 0
-              const year = currentDate.getFullYear();
-              const formattedDate = `${day}/${month}/${year}`;
+
           
               console.log("Date: ", formattedDate);
   

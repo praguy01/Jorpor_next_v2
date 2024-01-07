@@ -7,8 +7,9 @@ import '@fontsource/mitr';
 import {FiMenu} from 'react-icons/fi';
 import {AiOutlineClose} from 'react-icons/ai';
 import {usePathname } from 'next/navigation';
-import { CompLanguageProvider, useLanguage } from '../compLanguageProvider';
+import { CompLanguageProvider, useLanguage } from '../compLanguageProvider_role_1';
 import { useTranslation } from 'react-i18next';
+import axios from 'axios';
 
 
 function CompNavbar() {
@@ -16,10 +17,99 @@ function CompNavbar() {
 
   const { language, toggleLanguage } = useLanguage();
   const [toggle, setToggle] = useState(false);
-  useEffect (() => {
-    console.log("ภาษา ",language)
-    localStorage.setItem('language', language);
-  })
+  const [message, setMessage] = useState('');
+  const [shouldCallEditLanguage, setshouldCallEditLanguage] = useState(false);
+
+
+  // useEffect (() => {
+
+  //   const fetchData = async () => {
+  //     try {
+  //       const storedId = localStorage.getItem('id');
+  //       if (storedId) {
+  //         console.log('Stored: ', storedId);
+  //       }
+  
+  //       const AddData = { storedId ,lang_role_1: true};
+  //       const data = JSON.stringify(AddData);
+  //       console.log('DD: ', data);
+  
+  //       const response = await axios.post('/api/lang', data, {
+  //         headers: { 'Content-Type': 'application/json' },
+  //       });
+  
+  //       const resdata = response.data;
+  //       console.log('DATA: ', response.data.dbLang[0]);
+  
+  //       if (response.status === 200) {
+  //         if (resdata.success === true) {
+          
+  //           toggleLanguage(response.data.dbLang[0]);
+  //           localStorage.setItem("language", response.data.dbLang[0]);
+
+  //         } else {
+  //           setMessage(resdata.error);
+  //         }
+  //       } else {
+  //         setMessage(resdata.error);
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error);
+  //       setMessage('');
+  //     }
+  //   };
+
+  //   fetchData();
+  //   console.log('LANGGGGG111: ',language)
+
+  // }, []);
+
+
+  // const editLanguage = async () => {
+  //   try {
+  //     const storedId = localStorage.getItem('id');
+  //     if (storedId) {
+  //       console.log('Stored: ', storedId);
+  //     }
+  //     console.log('D2222: ', language);
+  //     localStorage.setItem("language", language);
+
+  //     const AddData = { storedId , language ,edit_lang_role_1: true};
+  //     const data = JSON.stringify(AddData);
+  //     console.log('DD: ', data);
+
+  //     const response = await axios.post('/api/lang', data, {
+  //       headers: { 'Content-Type': 'application/json' },
+  //     });
+
+  //     const resdata = response.data;
+  //     console.log('DATA8888edit: ',response.data.dbLang[0]);
+
+  //     if (response.status === 200) {
+  //       if (resdata.success === true) {
+        
+  //         toggleLanguage(response.data.dbLang[0]); 
+
+  //       } else {
+  //         setMessage(resdata.error);
+  //       }
+  //     } else {
+  //       setMessage(resdata.error);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching data:', error);
+  //     setMessage('');
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (shouldCallEditLanguage) {
+  //     editLanguage();
+  //     setshouldCallEditLanguage(false);
+  //   }
+  // }, [language, shouldCallEditLanguage]);
+  // console.log("ภาษา ",language)
+    // localStorage.setItem('language', language);
   const currentPath = usePathname();
   const outsideClickRef = useRef(null);
 
@@ -70,7 +160,6 @@ function CompNavbar() {
                 </div>
              
             <div className={`md:h-[60px] hidden md:flex tracking-wider items-center text-white text-[16px]  mx-auto justify-center `}>
-           
             
                 
                 <Link href="/examineList" 
@@ -142,9 +231,12 @@ function CompNavbar() {
                 <Link onClick={()=>setToggle(!toggle)} href="/profile_role_1" style={{ whiteSpace: 'nowrap' }} className='  px-4 py-2  text-[#fff] hover:text-[#5A985E] hover:bg-[#fff]  '>{t('Profile')}</Link>
                 
                 <button onClick={logout}  className='   text-left px-4 py-2  text-[#fff] hover:text-[#5A985E] hover:bg-[#fff]  '>  {`${language === 'EN' ? 'log out' : 'ออกจากระบบ'  }`}</button>
-                <button  className={` text-[16px]   text-white hover:text-[#5A985E] hover:bg-[#F5F5F5] px-4 py-2`} onClick={() => { toggleLanguage(); setToggle(!toggle); }}>
+              {console.log('langgggggggg: ', language)}
+
+                <button className={`text-[16px] text-white hover:text-[#5A985E] hover:bg-[#F5F5F5] px-4 py-2`} onClick={() => { toggleLanguage(); setToggle(!toggle);  }}>
                   {language}
-                </button> 
+                </button>
+
             </div>
         </div>
         </CompLanguageProvider>

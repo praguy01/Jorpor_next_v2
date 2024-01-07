@@ -1,14 +1,5 @@
-// Import required modules
-import db from '../../../lib/db';
-import { NextResponse } from 'next/server';
-import Cors from 'micro-cors';
-const cors = Cors({
-  allowMethods: ['POST'],
-  allowHeaders: ['Content-Type'],
-  origin: '*',
-});
+// File: D:/SeniorNextjs/jorpor-nextjs/src/app/api/emergency_notify/route.ts
 
-// Define the API route handler
 export async function POST(request) {
   // Check if the request method is POST
   if (request.method === 'POST') {
@@ -20,17 +11,16 @@ export async function POST(request) {
       console.log('Received data from NodeMCU:', res);
 
       // Return a JSON response indicating success
-      return NextResponse.json({ success: true, message: 'Successfully received data' });
+      return new NextResponse.json({ success: true, message: 'Successfully received data' });
     } catch (error) {
       // Handle errors during processing
       console.error('Error processing the request:', error);
 
       // Return a JSON response indicating failure
-      return NextResponse.json({ success: false, error: 'Failed to process the request' });
+      return new NextResponse.json({ success: false, error: 'Failed to process the request' });
     }
   } else {
     // Return a JSON response for the case of an invalid request method
-    return NextResponse.json('Method not allowed');
+    return new NextResponse.json('Method not allowed');
   }
 }
-export default cors(POST);

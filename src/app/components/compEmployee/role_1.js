@@ -1,5 +1,5 @@
 'use client'
-import React, { useState ,useEffect} from 'react';
+import React, { useState ,useEffect, useCallback , useRef } from 'react';
 import '../../globals.css'
 import Link from 'next/link'
 // import '@fontsource/ntr'
@@ -13,7 +13,7 @@ import { PiPencilSimpleFill } from 'react-icons/pi';
 import {BsCheckCircle} from 'react-icons/bs';
 import * as XLSX from 'xlsx';
 import axios from 'axios';
-import { CompLanguageProvider, useLanguage } from '../compLanguageProvider';
+import { CompLanguageProvider, useLanguage } from '../compLanguageProvider_role_1';
 import { useTranslation } from 'react-i18next';
 import i18n from '../../i18n'; 
 import { initReactI18next } from 'react-i18next';
@@ -47,73 +47,43 @@ function App() {
     const [selectedOption, setSelectedOption] = useState('');
     const [showEditPopup, setShowEditPopup] = useState(false);
     const [deletemessage, setdeleteMessage] = useState(false);
+    const [lastname, setlastname] = useState("");
+    const [todoList, setTodoList] = useState([]);
+    const [employee, setEmployee] = useState(""); 
+    const [name, setName] = useState(""); 
+    const [file, setFile] = useState(false);
 
-
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const storedId = localStorage.getItem('id');
-          if (storedId) {
-            setId(storedId);
-            console.log('Stored: ', storedId);
-          }
-  
-          const AddData = { storedId };
-          const data = JSON.stringify(AddData);
-          console.log('DD: ', data);
-  
-          const response = await axios.post('/api/employee', data, {
-            headers: { 'Content-Type': 'application/json' },
-          });
-  
-          const resdata = response.data;
-          console.log('DATA: ', resdata);
-  
-          if (response.status === 200) {
-            if (resdata.success === true) {
-              setSelectedOption(resdata.dbnameExamineList[0]);
-              setNameExamineList(resdata.dbnameExamineList);
-            } else {
-              setMessage(resdata.error);
-            }
-          } else {
-            setMessage(resdata.error);
-          }
-        } catch (error) {
-          console.error('Error fetching data:', error);
-          setMessage('');
-        }
-      };
-  
-      fetchData();
-    }, [reloadData]);
-  
-    const fetchDataForSelectedOption = async () => {
+    // useEffect(() => {
+    //   // ทำให้ selectedOptionRef.current อัปเดตเมื่อ selectedOption เปลี่ยน
+    //   selectedOptionRef.current = selectedOption;
+    // }, [selectedOption]);
+    
+    const fetchDataForSelectedOption = useCallback(async () => {
       try {
-        console.log('Selected Option: ', selectedOption);
-  
+        console.log('Selected Option88: ', selectedOption);
+    
         const AddData = { selectedOption, fetch: true };
         const data = JSON.stringify(AddData);
         console.log('BB: ', data);
-  
+    
         const response = await axios.post('/api/employee', data, {
           headers: { 'Content-Type': 'application/json' },
         });
-  
+    
         const resdata = response.data;
         console.log('DATA111: ', resdata);
-  
+    
         if (response.status === 200) {
           if (resdata.success === true) {
             console.log('employeeDB: ', resdata.dbemployee_name.employee);
             const dbEmployees = resdata.dbemployee_name || [];
-  
+    
             const employeesToAdd = dbEmployees.map((employeeData) => ({
               employee: employeeData.employee,
               name: employeeData.name,
               lastname: employeeData.lastname,
             }));
-  
+    
             const newTodoList = [...employeesToAdd];
             setTodoList(newTodoList);
           } else {
@@ -126,14 +96,57 @@ function App() {
         console.error('Error fetching data:', error);
         setMessage('');
       }
-    };
-  
+    }, [selectedOption, setTodoList, setMessage]);
+    
+    
+    useEffect(() => {
+      
+      const fetchData = async () => {
+        try {
+          const storedId = localStorage.getItem('id');
+          if (storedId) {
+            setId(storedId);
+            console.log('Stored: ', storedId);
+          }
+    
+          const AddData = { storedId };
+          const data = JSON.stringify(AddData);
+          console.log('DD: ', data);
+    
+          const response = await axios.post('/api/employee', data, {
+            headers: { 'Content-Type': 'application/json' },
+          });
+    
+          const resdata = response.data;
+          console.log('DATA: ', resdata);
+    
+          if (response.status === 200) {
+            if (resdata.success === true) {
+                setSelectedOption(resdata.dbnameExamineList[0]);
+                setNameExamineList(resdata.dbnameExamineList);
+              
+            } else {
+              setMessage(resdata.error);
+            }
+          } else {
+            setMessage(resdata.error);
+          }
+        } catch (error) {
+          console.error('Error fetching data:', error);
+          setMessage('');
+        }
+      };
+    
+      fetchData();
+    }, [setSelectedOption, setNameExamineList, setMessage]);
+    
+
     // Call the second useEffect function when the selected option changes
     useEffect(() => {
-      if (selectedOption) {
-        fetchDataForSelectedOption();
-      }
-    }, [selectedOption]);
+      
+      fetchDataForSelectedOption();
+    }, [fetchDataForSelectedOption, selectedOption]);
+  
 
 
   const openPopup = () => {
@@ -144,11 +157,7 @@ function App() {
     setShowPopup(false);
   };
   // const [input, setInput] = useState("");
-  const [lastname, setlastname] = useState("");
-  const [todoList, setTodoList] = useState([]);
-  const [employee, setEmployee] = useState(""); 
-  const [name, setName] = useState(""); 
-  const [file, setFile] = useState(false);
+
 
 
 

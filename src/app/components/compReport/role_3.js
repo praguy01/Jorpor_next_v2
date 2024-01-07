@@ -12,7 +12,7 @@ import CompNavbarTec from '../compNavbar/role_3';
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend , ResponsiveContainer} from 'recharts';
-import { CompLanguageProvider, useLanguage } from '../compLanguageProvider';
+import { CompLanguageProvider, useLanguage } from '../compLanguageProvider_role_3';
 import { useTranslation } from 'react-i18next';
 import i18n from '../../i18n'; 
 import { initReactI18next } from 'react-i18next';
@@ -303,7 +303,6 @@ function App() {
   for (const day of todoAll) {
     const newDataItem = {
       name: day.currentDateA,
-      amt: 0,
     };
   
     const currentDateA = day.currentDateA;
@@ -581,7 +580,7 @@ function App() {
 
                 {todoList.key && Array.isArray(todoList.key) && todoList.key.map((item, index) => (
                   
-                  <Link href={`/reportingResults_role_2?id=${item.id}`} key={index}>
+                  <Link href={`/reportingResults_role_3?id=${item.id}`} key={index}>
                   <div className={'mx-auto mt-[8px] w-[250px] p-2 h-[100px] md:h-[120px] md:w-[500px] px-2 text-black flex-col bg-[#FFF] text-center rounded-[15px] '}>
                     {/* {console.log("TODOLIST: ",key)} */}
                     <div className='flex justify-center  h-[40px]  md:ml-[8px]  mt-[5px]'>
