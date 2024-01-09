@@ -10,11 +10,13 @@ import { useTranslation } from 'react-i18next';
 // import i18n from '../i18n'; 
 // import { initReactI18next } from 'react-i18next';
 import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
+import 'jspdf-autotable';
+import '../Sarabun-Regular-normal';  
 // import html2pdf from 'html2pdf.js';
 import {BsFillExclamationTriangleFill} from 'react-icons/bs'
 import {BsCheckCircle} from 'react-icons/bs'
 import { useRouter } from 'next/navigation';
+import { IoMdDownload } from "react-icons/io";
 
 // function  {
 //   return (
@@ -353,25 +355,224 @@ export default function CompReportResultsForm({ onSubmit }) {
 
 
   // Example: Applying specific styles for PDF
-const generatePDF = () => {
-  const element = document.getElementById('pdf-content');
-  const pdf = new jsPDF('p', 'mm', 'a4');
+  const generatePDF = async () => {
+    await new Promise(resolve => setTimeout(resolve, 1000));
   
-  // Add title
-  pdf.text('Verified information', 20, 10);
-
-  html2canvas(element, { scale: 1.5, logging: true, useCORS: true })
-    .then((canvas) => {
-      const imgData = canvas.toDataURL('image/png');
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
-      const imgWidth = pdfWidth - 20;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-      pdf.addImage(imgData, 'PNG', 10, 20, imgWidth, imgHeight);
-      pdf.save('report.pdf');
+    const doc = new jsPDF({
+      unit: 'mm',
+      format: 'a4',
+      orientation: 'portrait'
     });
-};
+  
+    // Add Sarabun font
+    let verticalSpacing = 5; // Set the desired vertical spacing
+    let currentY = 10;
+    let currentHeight = 0;
+    let checkcurrentHeight = 0;
+    const maxPageHeight = 670;
+    let newPage = false;
+  
+    const createNewPage = () => {
+      doc.addPage();
+      currentHeight = 0;
+      newPage = false;
+    };
+  
+    doc.addFont('Sarabun-Regular', 'normal');
+    doc.setFont('Sarabun-Regular', 'normal');
+  
+    doc.setFontSize(10);
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const textWidth = doc.getStringUnitWidth('แบบรายงานผลการตรวจสอบความปลอดภัย') * doc.internal.getFontSize() / doc.internal.scaleFactor;
+  
+    const xCoordinate = (pageWidth - textWidth) / 2;
+  
+    doc.text('แบบรายงานผลการตรวจสอบความปลอดภัย', xCoordinate, 20);
+  
+    doc.text(`ผู้ตรวจสอบ : ${nameExamine.inspector}`, 20, 30);
+    doc.text(`วัน เดือน ปี เวลา ที่ตรวจ : ${nameExamine.date} น.`, 20, 38);
+  
+    if (nameExamine && nameExamine.items) {
+      console.log("nameExamine.items: ", nameExamine.items);
+      try {
+        for (const item of nameExamine.items) {
+          console.log("HEIGHT item.name: ", item.name, currentY, currentHeight, checkcurrentHeight);
+  
+          if (newPage) {
+            console.log("NEWW PAGEEEE");
+            currentY = 20;
+            newPage = false;
+          } else if (currentHeight > 0) {
+            currentY = currentHeight + 8;
+          } else {
+            currentY = 46;
+          }
+  
+          doc.text(20, currentY, `การตรวจสอบ :  ${item.name}`);
+          console.log("HEIGHT item.name 1: ", item.name, currentY, currentHeight, checkcurrentHeight);
+  
+          currentY += 8;
+  
+          if (item.examine) {
+            for (const [examKey, examValue] of Object.entries(item.examine)) {
+              doc.setFont('Sarabun-Regular', 'normal');
+              doc.text(25, currentY, examKey);
+              currentY += 8;
+  
+              if (examValue[0].useEmployee === 'false') {
+                if (examValue[0].itemA) {
+                  const columns = ["ลำดับ", "รายการตรวจสอบ", "สถานะ", "รายละเอียด"];
+                  const data = examValue[0].itemA.map((entry, entryIndex) => {
+                    return [entryIndex + 1, entry.examine_name, entry.status, entry.details];
+                  });
+  
+                  doc.setFont('Sarabun-Regular', 'normal');
+                  const tableWidth = columns.reduce((acc, column) => acc + (column.cellWidth || 40), 0);
+  
+                  const options = {
+                    startY: currentY,
+                    margin: { left: ((doc.internal.pageSize.getWidth() - tableWidth) / 2) + 5 }, // Center the table
+                    columnStyles: {
+                      0: { cellWidth: 20 },
+                      1: { cellWidth: 50 },
+                      2: { cellWidth: 30 },
+                      3: { cellWidth: 50 },
+                    },
+                    headerStyles: {
+                      fillColor: [211, 211, 211],
+                      textColor: [0, 0, 0],
+                      fontSize: 9,
+                      fontStyle: 'bold',
+                      font: 'Sarabun-Regular',
+                      halign: 'center',
+                    },
+                    bodyStyles: {
+                      textColor: [0, 0, 0],
+                      fontSize: 10,
+                      font: 'Sarabun-Regular',
+                      halign: 'center',
+                    },
+  
+                    didDrawCell: function (data) {
+                      const cellHeight = data.row.height;
+                      const cellWidth = data.cell.width;
+                      const cellX = data.cell.x;
+                      const cellY = data.cell.y;
+  
+                      doc.setLineWidth(0.1);
+                      doc.setDrawColor(0, 0, 0);
+  
+                      doc.line(cellX, cellY, cellX + cellWidth, cellY);
+                      doc.line(cellX + cellWidth, cellY, cellX + cellWidth, cellY + cellHeight);
+                      doc.line(cellX, cellY + cellHeight, cellX + cellWidth, cellY + cellHeight);
+                      doc.line(cellX, cellY, cellX, cellY + cellHeight);
+                    },
+                  };
+  
+                  doc.autoTable({ columns, body: data, ...options });
+  
+                  const tableHeight = doc.previousAutoTable.finalY;
+                  currentHeight = tableHeight;
+                  currentY = tableHeight + 10;
+                  checkcurrentHeight += tableHeight;
+  
+                  console.log("HEIGHT: ", examKey, 'checkcurrentHeight: ', checkcurrentHeight, 'tableHeight: ', tableHeight, 'currentY: ', currentY, 'currentHeight: ', currentHeight);
+  
+                  if (checkcurrentHeight > maxPageHeight) {
+                    createNewPage();
+                    checkcurrentHeight = 0;
+                    currentY = 0;
+                    newPage = true;
+                  }
+                }
+              } else {
+                if (examValue[0].itemA) {
+                  let entryIndex = 0;
+                  for (const entry of examValue[0].itemA) {
+                    console.log("examValue[0].itemA: ", entry, entry.key, currentY);
+                    console.log("HEIGHT entry.key: ", entry.key, currentY, currentHeight);
+  
+                    entryIndex++;
+  
+                    doc.text(25, currentY, `${entryIndex}. ${entry.key}`);
+  
+                    const columns = ["ลำดับ", "รายการตรวจสอบ", "สถานะ", "รายละเอียด"];
+                    const data = entry.itemB.map((entryBB, entryIndex) => {
+                      return [entryIndex + 1, entryBB.examinename_name, entryBB.status, entryBB.details];
+                    });
+  
+                    doc.setFont('Sarabun-Regular', 'normal');
+                    const tableWidth = columns.reduce((acc, column) => acc + (column.cellWidth || 40), 0);
+  
+                    const options = {
+                      startY: currentY + verticalSpacing,
+                      margin: { left: ((doc.internal.pageSize.getWidth() - tableWidth) / 2) + 5 },
+                      columnStyles: {
+                        0: { cellWidth: 20 },
+                        1: { cellWidth: 50 },
+                        2: { cellWidth: 30 },
+                        3: { cellWidth: 50 },
+                      },
+                      headerStyles: {
+                        fillColor: [211, 211, 211],
+                        textColor: [0, 0, 0],
+                        fontSize: 9,
+                        fontStyle: 'bold',
+                        font: 'Sarabun-Regular',
+                        halign: 'center',
+                      },
+                      bodyStyles: {
+                        textColor: [0, 0, 0],
+                        fontSize: 10,
+                        font: 'Sarabun-Regular',
+                        halign: 'center',
+                      },
+  
+                      didDrawCell: function (data) {
+                        const cellHeight = data.row.height;
+                        const cellWidth = data.cell.width;
+                        const cellX = data.cell.x;
+                        const cellY = data.cell.y;
+  
+                        doc.setLineWidth(0.1);
+                        doc.setDrawColor(0, 0, 0);
+  
+                        doc.line(cellX, cellY, cellX + cellWidth, cellY);
+                        doc.line(cellX + cellWidth, cellY, cellX + cellWidth, cellY + cellHeight);
+                        doc.line(cellX, cellY + cellHeight, cellX + cellWidth, cellY + cellHeight);
+                        doc.line(cellX, cellY, cellX, cellY + cellHeight);
+                      },
+                    };
+  
+                    doc.autoTable({ columns, body: data, ...options });
+  
+                    const tableHeight = doc.previousAutoTable.finalY;
+                    currentHeight = tableHeight;
+                    currentY = tableHeight + 10;
+                    checkcurrentHeight += tableHeight;
+  
+                    console.log("HEIGHT: ", entry.key, 'checkcurrentHeight: ', checkcurrentHeight, 'tableHeight: ', tableHeight, 'currentY: ', currentY, 'currentHeight: ', currentHeight);
+  
+                    if (checkcurrentHeight > maxPageHeight) {
+                      createNewPage();
+                      checkcurrentHeight = 0;
+                      currentY = 0;
+                      newPage = true;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+  
+        // Save the PDF
+        doc.save('แบบรายงานผลการตรวจสอบความปลอดภัย.pdf');
+      } catch (error) {
+        console.error('Error during PDF generation:', error);
+      }
+    }
+  };
 
   
   
@@ -631,16 +832,24 @@ const generatePDF = () => {
                 </div>
               )}
 
-              {sent ? (
-                <div className=  {`  text-[15px] md:text-[17px]  flex items-center  mx-auto md:px-10  md:mt-[20px]`} >
+              {/* {sent ? ( */}
+                <div className=  {`  text-[15px] md:text-[17px] ml-[-25px]  flex items-center  mx-auto md:px-10  md:mt-[20px]`} >
                   {/* <button type= "submit" href="/NotifyTwo" className=' mt-[20px] text-md md:text-[20px] md:ml-[480px] border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>Submit</button> */}
-                    <button type='submit' onClick={(e) => setShowPopup(true)} className=' mt-[20px]   border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200  mx-auto  '>{t('send')}</button>
-                    {/* <button onClick={generatePDF}>Generate PDF</button> */}
+                  <button onClick={generatePDF} className=' mt-[20px]  mr-[450px]  bg-[#808080]  text-[12px] px-5  py-1  text-[#fff] hover:-translate-y-0.5 duration-200  flex items-center '><IoMdDownload /><span className='ml-[5px]'>Dowload</span></button>
 
+                    <button type='submit' onClick={(e) => setShowPopup(true)} className=' mt-[20px]  border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200  mx-auto  '>{t('send')}</button>
+                    {/* <button onClick={generatePDF}>Generate PDF</button> */}
+                    {/* <div className=  {`${language === 'EN' ? ' font-ntr text-md md:text-[20px]' : ' font-mitr text-[15px] md:text-[17px] '  } left-0 flex items-center   md:px-10  md:mt-[20px]`} > */}
+                  {/* <button type= "submit" href="/NotifyTwo" className=' mt-[20px] text-md md:text-[20px] md:ml-[480px] border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>Submit</button> */}
+                    
                 </div>
-              ) : (
+              {/* ) : (
+                <div >
                 <p className='md:text-[18px] text-[12px] mt-[10px]'>{`${language === 'EN' ? "Today's information has been sent. " : 'ข้อมูลของวันนี้้ถูกส่งไปแล้ว'  }`}</p>
-              )}
+                <button onClick={generatePDF} className=' mt-[10px] text-[15px]  border-[#64CE3F] bg-[#64CE3F] px-5  py-1  text-[#fff] hover:-translate-y-0.5 duration-200  mx-auto flex items-center '><IoMdDownload /><span className='ml-[5px]'>Dowload</span></button>
+                </div>
+
+              )} */}
         
               </div>
 

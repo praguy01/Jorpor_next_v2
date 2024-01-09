@@ -69,7 +69,7 @@ function App() {
       const examinelist_nameValue = searchParams.get('examinelist_name') ; // กำหนดค่าเริ่มต้นว่างไว้ถ้าไม่มีค่า
       const examinelist_idValue = searchParams.get('id') ; // กำหนดค่าเริ่มต้นว่างไว้ถ้าไม่มีค่า
 
-      console.log("queryDataexamine: ",{examinelist_nameValue})
+      console.log("queryDataexamine: ",{examinelist_nameValue,examinelist_idValue})
 
     console.log("STARTExamine: ",useEmployee);
     const fetchData = async () => {

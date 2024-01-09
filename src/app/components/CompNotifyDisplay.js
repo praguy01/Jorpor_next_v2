@@ -167,22 +167,22 @@ export default function CompNotifyDisplay({ data , onSubmit}) {
               </div>
 
               <div className=' px-2 flex items-center mx-auto w-[250px]  md:ml-[40px] md:w-[720px]  py-[20px] text-black bg-[#F5F5F5] text-center mt-[15px] rounded-[20px]'>
-                <div className='  text-sm md:text-[18px]  rounded-[10px] w-[235px] md:w-[600px] py-2 md:py-4 bg-[#F5F5F5] ml-[5px] md:ml-[40px]'>
+                <div className='  text-sm md:text-[14px]  rounded-[10px] w-[235px] md:w-[600px] py-2 md:py-4 bg-[#F5F5F5] ml-[5px] md:ml-[40px]'>
                 
                     <div className='flex px-3 '>
-                        <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[100px] md:ml-[-11px]'>Employee</p>
+                        <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[100px] md:ml-[-11px]'>{t('Employee')}</p>
                         <p>:</p>
                         <p className='md:ml-[15px]  ml-[10px]  overflow-hidden md:w-[200px] w-[120px] whitespace-nowrap overflow-ellipsis text-left'>{data.employee}</p>
                     </div>
                    
                     <div className='flex px-3  mt-[5px]'>
-                        <p className='text-[#000] text-left  w-[75px]  ml-[-1px] md:w-[100px] md:ml-[-11px]'>Work Owner </p>
+                        <p className='text-[#000] text-left  w-[75px]  ml-[-1px] md:w-[100px] md:ml-[-11px]'>{t("Work Owner")}</p>
                         <p>:</p>
                         <p className='md:ml-[15px] ml-[10px]  overflow-hidden md:w-[200px] w-[120px] whitespace-nowrap overflow-ellipsis'>{data.work_owner}</p>
                     </div>
                     
                     <div className='flex px-3  mt-[5px]'>
-                      <p className='text-[#000] text-left    ml-[-1px]  w-[75px]  md:w-[100px] md:ml-[-11px]  '>Location</p>
+                      <p className='text-[#000] text-left    ml-[-1px]  w-[75px]  md:w-[100px] md:ml-[-11px]  '>{t('Location')}</p>
                       <p>:</p>    
                       <p className='md:ml-[15px] ml-[10px]  overflow-hidden md:w-[200px] w-[120px] whitespace-nowrap overflow-ellipsis text-left'>{data.location}</p>
                     </div>
@@ -191,14 +191,14 @@ export default function CompNotifyDisplay({ data , onSubmit}) {
                  
                       
                       <div className='flex px-3 mt-[5px]'>
-                        <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[100px] md:ml-[-11px]'>Position</p>
+                        <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[100px] md:ml-[-11px]'>{t('Position')}</p>
                         <p>:</p>
                         <p className='md:ml-[15px] text-left  ml-[10px]  overflow-hidden md:w-[200px] w-[120px] whitespace-nowrap overflow-ellipsis'>{data.position}</p>
                     </div>
                  
                      
                       <div className='flex px-3  mt-[5px]'>
-                        <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[100px] md:ml-[-11px]'>Date</p>
+                        <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[100px] md:ml-[-11px]'>{t('Date')}</p>
                         <p>:</p>
                         <p className='md:ml-[15px] ml-[10px]  overflow-hidden md:w-[200px] w-[120px] text-left whitespace-nowrap overflow-ellipsis'>{formattedDate} น.</p>
                     </div>
@@ -275,14 +275,14 @@ export default function CompNotifyDisplay({ data , onSubmit}) {
 
                 
                 <div className=' mx-auto w-[250px]  md:w-[705px] justify-center'>
-                    <p className=' text-[#808080] text-[13px] md:text-[16px] ml-[5px] text-left  mt-[20px]  md:mt-[16px]'>{t('details')}</p>
+                    <p className=' text-[#808080] text-[13px] md:text-[14px] ml-[5px] text-left  mt-[20px]  md:mt-[16px]'>{t('details')}</p>
                     <textarea  type="text" name="detail" placeholder={data.detail} className='rounded-[10px] mt-[5px] pl-[15px] w-[250px] md:ml-[-25px] h-[100px] md:text-[20px] md:w-[705px] md:h-[80px] bg-[#fff] border border-gray-300  p-4 '/>
                     {/* <textarea value={formData.detail} onChange={handleInputChange} className='border border-gray-300 rounded-md bg-[#F5F5F5] w-[250px] h-[100px] text-black text-sm pl-2 pt-2' /> */}
                 </div>
                 
 
                 {message && (
-                  <p className='mt-3 text-red-500 text-xs py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-lg md:mt-[30px]'>
+                  <p className='mt-3 text-red-500 text-[13px] md:text-[14px] py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-lg md:mt-[30px]'>
                     {message}
                   </p>
                 )}

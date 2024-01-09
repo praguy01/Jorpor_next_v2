@@ -1,8 +1,7 @@
 // i18n.js
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import { useLanguage } from './components/compLanguageProvider_role_1'; // เพิ่มการ import useLanguage
-
+import { useLanguage } from './components/compLanguageProvider_role_1'; 
 
 i18n
   .use(initReactI18next)
@@ -10,6 +9,8 @@ i18n
     resources: {
       EN: {
         translation: {
+          Add: 'Add',
+          "Work Owner": "Work Owner",
           'Report results': 'Report results',
           Evalution: 'Evalution',
           pass: 'pass',
@@ -45,11 +46,36 @@ i18n
           Submit: 'Submit',
           Notify: 'Notify',
           Response: 'Response',
+          Approve: 'Approve',
+          Position: 'Position',
+          meeting:'meeting',
+          Save:'Save',
+          "Add Activity": "Add Activity",
+          "dd/mm/yyyy": "dd/mm/yyyy",
+          Phone: 'Phone',
+          inspector: 'inspector',
+          Overview: 'Overview',
+          "Pending approval":"Pending approval",
+          "fill in information":"fill in information",
+          Lastname:'Lastname',
+          Password:'Password',
+          Evalution:'Evalution',
+
+
+
           // เพิ่มข้อความในภาษาอังกฤษที่คุณต้องการ
         },
       },
       TH: {
         translation: {
+          "dd/mm/yyyy": "ว/ด/ป",
+          "Add Activity": "เพิ่มกิจกรรม",
+          "Start Time": "เวลาเริ่ม" ,
+          "End Time": "เวลาสิ้นสุด" ,
+          Save:'บันทึก',
+          Add: 'เพิ่ม',
+          meeting:'ประชุม',
+          "Work Owner": "ผู้ดูแล",
           Evalution: 'การประเมินผล',
           'Report results': 'ผลการรายงาน',
           pass: 'ผ่าน',
@@ -85,7 +111,16 @@ i18n
           Submit: 'ส่ง',
           Notify: 'แจ้งเตือน',
           Response: 'ผลแจ้งเตือน',
-          // เพิ่มข้อความในภาษาไทยที่คุณต้องการ
+          Approve: 'อนุมัติ',
+          Position: 'ตำแหน่ง',
+          Phone: 'โทรศัพท์',
+          inspector: 'ผู้ตรวจสอบ',
+          Overview: 'รายการ',
+          "Pending approval":"รอการอนุมัติ",
+          "fill in information":"กรอกข้อมูล",
+          Lastname:'นามสกุล',
+          Password:'รหัสผ่าน',
+          Evalution:'ประเมินผลแล้ว',
         },
       },
     },

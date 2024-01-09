@@ -103,7 +103,7 @@ function App() {
                 
                 <div className='mx-auto border w-[320px] md:w-[800px] py-[20px] md:h-[600px] h-[550px] text-black flex flex-col   md:rounded-[30px] rounded-[30px] mt-[106px]  bg-[#fff]'>
                 
-                    <h1 className='text-[22px] md:text-[25px]  font-bold ml-[30px]'>{t('Response')}</h1>
+                    <h1 className='text-[22px] md:text-[25px]   ml-[30px]'>{t('Response')}</h1>
                                     
                 <div className="mt-[5px] md:mt-[10px]  border w-full md:w-[750px] border-gray-300"></div>
 
@@ -121,9 +121,9 @@ function App() {
                     <div className=" border-t mt-[5px] md:mt-0 border-gray-300"></div>
                     <div className='flex  items-center justify-between'>
                     <div className=' bg-[#F5F5F5] mt-[10px] md:w-[450px] w-[90px] md:ml-[15px] ml-[5px] h-[25px] md:h-[30px] rounded-[10px]'></div>
-                    <div className='items-center mt-[10px] text-[11px] md:text-[14px] md:h-[30px] h-[25px] border-[#64CE3F] bg-[#64CE3F] px-5 md:px-10 rounded-[20px]  text-[#fff] flex'>{todo.Verification_status}</div>
-
-                  </div>
+                    <div className={`items-center mt-[10px] text-[11px] md:text-[14px] md:h-[30px] h-[25px] border-[#64CE3F] bg-[#64CE3F] px-5 md:px-10 rounded-[20px] text-[#fff] flex `}>
+                     {todo.Verification_status === 'Pending approval' && t("Pending approval")}                    </div>                  
+                    </div>
                   </div>
                   </Link>
                 ))}

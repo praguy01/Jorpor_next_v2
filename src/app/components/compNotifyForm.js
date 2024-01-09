@@ -182,7 +182,7 @@ function CompNotifyForm({ onSubmit }) {
               </div>
 
               <div className=' px-2 flex items-center mx-auto w-[250px]  md:ml-[40px] md:w-[720px]  py-[20px] text-black bg-[#F5F5F5] text-center mt-[15px] rounded-[20px]'>
-                <div   className={`  text-[12px] rounded-[10px] w-[235px] md:w-[600px] py-2 md:py-4 bg-[#F5F5F5] ml-[5px] md:ml-[40px] `} >
+                <div   className={`  text-[12px] md:text-[14px] rounded-[10px] w-[235px] md:w-[600px] py-2 md:py-4 bg-[#F5F5F5] ml-[5px] md:ml-[40px] `} >
                      
                      <div  className='flex px-3 items-center '>
                      <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[100px] md:ml-[-11px]' >{t('Employee')}</p>
@@ -203,7 +203,7 @@ function CompNotifyForm({ onSubmit }) {
                    
 
                       <div  className='flex px-3  mt-[5px]  items-center'>
-                          <p className='text-[#000] text-left  w-[75px]  ml-[-1px] md:w-[100px] md:ml-[-11px]'>{language === 'EN' ? ' Work Owner' : 'ผู้ดูเเล'  } </p>
+                          <p className='text-[#000] text-left  w-[75px]  ml-[-1px] md:w-[100px] md:ml-[-11px]'>{t("Work Owner")} </p>
                           <p className='pl-2'>:</p>
                           <input type="text" name="work_owner" value={formData.work_owner} onChange={handleInputChange} className={`text-[11px] md:text-[13px]  rounded-[2px]  items-center p-2 mt-[-2px] ml-[10px] md:ml-[15px] w-[100px] h-[20px]  md:w-[200px] md:h-[20px] bg-[#D9D9D9]  `} readOnly/>
                           {/* {todoList.map((todo, index) => (
@@ -274,14 +274,14 @@ function CompNotifyForm({ onSubmit }) {
                     </div>
 
                     <div className=' mx-auto w-[250px]  md:w-[705px] justify-center'>
-                      <p className=  {`text-[13px] md:text-[16px]  text-[#808080]  md:mt-[20px] mt-[10px]   text-left  `}>  {`${language === 'EN' ? ' add a photo' : ' เพิ่มรูปภาพ'  }`}</p>
+                      <p className=  {`text-[13px] md:text-[14px]  text-[#808080]  md:mt-[20px] mt-[10px]   text-left  `}>  {`${language === 'EN' ? ' add a photo' : ' เพิ่มรูปภาพ'  }`}</p>
                       <input type="file" name="file" onChange={handleInputChange} className="w-[248px]  md:w-[710px] py-1 px-2 border  mt-[5px] md:mt-[5px]  border-gray-300  text-[12px] p-4 rounded-lg "></input>
                     </div>
 
       
 
                 <div className=' mx-auto w-[250px]  md:w-[705px] justify-center'>
-                    <p className=  {` text-[13px] md:text-[17px]  text-left text-[#808080]   md:mt-[20px] mt-[10px]    `}>{`${language === 'EN' ? 'details' : 'รายละเอียด'  }`}</p>
+                    <p className=  {` text-[13px] md:text-[14px]  text-left text-[#808080]   md:mt-[20px] mt-[10px]    `}>{`${language === 'EN' ? 'details' : 'รายละเอียด'  }`}</p>
                     <textarea type="text" name="detail" value={formData.detail} onChange={handleInputChange} className='rounded-[10px] mt-[5px] pl-[15px] w-[250px]  text-[14px]  h-[100px] md:text-[16px] md:w-[705px] md:h-[80px] bg-[#fff] border border-gray-300  p-4 '/>
                 </div>
               

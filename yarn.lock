@@ -76,6 +76,11 @@
   resolved "https://registry.npmjs.org/@fontsource/prompt/-/prompt-5.0.9.tgz"
   integrity sha512-fbqRSdiqANQ2NiIWz5Fpj8xQ1exN9LmhDAaE6lU52InDYPABM2JQF0WObhv8tkwE/WZ4EzNZAGNJYSo5XUqUYA==
 
+"@fontsource/sarabun@^5.0.18":
+  version "5.0.18"
+  resolved "https://registry.npmjs.org/@fontsource/sarabun/-/sarabun-5.0.18.tgz"
+  integrity sha512-mKyvlS3DIXemH6KLzecwcGbVhMSupbQSQ+Fo0wZ+NWpHz0RUwh6B26M3dqNHOG3JoYx8+UyfhK7vMyqcUWwewg==
+
 "@fortawesome/fontawesome-common-types@6.4.2":
   version "6.4.2"
   resolved "https://registry.npmjs.org/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-6.4.2.tgz"

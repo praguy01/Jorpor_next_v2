@@ -102,8 +102,8 @@ function App() {
             const url = URL.createObjectURL(blob);
 
             // Create an image element and set its source to the data URL
-            const image = new Image();
-            image.src = url;
+            // const image = new Image();
+            // image.src = url;
             setFileData(url);
           }
 
@@ -413,9 +413,9 @@ function App() {
                   </div>
                   </div>
 
-                  <div className='  text-[14px]  w-[280px] md:w-[500px] md:mt-[110px] md:ml-[170px] ml-[20px] mt-5'>
+                  <div className='  text-[14px]  w-[280px] md:w-[520px] md:mt-[110px] md:ml-[150px] mx-auto mt-5'>
                     <div className='flex  text-[#fff] md:text-[20px] md:ml-[100px]'>
-                        <BsFillPersonFill className='md:mr-[10px] mr-[10px] mt-[3px]'/> <span className=' text-left w-[72px] md:w-[100px]  '>Employee</span>:
+                        <BsFillPersonFill className='md:mr-[10px] mr-[5px] mt-[3px]'/> <span className=' text-left w-[80px] md:w-[120px]  '>{t('Employee')}</span>:
                         {/* <div className='md:ml-[20px] ml-[20px]  font-bold '>
                           {editedProfileData.employee || "-"}                        
                         </div>  */}
@@ -435,7 +435,7 @@ function App() {
 
                     </div>
                     <div className='flex  text-[#fff] md:text-[20px] md:ml-[100px] md:mt-[10px] mt-[5px]'>
-                        <FaPhoneVolume className='md:mr-[14px] mr-[10px] mt-[4px] text-[15px]'/><span className=' w-[72px] md:w-[100px]   text-left'>{t(' Phone')}</span>:
+                        <FaPhoneVolume className='md:mr-[14px] mr-[5px] mt-[4px] text-[15px]'/><span className=' w-[80px] md:w-[120px]   text-left'>{t('Phone')}</span>:
                         {isEditing ? (
                             <input
                               type="text"
@@ -451,7 +451,7 @@ function App() {
                         
                     </div>
                     <div className='flex  text-[#fff] md:text-[20px] md:ml-[100px] md:mt-[10px] mt-[5px]'>
-                        <FaLine className='md:mr-[10px] mr-[10px] mt-[3px]'/> <span className=' text-left w-[72px] md:w-[100px]  '>Line</span>:
+                        <FaLine className='md:mr-[10px] mr-[5px] mt-[3px]'/> <span className=' text-left w-[80px] md:w-[120px]  '>{t('Line')}</span>:
                         {isEditing ? (
                             <input
                               type="text"
@@ -467,7 +467,7 @@ function App() {
                         
                     </div>
                     <div className='flex  text-[#fff] md:text-[20px] md:ml-[100px] md:mt-[10px] mt-[5px]'>
-                        <MdEmail className='md:mr-[10px] mr-[10px] mt-[2px]'/> <span className=' text-left w-[72px] md:w-[100px]  '>Email</span>:
+                        <MdEmail className='md:mr-[10px] mr-[5px] mt-[2px]'/> <span className=' text-left w-[80px] md:w-[120px]  '>{t('Email')}</span>:
                         {isEditing ? (
                             <input
                               type="email"

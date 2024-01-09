@@ -93,7 +93,7 @@ export async function POST(request)  {
       };
 
       await transporter.sendMail(mailOptions);
-
+      console.log("EMAIL: ",data.email)
       // บันทึกรหัสยืนยันลงในฐานข้อมูล หรือส่งไปยังส่วนที่เกี่ยวข้องกับการยืนยัน
 
       return NextResponse.json({ success: true, message: 'รหัสผ่านได้ถูกส่งไปยังอีเมลของคุณแล้ว โปรดยืยยันรหัสผ่าน', email: data.email ,PINconfirm: confirmationCode });

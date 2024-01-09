@@ -52,6 +52,8 @@ function App() {
     const [employee, setEmployee] = useState(""); 
     const [name, setName] = useState(""); 
     const [file, setFile] = useState(false);
+    const [messageAdd, setMessageAdd] = useState('');
+
 
     // useEffect(() => {
     //   // ทำให้ selectedOptionRef.current อัปเดตเมื่อ selectedOption เปลี่ยน
@@ -158,8 +160,13 @@ function App() {
   };
   // const [input, setInput] = useState("");
 
-
-
+  const clearFields = () => {
+    closePopup(false);
+    setEmployee('');
+    setName('');
+    setlastname('');
+    setMessageAdd('');
+  };
 
   const addTodo = async () => {
     console.log("employee: ",employee)  
@@ -167,6 +174,10 @@ function App() {
     console.log("lastname: ",lastname)
 
     try {
+      if (!employee || !name || !lastname) {
+        setMessageAdd('Please fill in all fields');
+        return;
+      }
     
       if (file) {
        handleFileUpload(file);
@@ -197,30 +208,28 @@ function App() {
             setShowAddSuccessPopup(false);
           }, 1000); // 1000 milliseconds = 1 second
         } else {
-          setMessage(resdata.error);
+          setMessageAdd(resdata.error);
         }
       } else {
-        setMessage(resdata.error);
+        setMessageAdd(resdata.error);
       }
     }
     } catch (error) {
       console.error('Error Examine:', error);
       setMessage('');
     }
-    setMessage('');
-    setEmployee("");
-    setName("");
-    setlastname("");
-    closePopup();
+    clearFields();
+
   
   };
 
 
-    
+
 
   const openPopupDelete = () => {
     setShowPopupDelete(true);
   };
+
   const closePopupDelete = () => {
     setShowPopupDelete(false);
   };
@@ -386,9 +395,9 @@ function App() {
                     
                    
                     {showPopup && (
-                     <div className="text-center fixed top-0 left-0 w-full h-full flex items-center justify-center">
-                     <div className="bg-white p-4 h-[280px] rounded-lg border-black shadow-lg ">
-                     <div className='flex items-center '>
+                  <div className="text-center absolute z-10 top-0 left-0 w-full h-full flex items-center justify-center">
+                  <div className="bg-white md:w-[400px] w-[350px] p-4 py-[20px] rounded-lg border border-grey shadow-lg">
+                    <div className="flex items-center">
                      <div className="bg-[#D9D9D9]  w-[90px] rounded-[25px]">
                         <div className="flex  py-1">
                         <button
@@ -431,55 +440,55 @@ function App() {
                       </div>
                        <h2 className={`text-[25px] text-[#5A985E] mt-[15px] `}>{`${language === 'EN' ? 'Add employee list' : 'เพิ่มรายชื่อ'  }`}</h2>
                        {isOn && (  
-                       <div className="mt-[20px]  w-[310px] h-[166px]">
-                         <label htmlFor="name" className="md:text-[18px] block text-sm font-medium text-gray-700">ชื่อ-นามสกุล</label>
+                       <div className="mt-[20px]  mx-auto  w-[310px] ">
+                         <label htmlFor="name" className="md:text-[14px] block text-[12px] font-medium text-gray-700">{t("fill in information")}</label>
                          <div className="flex">
                                 
                          <input
                             className="mt-1 p-2 w-full text-black border border-gray-300 rounded-md"
                             value={employee}
                             onChange={(e) => setEmployee(e.target.value)}
-                            placeholder="Employee"
+                            placeholder={t('Employee')}
                             />
 
                            <input
                              className="mt-1 p-2 w-full text-black ml-[10px] border border-gray-300 rounded-md"
                              value={name}
                              onChange={(e) => setName(e.target.value)}
-                             placeholder="Name"
+                             placeholder={t('Name')}
                            />
                            <input
                              className="mt-1 p-2 ml-[10px] text-black w-full border border-gray-300 rounded-md"
                              value={lastname}
                              onChange={(e) => setlastname(e.target.value)}
-                             placeholder="Lastname"
+                             placeholder={t('Lastname')}
                            />
                          </div>
-                         <div className="flex  justify-center mt-[20px]">
+                         <div className="flex  justify-center  mt-[20px]">
                             <button className=" bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={addTodo}>{t('Add')}</button>
-                            <button className="  bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600" onClick={() => closePopup(false)}>{t('Cancel')}</button>
+                            <button className="  bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600" onClick={() => clearFields()}>{t('Cancel')}</button>
                           </div>
                        </div>
                        
                        )}
 
                        {!isOn && (  
-                        <div className="mt-1  w-[310px] h-[170px]">
+                        <div className="mt-1 mx-auto  w-[350px] ">
                           <div className="mt-4">
                             
-                                <label htmlFor="file" className="md:text-[18px] block text-sm font-medium text-gray-700 cursor-pointer">  {`${language === 'EN' ? ' Select Excel file' : ' เลือกไฟล์ Excel'  }`}</label>
+                                <label htmlFor="file" className="md:text-[12px] block text-[11px] mt-2 font-medium text-gray-700 cursor-pointer">  {`${language === 'EN' ? 'The excel file consists of the columns employee , name , and lastname .' : 'ในไฟล์ excel ประกอบด้วยคอลัม employee , name , lastname'  }`}</label>
                                 <input type="file"id="file" className="text-[#000] mt-1 p-2 w-full border border-gray-300 text-[12px] rounded-md" onChange={handleFileChange}/>
                             </div>
                           <div className="flex justify-center mt-[20px]">
                             <button className="flex justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={addTodo}>{t('Add')}</button>
-                            <button className="flex justify-center items-center bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600" onClick={() => closePopup(false)}>{t('Cancel')}</button>
+                            <button className="flex justify-center items-center bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600" onClick={() => clearFields()}>{t('Cancel')}</button>
                           </div>
                         </div>
                        )}
 
-                       {message && (
-                          <p className='mt-3 text-red-500 text-xs py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-lg md:mt-[30px]'>
-                            {message}
+                       {messageAdd && (
+                          <p className='mt-2 text-red-500 text-xs py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4   mx-auto md:text-lg md:mt-[30px]'>
+                            {messageAdd}
                           </p>
                         )}
                      </div>

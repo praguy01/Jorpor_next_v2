@@ -438,27 +438,27 @@ function App() {
                           <div className="">
                             <h2 className={`text-[25px] text-[#5A985E] font-bold`}>{`${language === 'EN' ? 'Add employee list' : 'เพิ่มรายชื่อ'}`}</h2>
                               <div className='mt-[20px]'>
-                              <label htmlFor="name" className="md:text-[18px] block text-sm font-medium text-gray-700">
-                                ชื่อ-นามสกุล
+                              <label htmlFor="name" className="md:text-[14px] block text-sm font-medium text-gray-700">
+                              {t("fill in information")}
                               </label>
-                                <div className="flex">
+                                <div className="flex mt-1">
                                   <input
                                     className="mt-1 p-2 w-full text-black border border-gray-300 rounded-md"
                                     value={formData.employee}
                                     onChange={(e) => updateFormData('employee', e.target.value)}
-                                    placeholder="Employee"
+                                    placeholder={t('Employee')}
                                   />
                                   <input
                                     className="mt-1 p-2 w-full text-black ml-[10px] border border-gray-300 rounded-md"
                                     value={formData.name}
                                     onChange={(e) => updateFormData('name', e.target.value)}
-                                    placeholder="Name"
+                                    placeholder={t('Name')}
                                   />
                                   <input
                                     className="mt-1 p-2 ml-[10px] text-black w-full border border-gray-300 rounded-md"
                                     value={formData.lastname}
                                     onChange={(e) => updateFormData('lastname', e.target.value)}
-                                    placeholder="Lastname"
+                                    placeholder={t('Lastname')}
                                   />
                                 </div>
                                 <input
@@ -466,7 +466,7 @@ function App() {
                                   type="password"
                                   value={formData.password}
                                   onChange={(e) => updateFormData('password', e.target.value)}
-                                  placeholder="Password"
+                                  placeholder={t('Password')}
                                 />
                                 {message && (
                                   <p className='mt-[20px] text-red-500 text-[12px] py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[300px] md:w-[350px] mx-auto md:text-[14px] md:mt-[30px]'>

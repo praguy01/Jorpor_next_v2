@@ -568,7 +568,7 @@ function App() {
             <div className=' text-[12px] md:text-[20px] w-[300px]  md:ml-[50px] h-[500px] md:h-[600px]  md:w-[587px] py-2 rounded-[20px]  md:py-4 bg-[#D9D9D9]  mx-auto shadow-lg'>
               <div className=' flex items-center bg-[#5A985E] w-[300px] md:w-[587px] md:h-[64px] mt-[-10px] h-[44px] rounded-t-[20px] md:mt-[-15px]'>
                <div className=' w-full '>
-                <p className='flex  text-left md:text-[20px] text-[15px] py-2  ml-[10px] text-[#fff] items-center'><BsFillBarChartFill className = 'py-2 text-3xl md:text-4xl'/><span className='mt-[2px] text-[16px] md:text-[20px]'>Overview</span></p>
+                <p className='flex  text-left md:text-[20px] text-[15px] py-2  ml-[10px] text-[#fff] items-center'><BsFillBarChartFill className = 'py-2 text-3xl md:text-4xl'/><span className='mt-[2px] text-[16px] md:text-[20px]'>{t('Overview')}</span></p>
 
                </div>
                 </div>
@@ -581,7 +581,7 @@ function App() {
                     {/* {console.log("TODOLIST: ",key)} */}
                     <div className='flex justify-center  h-[40px]  md:ml-[8px]  mt-[5px]'>
                       <p className='text-[#000] ml-[5px]  text-[12px] text-left md:text-[15px] w-[250px] md:w-[700px] break-words whitespace-pre-wrap'>
-                      <span className='text-[#5A985E] font-bold'>inspector: </span> {item.name}  <span className='text-gray-500'>{todoList.date} น.</span>
+                      <span className='text-[#5A985E] font-bold'>{t('inspector')} : </span> {item.name}  <span className='text-gray-500'>{todoList.date} น.</span>
                       </p>
                     </div>
                     <div className="mt-[5px] border-t border-gray-300"></div>

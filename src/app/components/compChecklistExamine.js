@@ -494,7 +494,7 @@ function App() {
 
         } else {
           console.log("TEEEEEE: ",examinelist_name)
-          router.push(`/examine?examinelist_name=${examinelist_name}`)
+          router.push(`/examine?examinelist_name=${examinelist_name}&id=${examinelist_Id}`)
         }
 
         

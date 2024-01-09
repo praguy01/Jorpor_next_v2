@@ -471,9 +471,9 @@ function App() {
                     <th                   
                     style={{ whiteSpace: 'nowrap' }} className='border py-2 w-[130px]'>{t('Date')}</th>
                     <th                   
-                    style={{ whiteSpace: 'nowrap' }} className='border py-2 w-[130px]'>{language === 'EN' ? ' Start Time' : 'เวลาเริ่ม'  }</th>
+                    style={{ whiteSpace: 'nowrap' }} className='border py-2 w-[130px]'>{t("Start Time")}</th>
                     <th                   
-                    style={{ whiteSpace: 'nowrap' }} className='border py-2 w-[130px]'>{language === 'EN' ? ' End Time' : 'เวลาสิ้นสุด'  }</th>
+                    style={{ whiteSpace: 'nowrap' }} className='border py-2 w-[130px]'>{t("End Time")}</th>
                     <th                   
                     style={{ whiteSpace: 'nowrap' }} className='border py-2 w-[160px]'>{t('Activity')}</th>
                     <th                   
@@ -506,7 +506,7 @@ function App() {
                           }`}
                           value={newDate}
                           onChange={handleDateChange}
-                          dateFormat="dd/MM/yyyy"
+                          dateFormat={t("dd/mm/yyyy")}
                           locale={enGB}                        />
                       ) : (item.date)
                       }
@@ -544,7 +544,7 @@ function App() {
                       <td className='py-2 border  w-[50px]'>
                         {isEditing === item.id ? (
                           <button onClick={() => updateActivity(item.id)} className='bg-[#5A985E] text-white p-2 text-sm rounded-md'>
-                            Save
+                            {t('Save')}
                           </button>
                         ) : (
                           <div className='flex items-center justify-center'>
@@ -583,7 +583,7 @@ function App() {
                     onChange={(e) => setUseMeeting(e.target.checked)}
                     className='text-[12px]'
                   />                  
-                  <p className='text-[11px] mt-[-8px]'>meeting</p>
+                  <p className='text-[11px] mt-[-8px]'>{t('meeting')}</p>
                   </td>
                     <td className=' w-[130px] border '>
                     <DatePicker
@@ -617,13 +617,13 @@ function App() {
                         type='text'
                         value={newActivity}
                         onChange={(e) => setNewActivity(e.target.value)}
-                        placeholder='Add Activity'
+                        placeholder= {t("Add Activity")}
                         className='border rounded-[10px] text-[14px] py-1 w-[150px]  pl-2'
                       />
                     </td>
                     <td className=' w-[50px] border'>
                       <button onClick={addActivity} className='text-[14px] bg-[#5A985E] text-white p-2 rounded-[10px]'>
-                        Add
+                        {t('Add')}
                       </button>
                     </td>
                   </tr>
