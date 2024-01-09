@@ -193,11 +193,14 @@ export async function POST(request) {
 
 
             // เพิ่มข้อมูลเวลา
-            const hours = currentDate.getHours().toString().padStart(2, '0');
-            const minutes = currentDate.getMinutes().toString().padStart(2, '0');
+            const options = { timeZone: 'Asia/Bangkok' };
+
+            // Format the hours and minutes with leading zeros
+            const hours = currentDate.toLocaleString('en-US', options).split(' ')[1].split(':')[0].padStart(2, '0');
+            const minutes = currentDate.toLocaleString('en-US', options).split(' ')[1].split(':')[1].padStart(2, '0');
 
             const formattedDateTime = `${day}/${month}/${year} ${hours}:${minutes}`;
-            const formattedDate= `${day}/${month}/${year}`;
+            const formattedDate = `${day}/${month}/${year}`;
 
             console.log("Date and Time: ", formattedDate);
 
