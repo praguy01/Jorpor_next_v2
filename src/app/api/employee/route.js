@@ -127,7 +127,7 @@ export async function POST(request) {
           return NextResponse.json({ success: true, message: ` employee ${res.employee} created successfully` ,dbemployee: sortedEmployeeResult});
         } catch (error) {
           console.error('ErrorEditEx:', error);
-          return NextResponse.json({ success: false, error: error.message });
+          return NextResponse.json({ success: false, error: error.message , message: ` employee ${res.employee} created failed`  });
         }
       }
 

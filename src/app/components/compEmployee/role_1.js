@@ -473,10 +473,10 @@ function App() {
                        )}
 
                        {!isOn && (  
-                        <div className="mt-1 mx-auto  w-[350px] ">
+                        <div className="mt-1 mx-auto  ">
                           <div className="mt-4">
                             
-                                <label htmlFor="file" className="md:text-[12px] block text-[11px] mt-2 font-medium text-gray-700 cursor-pointer">  {`${language === 'EN' ? 'The excel file consists of the columns employee , name , and lastname .' : 'ในไฟล์ excel ประกอบด้วยคอลัม employee , name , lastname'  }`}</label>
+                                <label htmlFor="file" className="md:text-[12px] block text-[11px] mt-2 font-medium text-gray-700 cursor-pointer">  {`${language === 'EN' ? 'The excel file consists of the columns employee , name , and lastname .' : 'ในไฟล์ excel ประกอบด้วยคอลัมน์ employee , name , lastname'  }`}</label>
                                 <input type="file"id="file" className="text-[#000] mt-1 p-2 w-full border border-gray-300 text-[12px] rounded-md" onChange={handleFileChange}/>
                             </div>
                           <div className="flex justify-center mt-[20px]">

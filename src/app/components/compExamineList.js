@@ -42,6 +42,8 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
   const [showPopup, setShowPopup] = useState(false); 
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [reloadData, setReloadData] = useState(false); 
+  const [showPopupAddnew, setShowPopupAddnew] = useState(false); 
+
   // const [showPopupUseEmployee, setShowPopupUseEmployee] = useState(false);
   const [useEmployee, setUseEmployee] = useState(false);
   const [User_id, setUser_id] = useState('');
@@ -181,7 +183,7 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
   const [todoList, setTodoList] = useState([]);
 
 
-  const addTodo = async () => {
+  const addTodoAddnew = async () => {
     if (examinelist_name.trim() === "") {
       setMessage("Please fill in  fields");
       return;
@@ -192,7 +194,7 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
       console.log("useEmployee name: " ,examinelist_name, id  )
 
 
-      const AddData = { examinelist_name , id , add: true};
+      const AddData = { examinelist_name , id , add:true};
       const data = JSON.stringify(AddData);
       console.log("data222: ",data)
 
@@ -206,8 +208,10 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
         if (resdata.success === true) {
           console.log("Message: ", resdata);
 
-          const updatedTodoList = [...todoList, resdata.dbexaminelist_name];
-          setTodoList(resdata.dbexaminelist_name);
+          // const updatedTodoList = [...todoList, resdata.dbexaminelist_name];
+          // setTodoList(resdata.dbexaminelist_name);
+          setTodoListadd(resdata.dbexaminelist_nameNew)
+
           
           console.log("ADD: ",resdata.message)
           setShowAddSuccessPopup(true);
@@ -230,7 +234,7 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
     }
 
     setExaminelist_name("");
-    closePopup();
+    setShowPopupAddnew(false);
   }
 
   const handleEditClick = () => {
@@ -470,6 +474,10 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
     setCheckedItems([]);
   };
   
+  const openPopupAddnew = () => {
+    setMessage('');
+    setShowPopupAddnew(true);
+  };
   
   return (
     <div>
@@ -534,14 +542,14 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
               ))}
 
               {showDeleteSuccessPopup && (
-                <div className="bg-white w-[250px] text-[#5A985E] p-8 text-center rounded-lg border-black shadow-lg  absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <div className="  z-50  bg-white w-[250px] text-[#5A985E] p-8 text-center rounded-lg border-black shadow-lg  absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                 <BsCheckCircle className=' text-[50px] mx-auto mb-[10px]'/>
                 {deletemessage}
                 </div>
               )}
 
               {showAddSuccessPopup && (
-                <div className="bg-white text-center text-[#5A985E] p-8  rounded-lg border-black shadow-lg  absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <div className="  z-50  bg-white text-center text-[#5A985E] p-8  rounded-lg border-black shadow-lg  absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                 <BsCheckCircle className=' text-[50px] mx-auto mb-[10px]'/>
                 {addmessage}
                 </div>
@@ -571,7 +579,15 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
             {showPopup && (
               <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center ">
                 <div className="bg-white  p-4 rounded-lg border shadow-lg md:w-[300px] w-[250px]  ">
+                  <div className='flex items-center justify-between'>
                   <h2 className={` ${language === 'EN' ? 'text-[20px] ' : ' text-[18px]' } text-[#5A985E]  `}>{language === 'EN' ? 'Add List Examine' : 'เพิ่มรายการตรวจสอบ' }</h2>
+                  <button
+                    onClick={openPopupAddnew}
+                    className="item-center text-[#5A985E]  text-xl mt-[5px] hover:-translate-y-0.5 duration-200"
+                  >
+                    <BsPlusCircleFill />
+                  </button>
+                  </div>
                   <div className="mt-4 border  rounded-lg h-[200px] overflow-auto ">
                     {/* <input className={`text-[14px]  w-[268px] mt-1 p-2  border border-gray-300 rounded-md`}
                       value={examinelist_name}
@@ -617,6 +633,34 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
                     <button className="flex justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={handleCheckboxAdd}>{language === 'EN' ? 'Add' : 'ยืนยัน' }</button>
 
                     <button className="flex justify-center items-center bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600"  onClick={() => { closePopup(false);   resetCheckboxes(); }}>{language === 'EN' ? 'Cancel' : 'ยกเลิก' }</button>
+                  </div>
+
+                </div>
+              </div>
+            )}
+
+            {showPopupAddnew && (
+              <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center ">
+                <div className="bg-white  p-4 rounded-lg border-black shadow-lg md:w-[300px] ">
+                  <h2 className={` ${language === 'EN' ? 'text-[20px] ' : ' text-[18px]' } text-[#5A985E]  `}>{language === 'EN' ? 'Add List Examine' : 'เพิ่มรายการตรวจสอบ' }</h2>
+                  <div className="mt-4 ">
+                    <input className={`text-[14px]  w-[268px] mt-1 p-2  border border-gray-300 rounded-md`}
+                      value={examinelist_name}
+                      onChange={(e) => setExaminelist_name(e.target.value)}
+                      placeholder={language === 'EN' ? "add list examine" : 'เพิ่มรายการตรวจสอบ' }
+                    />
+                  </div>
+                 
+                  {message && (
+                    <p className='mt-3 text-red-500 text-xs py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-lg md:mt-[30px]'>
+                      {message}
+                    </p>
+                  )}
+
+                  <div className="flex justify-center mt-[20px]">
+                    <button className="flex justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={addTodoAddnew}>{language === 'EN' ? 'Add' : 'ยืนยัน' }</button>
+
+                    <button className="flex justify-center items-center bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600" onClick={() => {setShowPopupAddnew(false); setExaminelist_name('')}}>{language === 'EN' ? 'Cancel' : 'ยกเลิก' }</button>
                   </div>
 
                 </div>
