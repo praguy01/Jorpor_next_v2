@@ -79,7 +79,7 @@ function App() {
           // setIdUser(storedId);
           console.log('Stored: ', storedId);
         }
-        const AddData = {user_IdValue,storedId , fetch_role_3: true};
+        const AddData = {user_IdValue,storedId , fetch_role_2: true};
         const fetchdata = JSON.stringify(AddData);
 
         const response = await axios.post('/api/reportingResults', fetchdata, {
@@ -669,13 +669,13 @@ const generatePDF = async () => {
   let currentY = 10;
   let currentHeight = 0;
   let checkcurrentHeight = 0;
-  const maxPageHeight = 670;
+  const maxPageHeight = 660;
   let newPage = false;
 
   const createNewPage = () => {
     doc.addPage();
     currentHeight = 0;
-    newPage = false;
+    newPage = true;
   };
 
   doc.addFont('Sarabun-Regular', 'normal');
@@ -696,20 +696,24 @@ const generatePDF = async () => {
     console.log("nameExamine.items: ", nameExamine.items);
     try {
       for (const item of nameExamine.items) {
-        console.log("HEIGHT item.name: ", item.name, currentY, currentHeight, checkcurrentHeight);
+        console.log("HEIGHT item.name: ", item.name, currentY, currentHeight, checkcurrentHeight , newPage);
 
-        if (newPage) {
+        if (newPage === true) {
           console.log("NEWW PAGEEEE");
           currentY = 20;
           newPage = false;
         } else if (currentHeight > 0) {
+          console.log("NEWW 2222");
+
           currentY = currentHeight + 8;
         } else {
+          console.log("NEWW 3333");
+
           currentY = 46;
         }
 
         doc.text(20, currentY, `การตรวจสอบ :  ${item.name}`);
-        console.log("HEIGHT item.name 1: ", item.name, currentY, currentHeight, checkcurrentHeight);
+        console.log("HEIGHT item.name 12: ", item.name, currentY, currentHeight, checkcurrentHeight);
 
         currentY += 8;
 
@@ -738,7 +742,7 @@ const generatePDF = async () => {
                     2: { cellWidth: 30 },
                     3: { cellWidth: 50 },
                   },
-                  headerStyles: {
+                  headStyles: {
                     fillColor: [211, 211, 211],
                     textColor: [0, 0, 0],
                     fontSize: 9,
@@ -779,9 +783,11 @@ const generatePDF = async () => {
                 console.log("HEIGHT: ", examKey, 'checkcurrentHeight: ', checkcurrentHeight, 'tableHeight: ', tableHeight, 'currentY: ', currentY, 'currentHeight: ', currentHeight);
 
                 if (checkcurrentHeight > maxPageHeight) {
+                  console.log("------------------------------------------------")
                   createNewPage();
+                  currentY = 20;
+                  currentHeight = 0;
                   checkcurrentHeight = 0;
-                  currentY = 0;
                   newPage = true;
                 }
               }
@@ -813,7 +819,7 @@ const generatePDF = async () => {
                       2: { cellWidth: 30 },
                       3: { cellWidth: 50 },
                     },
-                    headerStyles: {
+                    headStyles: {
                       fillColor: [211, 211, 211],
                       textColor: [0, 0, 0],
                       fontSize: 9,
@@ -854,9 +860,11 @@ const generatePDF = async () => {
                   console.log("HEIGHT: ", entry.key, 'checkcurrentHeight: ', checkcurrentHeight, 'tableHeight: ', tableHeight, 'currentY: ', currentY, 'currentHeight: ', currentHeight);
 
                   if (checkcurrentHeight > maxPageHeight) {
+                    console.log("------------------------------------------------")
                     createNewPage();
+                    currentY = 20;
+                    currentHeight = 0;
                     checkcurrentHeight = 0;
-                    currentY = 0;
                     newPage = true;
                   }
                 }

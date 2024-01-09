@@ -84,15 +84,18 @@ function App() {
 
     const formatDateTime = (isoDateTime) => {
       const originalDate = new Date(isoDateTime);
+
+      const options = {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+        timeZone: 'Asia/Bangkok',
+      };
     
-    
-      const day = originalDate.getDate().toString().padStart(2, '0');
-      const month = (originalDate.getMonth() + 1).toString().padStart(2, '0');
-      const year = originalDate.getFullYear();
-      const hour = originalDate.getHours().toString().padStart(2, '0');
-      const minute = originalDate.getMinutes().toString().padStart(2, '0');
-    
-      const formattedDateTime = `${day}/${month}/${year}, ${hour}:${minute}`;
+      const formattedDateTime = originalDate.toLocaleString('en-TH', options);
     
       return formattedDateTime;
     };

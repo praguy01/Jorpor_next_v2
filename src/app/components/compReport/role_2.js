@@ -100,7 +100,7 @@ function App() {
 
         if (response.status === 200) {
           if (data.success === true) {
-            console.log("DATA: ",data.percent)
+            console.log("DATA: ",data)
             for (const percentage of data.percent){
               // console.log("percentage: ",percentage)
               if (percentage.currentDateA === formattedDate) {
@@ -581,7 +581,7 @@ function App() {
                     {/* {console.log("TODOLIST: ",key)} */}
                     <div className='flex justify-center  h-[40px]  md:ml-[8px]  mt-[5px]'>
                       <p className='text-[#000] ml-[5px]  text-[12px] text-left md:text-[15px] w-[250px] md:w-[700px] break-words whitespace-pre-wrap'>
-                      <span className='text-[#5A985E] font-bold'>{t('inspector')} : </span> {item.name}  <span className='text-gray-500'>{todoList.date} น.</span>
+                      <span className='text-[#5A985E] font-bold'>{t('inspector')} : </span> {item.name}  <span className='text-gray-500'>{item.date} น.</span>
                       </p>
                     </div>
                     <div className="mt-[5px] border-t border-gray-300"></div>

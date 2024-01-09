@@ -161,8 +161,8 @@ function App() {
             const url = URL.createObjectURL(blob);
 
             // Create an image element and set its source to the data URL
-            const image = new Image();
-            image.src = url;
+            // const image = new Image();
+            // image.src = url;
 
             // Append the image element to the document body or any other HTML element
             // document.body.appendChild(image);

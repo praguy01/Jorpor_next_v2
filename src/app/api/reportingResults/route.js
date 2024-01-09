@@ -162,10 +162,18 @@ export async function POST(request) {
         
             console.log("Date: ", formattedDate);
 
-            const getDateQuery = "SELECT DISTINCT send_date FROM checklist_examine_row_2 WHERE date = ? ;            ";
-            const [dateResult] = await db.query(getDateQuery, [formattedDate]);
+            const getDateQuery = "SELECT DISTINCT send_date FROM checklist_examine_row_2 WHERE date = ? AND inspector = ?" ;        
+            const [dateResult] = await db.query(getDateQuery, [formattedDate,res.user_IdValue]);
         
-            const currentDateStr = dateResult[0].send_date.toLocaleString('en-US', { timeZone: 'Asia/Bangkok', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
+            const currentDateStr = dateResult[0].send_date.toLocaleString('en-US', {  
+              year: 'numeric', 
+              month: '2-digit', 
+              day: '2-digit', 
+              hour: '2-digit', 
+              minute: '2-digit', 
+              hour12: false,
+              timeZone: 'Asia/Bangkok'
+            });
             console.log("Date777777777777777777: ",currentDateStr);
 
 
@@ -393,8 +401,8 @@ export async function POST(request) {
           
               console.log("Date: ", formattedDate);
   
-              const getDateQuery = "SELECT DISTINCT send_date FROM checklist_examine_row_2 WHERE date = ? ;            ";
-              const [dateResult] = await db.query(getDateQuery, [formattedDate]);
+              const getDateQuery = "SELECT DISTINCT send_date FROM checklist_examine_row_2 WHERE date = ? AND inspector = ?" ;        
+              const [dateResult] = await db.query(getDateQuery, [formattedDate,res.user_IdValue]);
           
               const currentDateStr = dateResult[0].send_date.toLocaleString('en-US', { timeZone: 'Asia/Bangkok', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
               console.log("Date777777777777777777: ",currentDateStr);

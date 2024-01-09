@@ -26,15 +26,14 @@ export async function POST(request) {
 
       // console.log("Data_examineWWWWWW: ",Result)
       const groupedData = {
-        date: '',
-        key: []}
-        ;
+        key: []
+      };
      
 
       // วนลูป Array เพื่อจัดกลุ่ม
       for (const data of Result) {
         
-        // console.log("ITEMMM",item.inspector);
+        console.log("ITEMMM//////////////////////////",data);
 
         const inspector  = data.inspector;
 
@@ -44,7 +43,8 @@ export async function POST(request) {
         const dateTime = inputDate.toLocaleString('en-US', { timeZone: 'Asia/Bangkok' , year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
 
         // console.log("Formatted Date: ", dateTime);
-        groupedData.date = dateTime;
+        // groupedData[inspector].date = dateTime;
+        // groupedData[key].items.push(data);
 
 
         const nameInspector = "SELECT * FROM users WHERE id = ?";
@@ -100,6 +100,7 @@ export async function POST(request) {
         }
 
         const dataitem = {
+          date: dateTime,
           id: data.inspector,
           name: name,
           zone: flattenedNameList
@@ -110,6 +111,7 @@ export async function POST(request) {
           dataitem[inspector] = [];
           dataitem[inspector].push();
           groupedData.key.push(dataitem);
+          
         } else {
           const existingItem = groupedData.key.find(item => item.id === data.inspector);
           existingItem[inspector].push(data);
@@ -427,6 +429,7 @@ export async function POST(request) {
       reversedCalPercentCopy = [...calPercent].reverse();
       console.log("CalPercentCopy----------------:", calPercent);
       console.log("reversedCalPercentCopy----------------:", reversedCalPercentCopy);
+      groupedData.key.reverse();
 
 
 
@@ -446,13 +449,12 @@ export async function POST(request) {
 
         // console.log("Date: ",formattedDate)
 
-      const getQuery = "SELECT * FROM checklist_examine_row_2 WHERE date = ? ";
+      const getQuery = "SELECT * FROM checklist_examine_row_2 WHERE date = ?  ";
       const [Result] = await db.query(getQuery , [formattedDate ]);
 
       console.log("++++++++++++++++++++, ",Result)
       // console.log("Data_examineWWWWWW: ",Result)
       const groupedData = {
-        date: '',
         key: []}
         ;
      
@@ -470,7 +472,6 @@ export async function POST(request) {
         const dateTime = inputDate.toLocaleString('en-US', { timeZone: 'Asia/Bangkok' , year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
 
         // console.log("Formatted Date: ", dateTime);
-        groupedData.date = dateTime;
 
 
         const nameInspector = "SELECT * FROM users WHERE id = ?";
@@ -526,6 +527,7 @@ export async function POST(request) {
         }
 
         const dataitem = {
+          date: dateTime,
           id: data.inspector,
           name: name,
           zone: flattenedNameList
@@ -854,6 +856,7 @@ export async function POST(request) {
       reversedCalPercentCopy = [...calPercent].reverse();
       console.log("CalPercentCopy----------------:", calPercent);
       console.log("reversedCalPercentCopy----------------:", reversedCalPercentCopy);
+      groupedData.key.reverse();
 
 
     }

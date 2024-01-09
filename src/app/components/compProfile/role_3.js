@@ -81,68 +81,41 @@ function App() {
 
         if (response.status === 200) {
           if (resdata.success === true) {
-            console.log('DATAProfile44444888: ',resdata.profile[0].picture.data.length);
-            setEmployee(resdata.profile[0].employee);
+            console.log('DATAProfile: ',resdata.profile[0]);
 
-            // const storedData = localStorage.getItem('rememberedData');
-          
-            // let rememberedData = [];
-
-            if (resdata.profile[0].picture.data.length > 0) {
+              setEmployee(resdata.profile[0].employee);
+              let newProfile = {
+                ...resdata.profile[0]
+              }
+              if (resdata.profile[0].email === null) {
+                newProfile.email = '';
+              } if (resdata.profile[0].line === null) {
+                newProfile.line = '';
+              } if (resdata.profile[0].phone === null) {
+                newProfile.phone = '';
+              } if (resdata.profile[0].picture === null) {
+                newProfile.picture = '';
+              }
             
-            const byteArray = resdata.profile[0].picture.data; // Replace ... with the full array
+              setEditedProfileData(newProfile);
+              setProfileData(newProfile);
+            
+              console.log("newDataProfile: ", newProfile);
 
-            // Create a Uint8Array from the byte array
-            const uint8Array = new Uint8Array(byteArray);
+              if (resdata.profile[0].picture.data.length > 0) {
+            
+                const byteArray = resdata.profile[0].picture.data; // Replace ... with the full array
+    
+                const uint8Array = new Uint8Array(byteArray);
+    
+                const blob = new Blob([uint8Array], { type: 'image/jpeg' }); // Change 'image/jpeg' to the appropriate image type
+    
+                const url = URL.createObjectURL(blob);
+    
 
-            // Convert the Uint8Array to a Blob
-            const blob = new Blob([uint8Array], { type: 'image/jpeg' }); // Change 'image/jpeg' to the appropriate image type
-
-            // Create a data URL from the Blob
-            const url = URL.createObjectURL(blob);
-
-            // Create an image element and set its source to the data URL
-            // const image = new Image();
-            // image.src = url;
-            setFileData(url);
-          }
-
-       
-
-            // if (storedData) {
-            //   rememberedData = JSON.parse(storedData);
-            //   let oldrememberedData = [];
-            //   let newrememberedData = [];
-            //   console.log("profile",rememberedData)
-            //   for (const item of rememberedData) {
-            //     if (item.hasOwnProperty('employee')) {
-            //       const employeeValue = item.employee;
-
-            //       if (resdata.profile[0].employee === employeeValue) {
-            //         console.log('storageItem: ', item);
-            //         setProfileData({
-            //           ...resdata.profile[0],
-            //           img: item.profileImageUrl || '/img/profile.jpg',
-                    
-            //         });
-
-            //         newrememberedData = [
-            //           { employee: item.employee, password: item.password,language: language },
-            //         ];
-
-            //           } else {
-            //           oldrememberedData.push(item);
-            //         }
-            //         rememberedData = [...oldrememberedData, ...newrememberedData];
-            //         localStorage.setItem('rememberedData', JSON.stringify(rememberedData));
-            //         console.log("rememberedData1: ",rememberedData)
-                    
-            //     }
-            //   }
-            // }
-
-            setEditedProfileData({ ...resdata.profile[0] });
-            setProfileData({ ...resdata.profile[0] });
+                setFileData(url);
+              }
+          
 
             setMessage('');
           } else {

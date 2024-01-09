@@ -697,15 +697,20 @@ const generatePDF = async () => {
       for (const item of nameExamine.items) {
         console.log("HEIGHT item.name: ", item.name, currentY, currentHeight, checkcurrentHeight);
 
-        if (newPage) {
+        if (newPage === true) {
           console.log("NEWW PAGEEEE");
           currentY = 20;
           newPage = false;
         } else if (currentHeight > 0) {
+          console.log("NEWW 2222");
+
           currentY = currentHeight + 8;
         } else {
+          console.log("NEWW 3333");
+
           currentY = 46;
         }
+
 
         doc.text(20, currentY, `การตรวจสอบ :  ${item.name}`);
         console.log("HEIGHT item.name 1: ", item.name, currentY, currentHeight, checkcurrentHeight);
@@ -778,9 +783,11 @@ const generatePDF = async () => {
                 console.log("HEIGHT: ", examKey, 'checkcurrentHeight: ', checkcurrentHeight, 'tableHeight: ', tableHeight, 'currentY: ', currentY, 'currentHeight: ', currentHeight);
 
                 if (checkcurrentHeight > maxPageHeight) {
+                  console.log("------------------------------------------------")
                   createNewPage();
+                  currentY = 20;
+                  currentHeight = 0;
                   checkcurrentHeight = 0;
-                  currentY = 0;
                   newPage = true;
                 }
               }
@@ -853,9 +860,11 @@ const generatePDF = async () => {
                   console.log("HEIGHT: ", entry.key, 'checkcurrentHeight: ', checkcurrentHeight, 'tableHeight: ', tableHeight, 'currentY: ', currentY, 'currentHeight: ', currentHeight);
 
                   if (checkcurrentHeight > maxPageHeight) {
+                    console.log("------------------------------------------------")
                     createNewPage();
+                    currentY = 20;
+                    currentHeight = 0;
                     checkcurrentHeight = 0;
-                    currentY = 0;
                     newPage = true;
                   }
                 }

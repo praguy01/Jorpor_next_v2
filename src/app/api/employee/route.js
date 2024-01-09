@@ -247,7 +247,7 @@ export async function POST(request) {
         try {
           console.log("22222555555")
 
-          const insertSql = `INSERT INTO users_r2 ( position , employee, name ,	lastname ,password, users_r3_id ,email ,phone ,	line,picture  ) VALUES ('Safety Officer Technical level',?,?,?,?,?,'','','','')`;
+          const insertSql = `INSERT INTO users_r2 ( position , employee, name ,	lastname ,password, users_r3_id  ) VALUES ('Safety Officer Technical level',?,?,?,?,?)`;
           const insertValues = await db.query(insertSql,[res.employee ,res.name , res.lastname , res.password , res.id]);
         
           console.log("22222: ",insertValues)
