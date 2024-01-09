@@ -86,7 +86,7 @@ function App() {
         timeZone: 'Asia/Bangkok',
       };
     
-      const formattedDateTime = originalDate.toLocaleString('en-TH', options);
+      const formattedDateTime = originalDate.toLocaleString('en-US', options);
     
       return formattedDateTime;
     };
