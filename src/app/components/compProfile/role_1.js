@@ -81,7 +81,7 @@ function App() {
 
         if (response.status === 200) {
           if (resdata.success === true) {
-            console.log('DATAProfile44444: ',resdata.profile[0].picture.data);
+            console.log('DATAProfile44444: ',resdata.profile[0]);
             setEmployee(resdata.profile[0].employee);
 
             // const storedData = localStorage.getItem('rememberedData');

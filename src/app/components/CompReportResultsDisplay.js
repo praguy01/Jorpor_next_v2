@@ -833,11 +833,11 @@ export default function CompReportResultsForm({ onSubmit }) {
               )}
 
               {/* {sent ? ( */}
-                <div className=  {`  text-[15px] md:text-[17px] ml-[-25px]  flex items-center  mx-auto md:px-10  md:mt-[20px]`} >
+                <div className=  {` w-[300px] md:w-[750px]  text-[15px] md:text-[17px] md:ml-[-25px]  flex items-center mx-auto md:px-10  md:mt-[20px]`} >
                   {/* <button type= "submit" href="/NotifyTwo" className=' mt-[20px] text-md md:text-[20px] md:ml-[480px] border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>Submit</button> */}
-                  <button onClick={generatePDF} className=' mt-[20px]  mr-[450px]  bg-[#808080]  text-[12px] px-5  py-1  text-[#fff] hover:-translate-y-0.5 duration-200  flex items-center '><IoMdDownload /><span className='ml-[5px]'>Dowload</span></button>
+                  <button onClick={generatePDF} className=' mt-[20px]  md:mr-[450px] mr-[80px] bg-[#808080]  text-[12px] px-5  py-1  text-[#fff] hover:-translate-y-0.5 duration-200  flex items-center '><IoMdDownload /><span className='ml-[5px]'>Dowload</span></button>
 
-                    <button type='submit' onClick={(e) => setShowPopup(true)} className=' mt-[20px]  border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200  mx-auto  '>{t('send')}</button>
+                  <button type='submit' onClick={(e) => setShowPopup(true)} className=' mt-[20px]  border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200  mx-auto  '>{t('send')}</button>
                     {/* <button onClick={generatePDF}>Generate PDF</button> */}
                     {/* <div className=  {`${language === 'EN' ? ' font-ntr text-md md:text-[20px]' : ' font-mitr text-[15px] md:text-[17px] '  } left-0 flex items-center   md:px-10  md:mt-[20px]`} > */}
                   {/* <button type= "submit" href="/NotifyTwo" className=' mt-[20px] text-md md:text-[20px] md:ml-[480px] border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>Submit</button> */}

@@ -178,7 +178,7 @@ export default function CompNotifyDisplay({ data , onSubmit}) {
                     <div className='flex px-3  mt-[5px]'>
                         <p className='text-[#000] text-left  w-[75px]  ml-[-1px] md:w-[100px] md:ml-[-11px]'>{t("Work Owner")}</p>
                         <p>:</p>
-                        <p className='md:ml-[15px] ml-[10px]  overflow-hidden md:w-[200px] w-[120px] whitespace-nowrap overflow-ellipsis'>{data.work_owner}</p>
+                        <p className='md:ml-[15px] ml-[10px]  overflow-hidden md:w-[200px] w-[120px] whitespace-nowrap overflow-ellipsis text-left'>{data.work_owner}</p>
                     </div>
                     
                     <div className='flex px-3  mt-[5px]'>
@@ -193,14 +193,14 @@ export default function CompNotifyDisplay({ data , onSubmit}) {
                       <div className='flex px-3 mt-[5px]'>
                         <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[100px] md:ml-[-11px]'>{t('Position')}</p>
                         <p>:</p>
-                        <p className='md:ml-[15px] text-left  ml-[10px]  overflow-hidden md:w-[200px] w-[120px] whitespace-nowrap overflow-ellipsis'>{data.position}</p>
+                        <p className='md:ml-[15px] text-left  ml-[10px]  overflow-hidden md:w-[200px] w-[120px] whitespace-nowrap overflow-ellipsis '>{data.position}</p>
                     </div>
                  
                      
                       <div className='flex px-3  mt-[5px]'>
                         <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[100px] md:ml-[-11px]'>{t('Date')}</p>
                         <p>:</p>
-                        <p className='md:ml-[15px] ml-[10px]  overflow-hidden md:w-[200px] w-[120px] text-left whitespace-nowrap overflow-ellipsis'>{formattedDate} น.</p>
+                        <p className='md:ml-[15px] ml-[10px]  overflow-hidden md:w-[200px] w-[120px] text-left whitespace-nowrap overflow-ellipsis '>{formattedDate} น.</p>
                     </div>
                       
                     </div>
