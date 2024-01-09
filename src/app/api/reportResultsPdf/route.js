@@ -193,7 +193,7 @@ export async function POST(request) {
 
 
             // เพิ่มข้อมูลเวลา
-            const options = { timeZone: 'Asia/Bangkok' };
+            const options = { timeZone: 'Asia/Bangkok', hour12: false };
 
             // Format the hours and minutes with leading zeros
             const hours = currentDate.toLocaleString('en-US', options).split(' ')[1].split(':')[0].padStart(2, '0');
