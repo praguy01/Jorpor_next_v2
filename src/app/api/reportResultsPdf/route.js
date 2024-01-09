@@ -469,7 +469,6 @@ export async function POST(request) {
             const hours = currentDate.getHours().toString().padStart(2, '0');
             const minutes = currentDate.getMinutes().toString().padStart(2, '0');
 
-            const formattedDateTime = `${day}/${month}/${year} ${hours}:${minutes}`;
             const formattedDate= `${day}/${month}/${year}`;
 
             console.log("Date and Time: ", formattedDate);
@@ -481,18 +480,19 @@ export async function POST(request) {
             const singleDateObject = Result[0].send_date;
 
             // แปลงให้เป็น JavaScript Date Object
-            const dateObject = new Date(singleDateObject);
+            const options = { timeZone: 'Asia/Bangkok' };
 
-            // สร้าง object สำหรับ localization ของภาษาไทย
-            const options = { day: "2-digit", month: "2-digit", year: "2-digit", hour: "2-digit", minute: "2-digit", timeZone: "Asia/Bangkok" };
+            // ใช้ toLocaleString พร้อมกับ options เพื่อแปลงเวลาไปตามโซนที่กำหนด
+            const formattedDateTime = dateObject.toLocaleString('en-US', options);
+            
 
             // แปลงเป็นเวลาที่มีรูปแบบ Thai Time
-            const thaiTime = dateObject.toLocaleString("th-TH", options).replace(/(\d+)\/(\d+)\/(\d+),/, '$2/$1/$3,');
+            // const thaiTime = dateObject.toLocaleString("th-TH", options).replace(/(\d+)\/(\d+)\/(\d+),/, '$2/$1/$3,');
 
-            console.log("Thai Time:", thaiTime);
+            // console.log("Thai Time:", thaiTime);
 
             const resultList = {
-              date: thaiTime, // Add the date property
+              date: formattedDateTime, // Add the date property
               inspector: fullName[0], // Add the inspector property
               items: []
             };

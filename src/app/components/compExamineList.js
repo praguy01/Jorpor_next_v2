@@ -136,8 +136,8 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
 
           setTodoListadd(examinelistNames)
           
-          setShowAddSuccessPopup(true);
-          setaddMessage(resdata.message);
+          // setShowAddSuccessPopup(true);
+          // setaddMessage(resdata.message);
 
 
           setTimeout(() => {

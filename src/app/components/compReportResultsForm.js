@@ -381,7 +381,7 @@ export default function CompReportResultsForm({ onSubmit }) {
                     <div className='flex items-center  mt-[15px]  text-[13px] md:text-[16px] font-mitr md:mt-[20px] text-left ml-[10px] md:ml-[10px] '>
                     <p>{t('Date')}</p>
                     <p className='ml-[10px] '>:</p>
-                    <p className=' ml-[10px]'>{checkList.date}</p>
+                    <p className=' ml-[10px]'>{date}</p>
 
                     </div>
 
