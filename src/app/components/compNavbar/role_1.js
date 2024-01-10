@@ -10,106 +10,38 @@ import {usePathname } from 'next/navigation';
 import { CompLanguageProvider, useLanguage } from '../compLanguageProvider_role_1';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
+import io from 'socket.io-client';
+
+const socket = io('https://platform-jorpor.vercel.app', { transports: ['websocket'] });
 
 
 function CompNavbar() {
   const { t } = useTranslation();
-
+  const [notification, setNotification] = useState(null);
   const { language, toggleLanguage } = useLanguage();
   const [toggle, setToggle] = useState(false);
   const [message, setMessage] = useState('');
   const [shouldCallEditLanguage, setshouldCallEditLanguage] = useState(false);
 
+  useEffect(() => {
+    socket.connect();
+    socket.on('notification', (data) => {
+      console.log('Received notification:', data);
+      setNotification(data.message);
+    });
 
-  // useEffect (() => {
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
-  //   const fetchData = async () => {
-  //     try {
-  //       const storedId = localStorage.getItem('id');
-  //       if (storedId) {
-  //         console.log('Stored: ', storedId);
-  //       }
-  
-  //       const AddData = { storedId ,lang_role_1: true};
-  //       const data = JSON.stringify(AddData);
-  //       console.log('DD: ', data);
-  
-  //       const response = await axios.post('/api/lang', data, {
-  //         headers: { 'Content-Type': 'application/json' },
-  //       });
-  
-  //       const resdata = response.data;
-  //       console.log('DATA: ', response.data.dbLang[0]);
-  
-  //       if (response.status === 200) {
-  //         if (resdata.success === true) {
-          
-  //           toggleLanguage(response.data.dbLang[0]);
-  //           localStorage.setItem("language", response.data.dbLang[0]);
+  // แสดง Popup เมื่อมีข้อมูลใหม่
+  useEffect(() => {
+    if (notification) {
+      setToggle(true);
+    }
+  }, [notification]);
 
-  //         } else {
-  //           setMessage(resdata.error);
-  //         }
-  //       } else {
-  //         setMessage(resdata.error);
-  //       }
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //       setMessage('');
-  //     }
-  //   };
-
-  //   fetchData();
-  //   console.log('LANGGGGG111: ',language)
-
-  // }, []);
-
-
-  // const editLanguage = async () => {
-  //   try {
-  //     const storedId = localStorage.getItem('id');
-  //     if (storedId) {
-  //       console.log('Stored: ', storedId);
-  //     }
-  //     console.log('D2222: ', language);
-  //     localStorage.setItem("language", language);
-
-  //     const AddData = { storedId , language ,edit_lang_role_1: true};
-  //     const data = JSON.stringify(AddData);
-  //     console.log('DD: ', data);
-
-  //     const response = await axios.post('/api/lang', data, {
-  //       headers: { 'Content-Type': 'application/json' },
-  //     });
-
-  //     const resdata = response.data;
-  //     console.log('DATA8888edit: ',response.data.dbLang[0]);
-
-  //     if (response.status === 200) {
-  //       if (resdata.success === true) {
-        
-  //         toggleLanguage(response.data.dbLang[0]); 
-
-  //       } else {
-  //         setMessage(resdata.error);
-  //       }
-  //     } else {
-  //       setMessage(resdata.error);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error fetching data:', error);
-  //     setMessage('');
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (shouldCallEditLanguage) {
-  //     editLanguage();
-  //     setshouldCallEditLanguage(false);
-  //   }
-  // }, [language, shouldCallEditLanguage]);
-  // console.log("ภาษา ",language)
-    // localStorage.setItem('language', language);
   const currentPath = usePathname();
   const outsideClickRef = useRef(null);
 
@@ -237,6 +169,12 @@ function CompNavbar() {
                 </button>
 
             </div>
+            {/* {notification && ( */}
+              <div className="popup">
+                <p>{notification}</p>
+                <button onClick={() => setNotification(null)}>Close</button>
+              </div>
+            {/* )} */}
         </div>
         </CompLanguageProvider>
     ) 

@@ -53,6 +53,7 @@
     "react-icons": "^4.10.1",
     "react-router-dom": "^6.16.0",
     "recharts": "^2.9.2",
+    "socket.io-client": "^4.7.3",
     "twilio": "^4.17.0",
     "typescript": "5.1.6",
     "web-streams-polyfill": "^3.2.1",
