@@ -17,6 +17,7 @@ import {BsCalendar2Minus} from 'react-icons/bs';
 import {i18n } from '../i18n'; // import i18n instance
 import { initReactI18next } from 'react-i18next';
 
+
 function CompSelectExamineList({ onSubmit }) {
   const [message, setMessage] = useState('');
 
@@ -494,6 +495,10 @@ function App({ onSubmit }) {
                 </div>
               </div>
             )}
+
+                
+                
+              
           </div>
         </div>
       </div>

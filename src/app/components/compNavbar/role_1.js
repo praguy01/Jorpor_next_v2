@@ -11,6 +11,11 @@ import { CompLanguageProvider, useLanguage } from '../compLanguageProvider_role_
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import io from 'socket.io-client';
+import { FaBell } from "react-icons/fa";
+import { AiFillAlert } from "react-icons/ai";
+import { IoTime } from "react-icons/io5";
+import { BsCalendar2DateFill } from "react-icons/bs";
+import { FaLocationDot } from "react-icons/fa6"; 
 
 const socket = io('https://platform-jorpor.vercel.app', { transports: ['websocket'] });
 
@@ -22,13 +27,24 @@ function CompNavbar() {
   const [toggle, setToggle] = useState(false);
   const [message, setMessage] = useState('');
   const [shouldCallEditLanguage, setshouldCallEditLanguage] = useState(false);
+  const [showPopup, setShowPopup] = useState(false); 
+  const [notify, setNotify] = useState(false); 
+
 
   useEffect(() => {
     socket.connect();
     socket.on('notification', (data) => {
       console.log('Received notification:', data);
       setNotification(data.message);
+      setNotify(true)
+      // ทำการตรวจสอบว่าเป็นการแจ้งเตือนฉุกเฉินหรือไม่
+      if (data.isEmergency) {
+        // ทำอะไรก็ตามที่ต้องการเมื่อมีการ POST ที่ https://platform-jorpor.vercel.app/api/emergency_notify
+        console.log('Emergency notification received!');
+        // ทำสิ่งที่คุณต้องการทำเมื่อมีการแจ้งเตือนฉุกเฉิน
+      }
     });
+    
 
     return () => {
       socket.disconnect();
@@ -36,11 +52,11 @@ function CompNavbar() {
   }, []);
 
   // แสดง Popup เมื่อมีข้อมูลใหม่
-  useEffect(() => {
-    if (notification) {
-      setToggle(true);
-    }
-  }, [notification]);
+  // useEffect(() => {
+  //   if (notification) {
+  //     setToggle(true);
+  //   }
+  // }, [notification]);
 
   const currentPath = usePathname();
   const outsideClickRef = useRef(null);
@@ -137,18 +153,52 @@ function CompNavbar() {
                   >{language === 'EN' ? 'Profile' : 'โปรไฟล์' }</Link> 
                  
                 </div >
+
                 
               <div className='hidden md:flex text-white  '>
-                <button   className="text-white px-5 ml-[20px] relative top-[5px] pb-3 pt-[10px]  text-[15px]   hover:font-bold  rounded-md p-2 " onClick={toggleLanguage}>
+                <div className=''>
+                  {notify && (
+                  <span 
+                    className='absolute bg-red-500  rounded-full w-3 h-3 text-white flex items-center justify-center mt-4 ml-2 '
+                    style={{ zIndex: 2 }}
+                  >
+                    <span className='text-[8px]'>1</span>
+                  </span>
+                  )}
+                 <FaBell 
+                  onClick={() => {setShowPopup(true); setTimeout(() => {setNotify(false);}, 100);}} 
+                  className='relative cursor-pointer mt-5 transition-transform transform  hover:translate-x-0.5'
+                  style={{ zIndex: 1 }}
+                />
+              </div>
+                <button   className="text-white px-5  relative top-[5px] pb-3 pt-[10px]  text-[15px]   hover:font-bold  rounded-md p-2 " onClick={toggleLanguage}>
                   {language}
                 </button> 
-                <button style={{ whiteSpace: 'nowrap' }} onClick={logout}  className={`pb-4 pt-[10px] text-[15px] l mr-[-35px]   relative top-[5px] py-1  text-[#fff] hover:font-bold `}> {language === 'EN' ? 'log out' : 'ออกจากระบบ' }</button>
+                <button style={{ whiteSpace: 'nowrap' }} onClick={logout}  className={`pb-4 pt-[10px] text-[15px]  mr-[-35px]   relative top-[5px] py-1  text-[#fff] hover:font-bold `}> {language === 'EN' ? 'log out' : 'ออกจากระบบ' }</button>
                 </div>
 
             {toggle ? (
               <AiOutlineClose onClick={()=>setToggle(!toggle)} size={30} className='md:hidden  block text-white'/> 
             ) : (
+              <div className='flex  items-center'>
+              <div className='mr-4 md:hidden '>
+                  {notify && (
+                  <span 
+                    className='absolute bg-red-500  rounded-full w-3 h-3 text-white flex items-center justify-center mt-[-5px] ml-2 '
+                    style={{ zIndex: 2 }}
+                  >
+                    <span className='text-[8px]'>1</span>
+                  </span>
+                  )}
+                 <FaBell 
+                  onClick={() => {setShowPopup(true); setTimeout(() => {setNotify(false);}, 100);}} 
+                  className='relative cursor-pointer  transition-transform transform  hover:translate-x-0.5'
+                  style={{ zIndex: 1 }}
+                />
+              </div>
               <FiMenu onClick={()=>setToggle(!toggle)} size={25} className='md:hidden block md:mt-[20px] text-white'/>
+              </div>
+
             )}
             </div>
 
@@ -169,13 +219,24 @@ function CompNavbar() {
                 </button>
 
             </div>
-            {/* {notification && ( */}
-              <div className="popup">
-                <p>{notification}</p>
-                <button onClick={() => setNotification(null)}>Close</button>
-              </div>
-            {/* )} */}
+        
+          
         </div>
+        {showPopup && (
+              <div className="bg-white text-center text-black p-8 border border-grey-400 absolute rounded-lg shadow-lg  w-[300px]  top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+              <AiFillAlert className=' text-[50px] mx-auto mb-[10px] text-red-500  '/>
+              <p className='text-[18px] mb-5'>Emergency notification!!</p>
+
+              <p className='flex items-center justify-center '> <IoTime className=' mr-2'/> Time  : 15:25 น.</p>
+              <p className='flex items-center justify-center mt-1'> <BsCalendar2DateFill className='text-[14px]  mr-2'/> Date : 10/1/2024</p>
+              <p className='flex items-center justify-center mt-1'> <FaLocationDot className=' mr-2'/> Location : Zone A</p>
+
+
+
+              <button className="flex mx-auto  mt-7 items-center text-[15px]  bg-[#93DD79] text-white px-3 py-1  rounded hover:bg-green-600" onClick={() => setShowPopup(false)}>{t('Close')}</button>
+              </div>
+            )}
+        
         </CompLanguageProvider>
     ) 
  }
