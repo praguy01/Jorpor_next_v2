@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 
 export async function POST(request) {
   // Check if the request method is POST
-  if (request.method === 'POST' && request.headers.get('Content-Type') === 'application/json') {
+  if (request.method === 'POST' ) {
     try {
       // Parse the JSON data from the request
       const res = await request.json();
