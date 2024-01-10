@@ -21,8 +21,11 @@ export async function POST(request) {
       const insertSql = "INSERT INTO emergency_notify (date, time, location) VALUES (?, ?, ?)";
       const insertValues = await db.execute(insertSql , [res.date, res.time ,res.location]);
 
-      // Return a JSON response indicating success
-      return NextResponse.json({ success: true, message: 'Successfully received data' });
+      if (insertValues[0].affectedRows === 1) {
+        return NextResponse.json({ success: true, message: 'Notification has been sent successfully.'});
+      } else {
+        return NextResponse.json({ success: false, error: 'Failed to insert notify data' });
+      }
     } catch (error) {
       // Handle errors during processing
       console.error('Error processing the request:', error);
@@ -31,7 +34,6 @@ export async function POST(request) {
       return NextResponse.json({ success: false, error: 'Failed to process the request' });
     }
   } else {
-    // Return a JSON response for the case of an invalid request method or Content-Type
     return NextResponse.json('Method not allowed or invalid Content-Type');
   }
 }
