@@ -20,8 +20,8 @@ export async function POST(request)  {
         console.log("/////////////////////////////////");
 
 
-        const insertSql = "INSERT INTO users_r3 (name, lastname, email, position, employee, password) VALUES (?, ?, ?, ?, ?, ?)";
-        const insertValues = [res.requestDataUser.name, res.requestDataUser.last_name, res.requestDataUser.email, res.requestDataUser.position, res.requestDataUser.employee, res.requestDataUser.password];
+        const insertSql = "INSERT INTO users_r3 (name, lastname, email, position, employee, password ,phone ,line ,picture) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        const insertValues = [res.requestDataUser.name, res.requestDataUser.last_name, res.requestDataUser.email, res.requestDataUser.position, res.requestDataUser.employee, res.requestDataUser.password,'','',''];
         const result = await db.query(insertSql, insertValues);
 
         console.log("result :",result);
@@ -77,8 +77,8 @@ export async function POST(request)  {
       const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-          user: 'platformsjorpor@gmail.com',
-          pass: 'qnzhidjxikwyiocl',
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS,
         },
       });
 
@@ -86,7 +86,7 @@ export async function POST(request)  {
       const confirmationCode = Math.floor(100000 + Math.random() * 900000);
 
       const mailOptions = {
-        from: 'platformsjorpor@gmail.com',
+        from: process.env.EMAIL_USER,
         to: data.email,
         subject: 'ยืนยันการเปลี่ยนรหัสผ่าน',
         text: `รหัสยืนยัน: ${confirmationCode}`,
