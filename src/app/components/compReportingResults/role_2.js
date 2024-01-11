@@ -898,9 +898,9 @@ const generatePDF = async () => {
           <div className='mx-auto w-[350px] md:w-[800px] font-ntr mb-[50px]  py-[30px] text-black flex flex-col  bg-[#FFF] text-center md:rounded-[50px] rounded-[30px] mt-[106px]  '>
           
                     <div  >
-                    <div  className=  {`${language === 'EN' ? ' font-ntr font-bold text-[22px] md:text-[27px] ' : ' font-mitr font-bold text-[20px] md:text-[25px]'  } ml-[20px] md:ml-[50px] w-[310px]  md:w-[600px] `}>
+                    <div  className=  {`font-mitr font-bold text-[20px] md:text-[25px] ml-[20px] md:ml-[50px] w-[310px]  md:w-[600px] `}>
 
-                    <h1 className=' text-[#5A985E]  ml-[10px] md:ml-[0] md:w-[300px]  text-left  '>  {`${language === 'EN' ? 'Verified information ' : ' ข้อมูลตรวจสอบวันนี้ '  }`}</h1>
+                    <h1 className=' text-[#5A985E]  ml-[10px] md:ml-[0] md:w-[300px]  text-left  '>{t("Verified information")}</h1>
                     <div className="mt-[5px] md:mt-[10px] md:ml-[-30px] border-t md:border w-full md:w-[750px] border-gray-300"></div>
 
 
@@ -977,15 +977,15 @@ const generatePDF = async () => {
                                                 <td className="py-4 border whitespace-nowrap">
                                                   <div>{entryIndex + 1}</div>
                                                 </td>
-                                                <td className="py-4 border whitespace-nowrap">
+                                                <td className="py-4 border flex flex-wrap">
                                                   <div className="text-left ml-[10px]">{entry.examine_name}</div>
                                                 </td>
                                                 <td className={`py-4 border whitespace-nowrap ${entry.status === 'pass' ? 'text-green-600' : 'text-red-600'}`}>
                                                   <div>{entry.status}</div>
                                                 </td>
                                                 <td className="py-4 border">
-                                                  <div className={`break-words ${entry.details === '-' ? 'text-center' : 'text-left ml-[10px]'}`}>
-                                                    <span className={`break-words ${entry.details === '-' ? '' : 'ml-[10px]'}`}>{entry.details}</span>
+                                                  <div className={`break-words ${entry.details === '-' ? 'text-center' : 'text-left ml-[10px] flex flex-wrap'}`}>
+                                                    <span className={`break-words ${entry.details === '-' ? '' : 'ml-[10px] flex flex-wrap' }`}>{entry.details}</span>
                                                   </div>
                                                 </td>
                                               </tr>
@@ -1032,15 +1032,15 @@ const generatePDF = async () => {
                                                   <td className="py-4 border whitespace-nowrap">
                                                     <div>{entryIndex + 1}</div>
                                                   </td>
-                                                  <td className="py-4 border whitespace-nowrap">
+                                                  <td className="py-4 border flex flex-wrap">
                                                     <div className="text-left ml-[10px]">{entry.examinename_name}</div>
                                                   </td>
                                                   <td className={`py-4 border whitespace-nowrap ${entry.status === 'pass' ? 'text-green-600' : 'text-red-600'}`}>
                                                     <div>{entry.status}</div>
                                                   </td>
                                                   <td className="py-4 border">
-                                                    <div className={`break-words ${entry.details === '-' ? 'text-center' : 'text-left ml-[10px]'}`}>
-                                                      <span className={`break-words ${entry.details === '-' ? '' : 'ml-[10px]'}`}>{entry.details}</span>
+                                                    <div className={`break-words ${entry.details === '-' ? 'text-center' : 'text-left ml-[10px] flex flex-wrap'}`}>
+                                                      <span className={`break-words ${entry.details === '-' ? '' : 'ml-[10px] flex flex-wrap'}`}>{entry.details}</span>
                                                     </div>
                                                   </td>
                                                 </tr>
@@ -1127,8 +1127,8 @@ const generatePDF = async () => {
               <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-[9999]">
                 <div className="bg-white p-4 rounded-lg border-black shadow-lg md:w-[400px] w-[300px] ">
                 <BsFillExclamationTriangleFill className=' text-[50px] text-[#5A985E] mx-auto mb-[10px]'/>
-                <p className='md:text-[18px] text-[#5A985E] text-[16px]  '>{`${language === 'EN' ? 'Can be sent only one time. Are you sure you have checked? ' : 'สามารถส่งได้เพียงครั้้งเดียวเท่านั้น คุณแน่ใจว่าตรวจสอบเรียบร้อยเเล้ว ? '  }`}</p>
-                  <div className=  {`${language === 'EN' ? ' font-ntr text-[19px]' : ' font-mitr text-[16px] '  } flex justify-center mt-[20px]`}>
+                <p className='md:text-[18px] text-[#5A985E] text-[16px]  '>{t("Can be sent only one time. Are you sure you have checked?")}</p>
+                  <div className=  {`font-mitr text-[16px]  flex justify-center mt-[20px]`}>
                     <button className="flex justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={() => {handleSubmit() ,setShowPopup(false)}}>{t('Yes')}</button> 
 
                     <button className="flex justify-center items-center bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600" onClick={() => setShowPopup(false)}>{t('Cancel')}</button>
@@ -1137,7 +1137,7 @@ const generatePDF = async () => {
                 </div>
               )}
 
-                <div className=  {`${language === 'EN' ? ' font-ntr text-md md:text-[20px]' : ' font-mitr text-[15px] md:text-[17px] '  } left-0 flex items-center   md:px-10  md:mt-[20px]`} >
+                <div className=  {`font-mitr text-[15px] md:text-[17px]left-0 flex items-center   md:px-10  md:mt-[20px]`} >
                   {/* <button type= "submit" href="/NotifyTwo" className=' mt-[20px] text-md md:text-[20px] md:ml-[480px] border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>Submit</button> */}
                     <button onClick={generatePDF} className=' mt-[20px]   border-[#64CE3F] bg-[#64CE3F] px-5  py-1  text-[#fff] hover:-translate-y-0.5 duration-200  mx-auto flex items-center '><IoMdDownload /><span className='ml-[5px]'>Dowload</span></button>
                     {/* <button onClick={generatePDF}>Generate PDF</button> */}

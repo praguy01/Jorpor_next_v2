@@ -299,7 +299,7 @@ function App({ onSubmit }) {
       <div className='mx-auto border w-[300px] md:w-[950px] py-[20px] md:h-[600px] h-[550px] text-black flex flex-col   md:rounded-[30px] rounded-[30px] mt-[106px]  bg-[#fff]'>
                 
         <h1 className={` ml-[30px] text-[20px] mt-[3px] mb-[5px] md:text-[30px] md:ml-[50px] `}>
-          {language === 'EN' ? 'Select checklist' : 'เลือกรายการตรวจสอบ' }
+          {t("Select checklist")}
         </h1>
         {!isEditing && (
         <PiPencilSimpleFill onClick={handleEditClick} className='absolute text-black md:text-[20px] text-[13px]  md:ml-[890px] md:mt-[15px] ml-[270px]  mt-[12px] cursor-pointer ' />
@@ -317,7 +317,7 @@ function App({ onSubmit }) {
           <p className="mt-[2px] ml-[8px] md:text-[17px] text-[12px] md:ml-[8px] ">{currentDate}</p>
         </div>
         <p className='text-[14px] mr-4 md:mr-7'>
-          {checkedItems.length} Selected
+          {checkedItems.length} {t('Selected')}
         </p>
       </div>
 
@@ -419,7 +419,7 @@ function App({ onSubmit }) {
           </div>
         </div>
 
-        <div className={` ${language === 'EN' ? ' text-[17px] md:text-[20px]' : ' text-[15px] md:text-[17px] '  } flex justify-end w-[250px] md:mt-[15px] mx-auto md:w-[940px]  md:px-10 `}>
+        <div className={` text-[15px] md:text-[17px] flex justify-end w-[250px] md:mt-[15px] mx-auto md:w-[940px]  md:px-10 `}>
         {isEditing ? (
           <button  onClick={() => setIsEditing(false)}  className={`mx-auto flex  mt-[20px]   md:mt-[20px] border-[#64CE3F] bg-[#64CE3F] px-10 py-1  rounded-[20px]    text-[#fff] hover:-translate-y-0.5 duration-200 `}>{t('confirm')}</button>
          ) : (
@@ -450,12 +450,12 @@ function App({ onSubmit }) {
             {showPopup && (
               <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center ">
                 <div className="bg-white  p-4 rounded-lg border-black shadow-lg md:w-[300px] ">
-                  <h2 className={` ${language === 'EN' ? 'text-[20px] ' : ' text-[18px]' } text-[#5A985E]  `}>{language === 'EN' ? 'Add List Examine' : 'เพิ่มรายการตรวจสอบ' }</h2>
+                  <h2 className={`text-[18px] text-[#5A985E]  `}>{t("Add List Examine")}</h2>
                   <div className="mt-4 ">
                     <input className={`text-[14px]  w-[268px] mt-1 p-2  border border-gray-300 rounded-md`}
                       value={examinelist_name}
                       onChange={(e) => setExaminelist_name(e.target.value)}
-                      placeholder={language === 'EN' ? "add list examine" : 'เพิ่มรายการตรวจสอบ' }
+                      placeholder={t("add list examine")}
                     />
                   </div>
                  
@@ -466,9 +466,9 @@ function App({ onSubmit }) {
                   )}
 
                   <div className="flex justify-center mt-[20px]">
-                    <button className="flex justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={addTodo}>{language === 'EN' ? 'Add' : 'ยืนยัน' }</button>
+                    <button className="flex justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={addTodo}>{t('Add')}</button>
 
-                    <button className="flex justify-center items-center bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600" onClick={() => closePopup(false)}>{language === 'EN' ? 'Cancel' : 'ยกเลิก' }</button>
+                    <button className="flex justify-center items-center bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600" onClick={() => closePopup(false)}>{t('Cancel')}</button>
                   </div>
 
                 </div>
@@ -478,7 +478,7 @@ function App({ onSubmit }) {
             {showEditPopup.isOpen && (
               <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center ">
                 <div className="bg-white p-4 text-center  rounded-lg border-black shadow-lg ">
-                  <h2 className= {` text-[18px] md:text-[20px] text-[#5A985E] mt-[10px] `}>{`${language === 'EN' ? ' Do you want to delete ' : 'คุณต้องการที่จะลบ '  }`} <span style={{ color: '#FF6B6B' }} className='mr-1'>{showEditPopup.todo.name}</span>?</h2>
+                  <h2 className= {` text-[18px] md:text-[20px] text-[#5A985E] mt-[10px] `}>{t("Do you want to delete")} <span style={{ color: '#FF6B6B' }} className='mr-2'>{showEditPopup.todo.name}</span>{t("?")}</h2>
                   
                   {message && (
                     <p className='mt-3 text-red-500 text-xs py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-lg md:mt-[30px]'>

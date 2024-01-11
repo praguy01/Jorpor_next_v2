@@ -58,6 +58,12 @@ export default function CompChangepass() {
       return;
     }
 
+    if (formData.newpassword !== formData.confirmpassword) {
+      setMessage('Passwords do not match');
+      setFormData({ ...formData, newpassword: '', confirmpassword: '' }); // ล้างค่าใน input fields
+      return;
+    }
+
     try {
       const hashedPassword = await hashPassword(formData.newpassword);
       const requestData = {

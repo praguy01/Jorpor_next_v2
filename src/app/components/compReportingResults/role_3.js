@@ -117,76 +117,76 @@ function App() {
 
 
  
-  const fetchDataForSelectedOption = useCallback(async () => {
-    try {
-      const storedId = localStorage.getItem('id');
-    if (storedId) {
-      setIdUser(storedId);
-      console.log('Stored: ', storedId);
-    }
-      console.log('Selected Option: ', nameExamineList);
+  // const fetchDataForSelectedOption = useCallback(async () => {
+  //   try {
+  //     const storedId = localStorage.getItem('id');
+  //   if (storedId) {
+  //     setIdUser(storedId);
+  //     console.log('Stored: ', storedId);
+  //   }
+  //     console.log('Selected Option: ', nameExamineList);
 
-      const AddData = { id,storedId, option_role_2_3: true };
-      const data = JSON.stringify(AddData);
-      console.log('BB: ', data);
+  //     const AddData = { id,storedId, option_role_2_3: true };
+  //     const data = JSON.stringify(AddData);
+  //     console.log('BB: ', data);
 
-      const response = await axios.post('/api/reportResultsPdf', data, {
-        headers: { 'Content-Type': 'application/json' },
-      });
+  //     const response = await axios.post('/api/reportResultsPdf', data, {
+  //       headers: { 'Content-Type': 'application/json' },
+  //     });
 
-      const resdata = response.data;
-      console.log('DATA111: ', resdata);
+  //     const resdata = response.data;
+  //     console.log('DATA111: ', resdata);
 
-      if (response.status === 200) {
-        if (resdata.success === true) {
+  //     if (response.status === 200) {
+  //       if (resdata.success === true) {
 
-          const checkList_results = []
-          const ResultList = resdata.dbData
-          console.log("888888888888888 ",ResultList)
+  //         const checkList_results = []
+  //         const ResultList = resdata.dbData
+  //         console.log("888888888888888 ",ResultList)
 
-          const Date = ResultList.date;
+  //         const Date = ResultList.date;
 
-          localStorage.setItem('date' , ResultList.date)
-          setDate(Date)
+  //         localStorage.setItem('date' , ResultList.date)
+  //         setDate(Date)
           
          
 
               
-          setNameExamine(ResultList)
+  //         setNameExamine(ResultList)
          
           
-        } else {
-          setMessage(resdata.error);
-        }
-      } else {
-        setMessage(resdata.error);
-      }
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      setMessage('');
-    }
-    setMessage('');
+  //       } else {
+  //         setMessage(resdata.error);
+  //       }
+  //     } else {
+  //       setMessage(resdata.error);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching data:', error);
+  //     setMessage('');
+  //   }
+  //   setMessage('');
 
 
           
-  }, [id,nameExamineList]);
+  // }, [id,nameExamineList]);
 
-  useEffect(() => {
-    if (selectedOption) {
-      fetchDataForSelectedOption();
-    }
-  }, [selectedOption, fetchDataForSelectedOption]);
+  // useEffect(() => {
+  //   if (selectedOption) {
+  //     fetchDataForSelectedOption();
+  //   }
+  // }, [selectedOption, fetchDataForSelectedOption]);
 
-  const handleDropdownChange = (event) => {
-    console.log("event.target.value: ",event.target.value)
-    setSelectedOption(event.target.value); // เมื่อเลือกตัวเลือกใน Dropdown ให้อัปเดต state
-  };
+  // const handleDropdownChange = (event) => {
+  //   console.log("event.target.value: ",event.target.value)
+  //   setSelectedOption(event.target.value); // เมื่อเลือกตัวเลือกใน Dropdown ให้อัปเดต state
+  // };
 
 
-  const handleDropdownExamineChange = (event) => {
-    console.log("event.target.value: ",event.target.value)
-    setSelectedExamineOption(event.target.value); // เมื่อเลือกตัวเลือกใน Dropdown ให้อัปเดต state
-  };
+  // const handleDropdownExamineChange = (event) => {
+  //   console.log("event.target.value: ",event.target.value)
+  //   setSelectedExamineOption(event.target.value); // เมื่อเลือกตัวเลือกใน Dropdown ให้อัปเดต state
+  // };
 
 
   // const fetchDataExamine = async () => {
@@ -898,9 +898,9 @@ const generatePDF = async () => {
           <div className='mx-auto w-[350px] md:w-[800px] font-ntr mb-[50px]  py-[30px] text-black flex flex-col  bg-[#FFF] text-center md:rounded-[50px] rounded-[30px] mt-[106px]  '>
           
                     <div  >
-                    <div  className=  {`${language === 'EN' ? ' font-ntr font-bold text-[22px] md:text-[27px] ' : ' font-mitr font-bold text-[20px] md:text-[25px]'  } ml-[20px] md:ml-[50px] w-[310px]  md:w-[600px] `}>
+                    <div  className=  {`font-mitr font-bold text-[20px] md:text-[25px] ml-[20px] md:ml-[50px] w-[310px]  md:w-[600px] `}>
 
-                    <h1 className=' text-[#5A985E]  ml-[10px] md:ml-[0] md:w-[300px]  text-left  '>  {`${language === 'EN' ? 'Verified information ' : ' ข้อมูลตรวจสอบวันนี้ '  }`}</h1>
+                    <h1 className=' text-[#5A985E]  ml-[10px] md:ml-[0] md:w-[300px]  text-left  '> {t("Verified information")}</h1>
                     <div className="mt-[5px] md:mt-[10px] md:ml-[-30px] border-t md:border w-full md:w-[750px] border-gray-300"></div>
 
 
@@ -1127,8 +1127,8 @@ const generatePDF = async () => {
               <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-[9999]">
                 <div className="bg-white p-4 rounded-lg border-black shadow-lg md:w-[400px] w-[300px] ">
                 <BsFillExclamationTriangleFill className=' text-[50px] text-[#5A985E] mx-auto mb-[10px]'/>
-                <p className='md:text-[18px] text-[#5A985E] text-[16px]  '>{`${language === 'EN' ? 'Can be sent only one time. Are you sure you have checked? ' : 'สามารถส่งได้เพียงครั้้งเดียวเท่านั้น คุณแน่ใจว่าตรวจสอบเรียบร้อยเเล้ว ? '  }`}</p>
-                  <div className=  {`${language === 'EN' ? ' font-ntr text-[19px]' : ' font-mitr text-[16px] '  } flex justify-center mt-[20px]`}>
+                <p className='md:text-[18px] text-[#5A985E] text-[16px]  '>{t("Can be sent only one time. Are you sure you have checked?")}</p>
+                  <div className=  {`font-mitr text-[16px]  flex justify-center mt-[20px]`}>
                     <button className="flex justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={() => {handleSubmit() ,setShowPopup(false)}}>{t('Yes')}</button> 
 
                     <button className="flex justify-center items-center bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600" onClick={() => setShowPopup(false)}>{t('Cancel')}</button>
@@ -1137,7 +1137,7 @@ const generatePDF = async () => {
                 </div>
               )}
 
-                <div className=  {`${language === 'EN' ? ' font-ntr text-md md:text-[20px]' : ' font-mitr text-[15px] md:text-[17px] '  } left-0 flex items-center   md:px-10  md:mt-[20px]`} >
+                <div className=  {` font-mitr text-[15px] md:text-[17px] left-0 flex items-center   md:px-10  md:mt-[20px]`} >
                   {/* <button type= "submit" href="/NotifyTwo" className=' mt-[20px] text-md md:text-[20px] md:ml-[480px] border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>Submit</button> */}
                     <button onClick={generatePDF} className=' mt-[20px]   border-[#64CE3F] bg-[#64CE3F] px-5  py-1  text-[#fff] hover:-translate-y-0.5 duration-200  mx-auto flex items-center '><IoMdDownload /><span className='ml-[5px]'>Dowload</span></button>
                     {/* <button onClick={generatePDF}>Generate PDF</button> */}

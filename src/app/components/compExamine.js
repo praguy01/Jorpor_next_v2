@@ -295,7 +295,6 @@ function App() {
       </div>
       <div className='mx-auto border w-[300px] md:w-[950px] py-[20px] md:h-[600px] h-[550px] text-black flex flex-col   md:rounded-[30px] rounded-[30px] mt-[106px]  bg-[#fff]'>
                 
-          {/* <h1 className=  {`${language === 'EN' ? ' font-ntr font-bold md:ml-[50px] ml-[30px]  text-[25px] md:text-[35px] ' : ' font-mitr md:ml-[50px] ml-[30px] text-[25px] md:text-[30px] '  }  `}>{t('Examine')}</h1> */}
           <div className='flex items-center'>
               <h1  className=  {`md:ml-[50px] ml-[30px] text-[25px] md:text-[30px]   `}>{t('Examine')}</h1>
               <p className='text-black text-[13px] md:text-[18px] mt-[5px] ml-[8px] '>( {examinelist_name} )</p>
@@ -320,7 +319,7 @@ function App() {
                       }
                     }}
                   >
-                    {console.log("todooooo: ",todo)}
+                    {/* {console.log("todooooo: ",todo)} */}
                     {isEditing ? (
                       <div>
                         <RxCross2
@@ -392,7 +391,7 @@ function App() {
               <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-[9999]">
                 <div className="bg-white p-4 rounded-lg border-black shadow-lg md:w-[400px] ">
                 <BsFillExclamationTriangleFill className=' text-[50px] text-[#5A985E] mx-auto mb-[10px]'/>
-                <p className='md:text-[18px]'>{`${language === 'EN' ? ' Do you want to retrieve employee names?  ' : 'คุณต้องการเรียกข้อมูลชื่อพนักงานไหม ? '  }`}</p>
+                <p className='md:text-[18px]'>{t("Do you want to retrieve employee names?")}</p>
                   <div className=  {`  text-[16px]  flex justify-center mt-[20px]`}>
                     <button className="flex justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={() => {handleCheckboxEmployee() ,setShowPopupUseEmployee(false)}}>{t('Yes')}</button> 
 
@@ -404,19 +403,19 @@ function App() {
             {showPopup && (
               <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center ">
                 <div className=  {` text-[20px] bg-white p-4 rounded-lg border-black shadow-lg md:w-[400px] `}>
-                  <h2 className=' text-[#5A985E]'>  {`${language === 'EN' ? 'Add Examine' : 'เพิ่มรายการตรวจสอบ'  }`}</h2>
+                  <h2 className=' text-[#5A985E]'>{t("Add Examine")}</h2>
                   <div className="mt-4">
                     <input className='mt-1 p-2 w-full border text-[20px] border-gray-300 rounded-md'
                       value={examine_name}
                       onChange={(e) => setExamine_name(e.target.value)}
-                      placeholder=  {`${language === 'EN' ? "add examine" : ' เพิ่มรายการตรวจสอบ '  }`}
+                      placeholder= {t("add examine")}
                       style={{ fontSize: language === 'EN' ? '18px' : '16px' }} 
                       />
                   </div>
                   <div className='flex mx-auto mt-[10px]'>
                   <input type='checkbox' onChange={(e) => setShowPopupUseEmployee(true)} className='text-[15px] mr-[5px]'></input>
                   
-                    <p className='text-[12px]'> {`${language === 'EN' ? 'Use employee list information ' : ' ใช้ข้อมูลรายชื่อพนักงาน '  }`}</p>
+                    <p className='text-[12px]'>{t("Use employee list information")}</p>
                   </div>
                   {message && (
                     <p className='mt-3 text-red-500 text-[11px] py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-lg md:mt-[30px]'>
@@ -436,7 +435,7 @@ function App() {
             {showEditPopup.isOpen && (
               <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center ">
                 <div className="bg-white p-4 rounded-lg border-black shadow-lg md:w-[380px] md:h-[150px] text-center ">
-                  <h2 className=  {` text-[18px] md:text-[20px] text-[#5A985E] mt-[10px] `}> {`${language === 'EN' ? ' Do you want to delete ' : 'คุณต้องการที่จะลบ '  }`}<span style={{ color: '#FF6B6B' }}>{showEditPopup.todo}</span>  {`${language === 'EN' ? ' ? ' : ' ไหม ?  '  }`}</h2>
+                  <h2 className=  {` text-[18px] md:text-[20px] text-[#5A985E] mt-[10px] `}> {t("Do you want to delete")}<span style={{ color: '#FF6B6B' }}>{showEditPopup.todo}</span>?</h2>
                   
                   {message && (
                     <p className= {` mt-3 text-red-500 text-xs py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-lg md:mt-[30px]`}>

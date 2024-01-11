@@ -113,6 +113,8 @@ const CompSendEmail = () => {
                     <p className='text-left text-[12px] ml-[55px] md:ml-[100px] mt-[40px]  md:text-[16px]'>Email</p>
                     <div className='flex flex-col mx-auto'>
                     <input type="text" name="email" value={formData.email} onChange={handleChange} className='mx-auto rounded-[20px]  pl-[15px] w-[210px]  h-[25px] text-[12px] md:text-[16px] md:w-[316px] md:h-[41px] ' required/>
+                    </div>
+                    <div className=' mt-[150px] md:mt-[250px] flex flex-col'>
                     {message && (
                       <p className='mt-3 text-red-500 text-[11px] py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[340px] mx-auto md:text-lg md:mt-[30px]'>
                         {message}
@@ -122,10 +124,10 @@ const CompSendEmail = () => {
                       <p className=' mt-3 text-green-600 text-[11px] py-2 bg-[#ACE9A7] rounded-[10px] inline-block px-4 w-[210px] md:w-[340px] mx-auto md:text-lg md:mt-[30px]'>
                         {messagePass}
                       </p>
-                    )}
-                    <button type="submit" className=" mx-auto mb-[10px] w-[100px] mt-[170px] md:mt-[290px] text-[12px] md:text-[16px]  border-[#5A985E] bg-[#5A985E] px- py-1 md:py-2 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200">Send</button>
-                    
+                      )}
+                    <button type="submit" className=" mx-auto mb-[10px] w-[100px] mt-[20px] md:mt-[20px]  text-[12px] md:text-[16px]  border-[#5A985E] bg-[#5A985E] px- py-1 md:py-2 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200">Send</button>
                     </div>
+                   
                     
                     {isLoading && (
                         <div className='flex mx-auto  mt-[15px] ' >

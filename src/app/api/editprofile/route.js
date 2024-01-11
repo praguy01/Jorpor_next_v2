@@ -28,9 +28,7 @@ export async function POST(request) {
 
       console.log("userResult: ",userResult)
       if (userResult) {
-        // ค้นพบข้อมูลผู้ใช้งาน ดังนั้นเราจะตรวจสอบการเปลี่ยนแปลง
         if (res.edit) {
-          // มีการเปลี่ยนแปลง ดังนั้นเราจะทำการอัปเดตข้อมูล
           const updateQuery = `
             UPDATE users
             SET

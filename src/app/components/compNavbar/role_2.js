@@ -131,10 +131,10 @@ function CompNavbar() {
                 <Link onClick={()=>setToggle(!toggle)} href="/response_role_2" style={{ whiteSpace: 'nowrap' }} className='  px-4 py-2  text-[#fff] hover:text-[#5A985E] hover:bg-[#fff]  '>{t('Approve')}</Link>
                 <Link onClick={()=>setToggle(!toggle)} href="/plan_role_2" style={{ whiteSpace: 'nowrap' }} className='  px-4 py-2  text-[#fff] hover:text-[#5A985E] hover:bg-[#fff]  '>{t('Plan')}</Link>
                 <Link onClick={()=>setToggle(!toggle)} href="/meeting_role_2" style={{ whiteSpace: 'nowrap' }} className='  px-4 py-2  text-[#fff] hover:text-[#5A985E] hover:bg-[#fff]  '>{t('Meeting')}</Link>
-                <Link onClick={()=>setToggle(!toggle)} href="/employee_role_2" style={{ whiteSpace: 'nowrap' }} className='  px-4 py-2  text-[#fff] hover:text-[#5A985E] hover:bg-[#fff]  '>{`${language === 'EN' ? 'Employee list' : 'รายชื่อพนักงาน'  }`}</Link>
+                <Link onClick={()=>setToggle(!toggle)} href="/employee_role_2" style={{ whiteSpace: 'nowrap' }} className='  px-4 py-2  text-[#fff] hover:text-[#5A985E] hover:bg-[#fff]  '>{t("Employee list")}</Link>
                 <Link onClick={()=>setToggle(!toggle)} href="/profile_role_2" style={{ whiteSpace: 'nowrap' }} className='  px-4 py-2  text-[#fff] hover:text-[#5A985E] hover:bg-[#fff]  '>{t('Profile')}</Link>
                 
-                <button onClick={logout}  className='   text-left px-4 py-2  text-[#fff] hover:text-[#5A985E] hover:bg-[#fff]  '>  {`${language === 'EN' ? 'log out' : 'ออกจากระบบ'  }`}</button>
+                <button onClick={logout}  className='   text-left px-4 py-2  text-[#fff] hover:text-[#5A985E] hover:bg-[#fff]  '>{t("log out")}</button>
                 <button  className={` text-[16px]  text-white hover:text-[#5A985E] hover:bg-[#F5F5F5] px-4 py-2`} onClick={() => { toggleLanguage(); setToggle(!toggle); }}>
                   {language}
                 </button> 

@@ -13,6 +13,7 @@ import { initReactI18next } from 'react-i18next';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { BsCheckCircle } from "react-icons/bs";
+import { format } from 'date-fns';
 
 
 function CompResponsedetail() {
@@ -251,18 +252,14 @@ function App() {
 
 
   const formatDateTime = (isoDateTime) => {
-    const originalDate = new Date(isoDateTime);
+
+    const inputDate = new Date(isoDateTime);
+    const formattedDatenew = format(inputDate, 'dd/MM/yyyy HH:mm');
+    console.log("yyyy-MM-dd HH:mm",formattedDatenew);
+
+   
   
-  
-    const day = originalDate.getDate().toString().padStart(2, '0');
-    const month = (originalDate.getMonth() + 1).toString().padStart(2, '0');
-    const year = originalDate.getFullYear();
-    const hour = originalDate.getHours().toString().padStart(2, '0');
-    const minute = originalDate.getMinutes().toString().padStart(2, '0');
-  
-    const formattedDateTime = `${day}/${month}/${year}, ${hour}:${minute}`;
-  
-    return formattedDateTime;
+    return formattedDatenew;
   };
   
   const handleSubmit = async () => {

@@ -244,7 +244,7 @@ function CompNotifyForm({ onSubmit }) {
                         onChange={(e) => handleInputChange(e)}   // Remove the second argument
                         className={` text-[11px] md:text-[13px] items-center rounded-[2px] md:ml-[15px] pl-1 mt-[-2px] ml-[10px] w-[100px] h-[20px] md:w-[200px] md:h-[20px] bg-[#D9D9D9]`}
                       >
-                        <option value="">{`${language === 'EN' ? 'Select an option' : 'เลือกตัวเลือก'}`}</option>
+                        <option value="">{t("Select an option")}</option>
 
                         {todoList.map((todo, index) => (
                           todo.examinelist.map((examinelistItem, subIndex) => (
@@ -274,14 +274,14 @@ function CompNotifyForm({ onSubmit }) {
                     </div>
 
                     <div className=' mx-auto w-[250px]  md:w-[705px] justify-center'>
-                      <p className=  {`text-[13px] md:text-[14px]  text-[#808080]  md:mt-[20px] mt-[10px]   text-left  `}>  {`${language === 'EN' ? ' add a photo' : ' เพิ่มรูปภาพ'  }`}</p>
+                      <p className=  {`text-[13px] md:text-[14px]  text-[#808080]  md:mt-[20px] mt-[10px]   text-left  `}>{t("add a photo")}</p>
                       <input type="file" name="file" onChange={handleInputChange} className="w-[248px]  md:w-[710px] py-1 px-2 border  mt-[5px] md:mt-[5px]  border-gray-300  text-[12px] p-4 rounded-lg "></input>
                     </div>
 
       
 
                 <div className=' mx-auto w-[250px]  md:w-[705px] justify-center'>
-                    <p className=  {` text-[13px] md:text-[14px]  text-left text-[#808080]   md:mt-[20px] mt-[10px]    `}>{`${language === 'EN' ? 'details' : 'รายละเอียด'  }`}</p>
+                    <p className=  {` text-[13px] md:text-[14px]  text-left text-[#808080]   md:mt-[20px] mt-[10px]    `}>{t('details')}</p>
                     <textarea type="text" name="detail" value={formData.detail} onChange={handleInputChange} className='rounded-[10px] mt-[5px] pl-[15px] w-[250px]  text-[14px]  h-[100px] md:text-[16px] md:w-[705px] md:h-[80px] bg-[#fff] border border-gray-300  p-4 '/>
                 </div>
               

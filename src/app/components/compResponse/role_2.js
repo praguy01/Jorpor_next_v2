@@ -9,6 +9,7 @@ import { CompLanguageProvider, useLanguage } from '../compLanguageProvider_role_
 import { useTranslation } from 'react-i18next';
 import i18n from '../../i18n'; 
 import { initReactI18next } from 'react-i18next';
+import { format } from 'date-fns';
 
 
 function  CompResponse() {
@@ -74,22 +75,14 @@ function App() {
 
 
     const formatDateTime = (isoDateTime) => {
-      const originalDate = new Date(isoDateTime);
 
-      const options = {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false,
-        timeZone: 'Asia/Bangkok',
-      };
-    
-      const formattedDateTime = originalDate.toLocaleString('en-US', options);
+      const inputDate = new Date(isoDateTime);
+      const formattedDatenew = format(inputDate, 'dd/MM/yyyy HH:mm');
+      console.log("yyyy-MM-dd HH:mm",formattedDatenew);
 
+     
     
-      return formattedDateTime;
+      return formattedDatenew;
     };
     
     

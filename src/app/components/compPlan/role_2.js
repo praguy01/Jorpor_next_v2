@@ -508,7 +508,7 @@ function App() {
                           }`}
                           value={newDate}
                           onChange={handleDateChange}
-                          dateFormat={t("dd/mm/yyyy")}
+                          dateFormat="dd/MM/yyyy"
                           locale={enGB}                        />
                       ) : (item.date)
                       }
@@ -594,7 +594,7 @@ function App() {
                       onChange={date => setSelectedDate(date)}
                       dateFormat="dd/MM/yyyy"
                       locale={enGB}                      
-                      placeholderText="dd/mm/yyyy"
+                      placeholderText={t("dd/mm/yyyy")}
                     />
                 
                     </td>
@@ -667,7 +667,7 @@ function App() {
                 
               <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center ">
                 <div className="bg-white p-4 rounded-lg border-black shadow-lg md:w-[320px] text-center md:h-[150px] w-[260px] ">
-                  <h2 className=  {` text-[16px] md:text-[18px]  text-[#5A985E] mt-[10px] `}> {`${language === 'EN' ? ' Do you want to delete' : 'คุณต้องการที่จะลบ   ' + ' '  }`} <span style={{ color: '#FF6B6B' }}>{showEditPopup.item.activity}</span>   {`${language === 'EN' ? ' ? ' :   ' ' + 'ไหม ?'  }`}</h2>
+                <h2 className=  {` text-[16px] md:text-[18px] text-[#5A985E] mt-[10px] `}>{t("Do you want to delete")}<span style={{ color: '#FF6B6B' }} className='mr-2'>{showEditPopup.item.activity}</span>{t("?")}</h2>
                   
                   {message && (
                     <p className='mt-3 text-red-500 text-xs py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-lg md:mt-[30px]'>

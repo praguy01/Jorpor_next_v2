@@ -59,17 +59,64 @@ export async function POST(request)  {
 
       console.log("ress: ",data)
 
-      const checkEmailQuery = "SELECT COUNT(*) AS emailCount FROM users_r3 WHERE email = ?";
-      const [emailCountResult] = await db.query(checkEmailQuery, [data.email]);
-      console.log("emailCountResult: ", emailCountResult);
+      const checkEmailQuery1 = "SELECT COUNT(*) AS emailCount FROM users WHERE email = ?";
+      const [emailCountResult1] = await db.query(checkEmailQuery1, [data.email]);
+      console.log("emailCountResult1: ", emailCountResult1[0].emailCount);
 
-      const checkemployeeQuery = "SELECT COUNT(*) AS employeeCount FROM users_r3 WHERE employee = ?";
-      const [employeeCountResult] = await db.query(checkemployeeQuery, [data.employee]);
-      console.log("employeeCountResult: ", employeeCountResult);
+      const checkemployeeQuery1 = "SELECT COUNT(*) AS employeeCount FROM users WHERE employee = ?";
+      const [employeeCountResult1] = await db.query(checkemployeeQuery1, [data.employee]);
+      console.log("employeeCountResult1: ", employeeCountResult1[0].employeeCount);
 
-      if (emailCountResult[0].emailCount > 0) {
+      
+      const checkEmailQuery2 = "SELECT COUNT(*) AS emailCount FROM users_r2 WHERE email = ?";
+      const [emailCountResult2] = await db.query(checkEmailQuery2, [data.email]);
+      console.log("emailCountResult2: ", emailCountResult2[0].emailCount);
+
+      const checkemployeeQuery2 = "SELECT COUNT(*) AS employeeCount FROM users_r2 WHERE employee = ?";
+      const [employeeCountResult2] = await db.query(checkemployeeQuery2, [data.employee]);
+      console.log("employeeCountResult2: ", employeeCountResult2[0].employeeCount);
+
+      
+      const checkEmailQuery3 = "SELECT COUNT(*) AS emailCount FROM users_r3 WHERE email = ?";
+      const [emailCountResult3] = await db.query(checkEmailQuery3, [data.email]);
+      console.log("emailCountResult3: ", emailCountResult3[0].emailCount);
+
+      const checkemployeeQuery3 = "SELECT COUNT(*) AS employeeCount FROM users_r3 WHERE employee = ?";
+      const [employeeCountResult3] = await db.query(checkemployeeQuery3, [data.employee]);
+      console.log("employeeCountResult3: ", employeeCountResult3[0].employeeCount);
+
+      let userEmailTable = false;
+
+      if (emailCountResult1[0].emailCount > 0) {
+          userEmailTable = true;
+      } else if (emailCountResult2[0].emailCount > 0) {
+          userEmailTable = true;
+      } else if (emailCountResult3[0].emailCount > 0) {
+          userEmailTable = true;
+      }
+
+      console.log("User comes from table:", userEmailTable);
+
+    
+
+      let userEmployeeTable = false;
+
+      if (employeeCountResult1[0].employeeCount > 0) {
+        userEmployeeTable = true;
+      } else if (employeeCountResult2[0].employeeCount > 0) {
+        userEmployeeTable = true;
+      } else if (employeeCountResult3[0].employeeCount > 0) {
+        userEmployeeTable = true;
+      }
+
+      console.log("User comes from table:", userEmployeeTable);
+
+    
+
+
+      if (userEmailTable) {
         return NextResponse.json({ success: false, error: 'Email is already in use.' }, { res });
-      } else if (employeeCountResult[0].employeeCount > 0) {
+      } else if (userEmployeeTable) {
         return NextResponse.json({ success: false, error: 'Employee is already in use.' }, { res });
       }
 

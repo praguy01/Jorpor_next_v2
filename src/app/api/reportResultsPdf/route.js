@@ -1,6 +1,7 @@
 import { it } from 'node:test';
 import db from '../../../lib/db';
 import { NextResponse } from 'next/server';
+import { format } from 'date-fns';
 
 
 export async function POST(request) {
@@ -139,19 +140,15 @@ export async function POST(request) {
 
             const getIdQuery = "SELECT select_id FROM `select` WHERE date = ? AND user_id = ?";
             const [idResult] = await db.query(getIdQuery, [formattedDateA , res.id]);
-            // const idResultmap = idResult.map(row => row.select_id);
-            console.log("4444idResult7: ",idResult)
+            
             const selectIdString = idResult[0].select_id;
 
             const item_id = JSON.parse(selectIdString);
             
-            console.log("selectIdArray:",item_id);
     
             const nameList = [];
-            console.log("nameList4444: ",nameList)
 
             for (const item of item_id) {
-              // console.log("nameList4444: ",ite)
           
               const getNameExamineListQuery = "SELECT name FROM examinelist WHERE id = ? AND user_id = ?";
               const [nameExamineListResult] = await db.query(getNameExamineListQuery, [item, res.id]);
@@ -221,8 +218,12 @@ export async function POST(request) {
 
             // console.log("Thai Time:", thaiTime);
 
+            const inputDate = new Date();
+            const formattedDatenew = format(inputDate, 'dd/MM/yyyy HH:mm');
+            // console.log("yyyy-MM-dd HH:mm",formattedDatenew);
+
             const resultList = {
-              date: formattedDateTime, // Add the date property
+              date: formattedDatenew, // Add the date property
               inspector: fullName[0], // Add the inspector property
               items: []
             };

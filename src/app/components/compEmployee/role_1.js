@@ -53,6 +53,8 @@ function App() {
     const [name, setName] = useState(""); 
     const [file, setFile] = useState(false);
     const [messageAdd, setMessageAdd] = useState('');
+    const [erraddmessage, setErraddMessage] = useState(false);
+    const [errorAddMessage, setErrorAddMessage] = useState('');
 
 
     // useEffect(() => {
@@ -81,6 +83,7 @@ function App() {
             const dbEmployees = resdata.dbemployee_name || [];
     
             const employeesToAdd = dbEmployees.map((employeeData) => ({
+              id: employeeData.id,
               employee: employeeData.employee,
               name: employeeData.name,
               lastname: employeeData.lastname,
@@ -111,7 +114,7 @@ function App() {
             console.log('Stored: ', storedId);
           }
     
-          const AddData = { storedId };
+          const AddData = { storedId , zone: true };
           const data = JSON.stringify(AddData);
           console.log('DD: ', data);
     
@@ -120,7 +123,7 @@ function App() {
           });
     
           const resdata = response.data;
-          console.log('DATA: ', resdata);
+          console.log('DATAZONEEE: ', resdata);
     
           if (response.status === 200) {
             if (resdata.success === true) {
@@ -156,12 +159,12 @@ function App() {
   };
 
   const closePopup = () => {
+    setErraddMessage(false);
     setShowPopup(false);
   };
   // const [input, setInput] = useState("");
 
   const clearFields = () => {
-    closePopup(false);
     setEmployee('');
     setName('');
     setlastname('');
@@ -175,7 +178,9 @@ function App() {
 
     try {
       if (!employee || !name || !lastname) {
-        setMessageAdd('Please fill in all fields');
+        setErrorAddMessage('Please fill in all fields');
+        setErraddMessage(true);
+
         return;
       }
     
@@ -207,8 +212,17 @@ function App() {
           setTimeout(() => {
             setShowAddSuccessPopup(false);
           }, 1000); // 1000 milliseconds = 1 second
+          closePopup(false);
+
         } else {
-          setMessageAdd(resdata.error);
+         
+          console.log("Messageresdata.error: ", resdata.error);
+          setEmployee("");
+          setName("");
+          setlastname("");
+          setErraddMessage(true);
+          setErrorAddMessage(resdata.error);
+
         }
       } else {
         setMessageAdd(resdata.error);
@@ -218,8 +232,9 @@ function App() {
       console.error('Error Examine:', error);
       setMessage('');
     }
-    clearFields();
-
+    setEmployee("");
+    setName("");
+    setlastname("");
   
   };
 
@@ -388,7 +403,7 @@ function App() {
           <div className='md:w-[1000px] mx-auto '>
             <div className='flex  w-[330px] mx-auto  md:w-[800px]'>
             <div className='mx-auto  w-[330px] md:w-[800px]  text-black   md:mt-[106px] mt-[80px]  '>
-                  <h1 className={`text-[25px] text-black md:text-[30px]  font-bold `}>  {`${language === 'EN' ? 'Employee List' : ' รายชื่อพนักงาน'  }`}</h1>
+                  <h1 className={`text-[25px] text-black md:text-[30px]  font-bold `}>{t("Employee List")}</h1>
               </div>
                 <div className='flex md:mt-[50px]   md:ml-[430px]'>
                    
@@ -435,10 +450,10 @@ function App() {
 
 
                         <div>
-                          <p className="text-[13px] text-[#5A985E] ml-[10px] ">{`${language === 'EN' ? 'add employee list from file' : 'เพิ่มรายชื่อจากไฟล์'  }`}</p>
+                          <p className="text-[13px] text-[#5A985E] ml-[10px] ">{t("add employee list from file")}</p>
                         </div>
                       </div>
-                       <h2 className={`text-[25px] text-[#5A985E] mt-[15px] `}>{`${language === 'EN' ? 'Add employee list' : 'เพิ่มรายชื่อ'  }`}</h2>
+                       <h2 className={`text-[25px] text-[#5A985E] mt-[15px] `}>{t("Add employee list")}</h2>
                        {isOn && (  
                        <div className="mt-[20px]  mx-auto  w-[310px] ">
                          <label htmlFor="name" className="md:text-[14px] block text-[12px] font-medium text-gray-700">{t("fill in information")}</label>
@@ -464,9 +479,14 @@ function App() {
                              placeholder={t('Lastname')}
                            />
                          </div>
+                         {erraddmessage && (
+                        <p className='mt-3 text-red-500 text-xs py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-lg md:mt-[30px]'>
+                          {errorAddMessage}
+                        </p>
+                      )} 
                          <div className="flex  justify-center  mt-[20px]">
                             <button className=" bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={addTodo}>{t('Add')}</button>
-                            <button className="  bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600" onClick={() => clearFields()}>{t('Cancel')}</button>
+                            <button className="  bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600" onClick={() => closePopup()}>{t('Cancel')}</button>
                           </div>
                        </div>
                        
@@ -476,21 +496,22 @@ function App() {
                         <div className="mt-1 mx-auto  ">
                           <div className="mt-4">
                             
-                                <label htmlFor="file" className="md:text-[12px] block text-[11px] mt-2 font-medium text-gray-700 cursor-pointer">  {`${language === 'EN' ? 'The excel file consists of the columns employee , name , and lastname .' : 'ในไฟล์ excel ประกอบด้วยคอลัมน์ employee , name , lastname'  }`}</label>
+                                <label htmlFor="file" className="md:text-[12px] block text-[11px] mt-2 font-medium text-gray-700 cursor-pointer"> {t("The excel file consists of the columns employee , name , and lastname.")}</label>
                                 <input type="file"id="file" className="text-[#000] mt-1 p-2 w-full border border-gray-300 text-[12px] rounded-md" onChange={handleFileChange}/>
                             </div>
+                            {erraddmessage && (
+                            <p className='mt-3 text-red-500 text-xs py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-lg md:mt-[30px]'>
+                              {errorAddMessage}
+                            </p>
+                          )} 
                           <div className="flex justify-center mt-[20px]">
                             <button className="flex justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={addTodo}>{t('Add')}</button>
-                            <button className="flex justify-center items-center bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600" onClick={() => clearFields()}>{t('Cancel')}</button>
+                            <button className="flex justify-center items-center bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600" onClick={() => closePopup()}>{t('Cancel')}</button>
                           </div>
                         </div>
                        )}
 
-                       {messageAdd && (
-                          <p className='mt-2 text-red-500 text-xs py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4   mx-auto md:text-lg md:mt-[30px]'>
-                            {messageAdd}
-                          </p>
-                        )}
+                     
                      </div>
                      
                    </div>
@@ -500,7 +521,7 @@ function App() {
             </div>
             <div className='flex w-[330px] md:w-[800px] items-center mx-auto '>
             <div className='  items-center mx-auto w-[330px] md:w-[780px] '>
-              <label className="block  text-gray-700 text-[13px] font-bold mb-2"> {`${language === 'EN' ? 'Select an option:' : 'เลือกข้อมูล:'  }`}</label>
+              <label className="block  text-gray-700 text-[13px] font-bold mb-2"> {t("Select an option")}:</label>
               <select
                 className="w-[100px]  left-0  text-[13px] text-black border rounded-md px-4 py-1 outline-none"
                 value={selectedOption}
@@ -598,7 +619,7 @@ function App() {
                {showEditPopup.isOpen && (
               <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center ">
                 <div className="bg-white p-4 text-center rounded-lg border-black shadow-lg md:w-[380px] md:h-[150px] ">
-                  <h2 className= {` text-[18px] md:text-[20px] text-[#5A985E] mt-[10px] `}>{`${language === 'EN' ? ' Do you want to delete ' : 'คุณต้องการที่จะลบ '  }`} <span style={{ color: '#FF6B6B' }}>{showEditPopup.todo.employee}</span> ?</h2>
+                  <h2 className= {` text-[18px] md:text-[20px] text-[#5A985E] mt-[10px] `}>{t("Do you want to delete")} <span style={{ color: '#FF6B6B' }}>{showEditPopup.todo.employee}</span> {t("?")}</h2>
                   
                   {message && (
                     <p className='mt-3 text-red-500 text-xs py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-lg md:mt-[30px]'>

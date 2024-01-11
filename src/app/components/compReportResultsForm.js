@@ -33,6 +33,9 @@ export default function CompReportResultsForm({ onSubmit }) {
   const [selectedExamineOption, setSelectedExamineOption] = useState('');
   const [nameExamine , setNameExamine] = useState(''); 
   const [useEmployee , setUseEmployee] = useState(''); 
+  const [selected, setSelected] = useState(false);
+  const [selectednameOption, setSelectednameOption] = useState(false);
+
   // const [fetchDataExamineMemoized, setFetchDataExamineMemoized] = useState(false);
 
 
@@ -63,6 +66,7 @@ export default function CompReportResultsForm({ onSubmit }) {
             console.log("Data1222: ",data.dbnameExamineList)
             setSelectedOption(data.dbnameExamineList[0]);
             setNameExamineList(data.dbnameExamineList);
+            setSelectednameOption(true)
 
 
           } else {
@@ -89,7 +93,7 @@ export default function CompReportResultsForm({ onSubmit }) {
 
  
  
-  useEffect(() => {
+  // useEffect(() => {
     const fetchDataForSelectedOption = async () => {
       try {
         console.log('Selected Option: ', selectedOption);
@@ -111,6 +115,7 @@ export default function CompReportResultsForm({ onSubmit }) {
             console.log("000: ", resdata.dbExamine[0])
             setSelectedExamineOption(resdata.dbExamine[0])
             console.log('selectexamine: ', resdata.dbExamine[0]);
+            setSelected(true)
             // setFetchDataExamineMemoized(true)
           } else {
             setMessage(resdata.error);
@@ -123,12 +128,14 @@ export default function CompReportResultsForm({ onSubmit }) {
         setMessage('');
       }
       setMessage('');
+      setSelected(true)
+
     };
   
-    if (selectedOption) {
-      fetchDataForSelectedOption();
-    }
-  }, [selectedOption,id]);
+    // if (selectedOption) {
+    //   fetchDataForSelectedOption();
+    // }
+  // }, [selectedOption,id]);
   
 
 
@@ -147,19 +154,24 @@ export default function CompReportResultsForm({ onSubmit }) {
   
 
   const handleDropdownChange = (event) => {
-    console.log("event.target.value: ",event.target.value)
+    console.log("event.target.value1: ",event.target.value)
     setSelectedOption(event.target.value); // เมื่อเลือกตัวเลือกใน Dropdown ให้อัปเดต state
+    setSelectednameOption(true)
+
   };
 
 
   const handleDropdownExamineChange = (event) => {
-    console.log("event.target.value: ",event.target.value)
+    console.log("event.target.value2: ",event.target.value)
     setSelectedExamineOption(event.target.value); // เมื่อเลือกตัวเลือกใน Dropdown ให้อัปเดต state
+    setSelected(true)
+
+
   };
 
-  useEffect(() => {
   const fetchDataExamine = async () => {
     try {
+      console.log("SelectedExamineOption2: ",selectedExamineOption)
 
       const AddData = { selectedOption ,selectedExamineOption ,id, selectExamine: true};
       const fetchdata = JSON.stringify(AddData);
@@ -256,12 +268,26 @@ export default function CompReportResultsForm({ onSubmit }) {
       setMessage('');
     }
     setMessage('');
+
   }
-    if (selectedExamineOption) {
+
+  useEffect(() => {
+
+    if (selected) {
       fetchDataExamine();
-      setSelectedExamineOption(false)
+      setSelected(false)
+
     }
-  }, [selectedExamineOption, selectedOption, id, checkList]);
+  }, [fetchDataExamine, selected]);
+
+  useEffect(() => {
+
+    if (selectednameOption) {
+      fetchDataForSelectedOption();
+      setSelectednameOption(false)
+
+    }
+  }, [fetchDataForSelectedOption, selectednameOption]);
 
   // useEffect(() => {
   //   // โค้ดที่ใช้งาน fetchDataExamine จะเป็นที่นี่
@@ -340,9 +366,9 @@ export default function CompReportResultsForm({ onSubmit }) {
           <div className='mx-auto w-[300px] md:w-[800px] font-ntr mb-[50px]  py-[30px] text-black flex flex-col  bg-[#FFF] text-center md:rounded-[50px] rounded-[30px] mt-[106px]  '>
           
                     <div >
-                    <div className=  {`${language === 'EN' ? ' font-ntr font-bold text-[22px] md:text-[27px] ' : ' font-mitr font-bold text-[20px] md:text-[25px]'  } ml-[20px] md:ml-[50px] w-[258px] md:w-[600px] `}>
+                    <div className= ' font-mitr font-bold text-[20px] md:text-[25px] ml-[20px] md:ml-[50px] w-[258px] md:w-[600px] '>
                     {/* <p className='text-[#000] text-[15px] md:text-[16px] font-mitr md:mt-[20px]  text-left  mt-[5px] '>ข้อมูลตรวจสอบวันนี้</p> */}
-                    <h1 className=' text-[#5A985E]  ml-[10px] md:ml-[0] md:w-[300px]  text-left  '>  {`${language === 'EN' ? 'Verified information ' : ' ข้อมูลตรวจสอบวันนี้ '  }`}</h1>
+                    <h1 className=' text-[#5A985E]  ml-[10px] md:ml-[0] md:w-[300px]  text-left  '>  {t("Verified information")}</h1>
                     <div className="mt-[5px] md:mt-[10px] md:ml-[-30px] border-t md:border w-full md:w-[750px] border-gray-300"></div>
 
 
@@ -441,10 +467,10 @@ export default function CompReportResultsForm({ onSubmit }) {
                          
                          {useEmployee === true && (
                           <>
-                          {console.log("TESTTTTT: ", todoList)}
+                          {/* {console.log("TESTTTTT: ", todoList)} */}
                           {todoList.map((item, index) => (
                             <div key={index}>
-                              {console.log("TESTTTTT111111111: ", item)}
+                              {/* {console.log("TESTTTTT111111111: ", item)} */}
                               <div className="mt-[10px] md:mt-[10px] md:ml-[-30px] border-t md:border w-full md:w-[750px] border-gray-300"></div>
                               <h1 className='text-left mt-[10px]'>{index + 1}. {item.employee} {item.name} </h1>
                               <div className="mt-[5px] md:mt-[10px] md:ml-[-30px] border-t md:border w-full md:w-[750px] border-gray-300"></div>
@@ -470,7 +496,7 @@ export default function CompReportResultsForm({ onSubmit }) {
                                   {item.items.map((entry, entryIndex) => (
                                     entry.map((data, dataIndex) => (
                                       <tr key={dataIndex} className='text-center'>
-                                        {console.log("RRRRRRRRRR: ", entry)}
+                                        {/* {console.log("RRRRRRRRRR: ", entry)} */}
                                         <td className="px-6 py-4 border whitespace-nowrap">
                                           <div>{dataIndex + 1}</div>
                                         </td>
@@ -527,7 +553,7 @@ export default function CompReportResultsForm({ onSubmit }) {
                   </p>
                 )} */}
 
-                <div className=  {`${language === 'EN' ? ' font-ntr text-md md:text-[20px]' : ' font-mitr text-[15px] md:text-[17px] '  } flex items-center mx-auto md:px-10  md:mt-[20px]`} >
+                <div className=  {`font-mitr text-[15px] md:text-[17px]  flex items-center mx-auto md:px-10  md:mt-[20px]`} >
                   {/* <button type= "submit" href="/NotifyTwo" className=' mt-[20px] text-md md:text-[20px] md:ml-[480px] border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>Submit</button> */}
                     <button type='submit' onClick={handleSubmit} className=' mt-[20px]   border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>{t('confirm')}</button>
                    

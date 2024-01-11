@@ -55,6 +55,9 @@ function App() {
     const [todoList, setTodoList] = useState([]);
     const [showEditPopup, setShowEditPopup] = useState(false);
     const [deletemessage, setdeleteMessage] = useState(false);
+    const [erraddmessage, setErraddMessage] = useState(false);
+    const [errorAddMessage, setErrorAddMessage] = useState('');
+
 
 
     useEffect(() => {
@@ -152,6 +155,8 @@ function App() {
   };
 
   const closePopup = () => {
+    setErraddMessage(false);
+    setErrorAddMessage('');
     setShowPopup(false);
     setFormData({
       employee: '',
@@ -181,17 +186,22 @@ function App() {
     console.log("employee: ",employee)  
     console.log("name: ",name )  
     console.log("lastname: ",lastname)
+    setErraddMessage(false);
 
     try {
         if (!formData.employee || !formData.name || !formData.lastname) {
-            setMessage('Please fill in all fields');
+          setErrorAddMessage('Please fill in all fields');
+          setErraddMessage(true);
+
             return;
         }
 
         if (!formData.password || formData.password.length < 6) {
           // Handle the case where the password is too short
               console.error("Password must be at least 6 characters long");
-              setMessage("Password must be at least 6 characters long")
+              setErrorAddMessage("Password must be at least 6 characters long")
+              setErraddMessage(true);
+
               return;
         }
         const hashedPassword = await hashPassword(formData.password);
@@ -233,8 +243,20 @@ function App() {
           setTimeout(() => {
             setShowAddSuccessPopup(false);
           }, 1000); // 1000 milliseconds = 1 second
+          closePopup();
+
         } else {
-          setMessage(resdata.error);
+          setFormData({
+            employee: '',
+            name: '',
+            lastname: '',
+            password: '',
+          });
+          console.log("Messageresdata.error: ", resdata.error);
+
+          setErraddMessage(true);
+          setErrorAddMessage(resdata.error);
+
         }
       } else {
         setMessage(resdata.error);
@@ -248,7 +270,7 @@ function App() {
     setEmployee("");
     setName("");
     setlastname("");
-    closePopup();
+
   
   };
 
@@ -393,8 +415,9 @@ function App() {
   };
 
   const openEditPopup = async (index, todo ) => {
-    console.log("TODOO: ",todo)
+    // console.log("TODOO: ",todo)
     setMessage('');
+   
     setShowEditPopup({ isOpen: true, index, todo  }); 
   };
 
@@ -404,6 +427,8 @@ function App() {
   };
 
   const updateFormData = (fieldName, value) => {
+    setErraddMessage(false);
+    setErrorAddMessage('');
     setFormData((prevData) => ({
       ...prevData,
       [fieldName]: value,
@@ -421,7 +446,7 @@ function App() {
           <div className='md:w-[1000px] mx-auto '>
             <div className='flex  w-[330px] mx-auto  md:w-[800px]'>
             <div className='mx-auto justify-between flex w-[330px] md:w-[800px]  text-black md:mt-[106px] mt-[80px]  '>
-                  <h1 className={`text-[25px] text-black md:text-[30px] ml-[10px]  font-bold `}>  {`${language === 'EN' ? 'Employee List' : ' รายชื่อพนักงาน'  }`}</h1>
+                  <h1 className={`text-[25px] text-black md:text-[30px] ml-[10px]  font-bold `}>{t("Employee List")}</h1>
                   <button
                   onClick={openPopup} 
                   className="  text-[#5A985E] md:absolute  md:ml-[750px] text-4xl ml-[100px] md:text-5xl  hover:-translate-y-0.5 duration-200 ">
@@ -436,7 +461,7 @@ function App() {
                       <div className="text-center absolute z-10 top-0 left-0 w-full h-full flex items-center justify-center">
                         <div className="bg-white md:w-[400px] w-[350px] p-4 py-[20px] rounded-lg border border-grey shadow-lg">
                           <div className="">
-                            <h2 className={`text-[25px] text-[#5A985E] font-bold`}>{`${language === 'EN' ? 'Add employee list' : 'เพิ่มรายชื่อ'}`}</h2>
+                            <h2 className={`text-[25px] text-[#5A985E] font-bold`}>{t("Add employee list")}</h2>
                               <div className='mt-[20px]'>
                               <label htmlFor="name" className="md:text-[14px] block text-sm font-medium text-gray-700">
                               {t("fill in information")}
@@ -468,11 +493,11 @@ function App() {
                                   onChange={(e) => updateFormData('password', e.target.value)}
                                   placeholder={t('Password')}
                                 />
-                                {message && (
-                                  <p className='mt-[20px] text-red-500 text-[12px] py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[300px] md:w-[350px] mx-auto md:text-[14px] md:mt-[30px]'>
-                                    {message}
+                                {erraddmessage && (
+                                  <p className='mt-3 text-red-500 text-xs py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-lg md:mt-[30px]'>
+                                    {errorAddMessage}
                                   </p>
-                                )}
+                                )} 
 
                                 <div className="flex justify-center mt-[20px] ">
                                   <button className="bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={addTodo}>
@@ -582,7 +607,7 @@ function App() {
             {showEditPopup.isOpen && (
               <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center ">
                 <div className="bg-white p-4 text-center rounded-lg border-black shadow-lg md:w-[380px] md:h-[150px] ">
-                  <h2 className= {` text-[18px] md:text-[20px] text-[#5A985E] mt-[10px] `}>{`${language === 'EN' ? ' Do you want to delete ' : 'คุณต้องการที่จะลบ '  }`} <span style={{ color: '#FF6B6B' }}>{showEditPopup.todo.employee}</span> ?</h2>
+                  <h2 className= {` text-[18px] md:text-[20px] text-[#5A985E] mt-[10px] `}>{t("Do you want to delete")}<span style={{ color: '#FF6B6B' }}>{showEditPopup.todo.employee}</span> {t("?")}</h2>
                   
                   {message && (
                     <p className='mt-3 text-red-500 text-xs py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-lg md:mt-[30px]'>

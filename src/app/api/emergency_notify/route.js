@@ -9,14 +9,9 @@ export async function POST(request) {
       // Parse the JSON data from the request
       const res = await request.json();
 
-      // Log the received data
-      console.log('Received data from NodeMCU:', res);
-
-      // Access query parameters
       const { date, time, location } = res;
 
-      // Do something with the query parameters (e.g., log them)
-      console.log(' - Date:', date, 'Time:', time, 'Location:', location);
+
 
       const insertSql = "INSERT INTO emergency_notify (date, time, location) VALUES (?, ?, ?)";
       const insertValues = await db.execute(insertSql , [res.date, res.time ,res.location]);

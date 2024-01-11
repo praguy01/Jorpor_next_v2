@@ -1,6 +1,7 @@
 import { it } from 'node:test';
 import db from '../../../lib/db';
 import { NextResponse } from 'next/server';
+import { format } from 'date-fns';
 
 
 export async function POST(request) {
@@ -165,20 +166,22 @@ export async function POST(request) {
             const getDateQuery = "SELECT DISTINCT send_date FROM checklist_examine_row_2 WHERE date = ? AND inspector = ?" ;        
             const [dateResult] = await db.query(getDateQuery, [formattedDate,res.user_IdValue]);
         
-            const currentDateStr = dateResult[0].send_date.toLocaleString('en-US', {  
-              year: 'numeric', 
-              month: '2-digit', 
-              day: '2-digit', 
-              hour: '2-digit', 
-              minute: '2-digit', 
-              hour12: false,
-              timeZone: 'Asia/Bangkok'
-            });
-            console.log("Date777777777777777777: ",currentDateStr);
-
+            
+            // const currentDateStr = dateResult[0].send_date.toLocaleString('en-US', {  
+            //   year: 'numeric', 
+            //   month: '2-digit', 
+            //   day: '2-digit', 
+            //   hour: '2-digit', 
+            //   minute: '2-digit', 
+            //   hour12: false,
+            //   timeZone: 'Asia/Bangkok'
+            // });
+            // console.log("Date777777777777777777: ",dateResult);
+            const inputDate = new Date(dateResult[0].send_date);
+            const formattedDatenew = format(inputDate, 'dd/MM/yyyy HH:mm');
 
             const resultList = {
-              date: currentDateStr, // Add the date property
+              date: formattedDatenew, // Add the date property
               inspector: fullName[0], // Add the inspector property
               items: []
             };
@@ -403,13 +406,19 @@ export async function POST(request) {
   
               const getDateQuery = "SELECT DISTINCT send_date FROM checklist_examine_row_2 WHERE date = ? AND inspector = ?" ;        
               const [dateResult] = await db.query(getDateQuery, [formattedDate,res.user_IdValue]);
+              // console.log("Date555555555555: ",dateResult[0].send_date);
+
+
+              const inputDate = new Date(dateResult[0].send_date);
+              const formattedDatenew = format(inputDate, 'dd/MM/yyyy HH:mm');
+              // console.log("yyyy-MM-dd HH:mm",formattedDatenew);
           
-              const currentDateStr = dateResult[0].send_date.toLocaleString('en-US', { timeZone: 'Asia/Bangkok', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
-              console.log("Date777777777777777777: ",currentDateStr);
+              // const currentDateStr = dateResult[0].send_date.toLocaleString('en-US', { timeZone: 'Asia/Bangkok', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
+              // console.log("Date777777777777777777: ",currentDateStr);
   
   
               const resultList = {
-                date: currentDateStr, // Add the date property
+                date: formattedDatenew, // Add the date property
                 inspector: fullName[0], // Add the inspector property
                 items: []
               };

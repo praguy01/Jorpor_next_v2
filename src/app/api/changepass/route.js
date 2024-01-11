@@ -28,29 +28,50 @@ export async function POST(request)  {
       if (!passwordMatch) {
         return NextResponse.json({ success: false, error: 'รหัสผ่านไม่ตรงกัน' });
       } else {
+        const getUserQueryTable1 = "SELECT * FROM users WHERE email = ?";
+        const [userResultTable1] = await db.query(getUserQueryTable1, [email]);
+      
+        const getUserQueryTable2 = "SELECT * FROM users_r2 WHERE email = ?";
+        const [userResultTable2] = await db.query(getUserQueryTable2, [email]);
+      
+        const getUserQueryTable3 = "SELECT * FROM users_r3 WHERE email = ?";
+        const [userResultTable3] = await db.query(getUserQueryTable3, [email]);
+      
+        let userTable;
 
-      const getUserQuery = "SELECT * FROM users WHERE email = ?";
-      const [userResult] = await db.query(getUserQuery, [email]);
-
-      console.log("USER CHANGE :",userResult)
-      const user = userResult[0];
-      const storedPassword = user.password;
-      console.log("STORAGE_PASS: " , storedPassword)
-      console.log("NEW_PASS: " , confirmpassword)
-
-
-      const newPasswordMatch = await bcrypt.compare(confirmpassword, storedPassword);
+        if (userResultTable1.length > 0) {
+          userTable = "users";
+        } else if (userResultTable2.length > 0) {
+          userTable = "users_r2";
+        } else if (userResultTable3.length > 0) {
+          userTable = "users_r3";
+        }
 
 
-      if (!newPasswordMatch) {
-        await db.query('UPDATE users SET password = ? WHERE email = ?', [newpassword, email]);
+        const userResults = [...userResultTable1, ...userResultTable2, ...userResultTable3];
+      
+        console.log("USER CHANGE:", userResults);
+      
+        if (userResults.length === 0) {
+          return NextResponse.json({ success: false, error: 'User not found.' });
+        }
+      
+        for (const user of userResults) {
+          const storedPassword = user.password;
 
-      } else if (newPasswordMatch) {
-        return NextResponse.json({ success: false, error: 'This password has recently been changed.'});
+      
+          const newPasswordMatch = await bcrypt.compare(confirmpassword, storedPassword);
+      
+          if (!newPasswordMatch) {
+            await db.query(`UPDATE ${userTable} SET password = ? WHERE email = ?`, [newpassword, email]);
+          } else if (newPasswordMatch) {
+            return NextResponse.json({ success: false, error: 'This password has recently been changed.' });
+          }
+        }
+      
+        return NextResponse.json({ success: true, message: 'เปลี่ยนรหัสผ่านแล้ว.', redirect: '/login' });
       }
-
-      return NextResponse.json({ success: true, message: 'เปลี่ยนรหัสผ่านแล้ว.', redirect: '/login'});
-      }
+      
 
     } catch (error) {
       console.error('Error change password:', error);

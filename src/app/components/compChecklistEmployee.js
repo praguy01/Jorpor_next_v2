@@ -225,7 +225,7 @@ function App() {
           <div className='md:w-[1000px] mx-auto '>
             <div className=' w-[280px] mx-auto md:w-[963px]'>
               <div className='left-0 md:ml-[90px] w-[600px]  flex items-center md:mt-[100px] mt-[90px] '>
-                  <h1 className=' text-[#5A985E] text-[25px] md:text-[40px]  mr-[10px] '>Examine</h1>
+                  <h1 className=' text-[#5A985E] text-[25px] md:text-[40px]  mr-[10px] '>{t('Examine')}</h1>
                   <p className='text-black   w-[400px] text-sm md:text-[20px] mt-[2px] '>({checklistname})</p>
               </div>
               <div className='flex items-center text-center  w-[110px] h-[24px] md:w-[140px] md:h-[30px] rounded-[5px] text-[#fff] border-[#000] bg-[#000] md:ml-[90px] '>
@@ -253,7 +253,7 @@ function App() {
                           className='mr-[8px] md:ml-[5px] items-center'
                           checked={todoStatus[todo]?.pass || false}
                           onChange={(e) => handleCheckboxChange(todo, e.target.checked, !e.target.checked ? todoStatus[todo]?.fail : false)}
-                          /><span className='text-[13px] md:text-[15px] '>ผ่าน</span>
+                          /><span className='text-[13px] md:text-[15px] '>{t('pass')}</span>
                       </div>
                       <div className='flex items-center'>
                         <input
@@ -261,13 +261,13 @@ function App() {
                           className='mr-[8px] ml-[10px] md:ml-[20px] items-center'
                           checked={todoStatus[todo]?.fail || false}
                           onChange={(e) => handleCheckboxChange(todo, !e.target.checked ? todoStatus[todo]?.pass : false, e.target.checked)}
-                          /><span className='text-[13px] md:text-[15px] '>ไม่ผ่าน</span>
+                          /><span className='text-[13px] md:text-[15px] '>{t('fail')}</span>
                         </div>
                         </div>
                         <input
                             type='text'
                             className='rounded-md mt-[8px] p-2 border text-[13px] w-[225px] md:w-[315px] h-[30px]'
-                            placeholder='รายละเอียด'
+                            placeholder= {t('details')}
                             onChange={(e) => {
                               handleCheckboxChange(todo, todoStatus[todo]?.pass, todoStatus[todo]?.fail, e.target.value);
                             }}
@@ -338,11 +338,11 @@ function App() {
                         <div className="bg-white p-4 rounded-lg border-black shadow-lg md:w-[380px] md:h-[150px] ">
                           {/* เนื้อหาของ popup */}
                           <div className='md:text-[30px] text-[22px] flex justify-center items-center'>
-                          <h2 className='text-[18px] md:text-[20px] text-[#5A985E] mt-[10px]  font-bold'>Do you want to delete <span style={{ color: '#FF6B6B' }}>{showEditPopup.todo}</span> ?</h2>
+                          <h2 className='text-[18px] md:text-[20px] text-[#5A985E] mt-[10px]  font-bold'>{t("Do you want to delete")} <span style={{ color: '#FF6B6B' }} className='mr-2'>{showEditPopup.todo}</span> {t("?")}</h2>
                           </div>
                           <div className="flex justify-center mt-[10px]  md:mt-[30px]">
-                            <button className="flex justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={() => deleteChecklist(showEditPopup.todo, showEditPopup.checklistname)} >Yes</button>
-                            <button className="flex justify-center items-center bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600" onClick={() => closeEditPopup(false)}>Cancel</button>
+                            <button className="flex justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={() => deleteChecklist(showEditPopup.todo, showEditPopup.checklistname)} >{t('Yes')}</button>
+                            <button className="flex justify-center items-center bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600" onClick={() => closeEditPopup(false)}>{t('Cancel')}</button>
                           </div>
                         </div>
                       </div>
@@ -355,17 +355,17 @@ function App() {
                       <div className="text-center fixed top-0 left-0 w-full h-full flex items-center justify-center ">
                         <div className="bg-white p-4 rounded-lg border-black shadow-lg md:w-[400px] ">
                           {/* เนื้อหาของ popup */}
-                          <h2 className='text-[30px] text-[#5A985E]  font-bold'>Add Examine</h2>
+                          <h2 className='text-[30px] text-[#5A985E]  font-bold'>{t("Add checklist")}</h2>
                             <div className="mt-1">
                               {/* <label htmlFor="name" className="md:text-[18px] font-mitr block text-sm font-medium text-gray-700">ชื่อ-นามสกุล</label> */}
-                              <input className='mt-1 p-2 w-full border border-gray-300 rounded-md'value={input} onChange={(e) => setInput(e.target.value)} placeholder="add checklist"/>
+                              <input className='mt-1 p-2 w-full border border-gray-300 rounded-md'value={input} onChange={(e) => setInput(e.target.value)} placeholder={t("add checklist")}/>
                             </div>
                             {/* <div>
                             <input className='mt-1 p-2 w-full border border-gray-300 rounded-md'value={lastname} onChange={(e) => setlastname(e.target.value)}placeholder="Lastname"/>
                             </div> */}
                           <div className="flex justify-center mt-[10px]">
-                            <button className="flex justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={addTodo}>Add</button>
-                            <button className="flex justify-center items-center bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600" onClick={() => closePopup(false)}>Cancel</button>
+                            <button className="flex justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={addTodo}>{t('Add')}</button>
+                            <button className="flex justify-center items-center bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600" onClick={() => closePopup(false)}>{t('Cancel')}</button>
                           </div>
                           {message && (
                             <p className='mt-3 text-red-500 text-xs py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-lg md:mt-[30px]'>
@@ -388,7 +388,7 @@ function App() {
                         </div>
                       )} */}
                      
-                        <button onClick={handleSubmit} className= ' text-md md:text-[18px]   border-[#64CE3F] bg-[#64CE3F] px-10 py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>Submit</button>
+                        <button onClick={handleSubmit} className= ' text-md md:text-[18px]   border-[#64CE3F] bg-[#64CE3F] px-10 py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>{t('Submit')}</button>
                         
                     
                   </div>

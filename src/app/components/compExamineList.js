@@ -496,7 +496,7 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
       <div className='mx-auto border w-[300px] md:w-[950px] py-[20px] md:h-[600px] h-[550px] text-black flex flex-col   md:rounded-[30px] rounded-[30px] mt-[106px]  bg-[#fff]'>
       
         <h1 className={` ml-[30px] text-[25px] mt-[3px] mb-[5px] md:text-[30px] md:ml-[50px] `}>
-          {language === 'EN' ? 'Examine List' : 'รายการตรวจสอบ' }
+          {t("Examine List")}
         </h1>
 
         <div className="mt-[5px] border-t border-gray-300"></div>
@@ -558,7 +558,7 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
           </div>
         </div>
 
-        <div className={` ${language === 'EN' ? ' text-[17px] md:text-[20px]' : ' text-[15px] md:text-[17px] '  } flex justify-end w-[250px] md:mt-[15px] mx-auto md:w-[940px]  md:px-10 `}>
+        <div className={` text-[15px] md:text-[17px]  flex justify-end w-[250px] md:mt-[15px] mx-auto md:w-[940px]  md:px-10 `}>
         {isEditing ? (
           <button onClick={() => setIsEditing(false)}  className={`flex mx-auto mt-[20px]   md:mt-[20px] border-[#64CE3F] bg-[#64CE3F] px-10 py-1  rounded-[20px]    text-[#fff] hover:-translate-y-0.5 duration-200 `}>{t('confirm')}</button>
         ) : (
@@ -580,7 +580,7 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
               <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center ">
                 <div className="bg-white  p-4 rounded-lg border shadow-lg md:w-[300px] w-[250px]  ">
                   <div className='flex items-center justify-between'>
-                  <h2 className={` ${language === 'EN' ? 'text-[20px] ' : ' text-[18px]' } text-[#5A985E]  `}>{language === 'EN' ? 'Add List Examine' : 'เพิ่มรายการตรวจสอบ' }</h2>
+                  <h2 className={`text-[18px] text-[#5A985E]  `}>{t("Add list examine")}</h2>
                   <button
                     onClick={openPopupAddnew}
                     className="item-center text-[#5A985E]  text-xl mt-[5px] hover:-translate-y-0.5 duration-200"
@@ -630,9 +630,9 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
                   )}
 
                   <div className="flex justify-center mt-[20px]">
-                    <button className="flex justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={handleCheckboxAdd}>{language === 'EN' ? 'Add' : 'ยืนยัน' }</button>
+                    <button className="flex justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={handleCheckboxAdd}>{t('Add')}</button>
 
-                    <button className="flex justify-center items-center bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600"  onClick={() => { closePopup(false);   resetCheckboxes(); }}>{language === 'EN' ? 'Cancel' : 'ยกเลิก' }</button>
+                    <button className="flex justify-center items-center bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600"  onClick={() => { closePopup(false);   resetCheckboxes(); }}>{t('Cancel')}</button>
                   </div>
 
                 </div>
@@ -642,12 +642,12 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
             {showPopupAddnew && (
               <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center ">
                 <div className="bg-white  p-4 rounded-lg border-black shadow-lg md:w-[300px] ">
-                  <h2 className={` ${language === 'EN' ? 'text-[20px] ' : ' text-[18px]' } text-[#5A985E]  `}>{language === 'EN' ? 'Add List Examine' : 'เพิ่มรายการตรวจสอบ' }</h2>
+                  <h2 className= 'text-[18px]'>{t("Add list examine")}</h2>
                   <div className="mt-4 ">
                     <input className={`text-[14px]  w-[268px] mt-1 p-2  border border-gray-300 rounded-md`}
                       value={examinelist_name}
                       onChange={(e) => setExaminelist_name(e.target.value)}
-                      placeholder={language === 'EN' ? "add list examine" : 'เพิ่มรายการตรวจสอบ' }
+                      placeholder={t("add list examine")}
                     />
                   </div>
                  
@@ -658,9 +658,9 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
                   )}
 
                   <div className="flex justify-center mt-[20px]">
-                    <button className="flex justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={addTodoAddnew}>{language === 'EN' ? 'Add' : 'ยืนยัน' }</button>
+                    <button className="flex justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={addTodoAddnew}>{t('Add')}</button>
 
-                    <button className="flex justify-center items-center bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600" onClick={() => {setShowPopupAddnew(false); setExaminelist_name('')}}>{language === 'EN' ? 'Cancel' : 'ยกเลิก' }</button>
+                    <button className="flex justify-center items-center bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600" onClick={() => {setShowPopupAddnew(false); setExaminelist_name('')}}>{t('Cancel')}</button>
                   </div>
 
                 </div>
@@ -670,7 +670,7 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
             {showEditPopup.isOpen && (
               <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center ">
                 <div className="bg-white p-4 text-center  rounded-lg border-black shadow-lg ">
-                  <h2 className= {` text-[18px] md:text-[20px] text-[#5A985E] mt-[10px] `}>{`${language === 'EN' ? ' Do you want to delete ' : 'คุณต้องการที่จะลบ '  }`} <span style={{ color: '#FF6B6B' }} className='mr-1'>{showEditPopup.todo.name}</span>?</h2>
+                  <h2 className= {` text-[18px] md:text-[20px] text-[#5A985E] mt-[10px] `}>{t("Do you want to delete")} <span style={{ color: '#FF6B6B' }} className='mr-2'>{showEditPopup.todo.name}</span>{t("?")}</h2>
                   
                   {message && (
                     <p className='mt-3 text-red-500 text-xs py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-lg md:mt-[30px]'>
@@ -775,7 +775,6 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
         </div>
         
 
-        <div className={` ${language === 'EN' ? ' text-[17px] md:text-[20px]' : ' text-[15px] md:text-[17px] '  } flex justify-end w-[250px] md:mt-[15px] mx-auto md:w-[940px]  md:px-10 `}>
           <button onClick={handleConfirm}  className={`flex mx-auto mt-[20px]   md:mt-[20px] border-[#64CE3F] bg-[#64CE3F] px-10 py-1  rounded-[20px]    text-[#fff] hover:-translate-y-0.5 duration-200 `}>{t('confirm')}</button>
       
           <div>

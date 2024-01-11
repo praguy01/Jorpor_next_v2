@@ -1,6 +1,7 @@
 import axios from 'axios';
 import db from '../../../lib/db';
 import { NextResponse } from 'next/server';
+import { format } from 'date-fns';
 
 export async function POST(request) {
   const fs = require('fs');
@@ -36,11 +37,12 @@ export async function POST(request) {
         console.log("ITEMMM//////////////////////////",data);
 
         const inspector  = data.inspector;
-
         const inputDate = new Date(data.send_date);
+        const formattedDatenew = format(inputDate, 'dd/MM/yyyy HH:mm');
+        console.log("yyyy-MM-dd HH:mm",formattedDatenew);
 
         // const dateTime = `${day}/${month}/${year} ${hours}:${minutes}`;
-        const dateTime = inputDate.toLocaleString('en-US', { timeZone: 'Asia/Bangkok' , year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
+        // const dateTime = inputDate.toLocaleString('en-US', { timeZone: 'Asia/Bangkok' , year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
 
         // console.log("Formatted Date: ", dateTime);
         // groupedData[inspector].date = dateTime;
@@ -61,24 +63,27 @@ export async function POST(request) {
   
         const getIdQuery = "SELECT select_id FROM `select` WHERE date = ? AND user_id = ?";
         const [idResult] = await db.query(getIdQuery, [formattedDate ,data.inspector]);
-        const idResultmap = idResult.map(row => row.select_id)[0]; // Extract the string from the array
-        // console.log("4444idResult: ", idResultmap);
+        // const idResultmap = idResult.map(row => row.select_id)[0]; // Extract the string from the array
+        // // console.log("4444idResult: ", idResultmap);
   
-        let item_id = [];
+        // let item_id = [];
   
-        // Check if idResultmap is defined before parsing
-        if (idResultmap) {
-          try {
-            item_id = JSON.parse(idResultmap);
-            console.log("Parsed item_id: ", item_id);
-          } catch (error) {
-            console.error("Error parsing JSON:", error);
-            // Handle the error appropriately, e.g., log the error or set a default value
-          }
-        } else {
-          console.warn("idResultmap is undefined or null");
-          // Handle the case where idResultmap is undefined or null
-        }
+        // // Check if idResultmap is defined before parsing
+        // if (idResultmap) {
+        //   try {
+        //     item_id = JSON.parse(idResultmap);
+        //     console.log("Parsed item_id: ", item_id);
+        //   } catch (error) {
+        //     console.error("Error parsing JSON:", error);
+        //     // Handle the error appropriately, e.g., log the error or set a default value
+        //   }
+        // } else {
+        //   console.warn("idResultmap is undefined or null");
+        //   // Handle the case where idResultmap is undefined or null
+        // }
+        const selectIdString = idResult[0].select_id;
+
+        const item_id = JSON.parse(selectIdString);
         
         const nameList = [];
         let flattenedNameList = []
@@ -100,7 +105,7 @@ export async function POST(request) {
         }
 
         const dataitem = {
-          date: dateTime,
+          date: formattedDatenew,
           id: data.inspector,
           name: name,
           zone: flattenedNameList
@@ -258,24 +263,28 @@ export async function POST(request) {
 
         const getIdQuery = "SELECT select_id FROM `select` WHERE date = ? AND user_id = ?";
         const [idResult] = await db.query(getIdQuery, [currentDateA,user_r1]);
-        const idResultmap = idResult.map(row => row.select_id)[0]; // Extract the string from the array
-        // console.log("4444idResult: ", idResultmap);
+        // const idResultmap = idResult.map(row => row.select_id)[0]; // Extract the string from the array
+        // // console.log("4444idResult: ", idResultmap);
 
-        let item_id = [];
+        // let item_id = [];
 
-        // Check if idResultmap is defined before parsing
-        if (idResultmap) {
-          try {
-            item_id = JSON.parse(idResultmap);
-            console.log("Parsed item_id: ", item_id);
-          } catch (error) {
-            console.error("Error parsing JSON:", error);
-            // Handle the error appropriately, e.g., log the error or set a default value
-          }
-        } else {
-          console.warn("idResultmap is undefined or null");
-          // Handle the case where idResultmap is undefined or null
-        }
+        // // Check if idResultmap is defined before parsing
+        // if (idResultmap) {
+        //   try {
+        //     item_id = JSON.parse(idResultmap);
+        //     console.log("Parsed item_id: ", item_id);
+        //   } catch (error) {
+        //     console.error("Error parsing JSON:", error);
+        //     // Handle the error appropriately, e.g., log the error or set a default value
+        //   }
+        // } else {
+        //   console.warn("idResultmap is undefined or null");
+        //   // Handle the case where idResultmap is undefined or null
+        // }
+
+        const selectIdString = idResult[0].select_id;
+
+        const item_id = JSON.parse(selectIdString);
         
         const nameList = [];
         let flattenedNameList = []
@@ -467,9 +476,10 @@ export async function POST(request) {
         const inspector  = data.inspector;
 
         const inputDate = new Date(data.send_date);
-
+        const formattedDatenew = format(inputDate, 'dd/MM/yyyy HH:mm');
+        console.log("yyyy-MM-dd HH:mm",formattedDatenew);
         // const dateTime = `${day}/${month}/${year} ${hours}:${minutes}`;
-        const dateTime = inputDate.toLocaleString('en-US', { timeZone: 'Asia/Bangkok' , year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
+        // const dateTime = inputDate.toLocaleString('en-US', { timeZone: 'Asia/Bangkok' , year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
 
         // console.log("Formatted Date: ", dateTime);
 
@@ -488,24 +498,28 @@ export async function POST(request) {
   
         const getIdQuery = "SELECT select_id FROM `select` WHERE date = ? AND user_id = ?";
         const [idResult] = await db.query(getIdQuery, [formattedDate ,data.inspector]);
-        const idResultmap = idResult.map(row => row.select_id)[0]; // Extract the string from the array
-        // console.log("4444idResult: ", idResultmap);
+        // const idResultmap = idResult.map(row => row.select_id)[0]; // Extract the string from the array
+        // // console.log("4444idResult: ", idResultmap);
   
-        let item_id = [];
+        // let item_id = [];
   
-        // Check if idResultmap is defined before parsing
-        if (idResultmap) {
-          try {
-            item_id = JSON.parse(idResultmap);
-            console.log("Parsed item_id: ", item_id);
-          } catch (error) {
-            console.error("Error parsing JSON:", error);
-            // Handle the error appropriately, e.g., log the error or set a default value
-          }
-        } else {
-          console.warn("idResultmap is undefined or null");
-          // Handle the case where idResultmap is undefined or null
-        }
+        // // Check if idResultmap is defined before parsing
+        // if (idResultmap) {
+        //   try {
+        //     item_id = JSON.parse(idResultmap);
+        //     console.log("Parsed item_id: ", item_id);
+        //   } catch (error) {
+        //     console.error("Error parsing JSON:", error);
+        //     // Handle the error appropriately, e.g., log the error or set a default value
+        //   }
+        // } else {
+        //   console.warn("idResultmap is undefined or null");
+        //   // Handle the case where idResultmap is undefined or null
+        // }
+
+        const selectIdString = idResult[0].select_id;
+
+        const item_id = JSON.parse(selectIdString);
         
         const nameList = [];
         let flattenedNameList = []
@@ -527,7 +541,7 @@ export async function POST(request) {
         }
 
         const dataitem = {
-          date: dateTime,
+          date: formattedDatenew,
           id: data.inspector,
           name: name,
           zone: flattenedNameList
@@ -685,24 +699,27 @@ export async function POST(request) {
 
         const getIdQuery = "SELECT select_id FROM `select` WHERE date = ? AND user_id = ?";
         const [idResult] = await db.query(getIdQuery, [currentDateA,user_r1]);
-        const idResultmap = idResult.map(row => row.select_id)[0]; // Extract the string from the array
-        // console.log("4444idResult: ", idResultmap);
+        // const idResultmap = idResult.map(row => row.select_id)[0]; // Extract the string from the array
+        // // console.log("4444idResult: ", idResultmap);
 
-        let item_id = [];
+        // let item_id = [];
 
-        // Check if idResultmap is defined before parsing
-        if (idResultmap) {
-          try {
-            item_id = JSON.parse(idResultmap);
-            console.log("Parsed item_id: ", item_id);
-          } catch (error) {
-            console.error("Error parsing JSON:", error);
-            // Handle the error appropriately, e.g., log the error or set a default value
-          }
-        } else {
-          console.warn("idResultmap is undefined or null");
-          // Handle the case where idResultmap is undefined or null
-        }
+        // // Check if idResultmap is defined before parsing
+        // if (idResultmap) {
+        //   try {
+        //     item_id = JSON.parse(idResultmap);
+        //     console.log("Parsed item_id: ", item_id);
+        //   } catch (error) {
+        //     console.error("Error parsing JSON:", error);
+        //     // Handle the error appropriately, e.g., log the error or set a default value
+        //   }
+        // } else {
+        //   console.warn("idResultmap is undefined or null");
+        //   // Handle the case where idResultmap is undefined or null
+        // }
+        const selectIdString = idResult[0].select_id;
+
+        const item_id = JSON.parse(selectIdString);
         
         const nameList = [];
         let flattenedNameList = []

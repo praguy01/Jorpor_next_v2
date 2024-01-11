@@ -467,14 +467,14 @@ function App() {
                         onClick={handleCancelClick} // Pass a function reference
                         className=" mt-5 w-[100px] text-sm md:text-lg border-[#5A985E] bg-[#fff] px-4 py-1 md:py-2 rounded-[20px] text-[#5A985E] hover:-translate-y-0.5 duration-200"
                       >
-                        Cancel
+                        {t('Cancel')}
                       </button>
                       <button
                         type="submit"
                         onSubmit={handleSaveClick}
                         className="ml-3 mt-5 w-[100px] text-sm md:text-lg border-[#5A985E] bg-[#fff] px-4 py-1 md:py-2 rounded-[20px] text-[#5A985E] hover:-translate-y-0.5 duration-200"
                       >
-                        Confirm
+                        {t('Confirm')}
                       </button>
                     </div>
                   )}

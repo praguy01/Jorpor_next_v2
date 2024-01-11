@@ -13,6 +13,7 @@ import { initReactI18next } from 'react-i18next';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { BsCheckCircle } from "react-icons/bs";
+import { format } from 'date-fns';
 
 
 function CompResponsedetail() {
@@ -249,18 +250,14 @@ function App() {
 
 
   const formatDateTime = (isoDateTime) => {
-    const originalDate = new Date(isoDateTime);
+
+    const inputDate = new Date(isoDateTime);
+    const formattedDatenew = format(inputDate, 'dd/MM/yyyy HH:mm');
+    console.log("yyyy-MM-dd HH:mm",formattedDatenew);
+
+   
   
-  
-    const day = originalDate.getDate().toString().padStart(2, '0');
-    const month = (originalDate.getMonth() + 1).toString().padStart(2, '0');
-    const year = originalDate.getFullYear();
-    const hour = originalDate.getHours().toString().padStart(2, '0');
-    const minute = originalDate.getMinutes().toString().padStart(2, '0');
-  
-    const formattedDateTime = `${day}/${month}/${year}, ${hour}:${minute}`;
-  
-    return formattedDateTime;
+    return formattedDatenew;
   };
 
   const handleSubmit = async () => {
@@ -454,7 +451,7 @@ function App() {
                   </p>
                 )}
                  <div className='flex items-center md:px-10  md:mt-[20px]' >
-                 <button type= "submit" onClick={handleSubmit} className=' mt-[20px] text-md md:text-[20px] md:ml-[300px] ml-[85px] border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>{t('approve')}</button>
+                 <button type= "submit" onClick={handleSubmit} className=' mt-[20px] text-md md:text-[20px] md:ml-[300px] ml-[85px] border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>{t('Approve')}</button>
                 </div>
                 
 

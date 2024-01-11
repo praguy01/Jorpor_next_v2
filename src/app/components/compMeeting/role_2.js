@@ -37,6 +37,9 @@ function App() {
     }
 
     useEffect(() => {
+
+
+
       const fetchData = async () => {
         try {
           const storedId = localStorage.getItem('id');
@@ -208,7 +211,7 @@ function App() {
               </div>
             
               <div className='left-0 md:ml-[90px] flex items-center '>
-                  <button onClick={openMeeting} className=  {` text-[15px] md:text-[23px] mt-[15px] text-[#fff] flex   border-[#5A985E] bg-[#5A985E] md:px-5 md:py-1 px-3 py-1 rounded-[50px] `} ><BsFillPeopleFill className=  {`${language === 'EN' ? ' mr-3 mt-[4px]' : ' mr-3 mt-[6px]'  }`}  /> {t('Join')}</button>
+                  <button onClick={openMeeting} className=  {` text-[15px] md:text-[23px] mt-[15px] text-[#fff] flex   border-[#5A985E] bg-[#5A985E] md:px-5 md:py-1 px-3 py-1 rounded-[50px] `} ><BsFillPeopleFill className= ' mr-3 mt-[6px]'  /> {t('Join')}</button>
               </div>
 
               <div>

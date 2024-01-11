@@ -603,7 +603,7 @@ export default function CompReportResultsForm({ onSubmit }) {
                     <div  >
                     <div  className=  {` font-bold text-[20px] md:text-[25px] ml-[20px] md:ml-[50px] w-[310px]  md:w-[600px] `}>
 
-                    <h1 className=' text-[#5A985E]  ml-[10px] md:ml-[0] md:w-[300px]  text-left  '>  {`${language === 'EN' ? 'Verified information ' : ' ข้อมูลตรวจสอบวันนี้ '  }`}</h1>
+                    <h1 className=' text-[#5A985E]  ml-[10px] md:ml-[0] md:w-[300px]  text-left  '>{t("Verified information")}</h1>
                     <div className="mt-[5px] md:mt-[10px] md:ml-[-30px] border-t md:border w-full md:w-[750px] border-gray-300"></div>
 
 
@@ -619,7 +619,7 @@ export default function CompReportResultsForm({ onSubmit }) {
                     <p>{t('Date')}</p>
                     <p className='ml-[10px] '>:</p>
                     {nameExamine ? (
-                      <p className='ml-[10px]'>{nameExamine.date} น.</p>
+                      <p className='ml-[10px]'>{nameExamine.date} {t("N")}</p>
                     ) : null}
                     </div>
 
@@ -642,7 +642,7 @@ export default function CompReportResultsForm({ onSubmit }) {
                                 {/* {console.log("NAME RESULT: ", index,item.examine)} */}
 
                                 <div className="mt-[10px] md:mt-[10px] md:ml-[-30px] border-t md:border w-full md:w-[750px] border-gray-300"></div>
-                                <h1 className="text-left text-green-600 mt-[10px]">Examine: {item.name}</h1>
+                                <h1 className="text-left text-green-600 mt-[10px]">{t('Examine')} : {item.name}</h1>
                                 <div className="mt-[5px] md:mt-[10px] md:ml-[-30px] border-t md:border w-full md:w-[750px] border-gray-300"></div>
 
                                 {Object.keys(item.examine).map((examKey, examIndex) => (
@@ -681,15 +681,15 @@ export default function CompReportResultsForm({ onSubmit }) {
                                                 <td className="py-4 border whitespace-nowrap">
                                                   <div>{entryIndex + 1}</div>
                                                 </td>
-                                                <td className="py-4 border whitespace-nowrap">
+                                                <td className="py-4 border  flex flex-wrap">
                                                   <div className="text-left ml-[10px]">{entry.examine_name}</div>
                                                 </td>
                                                 <td className={`py-4 border whitespace-nowrap ${entry.status === 'pass' ? 'text-green-600' : 'text-red-600'}`}>
                                                   <div>{entry.status}</div>
                                                 </td>
-                                                <td className="py-4 border">
-                                                  <div className={`break-words ${entry.details === '-' ? 'text-center' : 'text-left ml-[10px]'}`}>
-                                                    <span className={`break-words ${entry.details === '-' ? '' : 'ml-[10px]'}`}>{entry.details}</span>
+                                                <td className="py-4   border">
+                                                  <div className={`break-words ${entry.details === '-' ? 'text-center' : 'text-left ml-[10px] flex flex-wrap '}`}>
+                                                    <span className={`break-words  ${entry.details === '-' ? '' : 'ml-[10px] flex flex-wrap '}`}>{entry.details}</span>
                                                   </div>
                                                 </td>
                                               </tr>
@@ -736,17 +736,17 @@ export default function CompReportResultsForm({ onSubmit }) {
                                                   <td className="py-4 border whitespace-nowrap">
                                                     <div>{entryIndex + 1}</div>
                                                   </td>
-                                                  <td className="py-4 border whitespace-nowrap">
+                                                  <td className="py-4  border  flex flex-wrap">
                                                     <div className="text-left ml-[10px]">{entry.examinename_name}</div>
                                                   </td>
                                                   <td className={`py-4 border whitespace-nowrap ${entry.status === 'pass' ? 'text-green-600' : 'text-red-600'}`}>
                                                     <div>{entry.status}</div>
                                                   </td>
-                                                  <td className="py-4 border">
-                                                    <div className={`break-words ${entry.details === '-' ? 'text-center' : 'text-left ml-[10px]'}`}>
-                                                      <span className={`break-words ${entry.details === '-' ? '' : 'ml-[10px]'}`}>{entry.details}</span>
-                                                    </div>
-                                                  </td>
+                                                  <td className="py-4   border">
+                                                  <div className={`break-words ${entry.details === '-' ? 'text-center' : 'text-left ml-[10px] flex flex-wrap '}`}>
+                                                    <span className={`break-words  ${entry.details === '-' ? '' : 'ml-[10px] flex flex-wrap '}`}>{entry.details}</span>
+                                                  </div>
+                                                </td>
                                                 </tr>
                                               // ))
                                               ))}
@@ -831,7 +831,7 @@ export default function CompReportResultsForm({ onSubmit }) {
               <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-[9999]">
                 <div className="bg-white p-4 rounded-lg border-black shadow-lg md:w-[400px] w-[300px] ">
                 <BsFillExclamationTriangleFill className=' text-[50px] text-[#5A985E] mx-auto mb-[10px]'/>
-                <p className='md:text-[18px] text-[#5A985E] text-[16px]  '>{`${language === 'EN' ? 'Can be sent only one time. Are you sure you have checked? ' : 'สามารถส่งได้เพียงครั้้งเดียวเท่านั้น คุณแน่ใจว่าตรวจสอบเรียบร้อยเเล้ว ? '  }`}</p>
+                <p className='md:text-[18px] text-[#5A985E] text-[16px]  '>{t("Can be sent only one time. Are you sure you have checked?")}</p>
                   <div className=  {` text-[16px]  flex justify-center mt-[20px]`}>
                     <button className="flex justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={() => {handleSubmit() ,setShowPopup(false)}}>{t('Yes')}</button> 
 

@@ -20,10 +20,11 @@ export async function POST(request) {
       
         const getIdQuery = "SELECT select_id FROM `select` WHERE date = ? AND user_id = ?";
         const [idResult] = await db.query(getIdQuery, [res.dateValue , res.user_IdValue]);
-        const idResultmap = idResult.map(row => row.select_id);
-        console.log("4444idResult: ",idResultmap)
-        const item_id = JSON.parse(idResultmap)
+        // const idResultmap = idResult.map(row => row.select_id);
+        // console.log("4444idResult: ",idResultmap)
+        const selectIdString = idResult[0].select_id;
 
+        const item_id = JSON.parse(selectIdString);
 
         const nameList = [];
       
