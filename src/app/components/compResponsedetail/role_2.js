@@ -130,7 +130,7 @@ function App() {
               location: item.location,
               work_owner: item.work_owner,
               position: item.status,
-              date: item.date,
+              date: item.formattedDate,
               file: item.file,
               detail: item.detail,
               Verification_status: item.Verification_status
@@ -364,7 +364,7 @@ function App() {
                       <div className='flex px-3  mt-[5px]'>
                         <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[130px] md:ml-[-11px]'>{t('Date')}</p>
                         <p>:</p>
-                        <p className='md:ml-[15px] ml-[10px] whitespace-nowrap overflow-ellipsis overflow-hidden md:w-[450px]  text-left w-[120px]'>{todo.formattedDate} {t('N')}</p>
+                        <p className='md:ml-[15px] ml-[10px] whitespace-nowrap overflow-ellipsis overflow-hidden md:w-[450px]  text-left w-[120px]'>{todo.date} {t('N')}</p>
                     </div>
                       
                     </div>
