@@ -108,12 +108,16 @@ function App() {
                 let allValuesAreEmptyArrays = true;
 
                 Object.entries(percentage.data).forEach(([key, value]) => {
+                  console.log("/////////////////////-*-*-*-")
+
                   if (Array.isArray(value) && value.length === 0) {
                     console.log(`Length of key ${key}: ${value.length}`);
                     setTodoZone(percentage.data)
                     setTodoAll(data.percent)
 
                   } else {
+                    setTodoZone(percentage.data)
+                    setTodoAll(data.percent)
                     allValuesAreEmptyArrays = false;
                     console.log("datatoday222: ",percentage.data)
 

@@ -841,7 +841,7 @@ export default function CompReportResultsForm({ onSubmit }) {
                 </div>
               )}
 
-              {/* {sent ? ( */}
+              {sent ? (
                 <div className=  {` w-[300px] md:w-[750px]  text-[15px] md:text-[17px] md:ml-[-25px]  flex items-center mx-auto md:px-10  md:mt-[20px]`} >
                   {/* <button type= "submit" href="/NotifyTwo" className=' mt-[20px] text-md md:text-[20px] md:ml-[480px] border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>Submit</button> */}
                   <button onClick={generatePDF} className=' mt-[20px]  md:mr-[450px] mr-[80px] bg-[#808080]  text-[12px] px-5  py-1  text-[#fff] hover:-translate-y-0.5 duration-200  flex items-center '><IoMdDownload /><span className='ml-[5px]'>Dowload</span></button>
@@ -852,13 +852,13 @@ export default function CompReportResultsForm({ onSubmit }) {
                   {/* <button type= "submit" href="/NotifyTwo" className=' mt-[20px] text-md md:text-[20px] md:ml-[480px] border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>Submit</button> */}
                     
                 </div>
-              {/* ) : (
+               ) : (
                 <div >
                 <p className='md:text-[18px] text-[12px] mt-[10px]'>{`${language === 'EN' ? "Today's information has been sent. " : 'ข้อมูลของวันนี้้ถูกส่งไปแล้ว'  }`}</p>
                 <button onClick={generatePDF} className=' mt-[10px] text-[15px]  border-[#64CE3F] bg-[#64CE3F] px-5  py-1  text-[#fff] hover:-translate-y-0.5 duration-200  mx-auto flex items-center '><IoMdDownload /><span className='ml-[5px]'>Dowload</span></button>
                 </div>
 
-              )} */}
+              )} 
         
               </div>
 

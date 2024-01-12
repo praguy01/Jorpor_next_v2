@@ -290,13 +290,14 @@ export async function POST(request) {
       
           // const nameExamineListResultmap = nameExamineListResult.map(row => row.name);
           nameList.push(nameExamineListResult);
-          // console.log("nameList: ", nameList);
+          console.log("nameExamineListResult: ", nameExamineListResult);
           flattenedNameList = nameList.flatMap(zone => zone.map(item => item));
           // console.log("Flattened nameList: ", flattenedNameList);
           // const uniqueFlattenedNameList = [...new Set(flattenedNameList)];
           // console.log("Unique flattened nameList: ", uniqueFlattenedNameList);
           
         }
+          console.log("nameList: ",nameList)
 
         if (!dataPercent[user_r1]) {
           dataPercent[user_r1] = [];
@@ -358,12 +359,18 @@ export async function POST(request) {
                 
                 const passCount = getChecklist_R2QueryResult.filter(item => item.status === 'pass').length;
 
-                const percentage = (passCount / getexaminenameQueryResultMap.length) * 100;
 
                 // console.log("getexaminenameQueryResultMap.length:", examineInfo.id);
                 // console.log("Percentage:", Math.floor(percentage), examineInfo.id);
-                examineInfo.percentage = Math.floor(percentage);
-                totalPercentage += percentage;
+                if (getexaminenameQueryResultMap.length > 0) {
+                  const percentage = (passCount / getexaminenameQueryResultMap.length) * 100;
+                  examineInfo.percentage = Math.floor(percentage);
+                  totalPercentage += percentage;
+                } else {
+                  examineInfo.percentage = 0;
+                  totalPercentage += 0;
+                }
+               
             } else if ( examineInfo.useEmployee === 'true' ){
               let totalPassCount = 0;
 
@@ -375,45 +382,68 @@ export async function POST(request) {
                 // console.log("getChecklist_R2QueryResult: ", examineInfo.id, getexaminenameQueryResult);
 
                 const getexaminenameQueryResultMap = getexaminenameQueryResult.map(item => item.id);
-                // console.log("getChecklist_R2QueryResultMap: ", examineInfo, getexaminenameQueryResultMap);
+                console.log("getChecklist_R2QueryResultMap: ", examineInfo, getexaminenameQueryResultMap);
                 // examine_idArray.push({ examineInfo, id: getexaminenameQueryResultMap });
                 examineInfo.examinename = getexaminenameQueryResultMap
                 const getemployeeQuery = "SELECT 	id FROM employee WHERE examinelist_id = ? ";
                 const [getemployeeQueryResult] = await db.query(getemployeeQuery, [idValue]);
                 const getemployeeQueryResultMap = getemployeeQueryResult.map(item => item.id);
-                // console.log("8888888888: ", getemployeeQueryResultMap, idValue );
+                console.log("8888888888: ", getemployeeQueryResultMap, idValue );
 
                 for (const employee of getemployeeQueryResultMap){
                   // console.log("99999: ",employee,examineInfo.id)
                 const getChecklist_R2Query = "SELECT  examinename_id ,	status FROM checklist_employee_row_2 WHERE  examine_id = ? AND employee_name_id = ? AND date = ?";
                 const [getChecklist_R2QueryResult] = await db.query(getChecklist_R2Query, [examineInfo.id , employee ,  currentDateA]);
-                // console.log("getChecklist_R2QueryResult: ", getChecklist_R2QueryResult);
+                console.log("getChecklist_R2QueryResult888: ", getChecklist_R2QueryResult,getexaminenameQueryResult,employee);
+                // const examinenameIds = getChecklist_R2QueryResult.map(item => item.examinename_id);
 
-                const passCount = getChecklist_R2QueryResult.filter(item => item.status === 'pass').length;
-                // console.log("Pass count:", passCount, examineInfo.id);
-                totalPassCount += passCount;
+                // const isAnyIdInQueryResult = examinenameIds.some(id =>
+                //   getexaminenameQueryResult.some(item => item.id === id)
+                // );
+                
+                // console.log("**-*---***---***-*-",isAnyIdInQueryResult,examinenameIds);
+                // let passCount = 0;
+                // if (getexaminenameQueryResult.some(item => item.id === getChecklist_R2QueryResult.examinename_id)) {
+                  const passCount = getChecklist_R2QueryResult.filter(item => item.status === 'pass').length;
+                  // console.log("Pass count:", passCount, examineInfo.id);
+                  totalPassCount += passCount;
+                  // มีค่า
+              //     console.log("มีค่าใน getexaminenameQueryResult: ",getChecklist_R2QueryResult.examinename_id);
+              // } else {
+              //     // ไม่มีค่า
+              //     console.log("ไม่มีค่าใน getexaminenameQueryResult: ",getChecklist_R2QueryResult.examinename_id);
+              // }
 
-                const percentage = Math.floor((passCount / getexaminenameQueryResultMap.length) * 100);
-                examineInfo[employee] = {employee , passCount , percentage }
 
-                // console.log("totalPassCount:",totalPassCount, examineInfo.id);
+               
+                // if (getexaminenameQueryResultMap.length > 0) {
 
-                // console.log("getexaminenameQueryResultMap.length:", getexaminenameQueryResultMap.length);
+                  const percentage = Math.floor((passCount / getChecklist_R2QueryResult.length) * 100);
+                  examineInfo[employee] = {employee , passCount , percentage }
+                // } else {
+                //   const percentage = 0;
+                //   examineInfo[employee] = {employee , passCount , percentage }
+                // }
+
+                console.log("totalPassCount:",totalPassCount,'employee: ',employee,'passCount: ',passCount, 'getChecklist_R2QueryResult: ' ,getChecklist_R2QueryResult ,'getexaminenameQueryResultMap: ',getexaminenameQueryResultMap,'getexaminenameQueryResultMap.length: ',getexaminenameQueryResultMap.length,'percentage; ',percentage);
+
+                console.log("getexaminenameQueryResultMap.length:", getexaminenameQueryResultMap.length);
                 // console.log("Percentage:", Math.floor(percentage), examineInfo.id);
                 // examineInfo.percentage = Math.floor(percentage);
           }
           examineInfo.totalPassCount = totalPassCount;
 
           const percentageAll = Math.floor((totalPassCount / (getexaminenameQueryResultMap.length * getemployeeQueryResultMap.length)) * 100);
-          // console.log("percentageAll:", totalPassCount,percentageAll );
           examineInfo.percentageAll = percentageAll;
           totalPercentage += percentageAll;
+          console.log("percentageAll,: ",percentageAll,totalPassCount,getexaminenameQueryResultMap.length, getemployeeQueryResultMap.length)
 
         }
+          console.log("percentageAllidObject[idValue].examine_id.length:",  totalPercentage, idObject[idValue].examine_id.length );
 
         }
         const percentageZone = Math.floor((totalPercentage / (idObject[idValue].examine_id.length * 100)) * 100);
-        // console.log("percentageZone:", percentageZone , idValue);
+        console.log("percentageZone:", percentageZone );
         idObject.percentageZone = percentageZone;
         
         // console.log("8888888888888888888:", totalPercentage, idValue);

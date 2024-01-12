@@ -123,7 +123,10 @@ export async function POST(request) {
               const [nameExamineListResult] = await db.query(getNameExamineListQuery, [item, res.user_IdValue]);
           
               const nameExamineListResultmap = nameExamineListResult.map(row => row.name);
-              nameList.push(nameExamineListResultmap);
+              
+              if (nameExamineListResultmap.length > 0) {
+                nameList.push(nameExamineListResultmap);
+              }
               console.log("nameList: ", nameList,nameExamineListResult);
             }
           
@@ -364,7 +367,9 @@ export async function POST(request) {
                 const [nameExamineListResult] = await db.query(getNameExamineListQuery, [item, res.user_IdValue]);
             
                 const nameExamineListResultmap = nameExamineListResult.map(row => row.name);
-                nameList.push(nameExamineListResultmap);
+                if (nameExamineListResultmap.length > 0) {
+                  nameList.push(nameExamineListResultmap);
+                }                
                 console.log("nameList: ", nameList,nameExamineListResult);
               }
             
