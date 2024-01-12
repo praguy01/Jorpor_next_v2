@@ -77,7 +77,7 @@ function App() {
     const moment = require('moment-timezone');
 
     const formatDateTime = (isoDateTime) => {
-      const formattedDate = moment.utc(isoDateTime).tz('Asia/Bangkok').format('DD/MM/YYYY HH:mm');
+      const formattedDate = moment(isoDateTime).tz('Asia/Bangkok').format('DD/MM/YYYY HH:mm');
       // const formattedDate = inputDate.format('DD/MM/YYYY HH:mm');
       console.log("Formatted Date:", formattedDate);
     
