@@ -366,6 +366,7 @@ function App() {
               
             <div className={`mx-auto mb-[20px] ${!dataToday && ('justify-center')} flex items-center w-[350px] h-[120px] md:w-[600px] md:h-[160px] overflow-auto`}>
             <div className='justify-center  flex flex-row'>
+              {console.log("todoZone: ",todoZone)}
             {dataToday ? (
               todoZone && Object.values(todoZone).flat().map((item, index) => (
                 <div

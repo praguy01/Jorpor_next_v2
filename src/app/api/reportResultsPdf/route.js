@@ -147,6 +147,7 @@ export async function POST(request) {
             
     
             const nameList = [];
+            console.log("item_id: ", item_id);
 
             for (const item of item_id) {
           
@@ -154,9 +155,12 @@ export async function POST(request) {
               const [nameExamineListResult] = await db.query(getNameExamineListQuery, [item, res.id]);
           
               const nameExamineListResultmap = nameExamineListResult.map(row => row.name);
-              nameList.push(nameExamineListResultmap);
-              console.log("nameList: ", nameList,nameExamineListResult);
+              if (nameExamineListResultmap.length > 0) {
+                nameList.push(nameExamineListResultmap);
+              }
+              console.log("nameExamineListResult: ",nameExamineListResult);
             }
+            console.log("nameList: ", nameList);
 
                   
             for (const name of nameList) {
@@ -288,7 +292,7 @@ export async function POST(request) {
                     // const seenEmployeeNameIds = new Set();
 
                 for (const item of idList) {
-                  // console.log("ITEMSSS: ", item.employee);
+                  console.log("ITEMSSS: ", item.employee);
 
                   for (const emp of item.employee) {
                     const getExaminelistNameQuery = `
