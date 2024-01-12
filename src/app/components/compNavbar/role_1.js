@@ -17,7 +17,7 @@ import { IoTime } from "react-icons/io5";
 import { BsCalendar2DateFill } from "react-icons/bs";
 import { FaLocationDot } from "react-icons/fa6"; 
 
-const socket = io('https://platform-jorpor.vercel.app', { transports: ['websocket'] });
+// const socket = io('https://platform-jorpor.vercel.app', { transports: ['websocket'] });
 
 
 function CompNavbar() {
@@ -29,23 +29,17 @@ function CompNavbar() {
   const [shouldCallEditLanguage, setshouldCallEditLanguage] = useState(false);
   const [showPopup, setShowPopup] = useState(false); 
   const [notify, setNotify] = useState(false); 
-
-
   useEffect(() => {
-    socket.connect();
-    socket.on('notification', (data) => {
-      console.log('Received notification:', data);
-      setNotification(data.message);
-      setNotify(true)
-      // ทำการตรวจสอบว่าเป็นการแจ้งเตือนฉุกเฉินหรือไม่
-      if (data.isEmergency) {
-        // ทำอะไรก็ตามที่ต้องการเมื่อมีการ POST ที่ https://platform-jorpor.vercel.app/api/emergency_notify
-        console.log('Emergency notification received!');
-        // ทำสิ่งที่คุณต้องการทำเมื่อมีการแจ้งเตือนฉุกเฉิน
-      }
-    });
-    
+    // เชื่อมต่อกับ WebSocket server ที่ทำงานบน localhost:3000
+    const socket = io('https://platform-jorpor.vercel.app/');
 
+    // ตัวอย่าง: รับข้อความที่ถูกส่งมาจาก server
+    socket.on('message', (data) => {
+      console.log('Received message from server:', data);
+      setMessageFromServer(data); // นำข้อมูลมาอัปเดตใน state
+    });
+
+    // ทำความสะอาดเมื่อ Component unmounts
     return () => {
       socket.disconnect();
     };
