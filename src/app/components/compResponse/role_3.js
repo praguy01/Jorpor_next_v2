@@ -74,26 +74,16 @@ function App() {
 
 
 
-    const formatDateTime = (isoDateTime) => {
+    const moment = require('moment-timezone');
 
-      const inputDate = new Date(isoDateTime);
-      const options = { 
-        timeZone: 'Asia/Bangkok',
-        hour12: false,
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit'
-      };
-      
-      const formattedDate = inputDate.toLocaleString('en-US', options);
+    const formatDateTime = (isoDateTime) => {
+      const inputDate = moment(isoDateTime).tz('Asia/Bangkok');
+      const formattedDate = inputDate.format('DD/MM/YYYY HH:mm');
       console.log("Formatted Date:", formattedDate);
-      
-     
     
       return formattedDate;
     };
+    
     
     
   return (
