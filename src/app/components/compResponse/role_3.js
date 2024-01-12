@@ -22,7 +22,7 @@ function  CompResponse() {
 }
 
 function App() {
-  const { language, toggleLanguage } = useLanguage();
+  // const { language, toggleLanguage } = useLanguage();
   const { t } = useTranslation();
     const [toggle, setToggle] = useState(false);
     const [reloadData, setReloadData] = useState(false); // เพิ่ม state นี้
@@ -77,12 +77,22 @@ function App() {
     const formatDateTime = (isoDateTime) => {
 
       const inputDate = new Date(isoDateTime);
-      const formattedDatenew = format(inputDate, 'dd/MM/yyyy HH:mm');
-      console.log("yyyy-MM-dd HH:mm",formattedDatenew);
-
+      const options = { 
+        timeZone: 'Asia/Bangkok',
+        hour12: false,
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
+      };
+      
+      const formattedDate = inputDate.toLocaleString('en-US', options);
+      console.log("Formatted Date:", formattedDate);
+      
      
     
-      return formattedDatenew;
+      return formattedDate;
     };
     
     
@@ -102,7 +112,7 @@ function App() {
                 
                 <h1 className='text-[22px] md:text-[25px]  ml-[30px]'>{t('Response')}</h1>
                                     
-                <div className="mt-[5px] md:mt-[10px]  border w-full md:w-[750px] border-gray-300"></div>
+                <div className="mt-[5px] md:mt-[10px] mx-auto  border w-full md:w-[750px] border-gray-300"></div>
 
                 <div className='mx-auto w-[280px] md:w-[750px]  py-[20px] md:h-[600px] h-[500px] text-black flex flex-col  bg-[#D9D9D9] md:rounded-[30px] rounded-[30px] mt-[20px] overflow-auto '>
                 

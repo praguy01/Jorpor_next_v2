@@ -85,16 +85,22 @@ i18n
           "add employee list from file":"add employee list from file",
           "log out":"log out",
           "Employee list":"Employee list",
+          "Add Examine":"Add Examine",
+          "add Examine":"add Examine",
+          "Uploaded images":"Uploaded images",
 
 
         },
       },
       TH: {
         translation: {
+          "Uploaded images":"รูปภาพที่อัพโหลด",
+          "Add checklist":"เพิ่มรายการตรวจสอบ",
+          "add checklist":"เพิ่มรายการตรวจสอบ",
           Checklist:'รายการตรวจสอบ',
           User:'รายชิ่อ',
           "Select checklist":"เลือกรายการตรวจสอบ",
-          Selected:'เลื่อกแล้ว',
+          Selected:'เลือกแล้ว',
           Confirm: 'ยืนยัน',
           "dd/mm/yyyy": "ว/ด/ป",
           "Add Activity": "เพิ่มกิจกรรม",

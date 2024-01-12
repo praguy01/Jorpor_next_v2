@@ -224,7 +224,7 @@ function App() {
         <div className=' bg-[url("/bg1.png")] overflow-auto bg-cover bg-no-repeat absolute z-[-1] top-0 left-0 w-full h-full bg-center   '>
           <div className='md:w-[1000px] mx-auto '>
             <div className=' w-[280px] mx-auto md:w-[963px]'>
-              <div className='left-0 md:ml-[90px] w-[600px]  flex items-center md:mt-[100px] mt-[90px] '>
+              <div className='left-0 md:ml-[90px] md:w-[800px] w-[300px]  flex items-center md:mt-[100px] mt-[90px] '>
                   <h1 className=' text-[#5A985E] text-[25px] md:text-[40px]  mr-[10px] '>{t('Examine')}</h1>
                   <p className='text-black   w-[400px] text-sm md:text-[20px] mt-[2px] '>({checklistname})</p>
               </div>
@@ -236,15 +236,15 @@ function App() {
             </div>
 
             <div className={`mx-auto w-[300px]  font-blod md:w-[800px] border ${isEditing ? 'h-[500px]' : 'h-[560px]'} mb-[50px] text-black flex flex-col bg-[#FFF] ${isEditing ? 'rounded-[10px]' : 'rounded-[30px] md:rounded-[50px]'} mt-[10px] `}>
-            <div className='  mx-auto w-[280px]   md:w-[800px] h-[500px] text-black flex flex-col  bg-[#FFF] rounded-[30px] md:rounded-[50px] mt-[10px] overflow-auto'>
+            <div className='  mx-auto w-[250px]   md:w-[750px] h-[500px] text-black flex flex-col  bg-[#FFF] rounded-[30px] md:rounded-[50px] mt-[10px] overflow-auto'>
 
             {todoList.map((todo, index) => (
               <div key={index}>
                 {!useEmployee ? (
-                  <div className=' text-sm md:text-[20px] mt-[10px] w-[250px] rounded-[10px] md:w-[340px] py-2 md:py-4 bg-[#F5F5F5] mx-auto'>
+                  <div className=' text-sm  md:text-[18px] mt-[10px] w-[250px] rounded-[10px] md:w-[340px] py-2 md:py-4 bg-[#F5F5F5] mx-auto'>
                     <div className='flex px-3'>
                     <div >
-                      <p className='text-[#000] md:text-[17px]   w-[210px] '>{todo} </p>
+                    <p className='text-[#000] md:ml-[10px] md:w-[280px] w-[220px]  break-words whitespace-pre-wrap'>{todo}</p>
                       <div className="mt-[8px] border-t border-gray-300"></div> 
                       <div className='flex items-center mt-[8px]'> 
                       <div className='flex items-center'>

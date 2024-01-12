@@ -335,43 +335,43 @@ function App() {
                 <div className='  text-[12px] md:text-[18px]  rounded-[10px] w-[235px] md:w-[600px] py-2 md:py-4 bg-[#F5F5F5] ml-[5px] md:ml-[40px]'>
                 
                     <div className='flex px-3 '>
-                        <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[130px] md:ml-[-11px]'>Employee</p>
+                        <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[130px] md:ml-[-11px]'>{t('Employee')}</p>
                         <p>:</p>
-                        <p className='md:ml-[15px] ml-[10px] whitespace-nowrap overflow-ellipsis overflow-hidden md:w-[200px] text-left w-[110px]'>{todo.employee}</p>
+                        <p className='md:ml-[15px] ml-[10px] whitespace-nowrap overflow-ellipsis overflow-hidden md:w-[450px]  text-left w-[110px]'>{todo.employee}</p>
                     </div>
                    
                       
                     <div className='flex px-3  mt-[5px]'>
-                      <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[130px] md:ml-[-11px]'>Location</p>
+                      <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[130px] md:ml-[-11px]'>{t('Location')}</p>
                       <p>:</p>    
-                      <p className='md:ml-[15px] ml-[10px] whitespace-nowrap overflow-ellipsis overflow-hidden md:w-[200px] text-left w-[110px]'>{todo.location}</p>
+                      <p className='md:ml-[15px] ml-[10px] whitespace-nowrap overflow-ellipsis overflow-hidden md:w-[450px]  text-left w-[110px]'>{todo.location}</p>
                     </div>
                  
                       <div className='flex px-3  mt-[5px]'>
-                        <p className='text-[#000] text-left  w-[75px]  ml-[-1px] md:w-[130px]  md:ml-[-11px]'>Work Owner </p>
+                        <p className='text-[#000] text-left  w-[75px]  ml-[-1px] md:w-[130px]  md:ml-[-11px]'>{t("Work Owner")} </p>
                         <p>:</p>
-                        <p className='md:ml-[15px] ml-[10px] w-[120px] whitespace-nowrap overflow-ellipsis overflow-hidden md:w-[200px] text-left'>{todo.work_owner}</p>
+                        <p className='md:ml-[15px] ml-[10px] w-[120px] whitespace-nowrap overflow-ellipsis overflow-hidden md:w-[450px]  text-left'>{todo.work_owner}</p>
                     </div>
                  
                       
                       <div className='flex px-3 mt-[5px]'>
-                        <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[130px] md:ml-[-11px]'>Position</p>
+                        <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[130px] md:ml-[-11px]'>{t('Position')}</p>
                         <p>:</p>
-                        <p className='md:ml-[15px] text-left  w-[120px] ml-[10px] whitespace-nowrap overflow-ellipsis overflow-hidden md:w-[200px] '>{todo.position}</p>
+                        <p className='md:ml-[15px] text-left  w-[120px] ml-[10px] whitespace-nowrap overflow-ellipsis overflow-hidden md:w-[450px]  '>{todo.position}</p>
                     </div>
                  
                      
                       <div className='flex px-3  mt-[5px]'>
-                        <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[130px] md:ml-[-11px]'>Date</p>
+                        <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[130px] md:ml-[-11px]'>{t('Date')}</p>
                         <p>:</p>
-                        <p className='md:ml-[15px] ml-[10px] whitespace-nowrap overflow-ellipsis overflow-hidden md:w-[200px] text-left w-[120px]'>{formatDateTime(todo.date)} น.</p>
+                        <p className='md:ml-[15px] ml-[10px] whitespace-nowrap overflow-ellipsis overflow-hidden md:w-[450px]  text-left w-[120px]'>{formatDateTime(todo.date)} {t('N')}</p>
                     </div>
                       
                     </div>
                 </div>
 
                 <div className='mx-auto'>
-                <p className="text-[#808080] text-[13px] md:text-[16px] md:mt-[20px] md:ml-[-600px] ml-[-150px] mt-[10px]">รูปภาพที่อัพโหลด</p>
+                <p className="text-[#808080] text-[13px] md:text-[16px] md:mt-[20px] md:ml-[-600px] ml-[-150px] mt-[10px]">{t("Uploaded images")}</p>
 
                 {/* <h1 className=" whitespace-nowrap overflow-hidden overflow-ellipsis ml-[25px] text-left w-[245px] md:w-[705px] py-1 px-2 border mt-[5px] md:mt-[10px] md:ml-[35px] border-gray-300 p-4 rounded-lg cursor-pointer "
                   onClick={() => openFileInNewTab()}>{detectAndDisplayFileType(todo.file)}</h1> */}
@@ -439,7 +439,7 @@ function App() {
 
                 
                   <div>
-                    <p className=' text-[#808080] text-[13px] md:text-[16px] ml-[-170px] md:ml-[-640px] mt-[20px]  md:mt-[16px]'>รายละเอียด</p>
+                    <p className=' text-[#808080] text-[13px] md:text-[16px] ml-[-170px] md:ml-[-640px] mt-[20px]  md:mt-[16px]'>{t('details')}</p>
                     <textarea type="text" name="detail" placeholder={todo.detail} className='rounded-[10px] mt-[5px] pl-[15px] text-[13px] w-[250px] md:ml-[-25px] h-[100px] md:text-[16px] md:w-[705px] md:h-[80px] bg-[#fff] border border-gray-300  p-4 ' readOnly/>
                     {/* <textarea value={formData.detail} onChange={handleInputChange} className='border border-gray-300 rounded-md bg-[#F5F5F5] w-[250px] h-[100px] text-black text-sm pl-2 pt-2' /> */}
                 </div>

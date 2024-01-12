@@ -519,7 +519,7 @@ function App() {
         <div className=' bg-[url("/bg1.png")] overflow-auto bg-cover bg-no-repeat absolute z-[-1] top-0 left-0 w-full h-full bg-center   '>
           <div className='md:w-[1000px] mx-auto '>
             <div className=' w-[280px] mx-auto md:w-[963px]'>
-              <div className=  {` text-[21px] md:text-[35px] left-0 md:ml-[90px] w-[300px] flex items-center md:mt-[100px] mt-[90px] `}>
+              <div className=  {` text-[21px] md:text-[35px] md:w-[800px] w-[300px] left-0 md:ml-[90px]  flex items-center md:mt-[100px] mt-[90px] `}>
                   <h1 className=' text-[#5A985E]   mr-[10px] '>{t('Examine')}</h1>
                   <p className='text-black text-sm md:text-[20px]  '>({checklistname})</p>
               </div>
@@ -548,16 +548,16 @@ function App() {
               )}
             </div>
 
-            <div className={`mx-auto w-[300px]  font-blod md:w-[800px] h-[480px] mb-[50px] text-black flex flex-col md:rounded-[50px] bg-[#FFF] ${isEditing ? 'rounded-[30px]' : 'rounded-[30px] md:rounded-[50px]'} mt-[10px]`}>
-            <div className='mx-auto w-[280px]  md:ml-[10px] md:w-[400px] h-[900px] text-black flex flex-col bg-[#FFF] rounded-[30px] md:rounded-[50px] mt-[30px] overflow-auto'>
+            <div className={`mx-auto w-[300px]   font-blod md:w-[800px] h-[480px] mb-[50px] text-black flex flex-col md:rounded-[50px] bg-[#FFF] ${isEditing ? 'rounded-[30px]' : 'rounded-[30px] md:rounded-[50px]'} mt-[10px]`}>
+            <div className='mx-auto md:w-[750px] w-[250px] h-[900px] text-black flex flex-col bg-[#FFF]  rounded-[30px] md:rounded-[50px] mt-[30px] overflow-auto'>
             
             {todoList.map((todo, index) => (
               <div key={index}>
                 {useEmployee === "false" ? (
-                  <div className='  text-sm md:ml-[25px] md:text-[18px] mt-[10px] w-[250px] rounded-[10px] md:w-[340px] py-2 md:py-4 bg-[#F5F5F5] mx-auto'>
+                  <div className='  text-sm  md:text-[18px] mt-[10px] w-[250px] rounded-[10px] md:w-[340px] py-2 md:py-4 border bg-[#F5F5F5] mx-auto'>
                     <div className='flex px-3'>
                       <div >
-                      <p className='text-[#000] md:ml-[15px] w-[210px]  '>{todo} </p>
+                      <p className='text-[#000] md:ml-[10px] md:w-[280px] w-[220px]  break-words whitespace-pre-wrap'>{todo}</p>
                       <div className="mt-[8px] md:w-[310px]  border-t border-gray-300"></div> 
                       <div className='flex items-center mt-[8px] '> 
                       <div className=  {` flex items-center `}>

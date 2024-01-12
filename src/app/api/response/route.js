@@ -22,13 +22,6 @@ export async function POST(request) {
     if (res.responseDetail) {
       try {
 
-        // const getfileQuery = 'SELECT file FROM notify WHERE title = ?';
-        // const [fileResult] = await db.query(getfileQuery,[res.responseValue]);
-      
-        // console.log("file: ",fileResult[0].file)
-
-
-
         const getQuery = 'SELECT * FROM notify WHERE id = ?';
         const [responseResult] = await db.query(getQuery ,[res.idValue]);
 

@@ -21,7 +21,7 @@ function  CompResponse() {
 }
 
 function App() {
-  const { language, toggleLanguage } = useLanguage();
+  // const { language, toggleLanguage } = useLanguage();
   const { t } = useTranslation();
     const [toggle, setToggle] = useState(false);
     const [reloadData, setReloadData] = useState(false); // เพิ่ม state นี้
@@ -102,7 +102,7 @@ function App() {
                 
                     <h1 className='text-[22px] md:text-[25px]   ml-[30px]'>{t('Response')}</h1>
                                     
-                <div className="mt-[5px] md:mt-[10px]  border w-full md:w-[750px] border-gray-300"></div>
+                <div className="mt-[5px] md:mt-[10px] mx-auto border w-full md:w-[750px] border-gray-300"></div>
 
                 <div className='mx-auto w-[280px] md:w-[750px]  py-[20px] md:h-[600px] h-[500px] text-black flex flex-col  bg-[#D9D9D9] md:rounded-[30px] rounded-[30px] mt-[20px] overflow-auto '>
                 
@@ -112,7 +112,7 @@ function App() {
                     {console.log("TODOLIST: ",todoList)}
                     <div className='flex justify-center  h-[40px]  md:ml-[20px] mt-[5px]'>
                       <p className='text-[#000]  ml-[5px]  text-[14px] text-left md:text-[18px] w-[250px] md:w-[700px] break-words whitespace-pre-wrap'>
-                        {todo.title}  <span className='text-gray-500 text-[12px] md:text-[15px]'>{formatDateTime(todo.date) } น.</span>
+                        {todo.title}  <span className='text-gray-500 text-[12px] md:text-[15px]'>{formatDateTime(todo.date) } {t('N')}</span>
                       </p>
                     </div>
                     <div className=" border-t mt-[5px] md:mt-0 border-gray-300"></div>

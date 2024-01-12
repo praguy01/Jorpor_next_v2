@@ -29,21 +29,21 @@ function CompNavbar() {
   const [shouldCallEditLanguage, setshouldCallEditLanguage] = useState(false);
   const [showPopup, setShowPopup] = useState(false); 
   const [notify, setNotify] = useState(false); 
-  useEffect(() => {
+  // useEffect(() => {
     // เชื่อมต่อกับ WebSocket server ที่ทำงานบน localhost:3000
-    const socket = io('https://platform-jorpor.vercel.app/');
+  //   const socket = io('https://platform-jorpor.vercel.app/');
 
-    // ตัวอย่าง: รับข้อความที่ถูกส่งมาจาก server
-    socket.on('message', (data) => {
-      console.log('Received message from server:', data);
-      setMessageFromServer(data); // นำข้อมูลมาอัปเดตใน state
-    });
+  //   // ตัวอย่าง: รับข้อความที่ถูกส่งมาจาก server
+  //   socket.on('message', (data) => {
+  //     console.log('Received message from server:', data);
+  //     setMessageFromServer(data); // นำข้อมูลมาอัปเดตใน state
+  //   });
 
-    // ทำความสะอาดเมื่อ Component unmounts
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
+  //   // ทำความสะอาดเมื่อ Component unmounts
+  //   return () => {
+  //     socket.disconnect();
+  //   };
+  // }, []);
 
   // แสดง Popup เมื่อมีข้อมูลใหม่
   // useEffect(() => {

@@ -125,7 +125,7 @@ export const CompLanguageProvider = ({ children }) => {
             setLanguage(response.data.dbLang[0]);
             i18n.changeLanguage(response.data.dbLang[0]);
 
-            localStorage.setItem("language", response.data.dbLang[0]);
+            // localStorage.setItem("language", response.data.dbLang[0]);
           } else {
             setMessage(resdata.error);
           }
