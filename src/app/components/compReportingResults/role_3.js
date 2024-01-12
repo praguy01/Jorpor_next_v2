@@ -915,7 +915,7 @@ const generatePDF = async () => {
                     <div className='flex items-center  mt-[5px]  text-[13px] md:text-[16px] font-mitr md:mt-[20px] text-left ml-[10px] md:ml-[10px] '>
                     <p>{t('Date')}</p>
                     <p className='ml-[10px] '>:</p>
-                    <p className=' ml-[10px]'>{nameExamine.date}</p>
+                    <p className=' ml-[10px]'>{nameExamine.date} {t('N')}</p>
 
                     </div>
 

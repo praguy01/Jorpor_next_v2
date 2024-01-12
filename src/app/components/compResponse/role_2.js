@@ -75,15 +75,15 @@ function App() {
 
 
     const formatDateTime = (isoDateTime) => {
-
       const inputDate = new Date(isoDateTime);
-      const formattedDatenew = format(inputDate, 'dd/MM/yyyy HH:mm');
-      console.log("yyyy-MM-dd HH:mm",formattedDatenew);
-
-     
-    
-      return formattedDatenew;
-    };
+      const formattedDate = format(inputDate, 'dd/MM/yyyy HH:mm');
+      console.log("yyyy-MM-dd HH:mm",formattedDate);
+    // const formattedDate = moment(isoDateTime).tz('Asia/Bangkok').format('DD/MM/YYYY HH:mm');
+    // // const formattedDate = inputDate.format('DD/MM/YYYY HH:mm');
+    // console.log("Formatted Date:", formattedDate);
+  
+    return formattedDate;
+  };
     
     
   return (

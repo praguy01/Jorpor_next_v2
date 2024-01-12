@@ -74,12 +74,15 @@ function App() {
 
 
 
-    const moment = require('moment-timezone');
+    // const moment = require('moment-timezone');
 
-    const formatDateTime = (isoDateTime) => {
-      const formattedDate = moment(isoDateTime).tz('Asia/Bangkok').format('DD/MM/YYYY HH:mm');
-      // const formattedDate = inputDate.format('DD/MM/YYYY HH:mm');
-      console.log("Formatted Date:", formattedDate);
+      const formatDateTime = (isoDateTime) => {
+        const inputDate = new Date(isoDateTime);
+        const formattedDate = format(inputDate, 'dd/MM/yyyy HH:mm');
+        console.log("yyyy-MM-dd HH:mm",formattedDate);
+      // const formattedDate = moment(isoDateTime).tz('Asia/Bangkok').format('DD/MM/YYYY HH:mm');
+      // // const formattedDate = inputDate.format('DD/MM/YYYY HH:mm');
+      // console.log("Formatted Date:", formattedDate);
     
       return formattedDate;
     };
