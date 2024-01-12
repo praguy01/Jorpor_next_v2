@@ -120,7 +120,7 @@ function App() {
                   <div key={index} className={'mx-auto mt-[8px] w-[250px] p-2 h-[100px] md:h-[95px] md:w-[700px] px-2 text-black flex-col bg-[#FFF] text-center rounded-[15px] '}>
                     <div className='flex justify-center  h-[40px]  md:ml-[20px] mt-[5px]'>
                       <p className='text-[#000] ml-[5px] md:ml-[0px] text-[15px] text-left md:text-[18px] w-[250px] md:w-[700px] break-words whitespace-pre-wrap'>
-                      {todo.title}  <span className='text-gray-500 text-[12px] md:text-[15px]'>{formatDateTime(todo.date) } น.</span>
+                      {todo.title}  <span className='text-gray-500 text-[12px] md:text-[15px]'>{todo.formattedDate } {t('N')}</span>
                       </p>
                     </div>
                     <div className=" border-t mt-[5px] md:mt-0 border-gray-300"></div>
