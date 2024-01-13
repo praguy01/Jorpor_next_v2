@@ -88,6 +88,7 @@ i18n
           "Add Examine":"Add Examine",
           "add Examine":"add Examine",
           "Uploaded images":"Uploaded images",
+          "There is no information to check today.":"There is no information to check today.",
 
 
         },
@@ -175,6 +176,7 @@ i18n
           "add employee list from file":"เพิ่มรายชื่อจากไฟล์",
           "log out":"ออกจากระบบ",
           "Employee list":"รายชื่อพนักงาน",
+          "There is no information to check today.":"ยังไม่มีข้อมูล"
 
 
 

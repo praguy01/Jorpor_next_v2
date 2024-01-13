@@ -296,7 +296,7 @@ function App({ onSubmit }) {
           <div className='bg-[#5A985E] mx-auto max-w-[500px] sm:max-w-[350px] py-[100px] rounded-[50px]'></div>
         </div>
       </div>
-      <div className='mx-auto border w-[300px] md:w-[950px] py-[20px] md:h-[600px] h-[550px] text-black flex flex-col   md:rounded-[30px] rounded-[30px] mt-[106px]  bg-[#fff]'>
+      <div className='mx-auto border w-[300px] md:w-[700px] lg:w-[950px] py-[20px] md:h-[600px] h-[550px] text-black flex flex-col   md:rounded-[30px] rounded-[30px] mt-[106px]  bg-[#fff]'>
                 
         <h1 className={` ml-[30px] text-[20px] mt-[3px] mb-[5px] md:text-[30px] md:ml-[50px] `}>
           {t("Select checklist")}
@@ -310,7 +310,7 @@ function App({ onSubmit }) {
         <PiPencilSimpleFill onClick={handleEditClick} className='absolute text-black md:text-[20px] text-[13px]  md:ml-[910px] md:mt-[15px] ml-[270px]  mt-[12px] cursor-pointer ' />
         )} */}
         
-        <div className='items-center mx-auto w-[250px] md:w-[850px] h-[380px] text-black bg-[#F5F5F5] text-center mt-[20px] rounded-[20px]'>
+        <div className='items-center mx-auto w-[250px] md:w-[650px] lg:w-[850px]   h-[400px] text-black bg-[#F5F5F5] text-center mt-[20px] rounded-[20px]'>
       <div className='mt-4 ml-4 flex items-center justify-between'>
         <div className='flex items-center text-center w-[110px] h-[24px] md:w-[140px] md:h-[30px] rounded-[5px] text-[#fff] border-[#000] bg-[#5A985E] md:ml-[5px]'>
           <div className='md:ml-[10px] ml-[10px]'><BsCalendar2Minus /></div>
@@ -322,7 +322,7 @@ function App({ onSubmit }) {
       </div>
 
       {/* Display selected items with checkboxes */}
-      <div className='items-center  text-[14px]  mx-auto border w-[220px] md:w-[800px] h-[100px] text-black bg-[#fff] text-center mt-[10px] rounded-[10px] overflow-y-auto'>
+      <div className='items-center  text-[14px]  mx-auto border w-[220px] md:w-[600px] lg:w-[800px]  h-[100px] text-black bg-[#fff] text-center mt-[10px] rounded-[10px] overflow-y-auto'>
   {checkedItems.length > 0 && (
     <div className='p-2 flex flex-col'>
       {checkedItems.map((todoId) => (
@@ -337,7 +337,7 @@ function App({ onSubmit }) {
 </div>
 
 {/* Todo List with Checkboxes */}
-<div className='items-center mx-auto border w-[220px] md:w-[800px] h-[210px] text-black bg-[#fff] text-center mt-[10px] rounded-[10px] overflow-auto'>
+<div className='items-center mx-auto border w-[220px] md:w-[600px] lg:w-[800px] h-[210px] text-black bg-[#fff] text-center mt-[10px] rounded-[10px] overflow-auto'>
 {todoList.map((todo, index) => (
   isEditing ? (
     <div
@@ -419,7 +419,7 @@ function App({ onSubmit }) {
           </div>
         </div>
 
-        <div className={` text-[15px] md:text-[17px] flex justify-end w-[250px] md:mt-[15px] mx-auto md:w-[940px]  md:px-10 `}>
+        <div className={` text-[15px] md:text-[17px] flex justify-end w-[250px] md:mt-[15px] mx-auto md:w-[700px] lg:w-[940px]  md:px-10 `}>
         {isEditing ? (
           <button  onClick={() => setIsEditing(false)}  className={`mx-auto flex  mt-[20px]   md:mt-[20px] border-[#64CE3F] bg-[#64CE3F] px-10 py-1  rounded-[20px]    text-[#fff] hover:-translate-y-0.5 duration-200 `}>{t('confirm')}</button>
          ) : (

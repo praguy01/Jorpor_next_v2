@@ -593,18 +593,18 @@ export default function CompReportResultsForm({ onSubmit }) {
       <CompNavbar/>
         
       <div className=' bg-[url("/bg1.png")]  overflow-auto bg-cover bg-no-repeat absolute z-[-1] top-0 left-0 w-full h-full bg-center '>
-        <div className='md:w-[1000px] mx-auto '>
+      <div className='md:w-[800px] lg:w-[1000px] mx-auto '>
           <div className='absolute top-[100px] left-1/2 transform -translate-x-1/2 z-0'>
              <div className='bg-[#5A985E] mx-auto max-w-[500px] sm:max-w-[350px] py-[100px] rounded-[50px]'></div>
           </div>
 
-          <div className='mx-auto w-[350px] md:w-[800px]  mb-[50px]  py-[30px] text-black flex flex-col  shadow-lg bg-[#FFF] text-center md:rounded-[50px] rounded-[30px] mt-[106px]  '>
+          <div className='mx-auto w-[350px] md:w-[700px] lg:w-[800px]  mb-[50px]  py-[30px] text-black flex flex-col  shadow-lg bg-[#FFF] text-center md:rounded-[50px] rounded-[30px] mt-[106px]  '>
           
                     <div  >
                     <div  className=  {` font-bold text-[20px] md:text-[25px] ml-[20px] md:ml-[50px] w-[310px]  md:w-[600px] `}>
 
                     <h1 className=' text-[#5A985E]  ml-[10px] md:ml-[0] md:w-[300px]  text-left  '>{t("Verified information")}</h1>
-                    <div className="mt-[5px] md:mt-[10px] md:ml-[-30px] border-t md:border w-full md:w-[750px] border-gray-300"></div>
+                    <div className="mt-[5px] md:mt-[10px] md:ml-[-30px] border-t md:border w-full md:w-[650px] lg:w-[750px] border-gray-300"></div>
 
 
                     <div className='text-black text-left ml-[10px] md:ml-[0]  mt-[15px]  md:mt-[0] flex '>
@@ -613,7 +613,7 @@ export default function CompReportResultsForm({ onSubmit }) {
                     </div>
                     </div>
 
-                    <div className='mx-auto md:w-[705px] text-black   w-[310px] '>
+                    <div className='mx-auto md:w-[620px] lg:w-[705px] text-black   w-[310px] '>
 
                     <div className='flex items-center  mt-[5px]  text-[13px] md:text-[16px]  md:mt-[20px] text-left ml-[10px] md:ml-[10px] '>
                     <p>{t('Date')}</p>
@@ -633,7 +633,7 @@ export default function CompReportResultsForm({ onSubmit }) {
 
                     <div  className='mx-auto '>
 
-                      <div  className='h-[300px]  md:w-[690px] px-2   text-black text-center mt-[15px] mx-auto justify-center text-sm md:text-[18px] rounded-[10px] w-[310px] py-2 md:py-4 bg-[#F5F5F5] ml-[5px]  overflow-auto'>
+                      <div  className='h-[300px]  md:w-[610px] lg:w-[690px] px-2   text-black text-center mt-[15px] mx-auto justify-center text-sm md:text-[18px] rounded-[10px] w-[310px] py-2 md:py-4 bg-[#F5F5F5] ml-[5px]  overflow-auto'>
                       <div id="pdf-content"   className="w-full  ">
                       {nameExamine &&
                             nameExamine.items &&
@@ -842,11 +842,11 @@ export default function CompReportResultsForm({ onSubmit }) {
               )}
 
               {sent ? (
-                <div className=  {` w-[300px] md:w-[750px]  text-[15px] md:text-[17px] md:ml-[-25px]  flex items-center mx-auto md:px-10  md:mt-[20px]`} >
+                <div className=  {` w-[300px] md:w-[650px] lg:w-[750px]  text-[15px] md:text-[17px] md:ml-[-25px]  flex items-center mx-auto md:px-10  md:mt-[20px]`} >
                   {/* <button type= "submit" href="/NotifyTwo" className=' mt-[20px] text-md md:text-[20px] md:ml-[480px] border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>Submit</button> */}
-                  <button onClick={generatePDF} className=' mt-[20px]  md:mr-[450px] mr-[80px] bg-[#808080]  text-[12px] px-5  py-1  text-[#fff] hover:-translate-y-0.5 duration-200  flex items-center '><IoMdDownload /><span className='ml-[5px]'>Dowload</span></button>
+                  <button onClick={generatePDF} className=' mt-[20px]  md:mr-[370px] lg:mr-[450px] mr-[80px] bg-[#808080]  text-[12px] px-5  py-1  text-[#fff] hover:-translate-y-0.5 duration-200  flex items-center '><IoMdDownload /><span className='ml-[5px]'>Dowload</span></button>
 
-                  <button type='submit' onClick={(e) => setShowPopup(true)} className=' mt-[20px]  border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200  mx-auto  '>{t('send')}</button>
+                  <button type='submit' onClick={(e) => setShowPopup(true)} className=' mt-[20px]  border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200    '>{t('send')}</button>
                     {/* <button onClick={generatePDF}>Generate PDF</button> */}
                     {/* <div className=  {`${language === 'EN' ? ' font-ntr text-md md:text-[20px]' : ' font-mitr text-[15px] md:text-[17px] '  } left-0 flex items-center   md:px-10  md:mt-[20px]`} > */}
                   {/* <button type= "submit" href="/NotifyTwo" className=' mt-[20px] text-md md:text-[20px] md:ml-[480px] border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>Submit</button> */}
@@ -854,8 +854,8 @@ export default function CompReportResultsForm({ onSubmit }) {
                 </div>
                ) : (
                 <div >
-                <p className='md:text-[18px] text-[12px] mt-[10px]'>{`${language === 'EN' ? "Today's information has been sent. " : 'ข้อมูลของวันนี้้ถูกส่งไปแล้ว'  }`}</p>
-                <button onClick={generatePDF} className=' mt-[10px] text-[15px]  border-[#64CE3F] bg-[#64CE3F] px-5  py-1  text-[#fff] hover:-translate-y-0.5 duration-200  mx-auto flex items-center '><IoMdDownload /><span className='ml-[5px]'>Dowload</span></button>
+                <p className='md:text-[14px] text-[12px] mt-[20px]'>{`${language === 'EN' ? "Today's information has been sent. " : 'ข้อมูลของวันนี้้ถูกส่งไปแล้ว'  }`}</p>
+                <button onClick={generatePDF} className=' mt-[20px] text-[15px]  border-[#64CE3F] bg-[#64CE3F] px-5  py-1  text-[#fff] hover:-translate-y-0.5 duration-200  mx-auto flex items-center '><IoMdDownload /><span className='ml-[5px]'>Dowload</span></button>
                 </div>
 
               )} 

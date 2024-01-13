@@ -458,10 +458,10 @@ function App() {
       <CompNavbar />
       <div className=' bg-[url("/bg1.png")] overflow-auto bg-cover bg-no-repeat absolute z-[-1] top-0 left-0 w-full h-full bg-center  '>
         <div className='relative mx-auto'>
-        <div className='absolute mx-auto top-1/2 h-[550px] overflow-auto shadow bg-[#FFF] mb-[50px] left-1/2 transform -translate-x-1/2 z-0 md:w-[1000px] md:h-[545px] md:mt-[100px] w-[350px] mt-[80px] rounded-[10px] border-[10px] border-solid border-[colorCode]'>
+        <div className='absolute mx-auto top-1/2 h-[550px] overflow-auto shadow bg-[#FFF]  mb-[50px] left-1/2 transform -translate-x-1/2 z-0 md:w-[700px] lg:w-[1000px] md:h-[545px] md:mt-[100px] w-[350px] mt-[80px] rounded-[10px] border-[10px] border-solid border-[colorCode]'>
           <div className='w-full h-[450px] '>
 
-          <div className='mx-auto mt-[20px] md:h-[510px] md:w-[950px] w-[950px] bg-[#F5F5F5]   '>
+          <div className='mx-auto mt-[20px] md:h-[510px] md:w-[950px]  w-[950px] bg-[#F5F5F5]   '>
             <div className='mx-auto   md:h-[450px] md:w-[950px]  '>
               <table className='tracking-wider mx-auto px-4 w-[950px]  text-center table-auto shadow '>
                 <thead>

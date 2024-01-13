@@ -68,7 +68,7 @@ function CompNavbar() {
                 <Link href='/report_role_2'>JorPor</Link>
                 </div>
              
-            <div className={`md:h-[60px] hidden md:flex tracking-wider items-center text-white   text-[16px]  mx-auto justify-center `}>
+            <div className={`lg:h-[60px] hidden lg:flex tracking-wider items-center text-white   text-[16px]  mx-auto justify-center `}>
            
             
                 
@@ -111,7 +111,7 @@ function CompNavbar() {
                  
                 </div >
                 
-              <div className='hidden md:flex text-white '>
+              <div className='hidden lg:flex text-white '>
                 <button   className="text-white px-5 ml-[20px] relative top-[5px] pb-3 pt-[10px]  text-[15px]   hover:font-bold  rounded-md p-2 " onClick={toggleLanguage}>
                   {language}
                 </button> 
@@ -119,13 +119,13 @@ function CompNavbar() {
                 </div>
 
             {toggle ? (
-              <AiOutlineClose onClick={()=>setToggle(!toggle)} size={30} className='md:hidden  block text-white'/> 
+              <AiOutlineClose onClick={()=>setToggle(!toggle)} size={30} className='lg:hidden  block text-white'/> 
             ) : (
-              <FiMenu onClick={()=>setToggle(!toggle)} size={25} className='md:hidden block md:mt-[20px] text-white'/>
+              <FiMenu onClick={()=>setToggle(!toggle)} size={25} className='lg:hidden block lg:mt-[20px] text-white'/>
             )}
             </div>
 
-            <div ref={outsideClickRef} className={` text-[18px]  md:hidden flex flex-col w-[50%] h-screen mt-[-12px] fixed bg-[#80A582] ${toggle ? `left-[0]` : `left-[-100%]`}`}>
+            <div ref={outsideClickRef} className={` text-[18px]  lg:hidden flex flex-col w-[50%] md:w-[30%] h-screen mt-[-12px] md:mt-[-1px] fixed bg-[#80A582] ${toggle ? `left-[0]` : `left-[-100%]`}`}>
                 
                 <Link onClick={()=>setToggle(!toggle)} href="/report_role_2" style={{ whiteSpace: 'nowrap' }} className='whiteSpace-nowrap mt-[15px]  px-4 py-2  text-[#fff] hover:text-[#5A985E] hover:bg-[#fff]  '>{t('Report results')}</Link>
                 <Link onClick={()=>setToggle(!toggle)} href="/response_role_2" style={{ whiteSpace: 'nowrap' }} className='  px-4 py-2  text-[#fff] hover:text-[#5A985E] hover:bg-[#fff]  '>{t('Approve')}</Link>

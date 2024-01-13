@@ -400,7 +400,7 @@ function App() {
       <CompNavbar/>
 
         <div className=' bg-[url("/bg1.png")]  bg-cover bg-no-repeat absolute z-[-1] top-0 left-0 w-full h-full bg-center overflow-auto  '>
-          <div className='md:w-[1000px] mx-auto '>
+          <div className='md:w-[700px] lg:w-[1000px] mx-auto  '>
             <div className='flex  w-[330px] mx-auto  md:w-[800px]'>
             <div className='mx-auto  w-[330px] md:w-[800px]  text-black   md:mt-[106px] mt-[80px]  '>
                   <h1 className={`text-[25px] text-black md:text-[30px]  font-bold `}>{t("Employee List")}</h1>
@@ -519,8 +519,8 @@ function App() {
                   </div>
                   {/* <PiPencilSimpleFill onClick={handleEditClick} className='absolute text-black md:text-[20px] text-[13px] md:ml-[840px] md:mt-[170px] ml-[250px] mt-[10px] cursor-pointer ' /> */}
             </div>
-            <div className='flex w-[330px] md:w-[800px] items-center mx-auto '>
-            <div className='  items-center mx-auto w-[330px] md:w-[780px] '>
+            <div className='flex w-[330px] md:w-[700px] m:w-[800px]  items-center mx-auto '>
+            <div className='  items-center mx-auto w-[330px] md:w-[780px]  '>
               <label className="block  text-gray-700 text-[13px] font-bold mb-2"> {t("Select an option")}:</label>
               <select
                 className="w-[100px]  left-0  text-[13px] text-black border rounded-md px-4 py-1 outline-none"
@@ -545,20 +545,20 @@ function App() {
 
             </div>
             <div className='mt-[25px] '>
-            <div className=  {` font-small text-[14px] md:text-[20px] flex mx-auto items-center  bg-[#5A985E] w-[330px] md:w-[800px] md:mt-[-px] rounded-t-[20px] md:rounded-t-[20px] py-2`}>
+            <div className=  {` font-small text-[14px] md:text-[20px] flex mx-auto items-center  bg-[#5A985E] w-[330px] md:w-[700px] m:w-[800px] md:mt-[-px] rounded-t-[20px] md:rounded-t-[20px] py-2`}>
               <p className='text-center text-white   md:w-[180px] w-[30px]  md:ml-[43px] ml-[32px]  '>{t('No')}. </p>
               <p className='text-center text-white   md:w-[200px] w-[80px] md:ml-[-68px] ml-[15px] '>{t('Employee')}</p>
               <p className='text-center text-white   md:w-[180px] w-[70px] md:ml-[20px] ml-[35px]  '>{t('Name')}</p>
               {!isEditing && (
-              <PiPencilSimpleFill onClick={handleEditClick} className='absolute text-[#FFF] md:text-[20px] text-[13px]  md:ml-[750px] md:mt-[7px] ml-[300px]  mt-[3px] cursor-pointer ' />
+              <PiPencilSimpleFill onClick={handleEditClick} className='absolute text-[#FFF] md:text-[20px] text-[13px]  md:ml-[660px] lg:ml-[750px] md:mt-[7px] ml-[300px]  mt-[3px] cursor-pointer ' />
               )}
             </div>
 
-            <div className='mx-auto w-[330px] md:w-[800px] h-[400px]  text-black flex flex-col  bg-[#FFF] mb-[50px] rounded-b-[20px] md:rounded-b-[20px]   overflow-auto'>
-              <div className='mx-auto w-[330px] md:w-[800px] h-[380px]  text-black flex flex-col bg-[#FFF] mb-[20px] rounded-b-[20px] md:rounded-b-[20px]   overflow-auto'>
+            <div className='mx-auto w-[330px] md:w-[700px] m:w-[800px] h-[400px]  text-black flex flex-col  bg-[#FFF] mb-[50px] rounded-b-[20px] md:rounded-b-[20px]   overflow-auto'>
+              <div className='mx-auto w-[330px] md:w-[700px] m:w-[800px] h-[380px]  text-black flex flex-col bg-[#FFF] mb-[20px] rounded-b-[20px] md:rounded-b-[20px]   overflow-auto'>
 
                 {todoList.map((todo, index) => (
-                  <div key={index} className={`text-sm md:text-[20px] w-[290px] rounded-[10px] md:w-[740px] py-2 md:py-4 bg-[#F5F5F5] mx-auto ${index === 0 ? 'mt-[10px]' : 'mt-[8px]'}`}>
+                  <div key={index} className={`text-sm md:text-[20px] w-[290px] rounded-[10px] md:w-[640px] lg:w-[740px] py-2 md:py-4 bg-[#F5F5F5] mx-auto ${index === 0 ? 'mt-[10px]' : 'mt-[8px]'}`}>
                   <div className='flex '>
                     <div className='flex flex-col w-full   '>
                       <div className=' flex text-[#000] '>

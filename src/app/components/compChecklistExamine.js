@@ -517,25 +517,25 @@ function App() {
       <CompNavbar/>
 
         <div className=' bg-[url("/bg1.png")] overflow-auto bg-cover bg-no-repeat absolute z-[-1] top-0 left-0 w-full h-full bg-center   '>
-          <div className='md:w-[1000px] mx-auto '>
-            <div className=' w-[280px] mx-auto md:w-[963px]'>
-              <div className=  {` text-[21px] md:text-[35px] md:w-[800px] w-[300px] left-0 md:ml-[90px]  flex items-center md:mt-[100px] mt-[90px] `}>
+          <div className='md:w-[800px] lg:w-[1000px] mx-auto '>
+            <div className=' w-[280px] mx-auto md:w-[963px]  '>
+              <div className=  {` text-[21px] md:text-[35px] md:w-[700px] lg:w-[800px] w-[300px] left-0 md:ml-[70px] lg:ml-[90px]  flex items-center md:mt-[100px] mt-[90px] `}>
                   <h1 className=' text-[#5A985E]   mr-[10px] '>{t('Examine')}</h1>
                   <p className='text-black text-sm md:text-[20px]  '>({checklistname})</p>
               </div>
-              <div className='flex items-center text-center  w-[110px] h-[24px] md:w-[140px] md:h-[30px] rounded-[5px] text-[#fff] border-[#000] bg-[#000] md:ml-[90px] '>
+              <div className='flex items-center text-center  w-[110px] h-[24px] md:w-[140px] md:h-[30px] rounded-[5px] text-[#fff] border-[#000] bg-[#000] md:ml-[70px] lg:ml-[90px] '>
                     <div className=' md:ml-[10px] ml-[10px] '><BsCalendar2Minus/></div>
                     <p className="  mt-[2px] ml-[8px]  md:text-[17px] text-[12px] md:ml-[8px] ">{currentDate}</p>
               </div>             
               {useEmployee === "false" && !isEditing &&   (
-               <PiPencilSimpleFill onClick={handleEditClick} className='absolute text-black md:text-[18px] text-[13px] md:ml-[840px] md:mt-[28px] ml-[265px] mt-[25px] cursor-pointer ' />
+               <PiPencilSimpleFill onClick={handleEditClick} className='absolute text-black md:text-[18px] text-[13px] md:ml-[700px] lg:ml-[840px] md:mt-[28px] ml-[265px] mt-[25px] cursor-pointer ' />
               )}
               {selectedOption === 'Checklist' && !isEditing && (
-               <PiPencilSimpleFill onClick={handleEditClick} className='absolute text-black md:text-[20px] text-[13px] md:ml-[840px] md:mt-[95px] ml-[265px] mt-[90px] cursor-pointer ' />
+               <PiPencilSimpleFill onClick={handleEditClick} className='absolute text-black md:text-[20px] text-[13px] md:ml-[700px] lg:ml-[840px] md:mt-[95px] ml-[265px] mt-[90px] cursor-pointer ' />
               )}
               {useEmployee === "true" && (
-                 <div className='md:ml-[90px]'>
-                 <label className="block mt-[10px] text-gray-700 text-[15px] font-bold mb-2">Select an option:</label>
+                 <div className='md:ml-[70px] lg:ml-[90px]'>
+                 <label className="block mt-[10px] text-gray-700 text-[15px] font-bold mb-2">{t("Select an option")}:</label>
                  <select
                    className="w-[120px] text-[13px] text-black border rounded-md px-4 py-1 outline-none"
                    value={selectedOption}
@@ -548,8 +548,8 @@ function App() {
               )}
             </div>
 
-            <div className={`mx-auto w-[300px]   font-blod md:w-[800px] h-[480px] mb-[50px] text-black flex flex-col md:rounded-[50px] bg-[#FFF] ${isEditing ? 'rounded-[30px]' : 'rounded-[30px] md:rounded-[50px]'} mt-[10px]`}>
-            <div className='mx-auto md:w-[750px] w-[250px] h-[900px] text-black flex flex-col bg-[#FFF]  rounded-[30px] md:rounded-[50px] mt-[30px] overflow-auto'>
+            <div className={`mx-auto w-[300px]   font-blod md:w-[700px] lg:w-[800px] h-[480px] mb-[50px] text-black flex flex-col md:rounded-[50px] bg-[#FFF] ${isEditing ? 'rounded-[30px]' : 'rounded-[30px] md:rounded-[50px]'} mt-[10px]`}>
+            <div className='mx-auto md:w-[650px]  lg:w-[750px] w-[250px] h-[900px] text-black flex flex-col bg-[#FFF]  rounded-[30px] md:rounded-[50px] mt-[30px] overflow-auto'>
             
             {todoList.map((todo, index) => (
               <div key={index}>
@@ -741,7 +741,7 @@ function App() {
                           />
                         </div>
                       )} */}
-                      <div className= {` items-center text-[15px] md:text-[17px] flex justify-end  w-[250px] md:mt-[40px] mt-[60px]  mx-auto md:w-[800px]  md:px-10 `} >
+                      <div className= {` items-center text-[15px] md:text-[17px] flex ${!isEditing && 'justify-end' }  w-[250px] md:mt-[40px] mt-[60px]  mx-auto md:w-[700px] lg:w-[800px]  md:px-10 `} >
                       {isEditing ? (
                         <button onClick={() => setIsEditing(false)} className={`flex mx-auto   border-[#64CE3F] bg-[#64CE3F] px-10 py-1  rounded-[20px]   text-[#fff] hover:-translate-y-0.5 duration-200  `}>{t('confirm')}</button>
                       ) : (

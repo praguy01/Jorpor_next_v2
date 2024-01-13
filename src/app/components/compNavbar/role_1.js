@@ -101,7 +101,7 @@ function CompNavbar() {
                 <Link href='/select'>JorPor</Link>
                 </div>
              
-            <div className={`md:h-[60px] hidden md:flex tracking-wider items-center text-white text-[16px]  mx-auto justify-center `}>
+            <div className={`lg:h-[60px] hidden lg:flex tracking-wider items-center text-white text-[16px]  mx-auto justify-center `}>
             
                 
                 <Link href="/examineList" 
@@ -149,7 +149,7 @@ function CompNavbar() {
                 </div >
 
                 
-              <div className='hidden md:flex text-white  '>
+              <div className='hidden lg:flex text-white  '>
                 <div className=''>
                   {notify && (
                   <span 
@@ -172,10 +172,10 @@ function CompNavbar() {
                 </div>
 
             {toggle ? (
-              <AiOutlineClose onClick={()=>setToggle(!toggle)} size={30} className='md:hidden  block text-white'/> 
+              <AiOutlineClose onClick={()=>setToggle(!toggle)} size={30} className='lg:hidden  block text-white'/> 
             ) : (
               <div className='flex  items-center'>
-              <div className='mr-4 md:hidden '>
+              <div className='mr-4 lg:hidden '>
                   {notify && (
                   <span 
                     className='absolute bg-red-500  rounded-full w-3 h-3 text-white flex items-center justify-center mt-[-5px] ml-2 '
@@ -190,13 +190,13 @@ function CompNavbar() {
                   style={{ zIndex: 1 }}
                 />
               </div>
-              <FiMenu onClick={()=>setToggle(!toggle)} size={25} className='md:hidden block md:mt-[20px] text-white'/>
+              <FiMenu onClick={()=>setToggle(!toggle)} size={25} className='lg:hidden block lg:mt-[20px] text-white'/>
               </div>
 
             )}
             </div>
 
-            <div ref={outsideClickRef} className={` text-[18px]  md:hidden flex flex-col w-[50%] h-screen mt-[-12px] fixed bg-[#80A582] ${toggle ? `left-[0]` : `left-[-100%]`}` }>
+            <div ref={outsideClickRef} className={` text-[18px]  lg:hidden flex flex-col w-[50%] md:w-[30%] h-screen mt-[-12px] md:mt-[-1px] fixed bg-[#80A582] ${toggle ? `left-[0]` : `left-[-100%]`}` }>
                 
                 <Link onClick={()=>setToggle(!toggle)} href="/examineList" style={{ whiteSpace: 'nowrap' }} className=' mt-[15px]  px-4 py-2  text-[#fff] hover:text-[#5A985E] hover:bg-[#fff]  '>{t('Examine')}</Link>
                 <Link onClick={()=>setToggle(!toggle)} href="/notify" style={{ whiteSpace: 'nowrap' }} className='  px-4 py-2  text-[#fff] hover:text-[#5A985E] hover:bg-[#fff]  '>{t('Notify')}</Link>

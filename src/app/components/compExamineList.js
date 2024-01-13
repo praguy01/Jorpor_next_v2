@@ -493,7 +493,7 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
 
       {/* {selected ? ( */}
 
-      <div className='mx-auto border w-[300px] md:w-[950px] py-[20px] md:h-[600px] h-[550px] text-black flex flex-col   md:rounded-[30px] rounded-[30px] mt-[106px]  bg-[#fff]'>
+      <div className='mx-auto border w-[300px] md:w-[750px] lg:w-[950px]  py-[20px] md:h-[600px] h-[550px] text-black flex flex-col   md:rounded-[30px] rounded-[30px] mt-[106px]  bg-[#fff]'>
       
         <h1 className={` ml-[30px] text-[25px] mt-[3px] mb-[5px] md:text-[30px] md:ml-[50px] `}>
           {t("Examine List")}
@@ -505,7 +505,7 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
         <PiPencilSimpleFill onClick={handleEditClick} className='absolute text-black md:text-[20px] text-[13px]  md:ml-[910px] md:mt-[15px] ml-[270px]  mt-[12px] cursor-pointer ' />
         )}
         
-        <div className='  items-center mx-auto w-[250px] md:w-[850px] h-[380px] text-black bg-[#F5F5F5] text-center mt-[20px] rounded-[20px] overflow-auto'>
+        <div className='  items-center mx-auto w-[250px] md:w-[680px] lg:w-[850px] h-[380px] text-black bg-[#F5F5F5] text-center mt-[20px] rounded-[20px] overflow-auto'>
           <div className='mx-auto mt-[15px]  flex flex-row justify-center md:justify-normal md:ml-[20px] flex-wrap'>
 
               {todoList.map((todo, index) => (
@@ -558,7 +558,7 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
           </div>
         </div>
 
-        <div className={` text-[15px] md:text-[17px]  flex justify-end w-[250px] md:mt-[15px] mx-auto md:w-[940px]  md:px-10 `}>
+        <div className={` text-[15px] md:text-[17px]  flex justify-end w-[250px] md:mt-[15px] mx-auto md:w-[750px] lg:w-[940px]  md:px-10 `}>
         {isEditing ? (
           <button onClick={() => setIsEditing(false)}  className={`flex mx-auto mt-[20px]   md:mt-[20px] border-[#64CE3F] bg-[#64CE3F] px-10 py-1  rounded-[20px]    text-[#fff] hover:-translate-y-0.5 duration-200 `}>{t('confirm')}</button>
         ) : (

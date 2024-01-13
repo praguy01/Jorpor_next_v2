@@ -364,8 +364,8 @@ function App() {
     <div>
       <CompNavbarTec />
       <div className='bg-[url("/bg1.png")] overflow-auto bg-cover bg-no-repeat absolute z-[-1] top-0 left-0 w-full h-full bg-center '>
-        <div className='md:mt-[100px] mt-[80px] md:flex mb-[50px] justify-center items-center    mx-auto md:w-[1158px]'>
-          <div className=' md:ml-[80px]  md:mt-[-45px] mx-auto'>
+      <div className='md:mt-[100px] mt-[80px] lg:flex mb-[50px] justify-center items-center    mx-auto md:w-[800px]  lg:w-[1158px]'>
+          <div className=' lg:ml-[80px]  lg:mt-[-45px] mx-auto'>
             <div className=''>
               
             <div className={`mx-auto mb-[20px] ${!dataToday && ('justify-center')} flex items-center w-[350px] h-[120px] md:w-[600px] md:h-[160px] overflow-auto`}>
@@ -387,7 +387,7 @@ function App() {
                 <div className='p-2 px-6'>
                 <TiWarning className='text-[30px] mx-auto text-[#5A985E]' />
 
-                <h2 className=' py-1  text-[11px] md:text-[15px]'>There is no information to check today.</h2>
+                <h2 className=' py-1  text-[11px] md:text-[15px]'>{t("There is no information to check today.")}</h2>
               </div>
               </div>
 
@@ -568,8 +568,8 @@ function App() {
 
 
 
-          <div className='mx-auto  md:mt-[10px] mt-[30px] justify-center '>
-            <div className=' text-[12px] md:text-[20px] w-[300px]  md:ml-[50px] h-[500px] md:h-[600px]  md:w-[587px] py-2 rounded-[20px]  md:py-4 bg-[#D9D9D9]  mx-auto shadow-lg'>
+            <div className='mx-auto  lg:mt-[10px] md:mt-[50px] mt-[30px] justify-center '>
+            <div className=' text-[12px] md:text-[20px] w-[300px]  lg:ml-[50px] h-[500px] md:h-[600px]  md:w-[587px] py-2 rounded-[20px]  md:py-4 bg-[#D9D9D9]  mx-auto shadow-lg'>
               <div className=' flex items-center bg-[#5A985E] w-[300px] md:w-[587px] md:h-[64px] mt-[-10px] h-[44px] rounded-t-[20px] md:mt-[-15px]'>
                <div className=' w-full '>
                 <p className='flex  text-left md:text-[20px] text-[15px] py-2  ml-[10px] text-[#fff] items-center'><BsFillBarChartFill className = 'py-2 text-3xl md:text-4xl'/><span className='mt-[2px] text-[16px] md:text-[20px]'>{t('Overview')}</span></p>

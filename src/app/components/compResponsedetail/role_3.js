@@ -315,13 +315,13 @@ function App() {
       <CompNavbar/>
         
       <div className=' bg-[url("/bg1.png")]  overflow-auto bg-cover bg-no-repeat absolute z-[-1] top-0 left-0 w-full h-full bg-center '>
-        <div className='md:w-[1000px] mx-auto '>
+      <div className='md:w-[800px] lg:w-[1000px] mx-auto '>
           <div className='absolute top-[100px] left-1/2 transform -translate-x-1/2 z-0'>
              <div className='bg-[#5A985E] mx-auto max-w-[500px] sm:max-w-[350px] py-[100px] rounded-[50px]'></div>
           </div>
           {todoList.map((todo, index) => (
 
-          <div  key={index} className='mx-auto w-[300px] md:w-[800px] mb-[50px]  py-[30px] text-black flex flex-col  bg-[#FFF] text-center md:rounded-[50px] rounded-[30px] mt-[106px]  '>
+          <div  key={index} className='mx-auto w-[300px] md:w-[750px] lg:w-[800px] mb-[50px]  py-[30px] text-black flex flex-col  bg-[#FFF] text-center md:rounded-[50px] rounded-[30px] mt-[106px]  '>
           {console.log("TODOOO: ",todoList)}
             
                 <div className='md:mt-[30px]'>
@@ -334,8 +334,8 @@ function App() {
                 <div className="mt-[10px] border-t border-gray-300"></div> 
               </div>
 
-              <div className=' px-2 flex items-center mx-auto w-[250px]  md:ml-[40px] md:w-[720px]  py-[20px] text-black bg-[#F5F5F5] text-center mt-[15px] rounded-[20px]'>
-                <div className='  text-[12px] md:text-[18px]  rounded-[10px] w-[235px] md:w-[600px] py-2 md:py-4 bg-[#F5F5F5] ml-[5px] md:ml-[40px]'>
+              <div className=' px-2 flex items-center mx-auto w-[250px]  md:ml-[40px] md:w-[670px]  lg:w-[720px]  py-[20px] text-black bg-[#F5F5F5] text-center mt-[15px] rounded-[20px]'>
+                <div className='  text-[12px] md:text-[18px]  rounded-[10px] w-[235px] md:w-[600px] py-2 md:py-4  bg-[#F5F5F5] ml-[5px] md:ml-[40px]'>
                 
                     <div className='flex px-3 '>
                         <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[130px] md:ml-[-11px]'>{t('Employee')}</p>
@@ -367,14 +367,14 @@ function App() {
                       <div className='flex px-3  mt-[5px]'>
                         <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[130px] md:ml-[-11px]'>{t('Date')}</p>
                         <p>:</p>
-                        <p className='md:ml-[15px] ml-[10px] whitespace-nowrap overflow-ellipsis overflow-hidden md:w-[450px]  text-left w-[120px]'>{todo.date} น.</p>
+                        <p className='md:ml-[15px] ml-[10px] whitespace-nowrap overflow-ellipsis overflow-hidden md:w-[450px]  text-left w-[120px]'>{todo.date} {t('N')}</p>
                     </div>
                       
                     </div>
                 </div>
 
                 <div className='mx-auto'>
-                <p className="text-[#808080] text-[13px] md:text-[16px] md:mt-[20px] md:ml-[-600px] ml-[-150px] mt-[10px]">{t("Uploaded images")}</p>
+                <p className="text-[#808080] text-[13px] md:text-[16px] md:mt-[20px] ml-[-170px] md:ml-[-540px] lg:ml-[-590px] mt-[10px]">{t("Uploaded images")}</p>
 
                 {/* <h1 className=" whitespace-nowrap overflow-hidden overflow-ellipsis ml-[25px] text-left w-[245px] md:w-[705px] py-1 px-2 border mt-[5px] md:mt-[10px] md:ml-[35px] border-gray-300 p-4 rounded-lg cursor-pointer "
                   onClick={() => openFileInNewTab()}>{detectAndDisplayFileType(todo.file)}</h1> */}
@@ -386,68 +386,16 @@ function App() {
               )}
               </div>
 
-              {/* {fileData && (
-                  <button onClick={handleDownload}>
-                    Download File
-                  </button>
-                )}
-
-                {jpg && (
-                  <div className="bg-white border border-gray-300 rounded-[10px] w-[300px] text-[#5A985E] p-8 shadow-lg md:w-[400px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                    <h1>รูปภาพที่อัพโหลด</h1>
-                    <img className="mt-[10px] rounded-[10px]" src={URL.createObjectURL(data.file)} alt="รูปภาพที่อัพโหลด" />
-                    <button className="mt-[20px] justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={() => setjpg(false)}>
-                      OK
-                    </button>
-                  </div>
-                )}
-
-                {docx && (
-                  <div className="bg-white border border-gray-300 rounded-[10px] w-[400px] text-[#5A985E] p-8 shadow-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                    <h1>ไฟล์ที่อัพโหลด</h1>
-                    <a href={`https://docs.google.com/viewer?url=${encodeURIComponent(URL.createObjectURL(data.file))}&embedded=true`} target="_blank" rel="noopener noreferrer">เปิดไฟล์ .docx</a>
-                    <button className="mt-[20px] justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover-bg-green-600" onClick={() => setdocx(false)}>
-                      OK
-                    </button>
-                  </div>
-                )}
-
-                {pdf && (
-                  <div className="bg-white border border-gray-300 rounded-[10px] w-[400px] text-[#5A985E] p-8 shadow-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                    <h1>ไฟล์ที่อัพโหลด</h1>
-                    <iframe src={URL.createObjectURL(data.file)} frameBorder="0" width="100%" height="500px"></iframe>
-                    <button className="mt-[20px] justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover-bg-green-600" onClick={() => setpdf(false)}>
-                      OK
-                    </button>
-                  </div>
-                )}
-                {xlsx && (
-                  <div className="bg-white border border-gray-300 rounded-[10px] w-[400px] text-[#5A985E] p-8 shadow-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                    <h1>ไฟล์ที่อัพโหลด</h1>
-                    <iframe src={`https://docs.google.com/viewer?url=${encodeURIComponent(URL.createObjectURL(data.file))}&embedded=true`} frameBorder="0" width="100%" height="500px"></iframe>
-                    <button className="mt-[20px] justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover-bg-green-600" onClick={() => setxlsx(false)}>
-                      OK
-                    </button>
-                  </div>
-                )}
-
-                {fileelse && (
-                  <div className="bg-white border border-gray-300 rounded-[10px] w-[400px] text-[#5A985E] p-8 shadow-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                    <h1>เปิดไฟล์ที่อัพโหลดไม่สำเร็จ</h1>
-                    <button className="mt-[20px] justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover-bg-green-600" onClick={() => setelse(false)}>
-                      OK
-                    </button>
-                  </div>
-                )} */}
+         
 
                 
                   <div>
-                    <p className=' text-[#808080] text-[13px] md:text-[16px] ml-[-170px] md:ml-[-640px] mt-[20px]  md:mt-[16px]'>{t('details')}</p>
+                  <p className=' text-[#808080] text-[13px] md:text-[16px] ml-[-170px] md:ml-[-610px] lg:ml-[-660px] mt-[20px]  md:mt-[16px]'>{t('details')}</p>
                     <textarea
                       type="text"
                       name="detail"
                       placeholder={todo.detail}
-                      className='rounded-[10px] mt-[5px] pl-[15px] w-[250px] md:ml-[-25px] h-[100px]  md:text-[16px] text-[13px] md:w-[705px] md:h-[80px] bg-[#fff] border border-gray-300 p-4'
+                      className='rounded-[10px] mt-[5px] pl-[15px] w-[250px]  h-[100px]  md:text-[16px] text-[13px] md:w-[670px] lg:w-[720px] md:h-[80px] bg-[#fff] border border-gray-300 p-4'
                       readOnly
                     />                    {/* <textarea value={formData.detail} onChange={handleInputChange} className='border border-gray-300 rounded-md bg-[#F5F5F5] w-[250px] h-[100px] text-black text-sm pl-2 pt-2' /> */}
                 </div>
@@ -459,8 +407,8 @@ function App() {
                   </p>
                 )}
                 
-                <div className='flex items-center md:px-10  md:mt-[20px]' >
-                 <button type= "submit" onClick={handleSubmit} className=' mt-[20px] text-md md:text-[20px] md:ml-[300px] ml-[85px] border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200'>{t('Evalution')}</button>
+                <div className='flex items-center md:px-10  md:mt-[20px] mx-auto' >
+                 <button type= "submit" onClick={handleSubmit} className=' mt-[20px] text-md md:text-[20px]  border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200'>{t('Evalution')}</button>
                 </div>
 
                 {showSuccessPopup && (

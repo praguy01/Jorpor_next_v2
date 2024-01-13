@@ -146,19 +146,19 @@ export default function CompNotifyDisplay({ data , onSubmit}) {
       <CompNavbar/>
         
       <div className=' bg-[url("/bg1.png")]  overflow-auto bg-cover bg-no-repeat absolute z-[-1] top-0 left-0 w-full h-full bg-center '>
-        <div className='md:w-[1000px] mx-auto '>
+      <div className='md:w-[800px] lg:w-[1000px] mx-auto '>
           <div className='absolute top-[100px] left-1/2 transform -translate-x-1/2 z-0'>
              <div className='bg-[#5A985E] mx-auto max-w-[500px] sm:max-w-[350px] py-[100px] rounded-[50px]'></div>
           </div>
 
-          <div className='mx-auto w-[300px] md:w-[800px]  mb-[50px]  py-[30px] text-black flex flex-col  bg-[#FFF] text-center md:rounded-[50px] rounded-[30px] mt-[106px]  '>
+          <div className='mx-auto w-[300px] md:w-[700px] lg:w-[800px]  mb-[50px]  py-[30px] text-black flex flex-col  bg-[#FFF] text-center md:rounded-[50px] rounded-[30px] mt-[106px]  '>
           
             
           {/* <form onSubmit={!recheck ? handleConfirm : handleSubmit}> */}
 
                 <div className='md:mt-[30px]'>
               
-                <div className=' md:text-[20px] ml-[30px] text-[15px] md:w-[500px] md:ml-[40px] text-left '>
+                <div className=' md:text-[20px] ml-[30px] text-[15px] md:w-[620px]   lg:w-[720px] md:ml-[40px] text-left '>
                     <p>{data.title}</p>
                 </div>
                  
@@ -166,8 +166,8 @@ export default function CompNotifyDisplay({ data , onSubmit}) {
                 <div className="mt-[10px] border-t border-gray-300"></div> 
               </div>
 
-              <div className=' px-2 flex items-center mx-auto w-[250px]  md:ml-[40px] md:w-[720px]  py-[20px] text-black bg-[#F5F5F5] text-center mt-[15px] rounded-[20px]'>
-                <div className='  text-sm md:text-[14px]  rounded-[10px] w-[235px] md:w-[600px] py-2 md:py-4 bg-[#F5F5F5] ml-[5px] md:ml-[40px]'>
+              <div className=' px-2 flex items-center mx-auto w-[250px]  md:ml-[40px] md:w-[620px]   lg:w-[720px]  py-[20px] text-black bg-[#F5F5F5] text-center mt-[15px] rounded-[20px]'>
+                <div className='  text-sm md:text-[14px]  rounded-[10px] w-[235px] md:w-[500px] lg:w-[600px] py-2 md:py-4 bg-[#F5F5F5] ml-[5px] md:ml-[40px]'>
                 
                     <div className='flex px-3 '>
                         <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[100px] md:ml-[-11px]'>{t('Employee')}</p>
@@ -206,10 +206,10 @@ export default function CompNotifyDisplay({ data , onSubmit}) {
                     </div>
                 </div>
                 
-                <div className=' mx-auto w-[250px]  md:w-[705px] justify-center'>
-                  <p className="text-[#808080] text-[13px] text-left ml-[5px] md:text-[16px] r md:mt-[20px]  mt-[10px]">{t('attachments')}</p>
+                <div className=' mx-auto w-[250px]  md:w-[620px]   lg:w-[720px] justify-center'>
+                  <p className="text-[#808080] text-[13px] text-left ml-[5px] md:text-[14px]  md:mt-[20px]  mt-[10px]">{t('attachments')}</p>
 
-                  <h1 className=" whitespace-nowrap overflow-hidden overflow-ellipsis  text-left w-[245px] md:w-[705px] py-1 px-2 border mt-[5px] md:mt-[10px]  border-gray-300 p-4 rounded-lg cursor-pointer "
+                  <h1 className=" whitespace-nowrap overflow-hidden overflow-ellipsis md:text-[14px] text-[13px] text-left w-[245px] md:w-[620px]   lg:w-[720px] py-1 px-2 border mt-[5px] md:mt-[10px]  border-gray-300 p-4 rounded-lg cursor-pointer "
                     onClick={() => openFileInNewTab()}>{data.file.name}</h1>
                 </div>
 
@@ -274,9 +274,9 @@ export default function CompNotifyDisplay({ data , onSubmit}) {
                 )} */}
 
                 
-                <div className=' mx-auto w-[250px]  md:w-[705px] justify-center'>
+                <div className=' mx-auto w-[250px]  md:w-[620px]   lg:w-[720px] justify-center'>
                     <p className=' text-[#808080] text-[13px] md:text-[14px] ml-[5px] text-left  mt-[20px]  md:mt-[16px]'>{t('details')}</p>
-                    <textarea  type="text" name="detail" placeholder={data.detail} className='rounded-[10px] mt-[5px] pl-[15px] w-[250px] md:ml-[-25px] h-[100px] md:text-[20px] md:w-[705px] md:h-[80px] bg-[#fff] border border-gray-300  p-4 '/>
+                    <textarea  type="text" name="detail" placeholder={data.detail} className='rounded-[10px] mt-[5px] pl-[15px] w-[250px]  h-[100px] md:text-[14px] text-[13px] md:w-[620px]   lg:w-[720px] md:h-[80px] bg-[#fff] border border-gray-300  p-4 '/>
                     {/* <textarea value={formData.detail} onChange={handleInputChange} className='border border-gray-300 rounded-md bg-[#F5F5F5] w-[250px] h-[100px] text-black text-sm pl-2 pt-2' /> */}
                 </div>
                 
@@ -296,7 +296,7 @@ export default function CompNotifyDisplay({ data , onSubmit}) {
                   {/* <button type= "submit" href="/NotifyTwo" className=' mt-[20px] text-md md:text-[20px] md:ml-[480px] border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>Submit</button> */}
                   
                     {/* // <button type= "submit" onClick={handleSubmit} className=' mt-[20px] text-md md:text-[20px] md:ml-[300px] ml-[85px] border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>submit</button> */}
-                    <button type= "submit" onClick={handleSubmit} className=' mt-[20px] text-md md:text-[20px] md:ml-[300px] ml-[85px] border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>{t('submit')}</button>
+                    <button type= "submit" onClick={handleSubmit} className=' mt-[20px] text-md md:text-[15px] mx-auto border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>{t('submit')}</button>
 
                     
                 </div>

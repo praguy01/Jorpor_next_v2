@@ -443,17 +443,17 @@ function App() {
       <CompNavbar/>
 
         <div className=' bg-[url("/bg1.png")]  bg-cover bg-no-repeat absolute z-[-1] top-0 left-0 w-full h-full bg-center overflow-auto  '>
-          <div className='md:w-[1000px] mx-auto '>
+        <div className='md:w-[700px] lg:w-[1000px] mx-auto  '>
             <div className='flex  w-[330px] mx-auto  md:w-[800px]'>
-            <div className='mx-auto justify-between flex w-[330px] md:w-[800px]  text-black md:mt-[106px] mt-[80px]  '>
-                  <h1 className={`text-[25px] text-black md:text-[30px] ml-[10px]  font-bold `}>{t("Employee List")}</h1>
+            <div className='mx-auto flex justify-between w-[330px] md:w-[800px]  text-black  md:mt-[106px] mt-[80px]  '>
+                  <h1 className={`text-[25px] text-black md:text-[30px] ml-[10px]   font-bold `}>{t("Employee List")}</h1>
                   <button
                   onClick={openPopup} 
-                  className="  text-[#5A985E] md:absolute  md:ml-[750px] text-4xl ml-[100px] md:text-5xl  hover:-translate-y-0.5 duration-200 ">
+                  className="  text-[#5A985E] md:absolute  md:ml-[650px] lg:ml-[750px] text-4xl ml-[100px] md:text-5xl  hover:-translate-y-0.5 duration-200 ">
                   <BsPlusCircleFill/>
                 </button>
               </div>
-                <div className='flex md:mt-[50px]   md:ml-[430px]'>
+                <div className='flex md:mt-[50px]   md:ml-[430px] '>
                    
                     
                    
@@ -461,7 +461,7 @@ function App() {
                       <div className="text-center absolute z-10 top-0 left-0 w-full h-full flex items-center justify-center">
                         <div className="bg-white md:w-[400px] w-[350px] p-4 py-[20px] rounded-lg border border-grey shadow-lg">
                           <div className="">
-                            <h2 className={`text-[25px] text-[#5A985E] font-bold`}>{t("Add employee list")}</h2>
+                            <h2 className={`text-[25px] text-[#5A985E] `}>{t("Add employee list")}</h2>
                               <div className='mt-[20px]'>
                               <label htmlFor="name" className="md:text-[14px] block text-sm font-medium text-gray-700">
                               {t("fill in information")}
@@ -518,22 +518,22 @@ function App() {
             </div>
            
             <div className='mt-[15px]  '>
-            <div className=  {` text-[14px] md:text-[20px] flex mx-auto items-center  bg-[#5A985E] w-[330px] md:w-[800px] md:mt-[-px] rounded-t-[20px] md:rounded-t-[20px] py-2`}>
+            <div className=  {` font-small text-[14px] md:text-[20px] flex mx-auto items-center  bg-[#5A985E] w-[330px] md:w-[700px] m:w-[800px] md:mt-[-px] rounded-t-[20px] md:rounded-t-[20px] py-2`}>
               <p className='text-center text-white   md:w-[180px] w-[30px]  md:ml-[43px] ml-[32px]  '>{t('No')}. </p>
               <p className='text-center text-white   md:w-[200px] w-[80px] md:ml-[-68px] ml-[15px] '>{t('Employee')}</p>
               <p className='text-center text-white   md:w-[180px] w-[70px] md:ml-[20px] ml-[35px]  '>{t('Name')}</p>
               {!isEditing && (
-              <PiPencilSimpleFill onClick={handleEditClick} className='absolute text-[#FFF] md:text-[20px] text-[13px]  md:ml-[750px] md:mt-[7px] ml-[300px]  mt-[3px] cursor-pointer ' />
+              <PiPencilSimpleFill onClick={handleEditClick} className='absolute text-[#FFF] md:text-[20px] text-[13px]  md:ml-[660px] lg:ml-[750px] md:mt-[7px] ml-[300px]  mt-[3px] cursor-pointer ' />
               )}
             </div>
 
-            <div className='mx-auto w-[330px] md:w-[800px] h-[400px]  text-black flex flex-col border bg-[#FFF]  rounded-b-[20px] md:rounded-b-[20px]   '>
-            <div className='mx-auto w-[330px]  md:w-[800px] h-[380px]  text-black flex flex-col bg-[#FFF] mb-[20px] rounded-b-[20px] md:rounded-b-[20px]   overflow-auto'>
+            <div className='mx-auto w-[330px] md:w-[700px] m:w-[800px] h-[400px]  text-black flex flex-col  bg-[#FFF] mb-[50px] rounded-b-[20px] md:rounded-b-[20px]   overflow-auto'>
+              <div className='mx-auto w-[330px] md:w-[700px] m:w-[800px] h-[380px]  text-black flex flex-col bg-[#FFF] mb-[20px] rounded-b-[20px] md:rounded-b-[20px]   overflow-auto'>
 
                     {console.log("todo: ",todoList)}
                
                     {todoList.map((todo, index) => (
-                  <div key={index} className={`text-sm md:text-[20px] w-[290px] rounded-[10px] md:w-[740px] py-2 md:py-4 bg-[#F5F5F5] mx-auto ${index === 0 ? 'mt-[10px]' : 'mt-[8px]'}`}>
+                  <div key={index} className={`text-sm md:text-[20px] w-[290px] rounded-[10px] md:w-[640px] lg:w-[740px] py-2 md:py-4 bg-[#F5F5F5] mx-auto ${index === 0 ? 'mt-[10px]' : 'mt-[8px]'}`}>
                   <div className='flex '>
                     <div className='flex flex-col w-full   '>
                       <div className=' flex text-[#000] '>

@@ -222,9 +222,9 @@ function App() {
       <CompNavbar/>
 
         <div className=' bg-[url("/bg1.png")] overflow-auto bg-cover bg-no-repeat absolute z-[-1] top-0 left-0 w-full h-full bg-center   '>
-          <div className='md:w-[1000px] mx-auto '>
+          <div className='md:w-[800px] lg:w-[1000px] mx-auto '>
             <div className=' w-[280px] mx-auto md:w-[963px]'>
-              <div className='left-0 md:ml-[90px] md:w-[800px] w-[300px]  flex items-center md:mt-[100px] mt-[90px] '>
+              <div className='left-0 md:ml-[90px] md:w-[700px] lg:w-[800px] w-[300px]  flex items-center md:mt-[100px] mt-[90px] '>
                   <h1 className=' text-[#5A985E] text-[25px] md:text-[40px]  mr-[10px] '>{t('Examine')}</h1>
                   <p className='text-black   w-[400px] text-sm md:text-[20px] mt-[2px] '>({checklistname})</p>
               </div>
@@ -235,8 +235,8 @@ function App() {
               
             </div>
 
-            <div className={`mx-auto w-[300px]  font-blod md:w-[800px] border ${isEditing ? 'h-[500px]' : 'h-[560px]'} mb-[50px] text-black flex flex-col bg-[#FFF] ${isEditing ? 'rounded-[10px]' : 'rounded-[30px] md:rounded-[50px]'} mt-[10px] `}>
-            <div className='  mx-auto w-[250px]   md:w-[750px] h-[500px] text-black flex flex-col  bg-[#FFF] rounded-[30px] md:rounded-[50px] mt-[10px] overflow-auto'>
+            <div className={`mx-auto w-[300px]  font-blod md:w-[700px] lg:w-[800px] border ${isEditing ? 'h-[500px]' : 'h-[560px]'} mb-[50px] text-black flex flex-col bg-[#FFF] ${isEditing ? 'rounded-[10px]' : 'rounded-[30px] md:rounded-[50px]'} mt-[10px] `}>
+            <div className='  mx-auto w-[250px]   md:w-[650px]  lg:w-[750px]  h-[500px] text-black flex flex-col  bg-[#FFF] rounded-[30px] md:rounded-[50px] mt-[10px] overflow-auto'>
 
             {todoList.map((todo, index) => (
               <div key={index}>

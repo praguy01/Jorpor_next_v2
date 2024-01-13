@@ -168,8 +168,8 @@ function App() {
                 </div>
             </div>
 
-            <div className='  px-10 mx-auto '>
-              <div className='left-0 md:ml-[90px] flex items-center md:mt-[150px] mt-[120px]'>
+            <div className='  px-10 mx-auto md:w-[800px] lg:w-[1300px] '>
+            <div className='left-0 md:ml-[50px] lg:ml-[90px] flex items-center md:mt-[150px] mt-[120px]'>
               <div
               style={{ whiteSpace: 'nowrap' }}
               className='text-[#fff]  items-center  text-center text-[25px] md:text-[45px]  font-bold border-[#5A985E] bg-[#5A985E] px-10 rounded-[50px] md:py-2'
@@ -183,7 +183,7 @@ function App() {
 
               </div>
               <div 
-              className='text-[#fff] flex items-center  text-center text-[25px] md:text-[45px]  md:ml-[105px] ml-[10px] mt-[5px]  py-2'>
+              className='text-[#fff] flex items-center  text-center text-[25px] md:text-[45px]  md:ml-[70px] lg:ml-[105px] ml-[10px] mt-[5px]  py-2'>
               <h5 style={{ whiteSpace: 'nowrap' }} className='text-[#5A985E] text-[12px] md:text-[20px]  mr-[10px] '>
               {NamePlanToAdd && NamePlanToAdd.activity ? (
                 `${NamePlanToAdd.date}`
@@ -201,19 +201,19 @@ function App() {
               </div>
               
 
-              <div className=  {` text-[20px] md:text-[50px]  left-0 md:ml-[60px] ml-[-30px] flex items-center md:mt-[5px]`}>
+              <div className=  {` text-[20px] md:text-[50px]  left-0 md:ml-[30px] lg:ml-[60px] ml-[-30px] flex items-center md:mt-[5px]`}>
                   <h1 className='text-[#5A985E]    mr-[10px] px-10  py-1 ' >  {`${language === 'EN' ? ' Meeting' : ' ห้อง'  }`} </h1>
               </div>
-              <div className={` text-[20px] md:text-[50px] left-0 md:ml-[60px] ml-[-30px] flex items-center  mt-[-15px]`}>
+              <div className={` text-[20px] md:text-[50px] left-0 md:ml-[30px] lg:ml-[60px] ml-[-30px] flex items-center  mt-[-15px]`}>
                   <h1 className='text-[#5A985E]   mr-[10px] px-10  py-1 ' >{`${language === 'EN' ? ' Room' : ' ประชุม'  }`} </h1>
               </div>
             
-              <div className='left-0 md:ml-[90px] flex items-center '>
+              <div className='left-0 md:ml-[60px] lg:ml-[90px] flex items-center '>
                   <button onClick={openMeeting} className=  {` text-[15px] md:text-[23px] mt-[15px] text-[#fff] flex   border-[#5A985E] bg-[#5A985E] md:px-5 md:py-1 px-3 py-1 rounded-[50px] `} ><BsFillPeopleFill className= ' mr-3 mt-[6px]'  /> {t('Join')}</button>
               </div>
 
               <div>
-                <Image src="/img/meeting.png" width={420} height={280} className="md:w-[420px] md:ml-[350px] md:mt-[-180px] w-[220px] ml-[90px] mt-[-80px]" alt="Meeting Image" />
+                <Image src="/img/meeting.png" width={420} height={280} className="md:w-[420px] md:ml-[280px]  lg:ml-[350px] md:mt-[-180px] w-[220px] ml-[90px] mt-[-80px]" alt="Meeting Image" />
               </div>
 
             </div>
