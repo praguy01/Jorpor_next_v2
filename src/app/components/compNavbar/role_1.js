@@ -29,8 +29,9 @@ function CompNavbar() {
   const [shouldCallEditLanguage, setshouldCallEditLanguage] = useState(false);
   const [showPopup, setShowPopup] = useState(false); 
   const [notify, setNotify] = useState(false); 
+
   // useEffect(() => {
-    // เชื่อมต่อกับ WebSocket server ที่ทำงานบน localhost:3000
+  //   // เชื่อมต่อกับ WebSocket server ที่ทำงานบน localhost:3000
   //   const socket = io('https://platform-jorpor.vercel.app/');
 
   //   // ตัวอย่าง: รับข้อความที่ถูกส่งมาจาก server
@@ -119,7 +120,7 @@ function CompNavbar() {
                 <Link href="/response_role_1" 
                   style={{ whiteSpace: 'nowrap' }}
                   className={` px-5 relative top-[5px] pb-[14px] pt-3  rounded-t-[20px]  hover:text-[#5A985E] hover:bg-[#F5F5F5] ${
-                    currentPath === '/response_role_1' || currentPath === '/responsedetail'? 'text-[#5A985E] bg-[#F5F5F5]  border border-b-0' : 'text-[#fff]'}`}
+                    currentPath === '/response_role_1' || currentPath === '/responsedetail_role_1'? 'text-[#5A985E] bg-[#F5F5F5]  border border-b-0' : 'text-[#fff]'}`}
                   >{language === 'EN' ? 'Response' : 'ผลแจ้งเตือน' }</Link>
                 
                 <Link href="/plan_role_1" 

@@ -20,7 +20,10 @@ module.exports = {
       fontWeight: {
         small: 200,
       },
-    
+      screens: {
+        'md': '768px',  // เพิ่มขนาดเองสำหรับ md
+        'lg': '1224px', // เพิ่มขนาดเองสำหรับ lg
+      },
     },
   },
   plugins: [],

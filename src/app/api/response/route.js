@@ -34,6 +34,15 @@ export async function POST(request) {
         const getQuery = 'SELECT * FROM notify WHERE id = ?';
         const [responseResult] = await db.query(getQuery ,[res.idValue]);
 
+        for (const item of responseResult) {
+          const inputDate = new Date(item.date);
+          const formattedDate = format(inputDate, 'dd/MM/yyyy HH:mm');
+          console.log("Formatted Date:", formattedDate);
+        
+          // เพิ่มค่าที่ได้มาไว้ในค่าเดิม ตามที่ต้องการ
+          item.formattedDate = formattedDate;
+        }
+
         console.log("rusultRoot: ",responseResult)
 
         return NextResponse.json({ success: true , message: 'successfully!' , responseResult: responseResult});
@@ -50,6 +59,15 @@ export async function POST(request) {
         const getQuery = "SELECT * FROM notify WHERE id = ?";
         const [responseResult] = await db.query(getQuery , [res.idValue]);
 
+
+        for (const item of responseResult) {
+          const inputDate = new Date(item.date);
+          const formattedDate = format(inputDate, 'dd/MM/yyyy HH:mm');
+          console.log("Formatted Date:", formattedDate);
+        
+          // เพิ่มค่าที่ได้มาไว้ในค่าเดิม ตามที่ต้องการ
+          item.formattedDate = formattedDate;
+        }
 
         console.log("rusultRoot: ",responseResult)
 

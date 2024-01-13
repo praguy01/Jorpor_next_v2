@@ -783,11 +783,10 @@ const generatePDF = async () => {
                 console.log("HEIGHT: ", examKey, 'checkcurrentHeight: ', checkcurrentHeight, 'tableHeight: ', tableHeight, 'currentY: ', currentY, 'currentHeight: ', currentHeight);
 
                 if (checkcurrentHeight > maxPageHeight) {
-                  console.log("------------------------------------------------")
-                  createNewPage();
-                  currentY = 20;
-                  currentHeight = 0;
-                  checkcurrentHeight = 0;
+                  console.log("------------------------------------------------",tableHeight)
+                  currentY = tableHeight + 20;
+                  currentHeight = tableHeight;
+                  checkcurrentHeight = tableHeight;
                   newPage = true;
                 }
               }
@@ -860,11 +859,10 @@ const generatePDF = async () => {
                   console.log("HEIGHT: ", entry.key, 'checkcurrentHeight: ', checkcurrentHeight, 'tableHeight: ', tableHeight, 'currentY: ', currentY, 'currentHeight: ', currentHeight);
 
                   if (checkcurrentHeight > maxPageHeight) {
-                    console.log("------------------------------------------------")
-                    createNewPage();
-                    currentY = 20;
-                    currentHeight = 0;
-                    checkcurrentHeight = 0;
+                    console.log("------------------------------------------------",tableHeight)
+                    currentY = tableHeight + 20;
+                    currentHeight = tableHeight;
+                    checkcurrentHeight = tableHeight;
                     newPage = true;
                   }
                 }
@@ -890,18 +888,18 @@ const generatePDF = async () => {
       <CompNavbar/>
         
       <div className=' bg-[url("/bg1.png")]  overflow-auto bg-cover bg-no-repeat absolute z-[-1] top-0 left-0 w-full h-full bg-center '>
-        <div className='md:w-[1000px] mx-auto '>
+      <div className='md:w-[800px] lg:w-[1000px] mx-auto '>
           <div className='absolute top-[100px] left-1/2 transform -translate-x-1/2 z-0'>
              <div className='bg-[#5A985E] mx-auto max-w-[500px] sm:max-w-[350px] py-[100px] rounded-[50px]'></div>
           </div>
 
-          <div className='mx-auto w-[350px] md:w-[800px] font-ntr mb-[50px]  py-[30px] text-black flex flex-col  bg-[#FFF] text-center md:rounded-[50px] rounded-[30px] mt-[106px]  '>
+          <div className='mx-auto w-[350px] md:w-[700px] lg:w-[800px] font-ntr mb-[50px]  py-[30px] text-black flex flex-col  bg-[#FFF] text-center md:rounded-[50px] rounded-[30px] mt-[106px]  '>
           
                     <div  >
                     <div  className=  {`font-mitr font-bold text-[20px] md:text-[25px] ml-[20px] md:ml-[50px] w-[310px]  md:w-[600px] `}>
 
                     <h1 className=' text-[#5A985E]  ml-[10px] md:ml-[0] md:w-[300px]  text-left  '> {t("Verified information")}</h1>
-                    <div className="mt-[5px] md:mt-[10px] md:ml-[-30px] border-t md:border w-full md:w-[750px] border-gray-300"></div>
+                    <div className="mt-[5px] md:mt-[10px] md:ml-[-30px] border-t md:border w-full md:w-[650px] lg:w-[750px] border-gray-300"></div>
 
 
                     <div className='text-black text-left ml-[10px] md:ml-[0]  mt-[15px]  md:mt-[0] flex '>
@@ -910,7 +908,7 @@ const generatePDF = async () => {
                     </div>
                     </div>
 
-                    <div className='mx-auto md:w-[705px] text-black   w-[310px] '>
+                    <div className='mx-auto md:w-[620px] lg:w-[705px] text-black   w-[310px] '>
 
                     <div className='flex items-center  mt-[5px]  text-[13px] md:text-[16px] font-mitr md:mt-[20px] text-left ml-[10px] md:ml-[10px] '>
                     <p>{t('Date')}</p>
@@ -929,7 +927,7 @@ const generatePDF = async () => {
 
                     <div  className='mx-auto '>
 
-                      <div  className='h-[300px]  md:w-[690px] px-2 font-mitr  text-black text-center mt-[15px] mx-auto justify-center text-sm md:text-[18px] rounded-[10px] w-[310px] py-2 md:py-4 bg-[#F5F5F5] ml-[5px]  overflow-auto'>
+                      <div  className='h-[300px]  md:w-[610px] lg:w-[690px] px-2 font-mitr  text-black text-center mt-[15px] mx-auto justify-center text-sm md:text-[18px] rounded-[10px] w-[310px] py-2 md:py-4 bg-[#F5F5F5] ml-[5px]  overflow-auto'>
                       <div id="pdf-content"   className="w-full  ">
                       {nameExamine &&
                             nameExamine.items &&

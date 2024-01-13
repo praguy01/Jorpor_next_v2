@@ -82,13 +82,13 @@ function CompNavbar() {
                 <Link href="/response_role_3"
                   style={{ whiteSpace: 'nowrap' }}
                   className={` px-5 relative top-[5px] pb-[14px] pt-3  rounded-t-[20px]  hover:text-[#5A985E] hover:bg-[#F5F5F5] ${
-                    currentPath === '/response_role_3'  ? 'text-[#5A985E] bg-[#F5F5F5]  border border-b-0'  : 'text-[#fff]'}`} 
+                    currentPath === '/response_role_3' || currentPath === '/responsedetail_role_3' ? 'text-[#5A985E] bg-[#F5F5F5]  border border-b-0'  : 'text-[#fff]'}`} 
                   >{language === 'EN' ? 'Evalution' : 'การประเมินผล' }</Link>                
                 
                 <Link href="/plan_role_3" 
                   style={{ whiteSpace: 'nowrap' }}
                   className={` px-5 relative top-[5px] pb-[14px] pt-3  rounded-t-[20px]  hover:text-[#5A985E] hover:bg-[#F5F5F5] ${
-                    currentPath === '/plan_role_3' || currentPath === '/responsedetail'? 'text-[#5A985E] bg-[#F5F5F5]  border border-b-0' : 'text-[#fff]'}`}
+                    currentPath === '/plan_role_3' ? 'text-[#5A985E] bg-[#F5F5F5]  border border-b-0' : 'text-[#fff]'}`}
                   >{language === 'EN' ? 'Plan' : 'แผนงาน' }</Link>
                   
                 <Link href="/meeting_role_3" 

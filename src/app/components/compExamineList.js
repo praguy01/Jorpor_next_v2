@@ -115,7 +115,7 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
   const openPopup = async () => {
     try {
       const storedUser_id = id
-      const AddData = {  storedUser_id , fetch: true};
+      const AddData = {  storedUser_id , fetchSelect: true};
       const data = JSON.stringify(AddData);
       console.log("data222: ",data)
 

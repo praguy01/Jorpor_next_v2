@@ -87,6 +87,7 @@ i18n
           "Employee list":"Employee list",
           "Add Examine":"Add Examine",
           "add Examine":"add Examine",
+          "add examine":"add examine",
           "Uploaded images":"Uploaded images",
           "There is no information to check today.":"There is no information to check today.",
 
@@ -157,6 +158,7 @@ i18n
           Password:'รหัสผ่าน',
           "Add Examine":"เพิ่มรายการตรวจสอบ",
           "add Examine":"เพิ่มรายการตรวจสอบ",
+          "add examine":"เพิ่มรายการตรวจสอบ",
           "Do you want to delete":"คุณต้องการที่จะลบ",
           send:'ส่ง',
           "Verified information":"ข้อมูลตรวจสอบวันนี้",

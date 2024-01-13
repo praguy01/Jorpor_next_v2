@@ -619,7 +619,7 @@ function App() {
                         type='text'
                         value={newActivity}
                         onChange={(e) => setNewActivity(e.target.value)}
-                        placeholder='Add Activity'
+                        placeholder={t("Add Activity")}
                         className='border rounded-[10px]  py-1 w-[150px] text-[14px] pl-2'
                       />
                     </td>

@@ -371,8 +371,23 @@ export async function POST(request) {
       const getIdQuery = "SELECT select_id FROM `select` WHERE date = ? AND user_id = ?";
       const [idResult] = await db.query(getIdQuery, [formattedDate ,res.storedId]);
       const idResultmap = idResult.map(row => row.select_id)[0]; // Extract the string from the array
-
-
+      let item_id = [];
+  
+        // Check if idResultmap is defined before parsing
+        if (idResultmap) {
+          try {
+            item_id = JSON.parse(idResultmap);
+            console.log("Parsed item_id: ", item_id);
+          } catch (error) {
+            console.error("Error parsing JSON:", error);
+            // Handle the error appropriately, e.g., log the error or set a default value
+          }
+        } else {
+          console.warn("idResultmap is undefined or null");
+          // Handle the case where idResultmap is undefined or null
+        }
+       
+        console.log("RESULTTTT------: ",item_id)
      
 
         if (idResultmap === undefined){
@@ -383,37 +398,23 @@ export async function POST(request) {
         } else {
          
 
-       
-      
-      let item_id = [];
-
-      if (idResultmap) {
-        try {
-          item_id = JSON.parse(idResultmap);
-        } catch (error) {
-          console.error("Error parsing JSON:", error);
-        }
-      } else {
-        console.warn("idResultmap is undefined or null");
-      }
-      
       const nameList = [];
       let flattenedNameList = []
     
       for (const item of item_id) {
-        // console.log("4444: ",item)
+        console.log("4444: ",item)
     
         const getNameExamineListQuery = "SELECT name FROM examinelist WHERE id = ? AND user_id = ?";
         const [nameExamineListResult] = await db.query(getNameExamineListQuery, [item, res.storedId]);
     
-        // const nameExamineListResultmap = nameExamineListResult.map(row => row.name);
-        nameList.push(nameExamineListResult);
-        // console.log("nameList: ", nameList);
-        flattenedNameList = nameList.flatMap(zone => zone.map(item => item.name));
-
-        return NextResponse.json({ success: true, dbnameExamineList: flattenedNameList});
-
+        const nameExamineListResultmap = nameExamineListResult.map(row => row.name);
+        nameList.push(nameExamineListResultmap[0]);
+        console.log("nameList: ", nameList);
+        // flattenedNameList = nameList.flatMap(zone => zone.map(item => item.name));
       }
+        return NextResponse.json({ success: true, dbnameExamineList: nameList});
+
+     
     }
         
       }

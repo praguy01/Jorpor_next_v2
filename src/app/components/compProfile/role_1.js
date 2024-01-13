@@ -292,11 +292,11 @@ function App() {
          
           <div className='absolute inset-[0]'>
             <div>
-              <div className='  mx-auto  w-[330px] py-[200px] md:w-[500px]  md:py-[243px] md:mt-[160px] text-black flex flex-col  bg-[#5A985E]/50 text-center rounded-[50px] mt-[140px] '>
+              <div className='  mx-auto  w-[330px] py-[200px] md:w-[500px]  md:py-[243px] md:mt-[160px]  text-black flex flex-col  bg-[#5A985E]/50 text-center rounded-[50px] mt-[140px] '>
               </div>
             <div>
               <div className='absolute inset-[0] container mx-auto px-4 z-10 items-center   '>
-                <div className=' mx-auto md:mt-[200px] md:w-[700px] md:h-[400px] py-[30px] text-black flex flex-col  bg-[#5A985E] text-center rounded-[50px] mt-[106px]  h-[460px] w-[300px]'>
+                <div className=' mx-auto md:mt-[200px]  md:w-[700px] md:h-[400px] py-[30px] text-black flex flex-col  bg-[#5A985E] text-center rounded-[50px] mt-[106px]  h-[460px] w-[300px]'>
                 <form onSubmit={handleSaveClick} >
                 
                 <div className=''>

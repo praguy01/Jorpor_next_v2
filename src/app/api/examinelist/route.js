@@ -173,7 +173,68 @@ console.log("Data_examineUsers: ", uniqueDataArray);
             const [nameExamineListResult] = await db.query(getNameExamineListQuery, [item, res.storedUser_id]);
         
             nameList.push(nameExamineListResult);
-            console.log("nameList: ", nameList);
+          }
+        
+          // flattenedNameList = nameList.flatMap(zone => zone.map(item => item));
+          // console.log("Flattened nameList: ", flattenedNameList);
+        
+          // Filter out elements in examinelistResult[0] where id is in flattenedNameList
+          // const filteredExamineListResult = examinelistResult.filter(item =>
+          //   !flattenedNameList.some(flattenedItem => flattenedItem.id === item.id)
+          // );
+        
+          // console.log("Filtered examinelistResult[0]: ", filteredExamineListResult);
+          // console.log("Flattened nameList: ", flattenedNameList);
+
+          console.log("nameList: ", nameList);
+
+          return NextResponse.json({ success: true, dbexaminelist_name: examinelistResult });
+        }
+
+        if (res.fetchSelect) {
+          const currentDate = new Date();
+          const day = currentDate.getDate();
+          const month = currentDate.getMonth() + 1; // Adding 1 because January starts at 0
+          const year = currentDate.getFullYear();
+          const formattedDate = `${day}/${month}/${year}`;
+          
+          let flattenedNameList = []; // Declare outside of the try block
+        
+          const getExamineQuery = "SELECT * FROM examinelist WHERE user_id = ? ";
+          const [examinelistResult] = await db.query(getExamineQuery, res.storedUser_id);
+        
+          console.log("Data_examine44: ", examinelistResult);
+        
+          const getIdQuery = "SELECT select_id FROM `select` WHERE date = ? AND user_id = ?";
+          const [idResult] = await db.query(getIdQuery, [formattedDate, res.storedUser_id]);
+          const idResultmap = idResult.map(row => row.select_id)[0]; // Extract the string from the array
+          console.log("4444idResult: ", idResultmap);
+        
+          let item_id = [];
+        
+          // Check if idResultmap is defined before parsing
+          if (idResultmap) {
+            try {
+              item_id = JSON.parse(idResultmap);
+              console.log("Parsed item_id: ", item_id);
+            } catch (error) {
+              console.error("Error parsing JSON:", error);
+              // Handle the error appropriately, e.g., log the error or set a default value
+            }
+          } else {
+            console.warn("idResultmap is undefined or null");
+            // Handle the case where idResultmap is undefined or null
+          }
+        
+          const nameList = [];
+        
+          for (const item of item_id) {
+            console.log("4444: ", item);
+        
+            const getNameExamineListQuery = "SELECT id ,name FROM examinelist WHERE id = ? AND user_id = ?";
+            const [nameExamineListResult] = await db.query(getNameExamineListQuery, [item, res.storedUser_id]);
+        
+            nameList.push(nameExamineListResult);
           }
         
           flattenedNameList = nameList.flatMap(zone => zone.map(item => item));
@@ -184,8 +245,11 @@ console.log("Data_examineUsers: ", uniqueDataArray);
             !flattenedNameList.some(flattenedItem => flattenedItem.id === item.id)
           );
         
-          console.log("Filtered examinelistResult[0]: ", filteredExamineListResult);
-        
+          // console.log("Filtered examinelistResult[0]: ", filteredExamineListResult);
+          // console.log("Flattened nameList: ", flattenedNameList);
+
+          console.log("nameList: ", nameList);
+
           return NextResponse.json({ success: true, dbexaminelist_name: filteredExamineListResult });
         }
         
