@@ -330,12 +330,12 @@ export default function CompRegister() {
                         </form>
                         {showPopup && (
                           <div className="fixed inset-0 flex items-center justify-center z-50">
-                            <div className="bg-[#91C194] rounded-[30px] p-4 border-[#5A985E] shadow-lg">
+                            <div className="bg-[#91C194] rounded-[30px] p-4 px-4 md:px-8 w-[350px] md:w-[500px] border-[#5A985E] shadow-lg mx-auto">
                               <form onSubmit={handleConfirmSubmit}>
-                                <div className='mt-10 md:mt-20 '>
-                                  <p className='text-[13px]'>Please enter the verification code sent to your email.</p>
+                                <div className='mt-2 md:mt-6  '>
+                                  <p className='text-[12px] md:text-[15px]'>Please enter the verification code sent to your email.</p>
                           
-                                  <div className="flex ml-[10px] ">
+                                  <div className="flex  mx-auto  justify-center  ">
                                   {[1, 2, 3, 4, 5, 6].map((index) => (
                                     <input
                                       key={index}
@@ -343,7 +343,7 @@ export default function CompRegister() {
                                       name={`PIN${index}`}
                                       value={formDataConfirm[`PIN${index}`]}
                                       onChange={handleConfirmChange}
-                                      className="mt-[20px] text-center w-[30px] h-[30px] text-lg md:text-lg md:w-[50px] md:h-[50px] md:ml-[18px] mx-2"
+                                      className="mt-[20px] text-center w-[30px] h-[30px] text-lg md:text-lg md:w-[50px] md:h-[50px]  mx-2"
                                       maxLength={1}
                                     />
                                   ))}
@@ -363,7 +363,7 @@ export default function CompRegister() {
                                   )}     
                                   </div>
                                  <div>
-                                    <button onClick={handleConfirmSubmit} className=" mx-auto mb-[10px] w-[100px] mt-[10px] md:mt-[240px] text-[12px] md:text-[16px]  border-[#5A985E] bg-[#5A985E] px-4 py-1 md:py-2 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200">Comfirm</button>
+                                    <button onClick={handleConfirmSubmit} className=" mx-auto mb-[10px] w-[100px] mt-[10px] md:mt-[20px] text-[12px] md:text-[16px]  border-[#5A985E] bg-[#5A985E] px-4 py-1 md:py-2 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200">Comfirm</button>
                                   </div>
                                   </div>
                                   </div>
