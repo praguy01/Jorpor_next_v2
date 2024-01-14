@@ -109,6 +109,8 @@ function App() {
                     setTodoAll(data.percent)
 
                   } else {
+                    setTodoZone(percentage.data)
+                    setTodoAll(data.percent)
                     allValuesAreEmptyArrays = false;
                     console.log("datatoday222: ",percentage.data)
 

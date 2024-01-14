@@ -63,7 +63,7 @@ function CompNavbar() {
   return (
     < CompLanguageProvider>
         <div className='w-full h-[60px] items-center  bg-[#5A985E] fixed top-0 left-0 ' >
-          <div className='container mx-auto flex justify-between  items-center py-2 px-4 md:h-[60px] w-screen '>
+          <div className='container mx-auto flex justify-between  items-center py-2 px-4 md:h-[60px] w-screen   '>
             <div className='text-[#fff]  relative md:top-[2px] pb-3 pt-2  font-bold text-[24px] md:mr-[25px]' >
                 <Link href='/report_role_2'>JorPor</Link>
                 </div>

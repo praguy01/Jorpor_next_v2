@@ -520,11 +520,11 @@ function App() {
                   </div>
                   {/* <PiPencilSimpleFill onClick={handleEditClick} className='absolute text-black md:text-[20px] text-[13px] md:ml-[840px] md:mt-[170px] ml-[250px] mt-[10px] cursor-pointer ' /> */}
             </div>
-            <div className='flex w-[330px] md:w-[700px] m:w-[800px]  items-center mx-auto '>
+            <div className='flex w-[330px] md:w-[700px] lg:w-[800px]  items-center mx-auto '>
             <div className='  items-center mx-auto w-[330px] md:w-[780px]  '>
               <label className="block  text-gray-700 text-[13px] font-bold mb-2"> {t("Select an option")}:</label>
               <select
-                className="w-[100px]  left-0  text-[13px] text-black border rounded-md px-4 py-1 outline-none"
+                className="  left-0  text-[13px] text-black border rounded-md px-4 py-1 outline-none"
                 value={selectedOption}
                 onChange={handleDropdownChange}
               >

@@ -366,15 +366,15 @@ export default function CompReportResultsForm({ onSubmit }) {
   
     // Add Sarabun font
     let verticalSpacing = 5; // Set the desired vertical spacing
+    let tableHeight = 0;
     let currentY = 10;
     let currentHeight = 0;
     let checkcurrentHeight = 0;
-    const maxPageHeight = 670;
+    const maxPageHeight = 800;
     let newPage = false;
   
     const createNewPage = () => {
       doc.addPage();
-      currentHeight = 0;
       newPage = false;
     };
   
@@ -397,13 +397,21 @@ export default function CompReportResultsForm({ onSubmit }) {
       try {
         for (const item of nameExamine.items) {
           console.log("HEIGHT item.name: ", item.name, currentY, currentHeight, checkcurrentHeight);
-  
+          if (checkcurrentHeight > maxPageHeight) {
+            createNewPage();
+            currentY = 20; 
+            checkcurrentHeight = 0;
+            newPage = true;
+          }
           if (newPage === true) {
             console.log("NEWW PAGEEEE");
             currentY = 20;
+            tableHeight = 0;
+            currentHeight  = 0;
             newPage = false;
+  
           } else if (currentHeight > 0) {
-            console.log("NEWW 2222");
+            console.log("NEWW 2222" , currentHeight);
   
             currentY = currentHeight + 8;
           } else {
@@ -412,9 +420,9 @@ export default function CompReportResultsForm({ onSubmit }) {
             currentY = 46;
           }
   
-  
+         
           doc.text(20, currentY, `การตรวจสอบ :  ${item.name}`);
-          console.log("HEIGHT item.name 1: ", item.name, currentY, currentHeight, checkcurrentHeight);
+          console.log("HEIGHT item.name 1: ", item.name, currentY, currentHeight, checkcurrentHeight ,tableHeight);
   
           currentY += 8;
   
@@ -476,21 +484,15 @@ export default function CompReportResultsForm({ onSubmit }) {
   
                   doc.autoTable({ columns, body: data, ...options });
   
-                  const tableHeight = doc.previousAutoTable.finalY;
+                  tableHeight = doc.previousAutoTable.finalY;
                   currentHeight = tableHeight;
-                  currentY = tableHeight + 10;
+                  currentY = doc.autoTable.previous.finalY + 10; // Set currentY to the bottom of the previous table plus some spacing
                   checkcurrentHeight += tableHeight;
-  
+                 
+                  
                   console.log("HEIGHT: ", examKey, 'checkcurrentHeight: ', checkcurrentHeight, 'tableHeight: ', tableHeight, 'currentY: ', currentY, 'currentHeight: ', currentHeight);
-  
-                  if (checkcurrentHeight > maxPageHeight) {
-                    console.log("------------------------------------------------")
-                    createNewPage();
-                    currentY = 20;
-                    currentHeight = 0;
-                    checkcurrentHeight = 0;
-                    newPage = true;
-                  }
+                  
+                  
                 }
               } else {
                 if (examValue[0].itemA) {
@@ -500,6 +502,14 @@ export default function CompReportResultsForm({ onSubmit }) {
                     console.log("HEIGHT entry.key: ", entry.key, currentY, currentHeight);
   
                     entryIndex++;
+                    // if (checkcurrentHeight > maxPageHeight ) {
+                    //   console.log("------------------------------------------------",tableHeight)
+                    //   createNewPage()
+                    //   currentY = tableHeight ;
+                    //   currentHeight = 0;
+                    //   checkcurrentHeight = 0;
+                    //   newPage = true;
+                    // }
   
                     doc.text(25, currentY, `${entryIndex}. ${entry.key}`);
   
@@ -552,22 +562,14 @@ export default function CompReportResultsForm({ onSubmit }) {
                     };
   
                     doc.autoTable({ columns, body: data, ...options });
-  
-                    const tableHeight = doc.previousAutoTable.finalY;
+                    tableHeight = doc.previousAutoTable.finalY;
                     currentHeight = tableHeight;
-                    currentY = tableHeight + 10;
+                    currentY = doc.autoTable.previous.finalY + 10; 
                     checkcurrentHeight += tableHeight;
-  
+                
                     console.log("HEIGHT: ", entry.key, 'checkcurrentHeight: ', checkcurrentHeight, 'tableHeight: ', tableHeight, 'currentY: ', currentY, 'currentHeight: ', currentHeight);
-  
-                    if (checkcurrentHeight > maxPageHeight) {
-                      console.log("------------------------------------------------")
-                      createNewPage();
-                      currentY = 20;
-                      currentHeight = 0;
-                      checkcurrentHeight = 0;
-                      newPage = true;
-                    }
+                    
+                   
                   }
                 }
               }

@@ -450,7 +450,7 @@ function App({ onSubmit }) {
             {showPopup && (
               <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center ">
                 <div className="bg-white  p-4 rounded-lg border-black shadow-lg md:w-[300px] ">
-                  <h2 className={`text-[18px] text-[#5A985E]  `}>{t("Add List Examine")}</h2>
+                  <h2 className={`text-[18px] text-[#5A985E]  `}>{t("Add list examine")}</h2>
                   <div className="mt-4 ">
                     <input className={`text-[14px]  w-[268px] mt-1 p-2  border border-gray-300 rounded-md`}
                       value={examinelist_name}
