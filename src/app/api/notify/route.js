@@ -30,7 +30,7 @@ export async function POST(request) {
 
       const insertSql =
         "INSERT INTO notify (title, employee, location, work_owner, status, date, file, file_name, detail,user_id, Verification_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-      const insertValues = [title, employee, location, work_owner, position, dateTime, fileBuffer, file.name, detail,id, "Pending approval"];
+      const insertValues = [title, employee, location, work_owner, position, dateTime, fileBuffer, file.name, detail,id, 1];
       const result = await db.execute(insertSql, insertValues);
 
       if (result[0].affectedRows === 1) {

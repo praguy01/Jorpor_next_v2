@@ -128,9 +128,9 @@ function App() {
                     <div className='flex  items-center justify-between'>
                     <div className=' bg-[#F5F5F5] mt-[10px] md:w-[350px] lg:w-[450px] w-[90px] md:ml-[15px] ml-[5px] h-[25px] md:h-[30px] rounded-[10px]'></div>
                     <div className='items-center mt-[5px] text-[11px] md:text-[14px] md:h-[30px] h-[25px] border-[#64CE3F] bg-[#64CE3F] px-5 md:px-10 rounded-[20px] text-[#fff] flex'>
-                      {todo.Verification_status === 'Approve' && t("Approve")}
-                      {todo.Verification_status === 'Pending approval' && t("Pending approval")}
-                      {todo.Verification_status === 'Evalution' && t("Evalution")}
+                      {todo.Verification_status === 1 && t("Approve")}
+                      {todo.Verification_status === 2 && t("Pending approval")}
+                      {todo.Verification_status === 3 && t("Evalution")}
                     </div>
                  
                   </div>

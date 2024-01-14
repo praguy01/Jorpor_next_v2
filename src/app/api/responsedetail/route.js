@@ -15,10 +15,10 @@ console.log("RESS11: ",res)
         const getQuery = `
           UPDATE notify
           SET 
-            Verification_status = 'Evalution'
+            Verification_status = ?
           WHERE id = ?`;
 
-        const [responseResult] = await db.query(getQuery, [res.id]);
+        const [responseResult] = await db.query(getQuery, [res.id,3]);
 
         console.log("Result: ", responseResult);
 
@@ -48,10 +48,10 @@ console.log("RESS11: ",res)
         const getQuery = `
           UPDATE notify
           SET 
-            Verification_status = 'Approve'
+            Verification_status = ?
           WHERE id = ?`;
 
-        const [responseResult] = await db.query(getQuery, [res.id]);
+        const [responseResult] = await db.query(getQuery, [res.id,2]);
 
         console.log("Result: ", responseResult);
 

@@ -223,8 +223,11 @@ export async function POST(request) {
             // console.log("Thai Time:", thaiTime);
 
             const inputDate = new Date();
+            const { utcToZonedTime } = require('date-fns-tz');
             const timeZone = 'Asia/Bangkok';
-            const formattedDatenew = format(inputDate, 'dd/MM/yyyy HH:mm', { timeZone });            
+      
+            const formattedDatenew = format(utcToZonedTime(inputDate, timeZone), 'dd/MM/yyyy HH:mm', { timeZone });
+            console.log("yyyy-MM-dd HH:mm",formattedDatenew);          
             // console.log("yyyy-MM-dd HH:mm",formattedDatenew);
 
             const resultList = {

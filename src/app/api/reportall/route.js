@@ -14,6 +14,8 @@ export async function POST(request) {
 
     if (res.fetch_role_2){
 
+
+
       const currentDate = new Date();
         const day = currentDate.getDate();
         const month = currentDate.getMonth() + 1; 
@@ -35,10 +37,12 @@ export async function POST(request) {
       for (const data of Result) {
         
         console.log("ITEMMM//////////////////////////",data);
-
+        const { utcToZonedTime } = require('date-fns-tz');
+        const timeZone = 'Asia/Bangkok';
+  
         const inspector  = data.inspector;
         const inputDate = new Date(data.send_date);
-        const formattedDatenew = format(inputDate, 'dd/MM/yyyy HH:mm');
+        const formattedDatenew = format(utcToZonedTime(inputDate, timeZone), 'dd/MM/yyyy HH:mm', { timeZone });
         console.log("yyyy-MM-dd HH:mm",formattedDatenew);
 
         // const dateTime = `${day}/${month}/${year} ${hours}:${minutes}`;
@@ -496,10 +500,13 @@ export async function POST(request) {
         
         // console.log("ITEMMM",item.inspector);
 
+        console.log("ITEMMM//////////////////////////",data);
+        const { utcToZonedTime } = require('date-fns-tz');
+        const timeZone = 'Asia/Bangkok';
+  
         const inspector  = data.inspector;
-
         const inputDate = new Date(data.send_date);
-        const formattedDatenew = format(inputDate, 'dd/MM/yyyy HH:mm');
+        const formattedDatenew = format(utcToZonedTime(inputDate, timeZone), 'dd/MM/yyyy HH:mm', { timeZone });
         console.log("yyyy-MM-dd HH:mm",formattedDatenew);
         // const dateTime = `${day}/${month}/${year} ${hours}:${minutes}`;
         // const dateTime = inputDate.toLocaleString('en-US', { timeZone: 'Asia/Bangkok' , year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });

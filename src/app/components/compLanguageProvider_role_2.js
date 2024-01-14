@@ -98,65 +98,61 @@ const LanguageContext = createContext();
 
 export const CompLanguageProvider = ({ children }) => {
   const [language, setLanguage] = useState('');
-  const [shouldCallEditLanguage, setshouldCallEditLanguage] = useState(false);
+  const [shouldCallEditLanguage, setShouldCallEditLanguage] = useState(false);
   const [message, setMessage] = useState('');
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const storedId = localStorage.getItem('id');
-        if (storedId) {
-          console.log('Stored: ', storedId);
-        }
-  
-        const AddData = { storedId, lang_role_2: true };
-        const data = JSON.stringify(AddData);
-        console.log('DD: ', data);
-  
-        const response = await axios.post('/api/lang', data, {
-          headers: { 'Content-Type': 'application/json' },
-        });
-  
-        const resdata = response.data;
-        console.log('DATA: ', response.data.dbLang[0]);
-  
-        if (response.status === 200) {
-          if (resdata.success === true) {
-            setLanguage(response.data.dbLang[0]);
-            i18n.changeLanguage(response.data.dbLang[0]);
+  const fetchData = async () => {
+    try {
+      const storedId = localStorage.getItem('id');
+      if (storedId) {
+        console.log('Stored: ', storedId);
+      }
 
-            // localStorage.setItem("language", response.data.dbLang[0]);
-          } else {
-            setMessage(resdata.error);
-          }
+      const AddData = { storedId, lang_role_2: true };
+      const data = JSON.stringify(AddData);
+      console.log('DD: ', data);
+
+      const response = await axios.post('/api/lang', data, {
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      const resdata = response.data;
+      console.log('DATA: ', response.data.dbLang[0]);
+
+      if (response.status === 200) {
+        if (resdata.success === true) {
+          setLanguage(response.data.dbLang[0]);
+          i18n.changeLanguage(response.data.dbLang[0]);
         } else {
           setMessage(resdata.error);
         }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        setMessage('');
+      } else {
+        setMessage(resdata.error);
       }
-    };
-  
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setMessage('');
+    }
+  };
+
+  useEffect(() => {
     fetchData();
     console.log('LANGGGGG111: ', language);
-  
   }, [language]);
-  
 
   const toggleLanguage = async () => {
     setLanguage((prevLanguage) => {
       const newLanguage = prevLanguage === 'EN' ? 'TH' : 'EN';
       i18n.changeLanguage(newLanguage);
-      setshouldCallEditLanguage(true);
+      setShouldCallEditLanguage(true);
       return newLanguage;
     });
   };
-  
+
   useEffect(() => {
     const editLanguage = async () => {
       console.log('StoredLanguage: ', language);
-  
+
       try {
         const storedId = localStorage.getItem('id');
         if (storedId) {
@@ -164,18 +160,18 @@ export const CompLanguageProvider = ({ children }) => {
         }
         console.log('D2222: ', language);
         localStorage.setItem("language", language);
-  
+
         const AddData = { storedId, language, edit_lang_role_2: true };
         const data = JSON.stringify(AddData);
         console.log('DD: ', data);
-  
+
         const response = await axios.post('/api/lang', data, {
           headers: { 'Content-Type': 'application/json' },
         });
-  
+
         const resdata = response.data;
         console.log('DATA8888edit: ', response.data.dbLang[0]);
-  
+
         if (response.status === 200) {
           if (resdata.success === true) {
             setLanguage(response.data.dbLang[0]);
@@ -190,13 +186,12 @@ export const CompLanguageProvider = ({ children }) => {
         setMessage('');
       }
     };
-  
+
     if (shouldCallEditLanguage) {
       editLanguage();
-      setshouldCallEditLanguage(false);
+      setShouldCallEditLanguage(false);
     }
   }, [language, shouldCallEditLanguage]);
-  
 
   return (
     <LanguageContext.Provider value={{ language, toggleLanguage }}>
@@ -204,6 +199,7 @@ export const CompLanguageProvider = ({ children }) => {
     </LanguageContext.Provider>
   );
 };
+
 
 export const useLanguage = () => {
   const context = useContext(LanguageContext);
