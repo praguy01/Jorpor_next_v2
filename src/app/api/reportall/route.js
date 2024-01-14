@@ -49,9 +49,9 @@ export async function POST(request) {
 
     // ในที่นี้, คุณไม่ได้ใช้ inspector หรือ inputDate ซ้ำ
     // และไม่จำเป็นต้องใช้ Promise.all
-      const formattedDateA = format(inputDate, 'dd/MM/yyyy HH:mm');
+      const formattedDatenew = format(inputDate, 'dd/MM/yyyy HH:mm');
       // data.formattedDate = formattedDateA;
-      console.log("Formatted Date", formattedDateA);
+      console.log("Formatted Date", formattedDatenew);
 
         // const dateTime = `${day}/${month}/${year} ${hours}:${minutes}`;
         // const dateTime = inputDate.toLocaleString('en-US', { timeZone: 'Asia/Bangkok' , year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
@@ -114,7 +114,7 @@ export async function POST(request) {
         }
 
         const dataitem = {
-          date: formattedDateA,
+          date: formattedDatenew,
           id: data.inspector,
           name: name,
           zone: flattenedNameList
@@ -174,6 +174,7 @@ export async function POST(request) {
         // let recentDates = getChecklist_R2QueryResult.map(result => result.date);
         // const currentDate = new Date();
         // const formattedCurrentDate = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`;
+        let formattedDateA; // Declare outside the if-else block
         // const day = currentDate.getDate() ;
         // const month = currentDate.getMonth() + 1; 
         // const year = currentDate.getFullYear();
@@ -520,8 +521,8 @@ export async function POST(request) {
 
     // ในที่นี้, คุณไม่ได้ใช้ inspector หรือ inputDate ซ้ำ
     // และไม่จำเป็นต้องใช้ Promise.all
-      const formattedDateA = format(inputDate, 'dd/MM/yyyy HH:mm');
-      console.log("Formatted Date", formattedDateA);
+      const formattedDatenew = format(inputDate, 'dd/MM/yyyy HH:mm');
+      console.log("Formatted Date", formattedDatenew);
         // const dateTime = `${day}/${month}/${year} ${hours}:${minutes}`;
         // const dateTime = inputDate.toLocaleString('en-US', { timeZone: 'Asia/Bangkok' , year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
 
@@ -581,7 +582,7 @@ export async function POST(request) {
         }
 
         const dataitem = {
-          date: formattedDateA,
+          date: formattedDatenew,
           id: data.inspector,
           name: name,
           zone: flattenedNameList
@@ -640,6 +641,7 @@ export async function POST(request) {
         // let recentDates = getChecklist_R2QueryResult.map(result => result.date);
         // const currentDate = new Date();
         // const formattedCurrentDate = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`;
+        let formattedDateA; // Declare outside the if-else block
         // const day = currentDate.getDate() ;
         // const month = currentDate.getMonth() + 1; 
         // const year = currentDate.getFullYear();
