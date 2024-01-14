@@ -333,7 +333,7 @@ export default function CompRegister() {
                             <div className="bg-[#91C194] rounded-[30px] p-4 border-[#5A985E] shadow-lg">
                               <form onSubmit={handleConfirmSubmit}>
                                 <div className='mt-10 md:mt-20 '>
-                                  <p className='text-[13px]'>{t("Please enter the verification code sent to your email.")}</p>
+                                  <p className='text-[13px]'>Please enter the verification code sent to your email.</p>
                           
                                   <div className="flex ml-[10px] ">
                                   {[1, 2, 3, 4, 5, 6].map((index) => (
