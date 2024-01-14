@@ -90,6 +90,13 @@ i18n
           "add examine":"add examine",
           "Uploaded images":"Uploaded images",
           "There is no information to check today.":"There is no information to check today.",
+          "Change your password":"Change your password",
+          "New Password":"New Password",
+          "Confirm password again":"Confirm password again",
+          "Change your password":"Change your password",
+          "Enter your email":"Enter your email",
+          "Please enter the verification code sent to your email.":"Please enter the verification code sent to your email.",
+
 
 
         },
@@ -178,7 +185,14 @@ i18n
           "add employee list from file":"เพิ่มรายชื่อจากไฟล์",
           "log out":"ออกจากระบบ",
           "Employee list":"รายชื่อพนักงาน",
-          "There is no information to check today.":"ยังไม่มีข้อมูล"
+          "There is no information to check today.":"ยังไม่มีข้อมูล",
+          "Change your password":"เปลี่ยนรหัสผ่าน",
+          "New Password":"รหัสผ่านใหม่",
+          "Confirm password again":"ยืนยันรหัสผ่านอีกครั้ง",
+          "Change your password":"เปลี่ยนรหัสผ่านของคุณ",
+          "Enter your email":"กรอกอีเมล์ของคุณ",
+          "Please enter the verification code sent to your email.":"กรุณากรอกรหัสยืนยันที่ส่งไปยังอีเมล์ของคุณ",
+
 
 
 

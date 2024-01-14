@@ -259,8 +259,8 @@ export async function POST(request) {
             return NextResponse.json({ success: false, error: 'Employee is already in use.' }, { res });
           }
 
-          const insertSql = `INSERT INTO users ( position ,employee, name ,	lastname ,password, role_2_id ,phone ,line ,picture) VALUES ('Safety Officer Professional level',?,?,?,?,?,?,?,?)`;
-          const insertValues = await db.query(insertSql,[res.employee ,res.name , res.lastname , res.password , res.id ,'','','']);
+          const insertSql = `INSERT INTO users ( position ,employee, name ,	lastname ,password, role_2_id ,phone ,line ,picture,email) VALUES ('Safety Officer Professional level',?,?,?,?,?,?,?,?,?)`;
+          const insertValues = await db.query(insertSql,[res.employee ,res.name , res.lastname , res.password , res.id ,'','','','']);
         
 
           const getEmployeeQuery = "SELECT * FROM users WHERE role_2_id  = ?";
@@ -338,8 +338,8 @@ export async function POST(request) {
             return NextResponse.json({ success: false, error: 'Employee is already in use.' }, { res });
           }
 
-          const insertSql = `INSERT INTO users_r2 ( position , employee, name ,	lastname ,password, users_r3_id  ,phone ,line ,picture) VALUES ('Safety Officer Technical level',?,?,?,?,?,?,?,?)`;
-          const insertValues = await db.query(insertSql,[res.employee ,res.name , res.lastname , res.password , res.id,'','','']);
+          const insertSql = `INSERT INTO users_r2 ( position , employee, name ,	lastname ,password, users_r3_id  ,phone ,line ,picture,email) VALUES ('Safety Officer Technical level',?,?,?,?,?,?,?,?,?)`;
+          const insertValues = await db.query(insertSql,[res.employee ,res.name , res.lastname , res.password , res.id,'','','','']);
         
           const getEmployeeQuery = "SELECT * FROM users_r2 WHERE users_r3_id  = ?";
           const [employeeResult] = await db.query(getEmployeeQuery, [ res.id ]);
