@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import i18n from '../../i18n'; 
 import { initReactI18next } from 'react-i18next';
 import { format } from 'date-fns';
+import { TiWarning } from "react-icons/ti";
 
 
 function  CompResponse() {
@@ -36,7 +37,9 @@ function App() {
 
       const fetchData = async () => {
         try {
-          const AddData = { response_role_3 : true};
+          const storedId = localStorage.getItem('id');
+
+          const AddData = { storedId, response_role_3 : true};
           const dataDetail = JSON.stringify(AddData);
           console.log("send: ",dataDetail)
   
@@ -108,7 +111,14 @@ function App() {
                 <div className="mt-[5px] md:mt-[10px] mx-auto  border w-full md:w-[680px] lg:w-[750px] border-gray-300"></div>
 
                 <div className='mx-auto w-[280px] md:w-[650px] lg:w-[750px]  py-[20px] md:h-[600px] h-[500px] text-black flex flex-col  bg-[#D9D9D9] md:rounded-[30px] rounded-[30px] mt-[20px] overflow-auto '>
-                
+                { todoList.length === 0 && (
+                <div className='  mx-auto justify-center text-center  text-black'>
+                <div className='p-2 px-6'>
+                <TiWarning className='text-[30px] mx-auto text-[#5A985E]' />
+
+                <h2 className=' py-1  text-[11px] md:text-[15px]'>{t("No information")}</h2>
+              </div>
+              </div> )}
                 {todoList.map((todo, index) => (
                   <Link href={`/responsedetail_role_3?response=${todo.title}&id=${todo.id}`} key={index}>
                   <div key={index} className={'mx-auto  mt-[8px] w-[250px] p-2 h-[100px] md:h-[105px] md:w-[600px] lg:w-[700px] px-2 text-black flex-col bg-[#FFF] text-center rounded-[15px] '}>

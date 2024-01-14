@@ -96,6 +96,7 @@ i18n
           "Change your password":"Change your password",
           "Enter your email":"Enter your email",
           "Please enter the verification code sent to your email.":"Please enter the verification code sent to your email.",
+          "No information":"No information",
 
 
 
@@ -192,6 +193,7 @@ i18n
           "Change your password":"เปลี่ยนรหัสผ่านของคุณ",
           "Enter your email":"กรอกอีเมล์ของคุณ",
           "Please enter the verification code sent to your email.":"กรุณากรอกรหัสยืนยันที่ส่งไปยังอีเมล์ของคุณ",
+          "No information":"ไม่มีข้อมูล",
 
 
 

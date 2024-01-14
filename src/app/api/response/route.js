@@ -81,8 +81,8 @@ export async function POST(request) {
     
     if (res.response_role_2) {
       try {
-        const getQuery = "SELECT * FROM notify WHERE Verification_status = ?";
-        const [responseResult] = await db.query(getQuery , 1);
+        const getQuery = "SELECT * FROM notify WHERE Verification_status = 1 AND role_2_id = ?";
+        const [responseResult] = await db.query(getQuery,[res.storedId]);
     
         // ใช้ Promise.all ในการรอทุก Promise ในอาร์เรย์
         await Promise.all(responseResult.map(async (item) => {
@@ -102,28 +102,17 @@ export async function POST(request) {
 
     if (res.response_role_3) {
       try {
-
-
-        const getQuery = "SELECT * FROM notify WHERE Verification_status = 'Approve'";
-        const [responseResult] = await db.query(getQuery);
-
-
-
-
-
-        for (const item of responseResult) {
+        const getQuery = "SELECT * FROM notify WHERE Verification_status = 2 AND role_3_id = ?";
+        const [responseResult] = await db.query(getQuery ,[res.storedId]);
+    
+        // ใช้ Promise.all ในการรอทุก Promise ในอาร์เรย์
+        await Promise.all(responseResult.map(async (item) => {
           const inputDate = new Date(item.date);
           const formattedDate = format(inputDate, 'dd/MM/yyyy HH:mm');
-          // console.log("Formatted Date:", formattedDate);
-        
-          // เพิ่มค่าที่ได้มาไว้ในค่าเดิม ตามที่ต้องการ
           item.formattedDate = formattedDate;
-        }
-
-        // console.log("rusultRoot: ",responseResult)
-
-
-        return NextResponse.json({ success: true , message: 'successfully!' , responseResult: responseResult});
+        }));
+    
+        return NextResponse.json({ success: true, message: 'successfully!', responseResult: responseResult });
       } catch (error) {
         console.error('ErrorEditEx:', error);
         return NextResponse.json({ success: false, error: error.message });

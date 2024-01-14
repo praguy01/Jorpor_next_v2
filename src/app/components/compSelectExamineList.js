@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 import {BsCalendar2Minus} from 'react-icons/bs';
 import {i18n } from '../i18n'; // import i18n instance
 import { initReactI18next } from 'react-i18next';
+import { TiWarning } from "react-icons/ti";
 
 
 function CompSelectExamineList({ onSubmit }) {
@@ -202,7 +203,9 @@ function App({ onSubmit }) {
   const deleteTodo = async (index, todo) => {
     try {
       console.log("6666: ",todo)
-      const editedData = { todo ,id, editselect: true };
+      const storedUser_id = localStorage.getItem('id');
+
+      const editedData = { todo ,storedUser_id, editselect: true };
       const data = JSON.stringify(editedData)
       console.log("datadelete: ",data)
 
@@ -338,6 +341,17 @@ function App({ onSubmit }) {
 
 {/* Todo List with Checkboxes */}
 <div className='items-center mx-auto border w-[220px] md:w-[600px] lg:w-[800px] h-[210px] text-black bg-[#fff] text-center mt-[10px] rounded-[10px] overflow-auto'>
+
+{ todoList.length === 0 && (
+    <div className='  mx-auto justify-center text-center mt-5 text-black'>
+    <div className='p-2 px-6'>
+    <TiWarning className='text-[30px] mx-auto text-[#5A985E]' />
+
+    <h2 className=' py-1  text-[11px] md:text-[15px]'>{t("No information")}</h2>
+  </div>
+  </div> 
+  )}
+  
 {todoList.map((todo, index) => (
   isEditing ? (
     <div

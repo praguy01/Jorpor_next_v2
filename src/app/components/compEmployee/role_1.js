@@ -18,6 +18,7 @@ import { useTranslation } from 'react-i18next';
 import i18n from '../../i18n'; 
 import { initReactI18next } from 'react-i18next';
 import {RxCross2} from 'react-icons/rx'
+import { TiWarning } from "react-icons/ti";
 
 
 
@@ -555,11 +556,19 @@ function App() {
               )}
             </div>
 
-            <div className='mx-auto w-[330px] md:w-[700px] lg:w-[800px] h-[400px]  text-black flex flex-col  bg-[#FFF] mb-[50px] rounded-b-[20px] md:rounded-b-[20px]   overflow-auto'>
-              <div className='mx-auto w-[330px] md:w-[700px] lg:w-[800px] h-[380px]  text-black flex flex-col bg-[#FFF] mb-[20px] rounded-b-[20px] md:rounded-b-[20px]   overflow-auto'>
+            <div className='mx-auto w-[330px] md:w-[700px] lg:w-[800px] h-[400px]  text-black flex flex-col  bg-[#FFF]  mb-[50px]  rounded-b-[20px] md:rounded-b-[20px]   overflow-auto'>
+              <div className='mx-auto w-[330px] md:w-[700px] lg:w-[800px] h-[380px]  text-black flex flex-col bg-[#FFF] mb-[20px]  rounded-b-[20px] md:rounded-b-[20px]   overflow-auto'>
+              { todoList.length === 0 && (
+                      <div className='  mx-auto justify-center text-center mt-5 text-black'>
+                      <div className='p-2 px-6'>
+                      <TiWarning className='text-[30px] mx-auto text-[#5A985E]' />
 
+                      <h2 className=' py-1  text-[11px] md:text-[15px]'>{t("No information")}</h2>
+                    </div>
+                    </div> 
+                    )}
                 {todoList.map((todo, index) => (
-                  <div key={index} className={`text-sm md:text-[20px] w-[290px] rounded-[10px] md:w-[640px] lg:w-[740px] py-2 md:py-4 bg-[#F5F5F5] mx-auto ${index === 0 ? 'mt-[10px]' : 'mt-[8px]'}`}>
+                  <div key={index} className={`text-sm md:text-[20px] w-[290px] rounded-[10px] md:w-[640px] lg:w-[740px] py-2 md:py-4 bg-[#F5F5F5]  mx-auto ${index === 0 ? 'mt-[10px]' : 'mt-[8px]'}`}>
                   <div className='flex '>
                     <div className='flex flex-col w-full   '>
                       <div className=' flex text-[#000] '>

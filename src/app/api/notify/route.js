@@ -28,9 +28,17 @@ export async function POST(request) {
 
       console.log("Test: ",formData)
 
+      const getQuery = "SELECT role_2_id FROM users WHERE employee = ? ";
+      const [Result] = await db.query(getQuery , [employee]);
+
+      const getRole3Query = "SELECT users_r3_id FROM users_r2 WHERE id = ? ";
+      const [ResultRole3] = await db.query(getRole3Query , [Result[0].role_2_id]);
+
+      // console.log
+
       const insertSql =
-        "INSERT INTO notify (title, employee, location, work_owner, status, date, file, file_name, detail,user_id, Verification_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-      const insertValues = [title, employee, location, work_owner, position, dateTime, fileBuffer, file.name, detail,id, 1];
+        "INSERT INTO notify (title, employee, location, work_owner, status, date, file, file_name, detail,user_id, Verification_status ,role_2_id,role_3_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      const insertValues = [title, employee, location, work_owner, position, dateTime, fileBuffer, file.name, detail,id, 1 , Result[0].role_2_id ,ResultRole3[0].users_r3_id];
       const result = await db.execute(insertSql, insertValues);
 
       if (result[0].affectedRows === 1) {

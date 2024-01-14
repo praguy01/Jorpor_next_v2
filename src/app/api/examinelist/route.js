@@ -469,12 +469,12 @@ console.log("Data_examineUsers: ", uniqueDataArray);
       if (res.editselect) {
         try {
           const getExamineEditQuery = "SELECT * FROM examinelist WHERE name = ? AND id = ? AND user_id = ?";
-          const [ExamineEditResult] = await db.query(getExamineEditQuery, [res.todo.name , res.todo.id ,res.todo.user_id]);
+          const [ExamineEditResult] = await db.query(getExamineEditQuery, [res.todo.name , res.todo.id ,res.storedUser_id]);
     
-          console.log("Data_examineEdit: ",ExamineEditResult)
+          console.log("Data_examineEdit: ",ExamineEditResult , res.todo.name , res.todo.id ,res.storedUser_id)
 
           const deleteExamineQuery = "DELETE FROM examinelist WHERE name = ? AND id = ? AND user_id = ?";
-          await db.query(deleteExamineQuery, [res.todo.name , res.todo.id ,res.todo.user_id]);
+          await db.query(deleteExamineQuery, [res.todo.name , res.todo.id ,res.storedUser_id]);
 
         
           return NextResponse.json({ success: true , message: 'delete successfully!'});
