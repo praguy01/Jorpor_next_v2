@@ -364,7 +364,7 @@ function App() {
     <div>
       <CompNavbarTec />
       <div className='bg-[url("/bg1.png")] overflow-auto bg-cover bg-no-repeat absolute z-[-1] top-0 left-0 w-full h-full bg-center '>
-        <div className='md:mt-[100px] mt-[80px] lg:flex mb-[50px] justify-center items-center   mx-auto md:w-[800px]  lg:w-[1158px]'>
+        <div className='md:mt-[100px] mt-[80px] lg:flex mb-[50px] justify-center items-center   mx-auto md:w-[800px]  lg:w-[1000px]'>
           <div className=' lg:ml-[80px]  lg:mt-[-45px] mx-auto'>
             <div className=''>
               

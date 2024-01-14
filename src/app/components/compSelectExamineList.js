@@ -302,7 +302,7 @@ function App({ onSubmit }) {
           {t("Select checklist")}
         </h1>
         {!isEditing && (
-        <PiPencilSimpleFill onClick={handleEditClick} className='absolute text-black md:text-[20px] text-[13px]  md:ml-[890px] md:mt-[15px] ml-[270px]  mt-[12px] cursor-pointer ' />
+        <PiPencilSimpleFill onClick={handleEditClick} className='absolute text-black md:text-[20px] text-[13px]  md:ml-[500px]  lg:ml-[890px] md:mt-[15px] ml-[270px]  mt-[12px] cursor-pointer ' />
         )}
 
         <div className="mt-[5px] border-t border-gray-300"></div>

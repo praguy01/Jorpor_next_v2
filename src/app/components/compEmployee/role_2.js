@@ -234,6 +234,8 @@ function App() {
    
           // Add the new item to the todoList
           setTodoList(resdata.dbemployee);  
+          closePopup()
+
           setShowAddSuccessPopup(true);
           setaddMessage(resdata.message);
   
@@ -498,7 +500,7 @@ function App() {
                                   <button className="bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={addTodo}>
                                     {t('Add')}
                                   </button>
-                                  <button className="bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600" onClick={() => closePopup(false)}>
+                                  <button className="bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600" onClick={() => closePopup()}>
                                     {t('Cancel')}
                                   </button>
                                 </div>

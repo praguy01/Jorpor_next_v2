@@ -205,14 +205,15 @@ function App() {
 
    
           // Add the new item to the todoList
-          setTodoList(resdata.dbemployee);  
+          setTodoList(resdata.dbemployee); 
+          closePopup();
+ 
           setShowAddSuccessPopup(true);
           setaddMessage(resdata.message);
   
           setTimeout(() => {
             setShowAddSuccessPopup(false);
           }, 1000); // 1000 milliseconds = 1 second
-          closePopup();
 
         } else {
          

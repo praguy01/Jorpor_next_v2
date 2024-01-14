@@ -162,7 +162,7 @@ function CompNavbar() {
                   )}
                  <FaBell 
                   onClick={() => {setShowPopup(true); setTimeout(() => {setNotify(false);}, 100);}} 
-                  className='relative cursor-pointer mt-5 transition-transform transform  hover:translate-x-0.5'
+                  className='relative cursor-pointer text-white mt-5 transition-transform transform  hover:translate-x-0.5'
                   style={{ zIndex: 1 }}
                 />
               </div>
@@ -187,7 +187,7 @@ function CompNavbar() {
                   )}
                  <FaBell 
                   onClick={() => {setShowPopup(true); setTimeout(() => {setNotify(false);}, 100);}} 
-                  className='relative cursor-pointer  transition-transform transform  hover:translate-x-0.5'
+                  className='relative cursor-pointer text-white transition-transform transform  hover:translate-x-0.5'
                   style={{ zIndex: 1 }}
                 />
               </div>
