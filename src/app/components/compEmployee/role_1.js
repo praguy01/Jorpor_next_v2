@@ -212,7 +212,7 @@ function App() {
           setTimeout(() => {
             setShowAddSuccessPopup(false);
           }, 1000); // 1000 milliseconds = 1 second
-          closePopup(false);
+          closePopup();
 
         } else {
          
