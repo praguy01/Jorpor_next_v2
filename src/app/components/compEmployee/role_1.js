@@ -56,6 +56,7 @@ function App() {
     const [messageAdd, setMessageAdd] = useState('');
     const [erraddmessage, setErraddMessage] = useState(false);
     const [errorAddMessage, setErrorAddMessage] = useState('');
+    const [uploadFile, setUploadFile] = useState(false);
 
 
     // useEffect(() => {
@@ -178,17 +179,19 @@ function App() {
     console.log("lastname: ",lastname)
 
     try {
+      
+    
+      if (file) {
+       handleFileUpload(file);
+       return;
+    } else {
+
       if (!employee || !name || !lastname) {
         setErrorAddMessage('Please fill in all fields');
         setErraddMessage(true);
 
         return;
       }
-    
-      if (file) {
-       handleFileUpload(file);
-       return;
-    } else {
 
     const AddData = { employee, name, lastname ,selectedOption,id, add: true };
     const data = JSON.stringify(AddData);
@@ -293,14 +296,19 @@ function App() {
           const resdata = response.data;
   
           if (response.status === 200 && resdata.success === true) {
-            setTodoList((prevTodoList) => [
-              ...prevTodoList,
-              {
-                employee: resdata.dbemployee.employee,
-                name: resdata.dbemployee.name,
-                lastname: resdata.dbemployee.lastname,
-              },
-            ]);  
+            console.log("DATAAAAA: 00 : ",resdata)
+            setTodoList(() => [
+              ...resdata.dbemployee.map((employeeData) => ({
+                employee: employeeData.employee,
+                name: employeeData.name,
+                lastname: employeeData.lastname,
+              })),
+            ]);
+            
+            
+            console.log("DATAAAAA: 11 : ",resdata.dbemployee.employee,resdata.dbemployee.name,resdata.dbemployee.lastname,)
+
+            setUploadFile(true)
             setShowAddSuccessPopup(true);
             setaddMessage(resdata.message);
     
@@ -318,6 +326,7 @@ function App() {
       setlastname("");
       setFile(false);
       closePopup();
+
     };
   
     reader.readAsArrayBuffer(file);
@@ -482,7 +491,7 @@ function App() {
                            />
                          </div>
                          {erraddmessage && (
-                        <p className='mt-3 text-red-500 text-xs py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-lg md:mt-[30px]'>
+                        <p className='mt-3 text-red-500 text-xs py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[300px] mx-auto md:text-[13px] md:mt-[30px]'>
                           {errorAddMessage}
                         </p>
                       )} 
@@ -502,7 +511,7 @@ function App() {
                                 <input type="file"id="file" className="text-[#000] mt-1 p-2 w-full border border-gray-300 text-[12px] rounded-md" onChange={handleFileChange}/>
                             </div>
                             {erraddmessage && (
-                            <p className='mt-3 text-red-500 text-xs py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-lg md:mt-[30px]'>
+                            <p className='mt-3 text-red-500 text-xs py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[300px] mx-auto md:text-[13px] md:mt-[30px]'>
                               {errorAddMessage}
                             </p>
                           )} 
@@ -632,7 +641,7 @@ function App() {
                   <h2 className= {` text-[18px] md:text-[20px] text-[#5A985E] mt-[10px] `}>{t("Do you want to delete")} <span style={{ color: '#FF6B6B' }}>{showEditPopup.todo.employee}</span> {t("?")}</h2>
                   
                   {message && (
-                    <p className='mt-3 text-red-500 text-xs py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-lg md:mt-[30px]'>
+                    <p className='mt-3 text-red-500 text-xs py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-[13px] md:mt-[30px]'>
                       {message}
                     </p>
                   )}

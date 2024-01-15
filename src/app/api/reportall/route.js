@@ -609,6 +609,8 @@ export async function POST(request) {
       console.log("resultGroup",res.storedId);
       const calPercent = []
       let reversedCalPercentCopy = []
+      let item_id = [];
+
       const getChecklist_R2Query = "SELECT DISTINCT date FROM checklist_examine_row_2 ";
         const [getChecklist_R2QueryResult] = await db.query(getChecklist_R2Query);
    
@@ -743,7 +745,6 @@ export async function POST(request) {
         const idResultmap = idResult.map(row => row.select_id)[0]; // Extract the string from the array
         // console.log("4444idResult: ", idResultmap);
 
-        let item_id = [];
 
         // Check if idResultmap is defined before parsing
         if (idResultmap) {
@@ -838,12 +839,30 @@ export async function POST(request) {
                 
                 const passCount = getChecklist_R2QueryResult.filter(item => item.status === 'pass').length;
 
+                // const getQuery = "SELECT examinelist_id FROM checklist_examine_row_2 WHERE date = ?  ";
+                // const [Result] = await db.query(getQuery , [formattedDate ]);
+
+                if (getexaminenameQueryResultMap.length === 0 ) {
+
                 const percentage = (passCount / getexaminenameQueryResultMap.length) * 100;
 
                 console.log("getexaminenameQueryResultMap.length:", examineInfo.id);
                 console.log("Percentage:", Math.floor(percentage), examineInfo.id);
                 examineInfo.percentage = Math.floor(percentage);
                 totalPercentage += percentage;
+              } else {
+                const percentage = 0;
+
+                console.log("getexaminenameQueryResultMap.length:", examineInfo.id);
+                console.log("Percentage:", Math.floor(percentage), examineInfo.id);
+                examineInfo.percentage = Math.floor(percentage);
+                totalPercentage += percentage;
+              }
+                
+
+                
+
+
             } else if ( examineInfo.useEmployee === 'true' ){
               let totalPassCount = 0;
 
@@ -884,17 +903,32 @@ export async function POST(request) {
           }
           examineInfo.totalPassCount = totalPassCount;
 
+          if (getexaminenameQueryResultMap.length === 0 ){
           const percentageAll = Math.floor((totalPassCount / (getexaminenameQueryResultMap.length * getemployeeQueryResultMap.length)) * 100);
           console.log("percentageAll:", totalPassCount,percentageAll );
           examineInfo.percentageAll = percentageAll;
           totalPercentage += percentageAll;
-
+        } else {
+          const percentageAll = 0;
+          console.log("percentageAll:", totalPassCount,percentageAll );
+          examineInfo.percentageAll = percentageAll;
+          totalPercentage += percentageAll;
         }
 
         }
+
+        }
+        if (idObject[idValue].examine_id.length === 0 ){
+
+        
         const percentageZone = Math.floor((totalPercentage / (idObject[idValue].examine_id.length * 100)) * 100);
         console.log("percentageZone:", percentageZone , idValue);
         idObject.percentageZone = percentageZone;
+        } else {
+          const percentageZone = 0;
+          console.log("percentageZone:", percentageZone , idValue);
+          idObject.percentageZone = percentageZone;
+        }
         
         // console.log("8888888888888888888:", totalPercentage, idValue);
         

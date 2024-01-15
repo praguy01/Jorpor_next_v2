@@ -10,7 +10,6 @@ import {usePathname } from 'next/navigation';
 import { CompLanguageProvider, useLanguage } from '../compLanguageProvider_role_1';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
-import io from 'socket.io-client';
 import { FaBell } from "react-icons/fa";
 import { AiFillAlert } from "react-icons/ai";
 import { IoTime } from "react-icons/io5";
@@ -30,6 +29,7 @@ function CompNavbar() {
   const [showPopup, setShowPopup] = useState(false); 
   const [notify, setNotify] = useState(false); 
 
+  
   // useEffect(() => {
   //   // เชื่อมต่อกับ WebSocket server ที่ทำงานบน localhost:3000
   //   const socket = io('https://platform-jorpor.vercel.app/');
