@@ -538,6 +538,7 @@ function App() {
                 value={selectedOption}
                 onChange={handleDropdownChange}
               >
+                {/* {console.log("selectedOption:::: ",selectedOption,nameExamineList)} */}
                 {nameExamineList.length > 0 && nameExamineList.map((name, index) => (
                   <option key={index} value={name}>
                     {name}
@@ -546,6 +547,7 @@ function App() {
               </select>
               </div>
 
+              {selectedOption === 'undefined' && (
               <div className='mt-[20px]'>
                 <button
                   onClick={openPopup} 
@@ -553,6 +555,7 @@ function App() {
                   <BsPlusCircleFill/>
                 </button>
               </div>
+              )}
 
             </div>
             <div className='mt-[25px] '>
