@@ -63,8 +63,8 @@ function CompNavbar() {
   return (
     < CompLanguageProvider>
         <div className='w-full h-[60px] items-center  bg-[#5A985E] fixed top-0 left-0 ' >
-          <div className='container mx-auto flex justify-between  items-center py-2 px-4 md:h-[60px] w-screen   '>
-            <div className='text-[#fff]  relative md:top-[2px] pb-3 pt-2  font-bold text-[24px] md:mr-[25px]' >
+          <div className=' mx-auto flex justify-between  items-center py-2 px-8 md:h-[60px] w-full   '>
+            <div className='text-[#fff]  relative md:top-[2px] pb-3 pt-2  font-bold text-[24px] md:mr-[25px] ' >
                 <Link href='/report_role_2'>JorPor</Link>
                 </div>
              
@@ -115,7 +115,7 @@ function CompNavbar() {
                 <button   className="text-white px-5 ml-[20px] relative top-[5px] pb-3 pt-[10px]  text-[15px]   hover:font-bold  rounded-md p-2 " onClick={toggleLanguage}>
                   {language}
                 </button> 
-                <button style={{ whiteSpace: 'nowrap' }} onClick={logout}  className={`text-[16px]  mr-[-35px]    relative top-[4px] pb-3 pt-2  py-1  text-[#fff] hover:font-bold `}> {language === 'EN' ? 'log out' : 'ออกจากระบบ' }</button>
+                <button style={{ whiteSpace: 'nowrap' }} onClick={logout}  className={`text-[16px]    relative top-[4px] pb-3 pt-2  py-1  text-[#fff] hover:font-bold `}> {language === 'EN' ? 'log out' : 'ออกจากระบบ' }</button>
                 </div>
 
             {toggle ? (

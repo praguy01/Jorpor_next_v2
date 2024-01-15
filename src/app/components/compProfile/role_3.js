@@ -311,7 +311,7 @@ function App() {
                       <input
                         type="file"
                         accept="image/*"
-                        className="  absolute md:ml-[-50px] ml-[-65px] md:mt-[30px] mt-[30px] z-10 ring-2 ring-white ring-offset-2 ring-offset-[#5A985E]  w-32 h-32  md:w-[150px] md:h-[150px] rounded-full opacity-0 cursor-pointer"
+                        className="absolute md:ml-[25px] ml-[-65px] ring-2 ring-white ring-offset-2 md:mt-[30px]  ring-offset-[#5A985E] w-32 h-32 mx-auto md:w-[150px] md:h-[150px] rounded-full  opacity-0  object-cover cursor-pointer"
                         onChange={handleImageUpload}
                       />
                        <Image
