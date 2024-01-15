@@ -1,20 +1,20 @@
-import { useEffect } from 'react'
-import io from 'socket.io-client';
-let socket
+// import { useEffect } from 'react'
+// import io from 'socket.io-client';
+// let socket
 
-const Home = () => {
-  useEffect(() => socketInitializer(), [])
+// const Home = () => {
+//   useEffect(() => socketInitializer(), [])
 
-  const socketInitializer = async () => {
-    await fetch('/api/socket')
-    socket = io()
+//   const socketInitializer = async () => {
+//     await fetch('/api/socket')
+//     socket = io()
 
-    socket.on('connect', () => {
-      console.log('connected')
-    })
-  }
+//     socket.on('connect', () => {
+//       console.log('connected')
+//     })
+//   }
 
-  return null
-}
+//   return null
+// }
 
-export default Home;
+ // export default Home;
