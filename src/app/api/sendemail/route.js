@@ -40,9 +40,15 @@ export async function POST(request) {
             const mailOptions = {
               from: 'platformsjorpor@gmail.com',
               to: res.email,
-              subject: 'Confirm Password Change',
-              text: `Confirmation Code: ${confirmationCode}`,
+              subject: 'ยืนยันการเปลี่ยนรหัสผ่าน',
+              html: `
+              <p>สวัสดี ${res.email},</p>
+              <p>โปรดยืนยันบัญชี JorPor ของคุณ</p>
+              <p>รหัสยืนยัน: ${confirmationCode}</p>
+              <p>ขอบคุณที่ใช้บริการ JorPor!</p>
+            `,
             };
+           
 
             await transporter.sendMail(mailOptions);
 

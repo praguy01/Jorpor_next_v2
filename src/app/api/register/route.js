@@ -36,7 +36,7 @@ export async function POST(request)  {
           return NextResponse.json({ success: false, error: 'Failed to insert user data' }, { res });
         }
       } else {
-        return NextResponse.json({ success: false, error: 'รหัสผ่านไม่ตรงกัน' });
+        return NextResponse.json({ success: false, error: "verification don't match" });
       }
     }
   catch (error) {
@@ -136,17 +136,25 @@ export async function POST(request)  {
         from: process.env.EMAIL_USER,
         to: data.email,
         subject: 'ยืนยันการเปลี่ยนรหัสผ่าน',
-        text: `รหัสยืนยัน: ${confirmationCode}`,
+        html: `
+          <p>สวัสดี ${data.email},</p>
+          <p>โปรดยืนยันบัญชี JorPor ของคุณ</p>
+          <p>รหัสยืนยัน: ${confirmationCode}</p>
+          <p>ขอบคุณที่ใช้บริการ JorPor!</p>
+        `,
       };
+      
+      
+      
 
       await transporter.sendMail(mailOptions);
       console.log("EMAIL: ",data.email)
       // บันทึกรหัสยืนยันลงในฐานข้อมูล หรือส่งไปยังส่วนที่เกี่ยวข้องกับการยืนยัน
 
-      return NextResponse.json({ success: true, message: 'รหัสผ่านได้ถูกส่งไปยังอีเมลของคุณแล้ว โปรดยืยยันรหัสผ่าน', email: data.email ,PINconfirm: confirmationCode });
+      return NextResponse.json({ success: true, message: 'The password has been sent to your email. Please confirm your password.', email: data.email ,PINconfirm: confirmationCode });
     } catch (error) {
       console.error('เกิดข้อผิดพลาดในการส่งอีเมล์:', error);
-      return NextResponse.json({ success: false, error: 'เกิดข้อผิดพลาดในการส่งอีเมล์' }, { res });
+      return NextResponse.json({ success: false, error: 'Error sending email' }, { res });
     }
 
      

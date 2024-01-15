@@ -672,6 +672,7 @@ const generatePDF = async () => {
   let checkcurrentHeight = 0;
   const maxPageHeight = 700;
   let newPage = false;
+  let startY = true;
 
   const createNewPage = () => {
     doc.addPage();
@@ -704,21 +705,21 @@ const generatePDF = async () => {
           currentY = 20; 
           checkcurrentHeight = 0;
         }
-        if (newPage === true) {
+        if (startY) {
+          console.log("NEWW 3333");
+          startY = false;
+          currentY = 46;
+        }else if (newPage) {
           console.log("NEWW PAGEEEE");
           currentY = 20;
           tableHeight = 0;
           currentHeight  = 0;
           newPage = false;
 
-        } else if (currentHeight > 0) {
+        } else if (!newPage) {
           console.log("NEWW 2222" , currentHeight);
 
           currentY = currentHeight + 8;
-        } else {
-          console.log("NEWW 3333");
-
-          currentY = 46;
         }
 
        
@@ -793,6 +794,7 @@ const generatePDF = async () => {
                 checkcurrentHeight += tableHeight;
                 if ( checkcurrentHeight > maxPageHeight){
                   checkcurrentHeight = checkcurrentHeight - maxPageHeight
+                  currentHeight = 12;
                   currentY = 20
                   doc.addPage();
 
@@ -877,6 +879,7 @@ const generatePDF = async () => {
                   if ( checkcurrentHeight > maxPageHeight){
                     checkcurrentHeight = checkcurrentHeight - maxPageHeight
                     currentY = 20
+                    currentHeight = 12;
                     doc.addPage();
 
                   }

@@ -47,12 +47,15 @@ export default function CompRegister() {
   const [PIN, setPIN] = useState(''); // Initialize the email state
 
   const handleInputChange = (e) => {
+    setMessage('');
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
 
   };
 
   const handleSubmit = async (e) => {
+    setMessage('');
+
     e.preventDefault();
   
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$<[^>]*>/;
@@ -147,6 +150,8 @@ export default function CompRegister() {
   }
 
   const handleConfirmChange = (e) => {
+    setMessagepop('');
+
       const storedPIN = localStorage.getItem('PINconfirm');
       if (storedPIN) {
         setPINconfirm(storedPIN); 
@@ -180,14 +185,21 @@ export default function CompRegister() {
   const handleConfirmSubmit = async (e) => {
     e.preventDefault();
     console.log("formdataconfirm: ",formDataConfirm)
-
+   
    
     try {
+      
+      if (!formDataConfirm.PIN1 || !formDataConfirm.PIN2 || !formDataConfirm.PIN3 || !formDataConfirm.PIN4 || !formDataConfirm.PIN5 || !formDataConfirm.PIN6) {
+        setMessagepop('Please fill in all fields');
+      } else {
+
+      const storedPIN = localStorage.getItem('PINconfirm');
+
       const hashedPassword = await hashPassword(formData.password);
       const combinedCode = `${formDataConfirm.PIN1}${formDataConfirm.PIN2}${formDataConfirm.PIN3}${formDataConfirm.PIN4}${formDataConfirm.PIN5}${formDataConfirm.PIN6}`;
       const requestData = {
         PIN_confirm: combinedCode,
-        PIN: PINconfirm,
+        PIN: storedPIN,
       };
       const requestDataUser = {
         ...formData,
@@ -213,17 +225,26 @@ export default function CompRegister() {
           setMessagePass(resdata.message);
           setMessagepop('');
 
-          setTimeout(() => {
-            setIsLoading(true); 
-            window.location.href = resdata.redirect;
-          }, 1000); 
+          // setTimeout(() => {
+          //   setIsLoading(true); 
+          //   window.location.href = resdata.redirect;
+          // }, 1000); 
         } else {
           console.log("RESDATA error: ", resdata.error);
           setMessagepop(resdata.error);
+          setFormDataConfirm({
+            PIN1: '',
+            PIN2: '',
+            PIN3: '',
+            PIN4: '',
+            PIN5: '',
+            PIN6: '',
+          });
         }
       } else {
         setMessagepop('เกิดข้อผิดพลาด1: ' + resdata.error);
       }
+    }
     } catch (error) {
       console.errorpop('เกิดข้อผิดพลาด2:', error);
       setMessage('เกิดข้อผิดพลาด2');

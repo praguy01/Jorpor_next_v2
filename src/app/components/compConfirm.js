@@ -72,6 +72,9 @@ export default function CompConfirm() {
 
    
     try {
+      if (!formData.PIN1 || !formData.PIN2 || !formData.PIN3 || !formData.PIN4 || !formData.PIN5 || !formData.PIN6) {
+        setMessage('Please fill in all fields');
+      } else {
       const combinedCode = `${formData.PIN1}${formData.PIN2}${formData.PIN3}${formData.PIN4}${formData.PIN5}${formData.PIN6}`;
       const requestData = {
         PIN_confirm: combinedCode,
@@ -116,8 +119,9 @@ export default function CompConfirm() {
           setMessage(resdata.error);
         }
       } else {
-        setMessage('เกิดข้อผิดพลาด1: ' + resdata.error);
+        setMessage(resdata.error);
       }
+    }
     } catch (error) {
       console.error('เกิดข้อผิดพลาด2:', error);
       setMessage('เกิดข้อผิดพลาด2');
@@ -159,7 +163,7 @@ export default function CompConfirm() {
                
                   <form onSubmit={handleSubmit}>
                           <div className='mt-10 md:mt-20 '>
-                            <p className='text-[13px]'>กรุณากรอกรหัสยืนยันที่ถูกส่งไปยังอีเมลของคุณ</p>
+                            <p className='text-[13px]'>Please enter the verification code sent to your email.</p>
                      
                             <div className="flex  justify-center">
                             {[1, 2, 3, 4, 5, 6].map((index) => (

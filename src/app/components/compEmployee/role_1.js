@@ -177,7 +177,7 @@ function App() {
   const addTodo = async () => {
     console.log("employee: ",employee)  
     console.log("name: ",name )  
-    console.log("lastname: ",lastname)
+    console.log("lastname: ",lastname,selectedOption)
 
     try {
       
@@ -415,7 +415,7 @@ function App() {
           <div className='md:w-[700px] lg:w-[1000px] mx-auto  '>
             <div className='flex  w-[330px] mx-auto  md:w-[800px]'>
             <div className='mx-auto  w-[330px] md:w-[800px]  text-black   md:mt-[106px] mt-[80px]  '>
-                  <h1 className={`text-[25px] text-black md:text-[30px]  font-bold `}>{t("Employee List")}</h1>
+            <h1 className={`text-[25px] text-black md:text-[30px] ml-[10px] md:w-[400px] w-[200px]  text-ellipsis whitespace-nowrap overflow-hidden  `}>{t("Employee List")}</h1>
               </div>
                 <div className='flex md:mt-[50px]   md:ml-[430px]'>
                    
@@ -536,7 +536,7 @@ function App() {
               <label className="block  text-gray-700 text-[13px] font-bold mb-2"> {t("Select an option")}:</label>
               <select
                 className="  left-0  text-[13px] text-black border rounded-md px-4 py-1 outline-none"
-                value={selectedOption}
+                value={nameExamineList}
                 onChange={handleDropdownChange}
               >
                 {console.log("selectedOption:::: ",selectedOption ,selectedOption.name ,nameExamineList)}

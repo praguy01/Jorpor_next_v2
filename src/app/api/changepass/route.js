@@ -26,7 +26,7 @@ export async function POST(request)  {
       const passwordMatch = await bcrypt.compare(confirmpassword, newpassword);
 
       if (!passwordMatch) {
-        return NextResponse.json({ success: false, error: 'รหัสผ่านไม่ตรงกัน' });
+        return NextResponse.json({ success: false, error: "passwords don't match" });
       } else {
         const getUserQueryTable1 = "SELECT * FROM users WHERE email = ?";
         const [userResultTable1] = await db.query(getUserQueryTable1, [email]);
@@ -69,7 +69,7 @@ export async function POST(request)  {
           }
         }
       
-        return NextResponse.json({ success: true, message: 'เปลี่ยนรหัสผ่านแล้ว.', redirect: '/login' });
+        return NextResponse.json({ success: true, message: 'the password has been changed.', redirect: '/login' });
       }
       
 

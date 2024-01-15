@@ -23,7 +23,7 @@ export async function POST(request)  {
       if (PIN_confirm === PIN) {
         return NextResponse.json({ success: true, message: 'success', redirect: '/changepass'});
       } else {
-        return NextResponse.json({ success: false, error: 'รหัสผ่านไม่ตรงกัน' });
+        return NextResponse.json({ success: false, error: "verification don't match" });
       }
 
     } catch (error) {

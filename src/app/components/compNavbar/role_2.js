@@ -75,7 +75,7 @@ function CompNavbar() {
                 <Link href="/report_role_2" 
                   style={{ whiteSpace: 'nowrap' }}
                   className={` px-5 relative top-[5px] pb-[14px] pt-3  rounded-t-[20px]  hover:text-[#5A985E] hover:bg-[#F5F5F5] ${
-                    currentPath === '/report_role_2' || currentPath === '/examine' || currentPath === '/checklistExamine' || currentPath === '/checklistEmployee' || currentPath === '/reportResults'  ? 'text-[#5A985E] bg-[#F5F5F5]  border border-b-0' : 'text-[#fff]'}`}
+                    currentPath === '/report_role_2' || currentPath === '/reportingResults_role_2'  ? 'text-[#5A985E] bg-[#F5F5F5]  border border-b-0' : 'text-[#fff]'}`}
                   >{t("Report results")}</Link>
                 
                 <Link href="/response_role_2"
