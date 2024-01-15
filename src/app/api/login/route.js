@@ -15,42 +15,79 @@ export async function POST(request)  {
 
     if (res.rememberPassword) {
       
-      let position = '';
+      const checkemployeeQuery1 = "SELECT COUNT(*) AS employeeCount FROM users WHERE employee = ?";
+      const [employeeCountResult1] = await db.query(checkemployeeQuery1, [res.formData.employee]);
       
-      const getUserQuery = "SELECT * FROM users WHERE employee = ?";
-      let [userResult] = await db.query(getUserQuery, [res.formData.employee]);
+      const checkemployeeQuery2 = "SELECT COUNT(*) AS employeeCount FROM users_r2 WHERE employee = ?";
+      const [employeeCountResult2] = await db.query(checkemployeeQuery2, [res.formData.employee]);
       
-      console.log("USER_RESULT33333: ", userResult);
+      const checkemployeeQuery3 = "SELECT COUNT(*) AS employeeCount FROM users_r3 WHERE employee = ?";
+      const [employeeCountResult3] = await db.query(checkemployeeQuery3, [res.formData.employee]);
+      
+      let userEmployeeTable = false;
+      let foundInTable = '';
+      let userResult = null; // Initialize to null
+      
+      if (employeeCountResult1[0].employeeCount > 0) {
+        foundInTable = 'users';
+        userEmployeeTable = true;
+      } else if (employeeCountResult2[0].employeeCount > 0) {
+        foundInTable = 'users_r2';
+        userEmployeeTable = true;
+      } else if (employeeCountResult3[0].employeeCount > 0) {
+        foundInTable = 'users_r3';
+        userEmployeeTable = true;
+      }
+      
+      if (userEmployeeTable) {
+        const getUserQuery = `SELECT * FROM ${foundInTable} WHERE employee = ?`;
+        const [userQueryResult] = await db.query(getUserQuery, [res.formData.employee]);
+        userResult = userQueryResult[0]; // Assign the result to the outer-scope variable
+        console.log("88888888888888:", userResult, userResult?.position);
+      }
+      
+      console.log("User comes from table:", userEmployeeTable, userResult);
+      
+      if (!userEmployeeTable) {
+        return NextResponse.json({ success: false, error: 'Account not found. Please register.' });
+      }
+      
+    
+      
+  //     const getUserQuery = "SELECT * FROM users WHERE employee = ?";
+  //     let [userResult] = await db.query(getUserQuery, [res.formData.employee]);
+      
+  //     console.log("USER_RESULT33333: ", userResult);
   
-      if (userResult.length === 0) {
-          console.log("///////////////////////////");
+  //     if (userResult.length === 0) {
+  //         console.log("///////////////////////////");
   
-          const getUserQueryR2 = "SELECT * FROM users_r2 WHERE employee = ?";
-          const [userResultR2] = await db.query(getUserQueryR2, [res.formData.employee]);
-          console.log("USER2_RESULT11111111: ", userResultR2);
-          if (userResultR2.length > 0) {
-            position = userResultR2[0].position;
-            userResult = userResultR2;
-      }}
-  console.log("dddddddddd: ",userResult)
-          if (userResult.length === 0) {
-            console.log("++++++++++++++++++++++");
-              const getUserQueryR3 = "SELECT * FROM users_r3 WHERE employee = ?";
-              const [userResultR3] = await db.query(getUserQueryR3, [res.formData.employee]);
-              console.log("USER3_RESULT1777777: ", userResultR3);
-              position = userResultR3[0].position;
-              userResult = userResultR3;
+  //         const getUserQueryR2 = "SELECT * FROM users_r2 WHERE employee = ?";
+  //         const [userResultR2] = await db.query(getUserQueryR2, [res.formData.employee]);
+  //         console.log("USER2_RESULT11111111: ", userResultR2);
+  //         if (userResultR2.length > 0) {
+  //           position = userResultR2[0].position;
+  //           userResult = userResultR2;
+  //     }}
+  // console.log("dddddddddd: ",userResult)
+  //         if (userResult.length === 0) {
+  //           console.log("++++++++++++++++++++++");
+  //             const getUserQueryR3 = "SELECT * FROM users_r3 WHERE employee = ?";
+  //             const [userResultR3] = await db.query(getUserQueryR3, [res.formData.employee]);
+  //             console.log("USER3_RESULT1777777: ", userResultR3);
+  //             position = userResultR3[0].position;
+  //             userResult = userResultR3;
   
-              if (userResultR3.length === 0) {
-                return NextResponse.json({ success: false, error: 'Account not found. Please register.' });
-              }
+  //             if (userResultR3.length === 0) {
+  //               return NextResponse.json({ success: false, error: 'Account not found. Please register.' });
+  //             }
           
          
-      }
+  //     }
   
       console.log("oooooooooooooooo: ", userResult);
   
-      const storedPassword = userResult[0].password;
+      const storedPassword = userResult.password;
       console.log("storedPassword: ", storedPassword);
 
 
@@ -76,14 +113,14 @@ export async function POST(request)  {
 
         const token = jwt.sign(tokenPayload, 'user_login');
 
-        if (userResult[0].position === 'Safety Officer Professional level '){
+        if (userResult.position === 'Safety Officer Professional level '){
           console.log("111111")
-          return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/select' , profile: userResult ,token});
-        } else if (userResult[0].position === 'Safety Officer Technical level'){
+          return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/select' , profile: [userResult] ,token});
+        } else if (userResult.position === 'Safety Officer Technical level'){
           console.log("22222")
-          return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_role_2' , profile: userResult ,token});
-        } else if (userResult[0].position === 'Safety Officer Supervisory level'){
-          return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_role_3' , profile: userResult ,token});
+          return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_role_2' , profile: [userResult] ,token});
+        } else if (userResult.position === 'Safety Officer Supervisory level'){
+          return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_role_3' , profile: [userResult] ,token});
         } 
         
       }
@@ -92,42 +129,48 @@ export async function POST(request)  {
 
     try {
       console.log("RES_ROUTE******************: ", res);
-      let position = '';
-      
-      const getUserQuery = "SELECT * FROM users WHERE employee = ?";
-      let [userResult] = await db.query(getUserQuery, [res.formData.employee]);
-      
-      console.log("USER_RESULT33333: ", userResult);
-  
-      if (userResult.length === 0) {
-          console.log("///////////////////////////", res.employee);
-  
-          const getUserQueryR2 = "SELECT * FROM users_r2 WHERE employee = ?";
-          const [userResultR2] = await db.query(getUserQueryR2, [res.formData.employee]);
-          console.log("USER2_RESULT11111111: ", userResultR2[0]);
-          if (userResultR2.length > 0) {
-            position = userResultR2[0].position;
-            userResult = userResultR2;
-        }}
-      
-  
-          if (userResult.length === 0) {
-              console.log("++++++++++++++++++++++");
-              const getUserQueryR3 = "SELECT * FROM users_r3 WHERE employee = ?";
-              const [userResultR3] = await db.query(getUserQueryR3, [res.formData.employee]);
-              console.log("USER3_RESULT177777: ", userResultR3);
-              position = userResultR3[0].position;
-              userResult = userResultR3;
-  
-              if (userResultR3.length === 0) {
-                  return NextResponse.json({ success: false, error: 'Account not found. Please register.' });
-              }
-          }
+      const checkemployeeQuery1 = "SELECT COUNT(*) AS employeeCount FROM users WHERE employee = ?";
+      const [employeeCountResult1] = await db.query(checkemployeeQuery1, [res.formData.employee]);
+
+      const checkemployeeQuery2 = "SELECT COUNT(*) AS employeeCount FROM users_r2 WHERE employee = ?";
+      const [employeeCountResult2] = await db.query(checkemployeeQuery2, [res.formData.employee]);
+
+      const checkemployeeQuery3 = "SELECT COUNT(*) AS employeeCount FROM users_r3 WHERE employee = ?";
+      const [employeeCountResult3] = await db.query(checkemployeeQuery3, [res.formData.employee]);
+
+      let userEmployeeTable = false;
+      let foundInTable = '';
+      let userResult = null; // Initialize to null
+
+      if (employeeCountResult1[0].employeeCount > 0) {
+        foundInTable = 'users';
+        userEmployeeTable = true;
+      } else if (employeeCountResult2[0].employeeCount > 0) {
+        foundInTable = 'users_r2';
+        userEmployeeTable = true;
+      } else if (employeeCountResult3[0].employeeCount > 0) {
+        foundInTable = 'users_r3';
+        userEmployeeTable = true;
+      }
+
+      if (userEmployeeTable) {
+        const getUserQuery = `SELECT * FROM ${foundInTable} WHERE employee = ?`;
+        const [userQueryResult] = await db.query(getUserQuery, [res.formData.employee]);
+        userResult = userQueryResult[0]; // Assign the result to the outer-scope variable
+        console.log("88888888888888:", userResult, userResult?.position);
+      }
+
+      console.log("User comes from table:", userEmployeeTable, userResult);
+
+      if (!userEmployeeTable) {
+        return NextResponse.json({ success: false, error: 'Account not found. Please register.' });
+      }
+
          
   
       console.log("oooooooooooooooo: ", userResult);
   
-      const storedPassword = userResult[0].password;
+      const storedPassword = userResult.password;
       console.log("storedPassword: ", storedPassword);
 
 
@@ -163,14 +206,14 @@ export async function POST(request)  {
         
                 const token = jwt.sign(tokenPayload, 'user_login');
         
-                if (position === 'Safety Officer Professional level '){
+                if (userResult.position === 'Safety Officer Professional level '){
                   console.log("111111")
-                  return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/select' , profile: userResult ,token});
-                } else if (position === 'Safety Officer Technical level'){
+                  return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/select' , profile: [userResult] ,token});
+                } else if (userResult.position === 'Safety Officer Technical level'){
                   console.log("22222")
-                  return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_role_2' , profile: userResult ,token});
-                } else if (position === 'Safety Officer Supervisory level'){
-                  return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_role_3' , profile: userResult ,token});
+                  return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_role_2' , profile: [userResult] ,token});
+                } else if (userResult.position === 'Safety Officer Supervisory level'){
+                  return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_role_3' , profile: [userResult] ,token});
                 }               }
             }
           }
@@ -187,19 +230,17 @@ export async function POST(request)  {
         
         const token = jwt.sign(tokenPayload, 'user_login');
         
-        console.log("POSITION/////: ", userResult[0].position);
-        const position = userResult[0].position.trim(); // Use trim() to remove leading/trailing spaces
-        console.log("POSITION/////+++++: ", position);
+        console.log("POSITION/////: ", userResult.position ,[userResult]);
 
-        if (position === 'Safety Officer Professional level') {
+        if (userResult.position === 'Safety Officer Professional level') {
           console.log("111111");
-          return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/select', profile: userResult, token });
-        } else if (position === 'Safety Officer Technical level') {
+          return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/select', profile: [userResult], token });
+        } else if (userResult.position === 'Safety Officer Technical level') {
           console.log("22222");
-          return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_role_2', profile: userResult, token });
-        } else if (position === 'Safety Officer Supervisory level') {
+          return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_role_2', profile: [userResult], token });
+        } else if (userResult.position === 'Safety Officer Supervisory level') {
           console.log("33333");
-          return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_role_3', profile: userResult, token });
+          return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_role_3', profile: [userResult], token });
         }
             
       }

@@ -44,7 +44,7 @@ function App() {
     const [isPassSelected, setIsPassSelected] = useState(false);
     const [isOn, setIsOn] = useState(false);
     const [id, setId] = useState('');
-    const [nameExamineList , setNameExamineList] = useState(''); // สร้าง state เพื่อเก็บค่าที่เลือก
+    const [nameExamineList , setNameExamineList] = useState([]); // สร้าง state เพื่อเก็บค่าที่เลือก
     const [selectedOption, setSelectedOption] = useState('');
     const [showEditPopup, setShowEditPopup] = useState(false);
     const [deletemessage, setdeleteMessage] = useState(false);
@@ -67,8 +67,9 @@ function App() {
     const fetchDataForSelectedOption = useCallback(async () => {
       try {
         console.log('Selected Option88: ', selectedOption);
-    
-        const AddData = { selectedOption, fetch: true };
+        const storedId = localStorage.getItem('id');
+
+        const AddData = { selectedOption,storedId, fetch: true };
         const data = JSON.stringify(AddData);
         console.log('BB: ', data);
     
@@ -125,11 +126,11 @@ function App() {
           });
     
           const resdata = response.data;
-          console.log('DATAZONEEE: ', resdata);
+          console.log('DATAZONEEE: ', resdata,resdata.dbnameExamineList[0].name);
     
           if (response.status === 200) {
             if (resdata.success === true) {
-                setSelectedOption(resdata.dbnameExamineList[0]);
+                setSelectedOption(resdata.dbnameExamineList[0].name);
                 setNameExamineList(resdata.dbnameExamineList);
               
             } else {
@@ -367,7 +368,7 @@ function App() {
   const deleteTodo = async (index, todo) => {
     try {
       // ตรงนี้คุณใช้ตัวแปร id ที่ไม่ได้ถูกกำหนดค่า
-      const editedData = { ...todo, id, selectedOption, edit_role_1: true };
+      const editedData = { ...todo, id, selectedOption , edit_role_1: true };
       const data = JSON.stringify(editedData)
       console.log("datadelete: ",data)
 
@@ -538,16 +539,18 @@ function App() {
                 value={selectedOption}
                 onChange={handleDropdownChange}
               >
-                {/* {console.log("selectedOption:::: ",selectedOption,nameExamineList)} */}
+                {console.log("selectedOption:::: ",selectedOption ,selectedOption.name ,nameExamineList)}
                 {nameExamineList.length > 0 && nameExamineList.map((name, index) => (
-                  <option key={index} value={name}>
-                    {name}
+                  <option key={index} value={name.id}>
+                   {console.log("selectedOption::::11 ",name)}
+
+                    {name.name}
                   </option>
                 ))}
               </select>
               </div>
 
-              {selectedOption === 'undefined' && (
+              {selectedOption.length > 0 && (
               <div className='mt-[20px]'>
                 <button
                   onClick={openPopup} 

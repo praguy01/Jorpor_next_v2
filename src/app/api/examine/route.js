@@ -10,36 +10,36 @@ export async function POST(request) {
 
       if (res.fetch) {
 
-        const checkExaminelistQuery = "SELECT id FROM examinelist WHERE name = ? AND user_id = ?";
-        const [examinelistResult] = await db.query(checkExaminelistQuery, [res.examinelist_nameValue , res.storedId]);
+        // const checkExaminelistQuery = "SELECT id FROM examinelist WHERE id = ? AND user_id = ?";
+        // const [examinelistResult] = await db.query(checkExaminelistQuery, [res.examinelist_idValue , res.storedId]);
   
-        console.log("list ID222: ",examinelistResult[0].id);
+        // console.log("list ID222: ",examinelistResult[0].id);
 
         const getExamineQuery = "SELECT id,name FROM examine WHERE examinelist_id = ? ";
-        const [examineResult] = await db.query(getExamineQuery , examinelistResult[0].id);
+        const [examineResult] = await db.query(getExamineQuery , res.examinelist_idValue);
   
         console.log("Data_examine11: ",examineResult)
         console.log("Data_examine_id: ",examineResult.id)
 
   
-        return NextResponse.json({ success: true ,dbexamine_name: examineResult ,examinelistId: examinelistResult[0].id });
+        return NextResponse.json({ success: true ,dbexamine_name: examineResult });
         }
 
 
       if (res.edit) {
         try {
-          const getExamineQuery = "SELECT * FROM examinelist  WHERE name = ? AND user_id = ? ";
-          const [ExamineResult] = await db.query(getExamineQuery, [res.examinelist_name ,res.id]);
+          // const getExamineQuery = "SELECT * FROM examinelist  WHERE name = ? AND user_id = ? ";
+          // const [ExamineResult] = await db.query(getExamineQuery, [res.examinelist_name ,res.id]);
     
-          console.log("Data_examineEdit: ",ExamineResult)
+          // console.log("Data_examineEdit: ",ExamineResult)
 
           const getExamineEditQuery = "SELECT * FROM examine  WHERE name = ? AND examinelist_id = ? ";
-          const [ExamineEditResult] = await db.query(getExamineEditQuery, [res.todo , ExamineResult[0].id ,res.id]);
+          const [ExamineEditResult] = await db.query(getExamineEditQuery, [res.todo , res.examinelist_Id ,res.id]);
     
           console.log("Data_examineEdit: ",ExamineEditResult)
 
           const deleteExamineQuery = "DELETE FROM examine  WHERE name = ? AND examinelist_id = ?";
-          await db.query(deleteExamineQuery, [res.todo , ExamineResult[0].id ,res.id]);
+          await db.query(deleteExamineQuery, [res.todo , res.examinelist_Id ,res.id]);
 
         
           return NextResponse.json({ success: true , message: 'delete successfully!'});
@@ -58,18 +58,18 @@ export async function POST(request) {
       
         if (res.add) {
           try {
-            const checkExaminelistQuery = "SELECT id FROM examinelist WHERE name = ? AND user_id = ?";
-            const [examinelistResult] = await db.query(checkExaminelistQuery, [res.examinelist_name, res.id]);
+            // const checkExaminelistQuery = "SELECT id FROM examinelist WHERE name = ? AND user_id = ?";
+            // const [examinelistResult] = await db.query(checkExaminelistQuery, [res.examinelist_name, res.id]);
         
-            console.log("list ID: ", examinelistResult[0].id);
+            // console.log("list ID: ", examinelistResult[0].id);
         
             // ถ้า examine_name ยังไม่มีในตาราง examine ให้ทำการเพิ่มข้อมูล
             const insertSql = "INSERT INTO examine (name, examinelist_id, useEmployee) VALUES (?,?,?)";
-            const insertValues = [res.examine_name, examinelistResult[0].id, res.useEmployeeAsString];
+            const insertValues = [res.examine_name, res.examinelist_Id , res.useEmployeeAsString];
             await db.query(insertSql, insertValues);
         
             const getIdQuery = "SELECT id , name FROM examine WHERE examinelist_id = ?";
-            const [examineIdResult] = await db.query(getIdQuery, [examinelistResult[0].id]);
+            const [examineIdResult] = await db.query(getIdQuery, [res.examinelist_Id]);
             const examine_id = examineIdResult[0].id;
             // const examineResultmap = examineIdResult.map(row => row.name);
 

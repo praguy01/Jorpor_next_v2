@@ -101,16 +101,16 @@ export async function POST(request) {
             return NextResponse.json({ success: false, error: 'Employee is already in use.' });
           } else {
 
-          const getIDExamineListQuery = "SELECT id FROM examinelist WHERE name = ?";
-          const [idExamineListResult] = await db.query(getIDExamineListQuery, [ res.selectedOption ]);
+          // const getIDExamineListQuery = "SELECT id FROM examinelist WHERE name = ?";
+          // const [idExamineListResult] = await db.query(getIDExamineListQuery, [ res.selectedOption ]);
 
           const insertSql = `INSERT INTO employee ( employee, name, lastname ,examinelist_id ,users_id ) VALUES (?,?,?,?,?)`;
-          const insertValues = [res.employee ,res.name , res.lastname ,idExamineListResult[0].id, res.id];
+          const insertValues = [res.employee ,res.name , res.lastname ,res.selectedOption, res.id];
           await db.query(insertSql, insertValues);
 
 
           const getEmployeeQuery = "SELECT * FROM employee WHERE examinelist_id  = ?";
-          const [employeeResult] = await db.query(getEmployeeQuery, [idExamineListResult[0].id]);
+          const [employeeResult] = await db.query(getEmployeeQuery, [res.selectedOption]);
 
           const customSort = (a, b) => {
             const idA = isNaN(a.employee) ? a.employee : parseInt(a.employee, 10);
@@ -179,11 +179,11 @@ export async function POST(request) {
 
      if (res.fetch) {
         try {
-          const getIDExamineListQuery = "SELECT id FROM examinelist WHERE name = ?";
-          const [idExamineListResult] = await db.query(getIDExamineListQuery, [res.selectedOption]);
+          // const getIDExamineListQuery = "SELECT id FROM examinelist WHERE id = ?";
+          // const [idExamineListResult] = await db.query(getIDExamineListQuery, [res.selectedOption]);
 
           const getEmployeeQuery = "SELECT * FROM employee WHERE examinelist_id  = ?";
-          const [employeeResult] = await db.query(getEmployeeQuery, [idExamineListResult[0].id]);
+          const [employeeResult] = await db.query(getEmployeeQuery, [res.selectedOption]);
 
           // Custom sorting function for alphanumeric ids
           const customSort = (a, b) => {
@@ -391,9 +391,9 @@ export async function POST(request) {
      
 
         if (idResultmap === undefined){
-          const getIdnameQuery = "SELECT name FROM examinelist WHERE user_id = ?";
+          const getIdnameQuery = "SELECT id,name FROM examinelist WHERE user_id = ?";
           const [idnameResult] = await db.query(getIdnameQuery, [res.storedId]);
-          const idnameResultmap = idnameResult.map(row => row.name); // Extract the string from the array
+          const idnameResultmap = idnameResult.map(row => ({ id: row.id, name: row.name })); // Extract the string from the array
           return NextResponse.json({ success: true, dbnameExamineList: idnameResultmap});
         } else {
          
@@ -404,10 +404,10 @@ export async function POST(request) {
       for (const item of item_id) {
         console.log("4444: ",item)
     
-        const getNameExamineListQuery = "SELECT name FROM examinelist WHERE id = ? AND user_id = ?";
+        const getNameExamineListQuery = "SELECT id,name FROM examinelist WHERE id = ? AND user_id = ?";
         const [nameExamineListResult] = await db.query(getNameExamineListQuery, [item, res.storedId]);
     
-        const nameExamineListResultmap = nameExamineListResult.map(row => row.name);
+        const nameExamineListResultmap = nameExamineListResult.map(row => ({ id: row.id, name: row.name }));
         nameList.push(nameExamineListResultmap[0]);
         console.log("nameList: ", nameList);
         // flattenedNameList = nameList.flatMap(zone => zone.map(item => item.name));

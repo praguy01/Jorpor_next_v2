@@ -74,7 +74,7 @@ function App() {
     console.log("STARTExamine: ",useEmployee);
     const fetchData = async () => {
       try {
-        const AddData = { examinelist_nameValue,storedId, fetch: true};
+        const AddData = { examinelist_nameValue,examinelist_idValue,storedId, fetch: true};
         const fetchdata = JSON.stringify(AddData);
 
         const response = await axios.post('/api/examine', fetchdata, {
@@ -149,7 +149,7 @@ function App() {
 
       const useEmployeeAsString = useEmployee.toString(); // แปลงค่า useEmployee เป็น string
 
-      const AddData = { examine_name ,useEmployeeAsString ,examinelist_name ,id, add: true};
+      const AddData = { examine_name ,useEmployeeAsString ,examinelist_Id,examinelist_name ,id, add: true};
       const data = JSON.stringify(AddData);
       console.log("data222: ",data)
 
@@ -202,7 +202,7 @@ function App() {
 
   const deleteTodo = async (index, todo) => {
     try {
-      const editedData = { todo, examinelist_name,id,  edit: true };
+      const editedData = { todo, examinelist_name,id,examinelist_Id,  edit: true };
       const data = JSON.stringify(editedData)
 
       const response = await axios.post('/api/examine', data,  {
@@ -435,7 +435,7 @@ function App() {
             {showEditPopup.isOpen && (
               <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center ">
                 <div className="bg-white p-4 rounded-lg border-black shadow-lg md:w-[380px] md:h-[150px] text-center ">
-                  <h2 className=  {` text-[18px] md:text-[20px] text-[#5A985E] mt-[10px] `}> {t("Do you want to delete")}<span style={{ color: '#FF6B6B' }}>{showEditPopup.todo}</span>?</h2>
+                  <h2 className=  {` text-[18px] md:text-[20px] text-[#5A985E] mt-[10px] `}> {t("Do you want to delete ")}<span style={{ color: '#FF6B6B' }}>{showEditPopup.todo}</span> ?</h2>
                   
                   {message && (
                     <p className= {` mt-3 text-red-500 text-xs py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-lg md:mt-[30px]`}>

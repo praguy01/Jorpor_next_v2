@@ -370,17 +370,19 @@ export default function CompReportResultsForm({ onSubmit }) {
     let currentY = 10;
     let currentHeight = 0;
     let checkcurrentHeight = 0;
-    const maxPageHeight = 800;
+    const maxPageHeight = 700;
     let newPage = false;
   
     const createNewPage = () => {
       doc.addPage();
-      newPage = false;
+      newPage = true;
     };
   
     doc.addFont('Sarabun-Regular', 'normal');
     doc.setFont('Sarabun-Regular', 'normal');
   
+   
+
     doc.setFontSize(10);
     const pageWidth = doc.internal.pageSize.getWidth();
     const textWidth = doc.getStringUnitWidth('แบบรายงานผลการตรวจสอบความปลอดภัย') * doc.internal.getFontSize() / doc.internal.scaleFactor;
@@ -401,7 +403,6 @@ export default function CompReportResultsForm({ onSubmit }) {
             createNewPage();
             currentY = 20; 
             checkcurrentHeight = 0;
-            newPage = true;
           }
           if (newPage === true) {
             console.log("NEWW PAGEEEE");
@@ -465,6 +466,8 @@ export default function CompReportResultsForm({ onSubmit }) {
                       font: 'Sarabun-Regular',
                       halign: 'center',
                     },
+
+                    
   
                     didDrawCell: function (data) {
                       const cellHeight = data.row.height;
@@ -488,7 +491,12 @@ export default function CompReportResultsForm({ onSubmit }) {
                   currentHeight = tableHeight;
                   currentY = doc.autoTable.previous.finalY + 10; // Set currentY to the bottom of the previous table plus some spacing
                   checkcurrentHeight += tableHeight;
-                 
+                  if ( checkcurrentHeight > maxPageHeight){
+                    checkcurrentHeight = checkcurrentHeight - maxPageHeight
+                    currentY = 20
+                    doc.addPage();
+
+                  }
                   
                   console.log("HEIGHT: ", examKey, 'checkcurrentHeight: ', checkcurrentHeight, 'tableHeight: ', tableHeight, 'currentY: ', currentY, 'currentHeight: ', currentHeight);
                   
@@ -566,7 +574,12 @@ export default function CompReportResultsForm({ onSubmit }) {
                     currentHeight = tableHeight;
                     currentY = doc.autoTable.previous.finalY + 10; 
                     checkcurrentHeight += tableHeight;
-                
+                    if ( checkcurrentHeight > maxPageHeight){
+                      checkcurrentHeight = checkcurrentHeight - maxPageHeight
+                      currentY = 20
+                      doc.addPage();
+
+                    }
                     console.log("HEIGHT: ", entry.key, 'checkcurrentHeight: ', checkcurrentHeight, 'tableHeight: ', tableHeight, 'currentY: ', currentY, 'currentHeight: ', currentHeight);
                     
                    

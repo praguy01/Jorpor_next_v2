@@ -140,6 +140,8 @@ export async function POST(request) {
 
       // แสดงผลลัพธ์
       // console.log("resultGroup",res.storedId);
+     
+
       const calPercent = []
       let reversedCalPercentCopy = []
       const getChecklist_R2Query = "SELECT DISTINCT date FROM checklist_examine_row_2 WHERE r2_id = ?";
@@ -256,6 +258,11 @@ export async function POST(request) {
         // console.log("Recent Dates:", formattedDateA );
 
         // Subtract one day at a time until dateArray has 5 elements
+        const currentDatenew = new Date();
+        const dayN = currentDatenew.getDate();
+        const monthN = currentDatenew.getMonth() + 1; 
+        const yearN = currentDatenew.getFullYear();
+        const formattedDateNew = `${dayN}/${monthN}/${yearN}`;
      
         for (const currentDateA of dateArray) {
           // console.log("currentDate :", currentDateA );
@@ -267,9 +274,27 @@ export async function POST(request) {
       const dataAll = {currentDateA}
       const dataPercent = {};
       for (const user_r1 of getId_r1QueryResultMap) {
-        
-        
+        const nameList = [];
+        let flattenedNameList = []
 
+        
+        const getCheckUser_R2Query = `
+        SELECT DISTINCT inspector FROM (
+          SELECT inspector FROM checklist_examine_row_2 WHERE r2_id = ? AND date = ?
+          UNION
+          SELECT inspector FROM checklist_employee_row_2 WHERE users_r2_id = ? AND date = ?
+      ) AS combinedResult;`;
+  
+        const [getCheckUser_R2QueryResult] = await db.query(getCheckUser_R2Query, [res.storedId  , formattedDateNew,res.storedId,formattedDateNew ]);
+  
+        // The result is an array of distinct inspector values
+        const distinctInspectors = getCheckUser_R2QueryResult.map(result => result.inspector);
+  
+        console.log("distinctInspectors: ",user_r1,distinctInspectors,res.storedId ,formattedDateNew)
+
+        if (distinctInspectors.includes(user_r1)) {
+          console.log("NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOONNNN  ",user_r1)
+        
         const getIdQuery = "SELECT select_id FROM `select` WHERE date = ? AND user_id = ?";
         const [idResult] = await db.query(getIdQuery, [currentDateA,user_r1]);
         const idResultmap = idResult.map(row => row.select_id)[0]; // Extract the string from the array
@@ -291,8 +316,7 @@ export async function POST(request) {
           // Handle the case where idResultmap is undefined or null
         }
         
-        const nameList = [];
-        let flattenedNameList = []
+
       
         for (const item of item_id) {
           // console.log("4444: ",item)
@@ -309,6 +333,7 @@ export async function POST(request) {
           // console.log("Unique flattened nameList: ", uniqueFlattenedNameList);
           
         }
+      }
           console.log("nameList: ",nameList)
 
         if (!dataPercent[user_r1]) {
@@ -464,11 +489,17 @@ export async function POST(request) {
       }
       
       }
+
       dataAll.data = dataPercent
       console.log(dataAll. currentDateA); // แสดงค่า currentDate ที่อยู่ในอ็อบเจ็กต์ dataAll
 
       // console.log("Final dataPercent:", dataPercent);
       // console.log("Final dataPercent dataAll ------------------------:",  dataAll);
+     
+
+
+
+
       calPercent.push(dataAll)
       reversedCalPercentCopy = [...calPercent].reverse();
       console.log("CalPercentCopy----------------:", calPercent);
@@ -496,7 +527,7 @@ export async function POST(request) {
       const getQuery = "SELECT * FROM checklist_examine_row_2 WHERE date = ?  ";
       const [Result] = await db.query(getQuery , [formattedDate ]);
 
-      console.log("++++++++++++++++++++, ",Result)
+      // console.log("++++++++++++++++++++, ",Result)
       // console.log("Data_examineWWWWWW: ",Result)
       const groupedData = {
         key: []}
@@ -726,25 +757,49 @@ export async function POST(request) {
 
         // Subtract one day at a time until dateArray has 5 elements
      
+        const currentDatenew = new Date();
+        const dayN = currentDatenew.getDate();
+        const monthN = currentDatenew.getMonth() + 1; 
+        const yearN = currentDatenew.getFullYear();
+        const formattedDateNew = `${dayN}/${monthN}/${yearN}`;
+     
         for (const currentDateA of dateArray) {
-          console.log("currentDate :", currentDateA );
+          // console.log("currentDate :", currentDateA );
 
       const getId_r1Query = "SELECT id FROM users ";
       const [getId_r1QueryResult] = await db.query(getId_r1Query);
       const getId_r1QueryResultMap = getId_r1QueryResult.map(item => item.id);
-      
 
-      const dataAll = { currentDateA}
+      const dataAll = {currentDateA}
       const dataPercent = {};
       for (const user_r1 of getId_r1QueryResultMap) {
-        
-        
+        const nameList = [];
+        let flattenedNameList = []
 
+        
+        const getCheckUser_R2Query = `
+        SELECT DISTINCT inspector FROM (
+          SELECT inspector FROM checklist_examine_row_2 WHERE  date = ?
+          UNION
+          SELECT inspector FROM checklist_employee_row_2 WHERE  date = ?
+      ) AS combinedResult;`;
+  
+        const [getCheckUser_R2QueryResult] = await db.query(getCheckUser_R2Query, [formattedDateNew,formattedDateNew ]);
+  
+        // The result is an array of distinct inspector values
+        const distinctInspectors = getCheckUser_R2QueryResult.map(result => result.inspector);
+  
+        console.log("distinctInspectors: ",user_r1,distinctInspectors,res.storedId ,formattedDateNew)
+
+        if (distinctInspectors.includes(user_r1)) {
+          console.log("NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOONNNN  ",user_r1)
+        
         const getIdQuery = "SELECT select_id FROM `select` WHERE date = ? AND user_id = ?";
         const [idResult] = await db.query(getIdQuery, [currentDateA,user_r1]);
         const idResultmap = idResult.map(row => row.select_id)[0]; // Extract the string from the array
         // console.log("4444idResult: ", idResultmap);
 
+        let item_id = [];
 
         // Check if idResultmap is defined before parsing
         if (idResultmap) {
@@ -760,8 +815,7 @@ export async function POST(request) {
           // Handle the case where idResultmap is undefined or null
         }
         
-        const nameList = [];
-        let flattenedNameList = []
+
       
         for (const item of item_id) {
           // console.log("4444: ",item)
@@ -771,13 +825,14 @@ export async function POST(request) {
       
           // const nameExamineListResultmap = nameExamineListResult.map(row => row.name);
           nameList.push(nameExamineListResult);
-          // console.log("nameList: ", nameList);
+          console.log("nameExamineListResult: ", nameExamineListResult);
           flattenedNameList = nameList.flatMap(zone => zone.map(item => item));
           // console.log("Flattened nameList: ", flattenedNameList);
           // const uniqueFlattenedNameList = [...new Set(flattenedNameList)];
           // console.log("Unique flattened nameList: ", uniqueFlattenedNameList);
           
         }
+      }
 
         if (!dataPercent[user_r1]) {
           dataPercent[user_r1] = [];
@@ -835,100 +890,96 @@ export async function POST(request) {
                 examineInfo.name_id = getexaminenameQueryResultMap
                 const getChecklist_R2Query = "SELECT date , examinename_id ,	status FROM checklist_examine_row_2 WHERE  examine_id = ? AND date = ? ";
                 const [getChecklist_R2QueryResult] = await db.query(getChecklist_R2Query, [examineInfo.id ,  currentDateA]);
-                console.log("11111111111111111111111111111: ", getChecklist_R2QueryResult ,  currentDateA);
+                // console.log("11111111111111111111111111111: ", getChecklist_R2QueryResult ,  currentDateA);
                 
                 const passCount = getChecklist_R2QueryResult.filter(item => item.status === 'pass').length;
 
-                // const getQuery = "SELECT examinelist_id FROM checklist_examine_row_2 WHERE date = ?  ";
-                // const [Result] = await db.query(getQuery , [formattedDate ]);
 
-                if (getexaminenameQueryResultMap.length === 0 ) {
-
-                const percentage = (passCount / getexaminenameQueryResultMap.length) * 100;
-
-                console.log("getexaminenameQueryResultMap.length:", examineInfo.id);
-                console.log("Percentage:", Math.floor(percentage), examineInfo.id);
-                examineInfo.percentage = Math.floor(percentage);
-                totalPercentage += percentage;
-              } else {
-                const percentage = 0;
-
-                console.log("getexaminenameQueryResultMap.length:", examineInfo.id);
-                console.log("Percentage:", Math.floor(percentage), examineInfo.id);
-                examineInfo.percentage = Math.floor(percentage);
-                totalPercentage += percentage;
-              }
-                
-
-                
-
-
+                // console.log("getexaminenameQueryResultMap.length:", examineInfo.id);
+                // console.log("Percentage:", Math.floor(percentage), examineInfo.id);
+                if (getexaminenameQueryResultMap.length > 0) {
+                  const percentage = (passCount / getexaminenameQueryResultMap.length) * 100;
+                  examineInfo.percentage = Math.floor(percentage);
+                  totalPercentage += percentage;
+                } else {
+                  examineInfo.percentage = 0;
+                  totalPercentage += 0;
+                }
+               
             } else if ( examineInfo.useEmployee === 'true' ){
               let totalPassCount = 0;
 
 
                 examine_idArray.push({ examineInfo });
 
-                const getexaminenameQuery = "SELECT 	id FROM examinename WHERE  examine_id = ? ";
+                const getexaminenameQuery = "SELECT id FROM examinename WHERE  examine_id = ? ";
                 const [getexaminenameQueryResult] = await db.query(getexaminenameQuery, [examineInfo.id]);
                 // console.log("getChecklist_R2QueryResult: ", examineInfo.id, getexaminenameQueryResult);
 
                 const getexaminenameQueryResultMap = getexaminenameQueryResult.map(item => item.id);
-                // console.log("getChecklist_R2QueryResultMap: ", examineInfo, getexaminenameQueryResultMap);
+                console.log("getChecklist_R2QueryResultMap: ", examineInfo, getexaminenameQueryResultMap);
                 // examine_idArray.push({ examineInfo, id: getexaminenameQueryResultMap });
                 examineInfo.examinename = getexaminenameQueryResultMap
                 const getemployeeQuery = "SELECT 	id FROM employee WHERE examinelist_id = ? ";
                 const [getemployeeQueryResult] = await db.query(getemployeeQuery, [idValue]);
                 const getemployeeQueryResultMap = getemployeeQueryResult.map(item => item.id);
-                // console.log("8888888888: ", getemployeeQueryResultMap, idValue );
+                console.log("8888888888: ", getemployeeQueryResultMap, idValue );
 
                 for (const employee of getemployeeQueryResultMap){
-                  console.log("99999: ",employee,examineInfo.id)
+                  // console.log("99999: ",employee,examineInfo.id)
                 const getChecklist_R2Query = "SELECT  examinename_id ,	status FROM checklist_employee_row_2 WHERE  examine_id = ? AND employee_name_id = ? AND date = ?";
                 const [getChecklist_R2QueryResult] = await db.query(getChecklist_R2Query, [examineInfo.id , employee ,  currentDateA]);
-                console.log("getChecklist_R2QueryResult: ", getChecklist_R2QueryResult);
+                console.log("getChecklist_R2QueryResult888: ", getChecklist_R2QueryResult,getexaminenameQueryResult,employee);
+                // const examinenameIds = getChecklist_R2QueryResult.map(item => item.examinename_id);
 
-                const passCount = getChecklist_R2QueryResult.filter(item => item.status === 'pass').length;
-                console.log("Pass count:", passCount, examineInfo.id);
-                totalPassCount += passCount;
+                // const isAnyIdInQueryResult = examinenameIds.some(id =>
+                //   getexaminenameQueryResult.some(item => item.id === id)
+                // );
+                
+                // console.log("**-*---***---***-*-",isAnyIdInQueryResult,examinenameIds);
+                // let passCount = 0;
+                // if (getexaminenameQueryResult.some(item => item.id === getChecklist_R2QueryResult.examinename_id)) {
+                  const passCount = getChecklist_R2QueryResult.filter(item => item.status === 'pass').length;
+                  // console.log("Pass count:", passCount, examineInfo.id);
+                  totalPassCount += passCount;
+                  // มีค่า
+              //     console.log("มีค่าใน getexaminenameQueryResult: ",getChecklist_R2QueryResult.examinename_id);
+              // } else {
+              //     // ไม่มีค่า
+              //     console.log("ไม่มีค่าใน getexaminenameQueryResult: ",getChecklist_R2QueryResult.examinename_id);
+              // }
 
-                const percentage = Math.floor((passCount / getexaminenameQueryResultMap.length) * 100);
-                examineInfo[employee] = {employee , passCount , percentage }
 
-                console.log("totalPassCount:",totalPassCount, examineInfo.id);
+               
+                // if (getexaminenameQueryResultMap.length > 0) {
 
-                // console.log("getexaminenameQueryResultMap.length:", getexaminenameQueryResultMap.length);
+                  const percentage = Math.floor((passCount / getChecklist_R2QueryResult.length) * 100);
+                  examineInfo[employee] = {employee , passCount , percentage }
+                // } else {
+                //   const percentage = 0;
+                //   examineInfo[employee] = {employee , passCount , percentage }
+                // }
+
+                console.log("totalPassCount:",totalPassCount,'employee: ',employee,'passCount: ',passCount, 'getChecklist_R2QueryResult: ' ,getChecklist_R2QueryResult ,'getexaminenameQueryResultMap: ',getexaminenameQueryResultMap,'getexaminenameQueryResultMap.length: ',getexaminenameQueryResultMap.length,'percentage; ',percentage);
+
+                console.log("getexaminenameQueryResultMap.length:", getexaminenameQueryResultMap.length);
                 // console.log("Percentage:", Math.floor(percentage), examineInfo.id);
                 // examineInfo.percentage = Math.floor(percentage);
           }
           examineInfo.totalPassCount = totalPassCount;
 
-          if (getexaminenameQueryResultMap.length === 0 ){
           const percentageAll = Math.floor((totalPassCount / (getexaminenameQueryResultMap.length * getemployeeQueryResultMap.length)) * 100);
-          console.log("percentageAll:", totalPassCount,percentageAll );
           examineInfo.percentageAll = percentageAll;
           totalPercentage += percentageAll;
-        } else {
-          const percentageAll = 0;
-          console.log("percentageAll:", totalPassCount,percentageAll );
-          examineInfo.percentageAll = percentageAll;
-          totalPercentage += percentageAll;
-        }
+          console.log("percentageAll,: ",percentageAll,totalPassCount,getexaminenameQueryResultMap.length, getemployeeQueryResultMap.length)
 
         }
+          console.log("percentageAllidObject[idValue].examine_id.length:",  totalPercentage, idObject[idValue].examine_id.length );
 
         }
-        if (idObject[idValue].examine_id.length === 0 ){
-
-        
         const percentageZone = Math.floor((totalPercentage / (idObject[idValue].examine_id.length * 100)) * 100);
-        console.log("percentageZone:", percentageZone , idValue);
+        console.log("percentageZone:", percentageZone );
         idObject.percentageZone = percentageZone;
-        } else {
-          const percentageZone = 0;
-          console.log("percentageZone:", percentageZone , idValue);
-          idObject.percentageZone = percentageZone;
-        }
         
         // console.log("8888888888888888888:", totalPercentage, idValue);
         
@@ -939,8 +990,8 @@ export async function POST(request) {
       dataAll.data = dataPercent
       console.log(dataAll. currentDateA); // แสดงค่า currentDate ที่อยู่ในอ็อบเจ็กต์ dataAll
 
-      console.log("Final dataPercent:", dataPercent);
-      console.log("Final dataPercent dataAll ------------------------:",  dataAll);
+      // console.log("Final dataPercent:", dataPercent);
+      // console.log("Final dataPercent dataAll ------------------------:",  dataAll);
       calPercent.push(dataAll)
       reversedCalPercentCopy = [...calPercent].reverse();
       console.log("CalPercentCopy----------------:", calPercent);

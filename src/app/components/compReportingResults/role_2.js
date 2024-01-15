@@ -670,16 +670,18 @@ const generatePDF = async () => {
   let currentY = 10;
   let currentHeight = 0;
   let checkcurrentHeight = 0;
-  const maxPageHeight = 800;
+  const maxPageHeight = 700;
   let newPage = false;
 
   const createNewPage = () => {
     doc.addPage();
-    newPage = false;
+    newPage = true;
   };
 
   doc.addFont('Sarabun-Regular', 'normal');
   doc.setFont('Sarabun-Regular', 'normal');
+
+ 
 
   doc.setFontSize(10);
   const pageWidth = doc.internal.pageSize.getWidth();
@@ -701,7 +703,6 @@ const generatePDF = async () => {
           createNewPage();
           currentY = 20; 
           checkcurrentHeight = 0;
-          newPage = true;
         }
         if (newPage === true) {
           console.log("NEWW PAGEEEE");
@@ -766,6 +767,8 @@ const generatePDF = async () => {
                     halign: 'center',
                   },
 
+                  
+
                   didDrawCell: function (data) {
                     const cellHeight = data.row.height;
                     const cellWidth = data.cell.width;
@@ -788,7 +791,12 @@ const generatePDF = async () => {
                 currentHeight = tableHeight;
                 currentY = doc.autoTable.previous.finalY + 10; // Set currentY to the bottom of the previous table plus some spacing
                 checkcurrentHeight += tableHeight;
-               
+                if ( checkcurrentHeight > maxPageHeight){
+                  checkcurrentHeight = checkcurrentHeight - maxPageHeight
+                  currentY = 20
+                  doc.addPage();
+
+                }
                 
                 console.log("HEIGHT: ", examKey, 'checkcurrentHeight: ', checkcurrentHeight, 'tableHeight: ', tableHeight, 'currentY: ', currentY, 'currentHeight: ', currentHeight);
                 
@@ -866,7 +874,12 @@ const generatePDF = async () => {
                   currentHeight = tableHeight;
                   currentY = doc.autoTable.previous.finalY + 10; 
                   checkcurrentHeight += tableHeight;
-              
+                  if ( checkcurrentHeight > maxPageHeight){
+                    checkcurrentHeight = checkcurrentHeight - maxPageHeight
+                    currentY = 20
+                    doc.addPage();
+
+                  }
                   console.log("HEIGHT: ", entry.key, 'checkcurrentHeight: ', checkcurrentHeight, 'tableHeight: ', tableHeight, 'currentY: ', currentY, 'currentHeight: ', currentHeight);
                   
                  

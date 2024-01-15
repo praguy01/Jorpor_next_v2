@@ -130,6 +130,7 @@ export default  function CompLogin() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    setLoginMessage('')
   
     if (name === 'employee') {
       
@@ -160,6 +161,7 @@ export default  function CompLogin() {
   };
 
   const handleSubmit = async (e) => {
+    setLoginMessage('')
 
     e.preventDefault();
 
