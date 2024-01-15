@@ -77,38 +77,38 @@ function CompNavbar() {
                   style={{ whiteSpace: 'nowrap' }}
                   className={` px-5 relative top-[5px] pb-[14px] pt-3  rounded-t-[20px]  hover:text-[#5A985E] hover:bg-[#F5F5F5] ${
                     currentPath === '/report_role_3' || currentPath === '/examine' || currentPath === '/checklistExamine' || currentPath === '/checklistEmployee' || currentPath === '/reportResults'  ? 'text-[#5A985E] bg-[#F5F5F5]  border border-b-0' : 'text-[#fff]'}`}
-                  >{language === 'EN' ? 'Report results' : 'ผลการรายงาน' }</Link>
+                  >{t("Report results")}</Link>
                 
                 <Link href="/response_role_3"
                   style={{ whiteSpace: 'nowrap' }}
                   className={` px-5 relative top-[5px] pb-[14px] pt-3  rounded-t-[20px]  hover:text-[#5A985E] hover:bg-[#F5F5F5] ${
                     currentPath === '/response_role_3' || currentPath === '/responsedetail_role_3' ? 'text-[#5A985E] bg-[#F5F5F5]  border border-b-0'  : 'text-[#fff]'}`} 
-                  >{language === 'EN' ? 'Evalution' : 'การประเมินผล' }</Link>                
+                  >{t('Evalution')}</Link>                
                 
                 <Link href="/plan_role_3" 
                   style={{ whiteSpace: 'nowrap' }}
                   className={` px-5 relative top-[5px] pb-[14px] pt-3  rounded-t-[20px]  hover:text-[#5A985E] hover:bg-[#F5F5F5] ${
                     currentPath === '/plan_role_3' ? 'text-[#5A985E] bg-[#F5F5F5]  border border-b-0' : 'text-[#fff]'}`}
-                  >{language === 'EN' ? 'Plan' : 'แผนงาน' }</Link>
+                  >{t('Plan')}</Link>
                   
                 <Link href="/meeting_role_3" 
                   style={{ whiteSpace: 'nowrap' }}
                   className={` px-5 relative top-[5px] pb-[14px] pt-3  rounded-t-[20px]  hover:text-[#5A985E] hover:bg-[#F5F5F5] ${
                     currentPath === '/meeting_role_3' ? 'text-[#5A985E] bg-[#F5F5F5]  border border-b-0' : 'text-[#fff]'}`}
-                  >{language === 'EN' ? 'Meeting' : 'ประชุม' }</Link>
+                  >{t('Meeting')}</Link>
 
                 <Link href="/employee_role_3" 
                   style={{ whiteSpace: 'nowrap' }}
                   className={` px-5 relative top-[5px] pb-[14px] pt-3  rounded-t-[20px]  hover:text-[#5A985E] hover:bg-[#F5F5F5] ${
                     currentPath === '/employee_role_3' ? 'text-[#5A985E] bg-[#F5F5F5]  border border-b-0' : 'text-[#fff]'}`}
-                  >{language === 'EN' ? 'Employee list' : 'รายชื่อพนักงาน' }</Link>
+                  >{t("Employee list")}</Link>
                 
                
                 <Link href="/profile_role_3" 
                   style={{ whiteSpace: 'nowrap' }}
                   className={` px-5 relative top-[5px] pb-[14px] pt-3  rounded-t-[20px]  hover:text-[#5A985E] hover:bg-[#F5F5F5] ${
                     currentPath === '/profile_role_3' ? 'text-[#5A985E] bg-[#F5F5F5]  border border-b-0' : 'text-[#fff]'}`}
-                  >{language === 'EN' ? 'Profile' : 'โปรไฟล์' }</Link> 
+                  >{t('Profile')}</Link> 
                  
                 </div >
                 
@@ -116,7 +116,7 @@ function CompNavbar() {
               <button   className="text-white px-5 ml-[20px] relative top-[5px] pb-3 pt-[10px]  text-[15px]   hover:font-bold  rounded-md p-2 " onClick={toggleLanguage}>
                   {language}
                 </button> 
-                <button style={{ whiteSpace: 'nowrap' }} onClick={logout}  className={` text-[16px]  relative top-[5px] pb-3 pt-2  py-1  text-[#fff] hover:font-bold `}> {language === 'EN' ? 'log out' : 'ออกจากระบบ' }</button>
+                <button style={{ whiteSpace: 'nowrap' }} onClick={logout}  className={` text-[16px]  relative top-[5px] pb-3 pt-2  py-1  text-[#fff] hover:font-bold `}>{t("log out")}</button>
                 </div>
 
             {toggle ? (
