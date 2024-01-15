@@ -1,40 +1,16 @@
-// pages/api/websocket.js
+import WebSocket from 'ws';
 
-import { Server } from "ws";
+const ws = new WebSocket('wss://your-next-js-app.vercel.app/api/websocket');
 
-export default async function handler(req, res) {
-  if (!res.socket.server.ws) {
-    console.log("Setting up WebSocket for the first time");
+ws.on('open', () => {
+  console.log('WebSocket connected');
+  ws.send('Hello, WebSocket!');
+});
 
-    const wss = new Server({ noServer: true, clientTracking: true });
+ws.on('message', (message) => {
+  console.log(`Received message: ${message}`);
+});
 
-    // Handle connection event
-    wss.on("connection", (ws) => {
-      console.log("Client connected");
-
-      // Handle incoming messages from the client
-      ws.on("message", (message) => {
-        console.log(`Received message: ${message}`);
-
-        // Send a response back to the client
-        ws.send(`Server received: ${message}`);
-      });
-
-      // Handle the event when the client disconnects
-      ws.on("close", () => {
-        console.log("Client disconnected");
-      });
-    });
-
-    res.socket.server.ws = wss;
-
-    // Bind the WebSocket server to the HTTP server
-    res.socket.server.on("upgrade", (request, socket, head) => {
-      wss.handleUpgrade(request, socket, head, (ws) => {
-        wss.emit("connection", ws, request);
-      });
-    });
-  }
-
-  res.end();
-}
+ws.on('close', () => {
+  console.log('WebSocket disconnected');
+});
