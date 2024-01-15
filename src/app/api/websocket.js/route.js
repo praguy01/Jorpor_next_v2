@@ -1,6 +1,6 @@
 import WebSocket from 'ws';
 
-const ws = new WebSocket('wss://your-next-js-app.vercel.app/api/websocket');
+const ws = new WebSocket('wss://platform-jorpor.vercel.app/api/websocket');
 
 ws.on('open', () => {
   console.log('WebSocket connected');
