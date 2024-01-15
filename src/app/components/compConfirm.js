@@ -69,6 +69,8 @@ export default function CompConfirm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const storedPIN = localStorage.getItem('PIN');
+
 
    
     try {
@@ -78,7 +80,7 @@ export default function CompConfirm() {
       const combinedCode = `${formData.PIN1}${formData.PIN2}${formData.PIN3}${formData.PIN4}${formData.PIN5}${formData.PIN6}`;
       const requestData = {
         PIN_confirm: combinedCode,
-        PIN: PIN,
+        PIN: storedPIN,
       };
 
       console.log("FROM_DATA: ",requestData)
