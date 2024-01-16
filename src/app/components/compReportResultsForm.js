@@ -186,7 +186,7 @@ export default function CompReportResultsForm({ onSubmit }) {
       if (response.status === 200) {
         if (data.success === true) {
          
-          console.log("Datamm: ",data.dbData,data.useEmployee)
+          console.log("Datamm: ",data)
      
           if (data.useEmployee === false){
           let checklistToAdd = [];
@@ -201,6 +201,7 @@ export default function CompReportResultsForm({ onSubmit }) {
               status: checkListData.status
             };
              checklistToAdd.push(Data);
+             
              const Data_1 = {
               date: checkListData.date,
               name: checkListData.name,
@@ -219,7 +220,7 @@ export default function CompReportResultsForm({ onSubmit }) {
           console.log("datachecklist: ",newTodoList)
 
         } else if (data.useEmployee === true){
-          console.log("TRUEEEEEEEEEE:  ",data.dbData)
+          console.log("TRUEEEEEEEEEE:  ",data)
           setUseEmployee(true)
           let checklistToAdd = [];
           
@@ -231,7 +232,7 @@ export default function CompReportResultsForm({ onSubmit }) {
 
             checkListData.items.forEach((item) => {
               item.forEach((items) => {
-                console.log("items: ",items)
+                // console.log("items: ",items)
 
             const Data = {
               name: checkListData.name,
@@ -242,7 +243,8 @@ export default function CompReportResultsForm({ onSubmit }) {
             
             })
              const Data_1 = {
-              name: checkListData.name,
+              name: data.inspector.name,
+              lastname: data.inspector.lastname
 
             };
             setcheckList(Data_1)
@@ -415,7 +417,7 @@ export default function CompReportResultsForm({ onSubmit }) {
                     
                     <p>{t('Inspector')}</p>
                     <p className='ml-[10px]'>:</p>
-                    <p className='ml-[10px] w-[150px]  md:w-[300px] whitespace-nowrap overflow-hidden overflow-ellipsis'>{checkList.name}  {checkList.lastname}</p>
+                    <p className='ml-[10px] w-[150px]  md:w-[300px] whitespace-nowrap overflow-hidden overflow-ellipsis'>{}{checkList.name}  {checkList.lastname}</p>
 
                     </div>
 

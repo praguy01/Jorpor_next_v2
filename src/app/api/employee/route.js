@@ -105,12 +105,12 @@ export async function POST(request) {
           // const [idExamineListResult] = await db.query(getIDExamineListQuery, [ res.selectedOption ]);
 
           const insertSql = `INSERT INTO employee ( employee, name, lastname ,examinelist_id ,users_id ) VALUES (?,?,?,?,?)`;
-          const insertValues = [res.employee ,res.name , res.lastname ,res.selectedOption.id, res.id];
+          const insertValues = [res.employee ,res.name , res.lastname ,res.selectedOption, res.id];
           await db.query(insertSql, insertValues);
 
 
           const getEmployeeQuery = "SELECT * FROM employee WHERE examinelist_id  = ?";
-          const [employeeResult] = await db.query(getEmployeeQuery, [res.selectedOption.id]);
+          const [employeeResult] = await db.query(getEmployeeQuery, [res.selectedOption]);
 
           const customSort = (a, b) => {
             const idA = isNaN(a.employee) ? a.employee : parseInt(a.employee, 10);
@@ -126,6 +126,42 @@ export async function POST(request) {
           return NextResponse.json({ success: false, error: error.message , message: ` employee ${res.employee} created failed`  });
         }
       }
+
+      // if (res.addformFile) {
+      //   try {
+
+      //     const checkemployeeQuery1 = "SELECT COUNT(*) AS employeeCount FROM users WHERE employee = ?";
+      //     const [employeeCountResult1] = await db.query(checkemployeeQuery1, [res.employee]);
+
+      //     if (employeeCountResult1[0].employeeCount > 0) {
+      //       return NextResponse.json({ success: false, error: 'Employee is already in use.' });
+      //     } else {
+
+      //     // const getIDExamineListQuery = "SELECT id FROM examinelist WHERE name = ?";
+      //     // const [idExamineListResult] = await db.query(getIDExamineListQuery, [ res.selectedOption ]);
+
+      //     const insertSql = `INSERT INTO employee ( employee, name, lastname ,examinelist_id ,users_id ) VALUES (?,?,?,?,?)`;
+      //     const insertValues = [res.employee ,res.name , res.lastname ,res.selectedOption, res.id];
+      //     await db.query(insertSql, insertValues);
+
+
+      //     const getEmployeeQuery = "SELECT * FROM employee WHERE examinelist_id  = ?";
+      //     const [employeeResult] = await db.query(getEmployeeQuery, [res.selectedOption]);
+
+      //     const customSort = (a, b) => {
+      //       const idA = isNaN(a.employee) ? a.employee : parseInt(a.employee, 10);
+      //       const idB = isNaN(b.employee) ? b.employee : parseInt(b.employee, 10);
+      //       return idA - idB;
+      //     };
+
+      //     const sortedEmployeeResult = employeeResult.sort(customSort);
+        
+      //     return NextResponse.json({ success: true, message: ` employee ${res.employee} created successfully` ,dbemployee: sortedEmployeeResult});
+      //   }} catch (error) {
+      //     console.error('ErrorEditEx:', error);
+      //     return NextResponse.json({ success: false, error: error.message , message: ` employee ${res.employee} created failed`  });
+      //   }
+      // }
 
       if (res.fetch_role_3) {
         try {

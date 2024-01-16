@@ -162,7 +162,7 @@ export async function POST(request) {
             //   idList.push({ id: examinename.id, name: examinename.name });
             // })
             // console.log("OORE: ",idList)
-            
+            let inspector = []
             const resultList = [];
 
             const seenEmployeeNameIds = new Set();
@@ -188,6 +188,14 @@ export async function POST(request) {
             const [DATAIDResult] = await db.query(getDATAIDQuery, [user.id, formattedDate]);
             
             console.log("DATAIDResult: ",DATAIDResult)
+            const uniqueUserIds = [...new Set(DATAIDResult.map(item => item.inspector))];
+            console.log("DATAIDResult: ",uniqueUserIds)
+
+            const getinspectorIDQuery = "SELECT name , lastname FROM users WHERE id = ?  ";
+            const [inspectorIDResult] = await db.query( getinspectorIDQuery, [uniqueUserIds]);
+            inspector = inspectorIDResult[0];
+            console.log("examinename: ", inspectorIDResult);
+
               for (const data of DATAIDResult) {
                 console.log("DATA: ",data)
 
@@ -266,7 +274,7 @@ export async function POST(request) {
           // console.log("listdata: ", resultList);
         
 
-            return NextResponse.json({ success: true, dbData: resultList ,useEmployee: true});
+            return NextResponse.json({ success: true, dbData: resultList ,useEmployee: true ,inspector: inspector});
           } else {
             return NextResponse.json({ success: false, error: "Examine not found" });
           }

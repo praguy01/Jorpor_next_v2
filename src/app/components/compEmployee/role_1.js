@@ -130,7 +130,7 @@ function App() {
     
           if (response.status === 200) {
             if (resdata.success === true) {
-                setSelectedOption(resdata.dbnameExamineList[0]);
+                setSelectedOption(resdata.dbnameExamineList[0].id);
                 setNameExamineList(resdata.dbnameExamineList);
               
             } else {
@@ -178,6 +178,7 @@ function App() {
     console.log("employee: ",employee)  
     console.log("name: ",name )  
     console.log("lastname: ",lastname,selectedOption)
+    const storedId = localStorage.getItem('id');
 
     try {
       
@@ -194,7 +195,7 @@ function App() {
         return;
       }
 
-    const AddData = { employee, name, lastname ,selectedOption,id, add: true };
+    const AddData = { employee, name, lastname ,selectedOption ,id, add: true };
     const data = JSON.stringify(AddData);
     console.log("777777777777: ",data)
   
