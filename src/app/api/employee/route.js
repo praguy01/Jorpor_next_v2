@@ -219,7 +219,7 @@ export async function POST(request) {
           // const [idExamineListResult] = await db.query(getIDExamineListQuery, [res.selectedOption]);
 
           const getEmployeeQuery = "SELECT * FROM employee WHERE examinelist_id  = ?";
-          const [employeeResult] = await db.query(getEmployeeQuery, [res.selectedOption.id]);
+          const [employeeResult] = await db.query(getEmployeeQuery, [res.selectedOption]);
 
           // Custom sorting function for alphanumeric ids
           const customSort = (a, b) => {

@@ -616,7 +616,7 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
                         checked={checkedItems && checkedItems.includes(todo.id)}
                         onChange={() => handleCheckboxChange(index, todo.id)}
                       />
-                      <p className='text-[#000] bg-[#BEE3BA] rounded-[10px]  border-[#F5F5F5]  py-1 px-4  text-[14px] md:text-[18px] md:w-[100px]  break-words whitespace-pre-wrap'>
+                      <p className='text-[#000] bg-[#BEE3BA] rounded-[10px]  border-[#F5F5F5]  py-1 px-4  text-[14px] md:text-[18px] md:w-[200px] w-[170px]  break-words whitespace-pre-wrap'>
                         {todo.name}
                       </p>
                     </div>
