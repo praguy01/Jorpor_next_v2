@@ -152,6 +152,8 @@ function App() {
         editedProfileData.img = selectedImage;
         setProfileData({ ...editedProfileData });
       }
+      setProfileData({ ...editedProfileData });
+
     
       // ทำการบันทึกข้อมูลที่ผู้ใช้แก้ไขลงในฐานข้อมูลหรือระบบของคุณ
       // ตัวอย่างเช่น ส่งข้อมูลไปยังเซิร์ฟเวอร์
@@ -178,7 +180,7 @@ function App() {
       const resdata = response.data;
   
       if (response.status === 200) {
-        console.log("resdata:", resdata.message);
+        console.log("resdata:", resdata);
 
         if (resdata.success === true) {
           // การบันทึกสำเร็จ ปิดโหมดแก้ไข
@@ -324,7 +326,7 @@ function App() {
                       </>
                     ) : (
                       <Image
-                        src={fileData || "/img/profile.jpg"}
+                        src={selectedImage || fileData || "/img/profile.jpg"}
                         alt="Profile Image"
                         width={150}
                         height={150}

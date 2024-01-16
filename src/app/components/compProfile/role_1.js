@@ -160,7 +160,8 @@ function App() {
         editedProfileData.img = selectedImage;
         setProfileData({ ...editedProfileData });
       }
-    
+      setProfileData({ ...editedProfileData });
+
       // ทำการบันทึกข้อมูลที่ผู้ใช้แก้ไขลงในฐานข้อมูลหรือระบบของคุณ
       // ตัวอย่างเช่น ส่งข้อมูลไปยังเซิร์ฟเวอร์
       
@@ -217,7 +218,7 @@ function App() {
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      console.log("FILE: ",file)
+      // console.log("FILE: ",file)
       const reader = new FileReader();
       reader.onload = (event) => {
         const imageUrl = event.target.result;
@@ -228,7 +229,7 @@ function App() {
           ...prevData,
           img: file,
         }));
-        console.log("FILEPICTURE: ",editedProfileData)
+        // console.log("FILEPICTURE: ",editedProfileData)
 
 
         setImagedata(file)
@@ -325,8 +326,8 @@ function App() {
                           </>
                         ) : (
                           <Image
-                            src={fileData || "/img/profile.jpg"}
-                            alt="Profile Image"
+                          src={selectedImage || fileData || "/img/profile.jpg"}
+                          alt="Profile Image"
                             width={500}
                             height={500}
                             className="ring-2 ring-white ring-offset-2 ring-offset-[#5A985E] w-32 h-32 mx-auto md:w-[150px] md:h-[150px] rounded-full object-cover"

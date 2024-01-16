@@ -119,12 +119,12 @@ export default function CompRegister() {
               
             
 
-          setRegistrationMessage('');
-          setRegistrationMessagePass("Already registered.");
-          setTimeout(() => {
-            setIsLoading(true); // เริ่มแสดง Loading
-            window.location.href = resdata.redirect;
-          }, 1000); // รอ 1 วินาทีก่อนเปลี่ยนหน้า
+          // setRegistrationMessage('');
+          // setRegistrationMessagePass("Already registered.");
+          // setTimeout(() => {
+          //   setIsLoading(true); // เริ่มแสดง Loading
+          //   window.location.href = resdata.redirect;
+          // }, 1000); // รอ 1 วินาทีก่อนเปลี่ยนหน้า
         } else {
           setRegistrationMessage(resdata.error);
           setMessage('');
@@ -225,10 +225,10 @@ export default function CompRegister() {
           setMessagePass(resdata.message);
           setMessagepop('');
 
-          // setTimeout(() => {
-          //   setIsLoading(true); 
-          //   window.location.href = resdata.redirect;
-          // }, 1000); 
+          setTimeout(() => {
+            setIsLoading(true); 
+            window.location.href = resdata.redirect;
+          }, 1000); 
         } else {
           console.log("RESDATA error: ", resdata.error);
           setMessagepop(resdata.error);
