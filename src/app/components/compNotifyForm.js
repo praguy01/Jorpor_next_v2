@@ -240,7 +240,7 @@ function CompNotifyForm({ onSubmit }) {
                       {/* {console.log("TESTTTTTT : ",todoList[0].examinelist) } */}
                       {todoList.length > 0 ? (
                         <div>
-                          {todoList[0].examinelist === null ? (
+                          {todoList[0].examinelist !== null ? (
                             <select
                               id="dropdown"
                               name="location"
