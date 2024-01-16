@@ -126,11 +126,11 @@ function App() {
           });
     
           const resdata = response.data;
-          console.log('DATAZONEEE: ', resdata,resdata.dbnameExamineList[0].name);
+          console.log('DATAZONEEE: ', resdata,resdata.dbnameExamineList[0]);
     
           if (response.status === 200) {
             if (resdata.success === true) {
-                setSelectedOption(resdata.dbnameExamineList[0].name);
+                setSelectedOption(resdata.dbnameExamineList[0]);
                 setNameExamineList(resdata.dbnameExamineList);
               
             } else {
@@ -415,7 +415,7 @@ function App() {
           <div className='md:w-[700px] lg:w-[1000px] mx-auto  '>
             <div className='flex  w-[330px] mx-auto  md:w-[800px]'>
             <div className='mx-auto  w-[330px] md:w-[800px]  text-black   md:mt-[106px] mt-[80px]  '>
-            <h1 className={`text-[25px] text-black md:text-[30px] ml-[10px] md:w-[400px] w-[200px]  text-ellipsis whitespace-nowrap overflow-hidden  `}>{t("Employee List")}</h1>
+            <h1 className={`text-[25px] text-black md:text-[30px] md:w-[400px] w-[200px]  text-ellipsis whitespace-nowrap overflow-hidden  `}>{t("Employee List")}</h1>
               </div>
                 <div className='flex md:mt-[50px]   md:ml-[430px]'>
                    
@@ -474,20 +474,20 @@ function App() {
                          <input
                             className="mt-1 p-2 w-full text-black border border-gray-300 rounded-md"
                             value={employee}
-                            onChange={(e) => setEmployee(e.target.value)}
+                            onChange={(e) => {setEmployee(e.target.value); setErrorAddMessage(''); setErraddMessage(false);}}
                             placeholder={t('Employee')}
                             />
 
                            <input
                              className="mt-1 p-2 w-full text-black ml-[10px] border border-gray-300 rounded-md"
                              value={name}
-                             onChange={(e) => setName(e.target.value)}
+                             onChange={(e) => {setName(e.target.value); setErrorAddMessage(''); setErraddMessage(false);}}
                              placeholder={t('Name')}
                            />
                            <input
                              className="mt-1 p-2 ml-[10px] text-black w-full border border-gray-300 rounded-md"
                              value={lastname}
-                             onChange={(e) => setlastname(e.target.value)}
+                             onChange={(e) => {setlastname(e.target.value); setErrorAddMessage(''); setErraddMessage(false);}}
                              placeholder={t('Lastname')}
                            />
                          </div>
@@ -536,10 +536,9 @@ function App() {
               <label className="block  text-gray-700 text-[13px] font-bold mb-2"> {t("Select an option")}:</label>
               <select
                 className="  left-0  text-[13px] text-black border rounded-md px-4 py-1 outline-none"
-                value={nameExamineList}
+                value={selectedOption ? selectedOption.id : ""}
                 onChange={handleDropdownChange}
               >
-                {console.log("selectedOption:::: ",selectedOption ,selectedOption.name ,nameExamineList)}
                 {nameExamineList.length > 0 && nameExamineList.map((name, index) => (
                   <option key={index} value={name.id}>
                    {console.log("selectedOption::::11 ",name)}
@@ -549,8 +548,9 @@ function App() {
                 ))}
               </select>
               </div>
+              {console.log("selectedOption:::: ",selectedOption ,selectedOption.name ,nameExamineList)}
 
-              {selectedOption.length > 0 && (
+              {selectedOption  && (
               <div className='mt-[20px]'>
                 <button
                   onClick={openPopup} 

@@ -247,7 +247,7 @@ console.log("resdata.profile[0]: ",resdata.profile)
           setTimeout(() => {
             setIsLoading(true); 
               router.push(resdata.redirect); 
-          }, 1000); 
+          }, 100); 
         } else {
           setLoginMessage(resdata.error);
           setMessage('');

@@ -27,6 +27,32 @@ export async function POST(request) {
       return NextResponse.json({ success: true ,dbnotify_name: Result});
     }
 
+    if (res.edit) {
+      try {
+        const {data } = res;
+  
+        console.log("RES_ROUTE_: ", res);
+          const deleteExamineQuery = "DELETE FROM notify WHERE id = ?";
+          await db.query(deleteExamineQuery, [res.todo.id]);
+  
+          const getQuery = "SELECT * FROM notify WHERE user_id = ?";
+        const [Result] = await db.query(getQuery , [res.storedId]);
+  
+        for (const item of Result) {
+          const inputDate = new Date(item.date);
+          const formattedDate = format(inputDate, 'dd/MM/yyyy HH:mm');
+        
+          item.formattedDate = formattedDate;
+        }
+  
+  
+          return NextResponse.json({ success: true , message: 'delete successfully!' ,dbnotify_name: Result });
+        } catch (error) {
+          console.error('ErrorEditEx:', error);
+          return NextResponse.json({ success: false, error: error.message });
+        }
+     }
+
     if (res.responseDetail) {
       try {
 

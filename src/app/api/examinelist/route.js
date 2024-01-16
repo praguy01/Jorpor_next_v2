@@ -96,8 +96,12 @@ export async function POST(request) {
         JOIN users ON examinelist.user_id = users.id
         WHERE user_id = ?`;
     
+
     const [examinelistResult] = await db.query(getExamineQuery, [res.storedUser_id]);
     // const key = examinelistResult.name + ' ' + examinelistResult.lastname;
+    console.log("Data_examineUsersSSSSSexaminelistResult: ", examinelistResult);
+
+    if (examinelistResult.length > 0) {
 
     const uniqueDataArray = [];
 
@@ -127,6 +131,41 @@ console.log("Data_examineUsers: ", uniqueDataArray);
   
   
         return NextResponse.json({ success: true ,dbexaminelist_name: uniqueDataArray});
+} else {
+  const getExamineQuery = `
+  SELECT id, employee, name, lastname, position FROM users WHERE id = ?`;
+
+const [examinelistResult] = await db.query(getExamineQuery, [res.storedUser_id]);
+
+const uniqueDataArray = [];
+
+// Iterate through the examinelistResult array
+examinelistResult.forEach(result => {
+console.log("Data_examineUsersSSSSS: ", result);
+
+// Check if the ID is not in the array, add it to the array
+const existingData = uniqueDataArray.find(item => item.id === result.id);
+if (!existingData) {
+  uniqueDataArray.push({
+    id: result.id,
+    name: result.name + ' ' + result.lastname,
+    employee: result.employee,
+    position:  result.position.replace('Safety Officer', ''),
+    examinelist: [result.examinelist_name]  // Start with an array containing the current value
+  });
+} else {
+  // If the ID already exists, add the current result.examinelist_name to the existing array
+  existingData.examinelist.push(result.examinelist_name );
+}
+});
+
+// Convert the set back to an array if needed
+console.log("Data_examineUsers: ", uniqueDataArray);
+    
+
+
+      return NextResponse.json({ success: true ,dbexaminelist_name: uniqueDataArray});
+}
         }
 
         if (res.fetch) {

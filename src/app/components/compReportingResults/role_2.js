@@ -670,7 +670,7 @@ const generatePDF = async () => {
   let currentY = 10;
   let currentHeight = 0;
   let checkcurrentHeight = 0;
-  const maxPageHeight = 700;
+  const maxPageHeight = 650;
   let newPage = false;
   let startY = true;
 
@@ -808,8 +808,8 @@ const generatePDF = async () => {
               if (examValue[0].itemA) {
                 let entryIndex = 0;
                 for (const entry of examValue[0].itemA) {
-                  console.log("examValue[0].itemA: ", entry, entry.key, currentY);
-                  console.log("HEIGHT entry.key: ", entry.key, currentY, currentHeight);
+                  console.log("examValue[0].itemA: ", entry, entry.key, currentY,checkcurrentHeight);
+                  console.log("HEIGHT entry.key: ", entry.key, currentY, currentHeight,checkcurrentHeight);
 
                   entryIndex++;
                   // if (checkcurrentHeight > maxPageHeight ) {

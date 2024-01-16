@@ -105,12 +105,12 @@ export async function POST(request) {
           // const [idExamineListResult] = await db.query(getIDExamineListQuery, [ res.selectedOption ]);
 
           const insertSql = `INSERT INTO employee ( employee, name, lastname ,examinelist_id ,users_id ) VALUES (?,?,?,?,?)`;
-          const insertValues = [res.employee ,res.name , res.lastname ,res.selectedOption, res.id];
+          const insertValues = [res.employee ,res.name , res.lastname ,res.selectedOption.id, res.id];
           await db.query(insertSql, insertValues);
 
 
           const getEmployeeQuery = "SELECT * FROM employee WHERE examinelist_id  = ?";
-          const [employeeResult] = await db.query(getEmployeeQuery, [res.selectedOption]);
+          const [employeeResult] = await db.query(getEmployeeQuery, [res.selectedOption.id]);
 
           const customSort = (a, b) => {
             const idA = isNaN(a.employee) ? a.employee : parseInt(a.employee, 10);
@@ -183,7 +183,7 @@ export async function POST(request) {
           // const [idExamineListResult] = await db.query(getIDExamineListQuery, [res.selectedOption]);
 
           const getEmployeeQuery = "SELECT * FROM employee WHERE examinelist_id  = ?";
-          const [employeeResult] = await db.query(getEmployeeQuery, [res.selectedOption]);
+          const [employeeResult] = await db.query(getEmployeeQuery, [res.selectedOption.id]);
 
           // Custom sorting function for alphanumeric ids
           const customSort = (a, b) => {

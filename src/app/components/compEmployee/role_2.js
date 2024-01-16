@@ -444,7 +444,7 @@ function App() {
           <div className='md:w-[700px] lg:w-[1000px] mx-auto  '>
             <div className='flex  w-[330px] mx-auto  md:w-[800px]'>
             <div className='mx-auto flex justify-between w-[330px] md:w-[800px]  text-black  md:mt-[106px] mt-[80px]  '>
-                  <h1 className={`text-[25px] text-black md:text-[30px] ml-[10px] md:w-[400px] w-[200px]  text-ellipsis whitespace-nowrap overflow-hidden  `}>{t("Employee List")}</h1>
+                  <h1 className={`text-[25px] text-black md:text-[30px]  md:w-[400px] w-[200px]  text-ellipsis whitespace-nowrap overflow-hidden  `}>{t("Employee List")}</h1>
                   <button
                   onClick={openPopup} 
                   className="  text-[#5A985E] md:absolute  md:ml-[650px] lg:ml-[750px] text-4xl ml-[100px] md:text-5xl  hover:-translate-y-0.5 duration-200 ">

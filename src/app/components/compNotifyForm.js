@@ -74,6 +74,7 @@ function CompNotifyForm({ onSubmit }) {
             console.log("notifyData: ",data.dbexaminelist_name[0])
 
             setTodoList(data.dbexaminelist_name);
+            
 
             setFormData((prevData) => ({
               ...prevData,
@@ -236,24 +237,43 @@ function CompNotifyForm({ onSubmit }) {
                     <div className='flex px-3 mt-[5px] items-center '>
                       <p className='text-[#000] text-left w-[75px] ml-[-1px] md:w-[100px] md:ml-[-11px]'>{t('Location')}</p>
                       <p className='pl-2'>:</p>
+                      {/* {console.log("TESTTTTTT : ",todoList[0].examinelist) } */}
+                      {todoList.length > 0 ? (
+                        <div>
+                          {todoList[0].examinelist === null ? (
+                            <select
+                              id="dropdown"
+                              name="location"
+                              value={formData.location}
+                              onChange={(e) => handleInputChange(e)}
+                              className={`text-[11px] md:text-[13px] items-center rounded-[2px] md:ml-[15px] pl-1 mt-[-2px] ml-[10px] w-[100px] h-[20px] md:w-[200px] md:h-[20px] bg-[#D9D9D9]`}
+                            >
+                              <option value="">{t("Select an option")}</option>
+                              {todoList.map((todo, index) => (
+                                todo.examinelist.map((examinelistItem, subIndex) => (
+                                  <option key={`${index}-${subIndex}`} value={examinelistItem} className='text-[12px]'>
+                                    {examinelistItem}
+                                  </option>
+                                ))
+                              ))}
+                            </select>
+                          ) : (
+                            <input
+                              type="text"
+                              name="location"
+                              value={formData.location}
+                              onChange={handleInputChange}
+                              className={`text-[11px] pl-2 md:text-[13px] rounded-[2px] items-center p-2 mt-[-2px] ml-[10px] md:ml-[15px] w-[100px] h-[20px] md:w-[200px] md:h-[20px] bg-[#D9D9D9]`}
+                              placeholder={t('Location')}
+                            />
+                          )}
+                        </div>
+                      ) : (
+                        <input type="text" name="location" value={formData.location} onChange={handleInputChange} className={`text-[11px] md:text-[13px]  rounded-[2px]  items-center p-2 pl-1 mt-[-2px] ml-[10px] md:ml-[15px] w-[100px] h-[20px] md:w-[200px] md:h-[20px] bg-[#D9D9D9]  `} readOnly/>
 
-                      <select
-                        id="dropdown"
-                        name="location"  // Change to the desired field name
-                        value={formData.location}   // Use the correct field name in formData
-                        onChange={(e) => handleInputChange(e)}   // Remove the second argument
-                        className={` text-[11px] md:text-[13px] items-center rounded-[2px] md:ml-[15px] pl-1 mt-[-2px] ml-[10px] w-[100px] h-[20px] md:w-[200px] md:h-[20px] bg-[#D9D9D9]`}
-                      >
-                        <option value="">{t("Select an option")}</option>
+                      )}
 
-                        {todoList.map((todo, index) => (
-                          todo.examinelist.map((examinelistItem, subIndex) => (
-                            <option key={`${index}-${subIndex}`} value={examinelistItem} className=' text-[12px]'>
-                              {examinelistItem}
-                            </option>
-                          ))
-                        ))}
-                      </select>
+
 
                     </div>
                     

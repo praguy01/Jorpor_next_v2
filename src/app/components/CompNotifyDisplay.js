@@ -32,6 +32,7 @@ export default function CompNotifyDisplay({ data , onSubmit}) {
   const [message, setMessage] = useState('');
   const [addmessage, setAddMessage] = useState('');
   const [formattedDate, setFormattedDate] = useState('');
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
   const [openedFile, setOpenedFile] = useState(null);
   const [id, setId] = useState('');
@@ -80,7 +81,9 @@ export default function CompNotifyDisplay({ data , onSubmit}) {
 
 
   const handleSubmit = async () => {
-  
+    if (isFormSubmitted) {
+      return;
+    }
     
     try {
      
@@ -105,7 +108,8 @@ export default function CompNotifyDisplay({ data , onSubmit}) {
 
       
       
-      
+      setIsFormSubmitted(true);
+
       const resdata = response.data; 
 
       if (response.status === 200) {
@@ -119,7 +123,7 @@ export default function CompNotifyDisplay({ data , onSubmit}) {
           setTimeout(() => {
             setShowSuccessPopup(false);
             window.location.href = resdata.redirect;
-          }, 1000); 
+          }, 100); 
         } else {
           setnotifyMessage(resdata.error);
           setMessage('');
