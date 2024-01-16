@@ -15,11 +15,11 @@ export async function POST(request) {
           const deleteExamineQuery = "DELETE FROM employee WHERE employee = ?";
           await db.query(deleteExamineQuery, [res.employee]);
 
-          const getIDExamineListQuery = "SELECT id FROM examinelist WHERE name = ? AND user_id = ?";
-          const [idExamineListResult] = await db.query(getIDExamineListQuery, [ res.selectedOption , res.id ]);
+          // const getIDExamineListQuery = "SELECT id FROM examinelist WHERE name = ? AND user_id = ?";
+          // const [idExamineListResult] = await db.query(getIDExamineListQuery, [ res.selectedOption , res.id ]);
 
           const getEmployeeQuery = "SELECT * FROM employee WHERE examinelist_id  = ?";
-          const [employeeResult] = await db.query(getEmployeeQuery, [ idExamineListResult[0].id ]);
+          const [employeeResult] = await db.query(getEmployeeQuery, [ res.selectedOption ]);
 
           const customSort = (a, b) => {
             const idA = isNaN(a.employee) ? a.employee : parseInt(a.employee, 10);
@@ -230,6 +230,7 @@ export async function POST(request) {
 
           // Sort the array based on the custom sorting function
           const sortedEmployeeResult = employeeResult.sort(customSort);
+          console.log("sortedEmployeeResult: ",sortedEmployeeResult,res.selectedOption)
 
           return NextResponse.json({ success: true, dbemployee_name: sortedEmployeeResult });
         } catch (error) {
