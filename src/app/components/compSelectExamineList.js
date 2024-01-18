@@ -17,6 +17,7 @@ import {BsCalendar2Minus} from 'react-icons/bs';
 import {i18n } from '../i18n'; // import i18n instance
 import { initReactI18next } from 'react-i18next';
 import { TiWarning } from "react-icons/ti";
+import io from 'socket.io-client';
 
 
 function CompSelectExamineList({ onSubmit }) {
@@ -68,10 +69,9 @@ function App({ onSubmit }) {
   const currentDate = new Date().toLocaleDateString();
   const [checkedItems, setCheckedItems] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
+  const [notification, setNotification] = useState('');
 
   const router = useRouter();
-
-
   
 
   
@@ -302,6 +302,7 @@ function App({ onSubmit }) {
       <div className='mx-auto border w-[300px] md:w-[700px] lg:w-[950px] py-[20px] md:h-[600px] h-[550px] text-black flex flex-col   md:rounded-[30px] rounded-[30px] mt-[106px]  bg-[#fff]'>
                 
         <h1 className={` ml-[30px] text-[20px] mt-[3px] mb-[5px] md:text-[30px] md:ml-[50px] `}>
+
           {t("Select checklist")}
         </h1>
         {!isEditing && (

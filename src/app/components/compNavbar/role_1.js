@@ -15,43 +15,88 @@ import { AiFillAlert } from "react-icons/ai";
 import { IoTime } from "react-icons/io5";
 import { BsCalendar2DateFill } from "react-icons/bs";
 import { FaLocationDot } from "react-icons/fa6"; 
+import { io as socketIoClient } from 'socket.io-client';
 
-// const socket = io('https://platform-jorpor.vercel.app', { transports: ['websocket'] });
+// const socket = socketIoClient('http://localhost:4000', {
+//   path: '/socket.io',
+//   withCredentials: true,
+//   transports: ['websocket'],
+// });
+
+// socket.on('connect', () => {
+//   console.log('WebSocket connected');
+// });
+
+// socket.on('disconnect', (reason) => {
+//   console.log('WebSocket disconnected:', reason);
+// });
+
+// socket.on('connect_error', (error) => {
+//   console.error('Error establishing WebSocket connection:', error);
+// });
+
 
 
 function CompNavbar() {
   const { t } = useTranslation();
-  const [notification, setNotification] = useState(null);
+  // const [notification, setNotification] = useState(null);
   const { language, toggleLanguage } = useLanguage();
   const [toggle, setToggle] = useState(false);
   const [message, setMessage] = useState('');
   const [shouldCallEditLanguage, setshouldCallEditLanguage] = useState(false);
   const [showPopup, setShowPopup] = useState(false); 
   const [notify, setNotify] = useState(false); 
+  const [notification, setNotification] = useState(null);
+
+
+  useEffect(() => {
+    console.log("Attempting to connect to Socket.IO...");
+    // const socket = socketIoClient('https://platform-jorpor.vercel.app', {
+    //   path: '/socket.io',
+    //   withCredentials: true,
+    //   transports: ['websocket'],
+    // });
+
+    const socket = socketIoClient('https://platform-jorpor.vercel.app', {
+      withCredentials: true,
+      transports: ['websocket'],
+    });
 
   
-  // useEffect(() => {
-  //   // เชื่อมต่อกับ WebSocket server ที่ทำงานบน localhost:3000
-  //   const socket = io('https://platform-jorpor.vercel.app/');
+    socket.on('connect', () => {
+      console.log('WebSocket connected: ');
+      console.log(socket.connected);
 
-  //   // ตัวอย่าง: รับข้อความที่ถูกส่งมาจาก server
-  //   socket.on('message', (data) => {
-  //     console.log('Received message from server:', data);
-  //     setMessageFromServer(data); // นำข้อมูลมาอัปเดตใน state
-  //   });
+    });
+  
+    socket.on('emergencyNotify', (res) => {
+      setNotification(res);
+      setShowPopup(true);
+      console.log("MESSAGE EMERGENCY: ", res);
+  
+      socket.disconnect();
+      console.log('Socket.IO connection closed');
+    });
+  
+    socket.on('disconnect', (reason) => {
+      console.log('WebSocket disconnected:', reason);
+    });
 
-  //   // ทำความสะอาดเมื่อ Component unmounts
-  //   return () => {
-  //     socket.disconnect();
-  //   };
-  // }, []);
+    socket.on('error', (error) => {
+      console.error('WebSocket error:', error);
+    });
 
-  // แสดง Popup เมื่อมีข้อมูลใหม่
-  // useEffect(() => {
-  //   if (notification) {
-  //     setToggle(true);
-  //   }
-  // }, [notification]);
+    socket.on('error', (error) => {
+      console.error('WebSocket error:', error);
+    });
+        
+  
+    return () => {
+      socket.disconnect();
+      console.log('Socket.IO connection closed');
+    };
+  }, []); // ให้ว่างไว้เพื่อให้ทำงานเมื่อ component ถูก unmounted
+  
 
   const currentPath = usePathname();
   const outsideClickRef = useRef(null);
@@ -222,10 +267,18 @@ function CompNavbar() {
               <AiFillAlert className=' text-[50px] mx-auto mb-[10px] text-red-500  '/>
               <p className='text-[18px] mb-5'>Emergency notification!!</p>
 
-              <p className='flex items-center justify-center '> <IoTime className=' mr-2'/> Time  : 15:25 น.</p>
+              {/* <p className='flex items-center justify-center '> <IoTime className=' mr-2'/> Time  : 15:25 น.</p>
               <p className='flex items-center justify-center mt-1'> <BsCalendar2DateFill className='text-[14px]  mr-2'/> Date : 10/1/2024</p>
-              <p className='flex items-center justify-center mt-1'> <FaLocationDot className=' mr-2'/> Location : Zone A</p>
+              <p className='flex items-center justify-center mt-1'> <FaLocationDot className=' mr-2'/> Location : Zone A</p> */}
+              
+             {notification && (
+                <div>
+                  <p>Location: {notification.location}</p>
 
+                  <p>Date: {notification.date}</p>
+                  <p>Time: {notification.time}</p>
+                </div>
+              )}
 
 
               <button className="flex mx-auto  mt-7 items-center text-[15px]  bg-[#93DD79] text-white px-3 py-1  rounded hover:bg-green-600" onClick={() => setShowPopup(false)}>{t('Close')}</button>
