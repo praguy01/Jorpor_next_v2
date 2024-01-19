@@ -63,15 +63,12 @@ import { NextResponse } from 'next/server';
 import socketIoClient from 'socket.io-client';
 import { io } from '../../socketServer'
 
-
 export async function POST(request) {
   if (request.method === 'POST') {
     try {
       const res = await request.json();
       const { date, time, location } = res;
       console.log('MESSAGE NodeMCU: ', res);
-
-      const io = new Server(res.socket.server);
 
       io.emit('emergencyNotify', res);
       console.log('SENDD: ',res);
