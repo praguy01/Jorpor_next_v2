@@ -58,6 +58,7 @@ function CompNavbar() {
     // });
 
     const socket = socketIoClient('https://platform-jorpor.vercel.app', {
+      path: '/socket.io',
       withCredentials: false,
       transports: ['websocket'],
     });
