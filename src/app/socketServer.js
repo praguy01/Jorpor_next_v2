@@ -1,12 +1,13 @@
 import http from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
+import { Server as SocketIOServer, Socket } from "socket.io";
 
 const httpServer = http.createServer();
 
-const io = new Server(httpServer, {
+const io = new SocketIOServer(httpServer, {
   cors: {
-    origin: 'https://platform-jorpor.vercel.app',
+    origin: 'wss://platform-jorpor.up.railway.app',
     methods: ['GET', 'POST'],
     credentials: false,
   },
@@ -15,7 +16,12 @@ const io = new Server(httpServer, {
 
 });
 
-
+io.engine.on("connection_error", (err) => {
+  console.log(err.req);      // the request object
+  console.log(err.code);     // the error code, for example 1
+  console.log(err.message);  // the error message, for example "Session ID unknown"
+  console.log(err.context);  // some additional error context
+});
 
 
 io.on('connection', (socket) => {
@@ -30,3 +36,4 @@ httpServer.listen(PORT, () => {
 
 
 export { io };
+

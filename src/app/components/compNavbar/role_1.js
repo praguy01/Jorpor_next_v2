@@ -47,7 +47,7 @@ function CompNavbar() {
   const [showPopup, setShowPopup] = useState(false); 
   const [notify, setNotify] = useState(false); 
   const [notification, setNotification] = useState(null);
-
+  const socket = io(); 
 
   useEffect(() => {
     console.log("Attempting to connect to Socket.IO...");
@@ -57,13 +57,28 @@ function CompNavbar() {
     //   transports: ['websocket'],
     // });
 
-    const socket = socketIoClient('https://platform-jorpor.vercel.app', {
+    const socket = socketIoClient('wss://platform-jorpor.up.railway.app', {
       path: '/socket.io',
       withCredentials: false,
       transports: ['websocket'],
     });
 
-  
+
+    // const socket = io(SERVER_URL, {
+    //   path: "/socket.io"
+    // });
+
+    socket.on("connect_error", (err) => {
+      // the reason of the error, for example "xhr poll error"
+      console.log(err.message);
+    
+      // some additional description, for example the status code of the initial HTTP response
+      console.log(err.description);
+    
+      // some additional context, for example the XMLHttpRequest object
+      console.log(err.context);
+    });
+
     socket.on('connect', () => {
       console.log('WebSocket connected: ');
       console.log(socket.connected);
