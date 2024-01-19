@@ -5,7 +5,7 @@ import { Server as SocketIOServer, Socket } from "socket.io";
 
 const httpServer = http.createServer();
 
-const io = new SocketIOServer(httpServer, {
+const io = new httpServer(httpServer, {
   cors: {
     origin: 'wss://platform-jorpor.up.railway.app',
     methods: ['GET', 'POST'],
