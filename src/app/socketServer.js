@@ -8,7 +8,7 @@ const io = new Server(httpServer, {
   cors: {
     origin: 'https://platform-jorpor.vercel.app',
     methods: ['GET', 'POST'],
-    credentials: true,
+    credentials: false,
   },
   transports: ['websocket'],
 });
@@ -18,7 +18,6 @@ const io = new Server(httpServer, {
 
 io.on('connection', (socket) => {
   console.log('Socket.IO connected');
-  // ทำสิ่งที่ต้องการเมื่อมีการเชื่อมต่อ
 });
 
 const PORT = 4001; 

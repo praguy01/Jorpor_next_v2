@@ -58,9 +58,10 @@ function CompNavbar() {
     // });
 
     const socket = socketIoClient('https://platform-jorpor.vercel.app', {
-      withCredentials: true,
+      withCredentials: false,
       transports: ['websocket'],
     });
+    
 
   
     socket.on('connect', () => {
@@ -82,9 +83,6 @@ function CompNavbar() {
       console.log('WebSocket disconnected:', reason);
     });
 
-    socket.on('error', (error) => {
-      console.error('WebSocket error:', error);
-    });
 
     socket.on('error', (error) => {
       console.error('WebSocket error:', error);
