@@ -6,9 +6,9 @@ const httpServer = http.createServer();
 
 const io = new Server(httpServer, {
   cors: {
-    origin: 'https://platform-jorpor.up.railway.app',
+    origin: 'wss://platform-jorpor.up.railway.app',
     methods: ['GET', 'POST'],
-    credentials: true,
+    // credentials: true,
   },
   transports: ['websocket'],
 });
