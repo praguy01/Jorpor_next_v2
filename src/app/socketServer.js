@@ -11,6 +11,7 @@ const io = new Server(httpServer, {
     // credentials: true,
   },
   transports: ['websocket'],
+  path: '/socket.io', 
 });
 
 
@@ -19,6 +20,11 @@ const io = new Server(httpServer, {
 io.on('connection', (socket) => {
   console.log('Socket.IO connected');
 });
+
+io.on('error', (error) => {
+  console.error('Socket.IO Error:', error);
+});
+
 
 const PORT = 4001; 
 

@@ -58,8 +58,8 @@ function CompNavbar() {
     // });
 
     const socket = socketIoClient('wss://platform-jorpor.up.railway.app', {
-      // withCredentials: true,
       transports: ['websocket'],
+      path: '/socket.io',
     });
 
   
