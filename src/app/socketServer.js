@@ -11,6 +11,8 @@ const io = new Server(httpServer, {
     credentials: false,
   },
   transports: ['websocket'],
+  path: '/socket.io',
+
 });
 
 

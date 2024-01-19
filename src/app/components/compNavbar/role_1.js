@@ -62,7 +62,6 @@ function CompNavbar() {
       withCredentials: false,
       transports: ['websocket'],
     });
-    
 
   
     socket.on('connect', () => {
