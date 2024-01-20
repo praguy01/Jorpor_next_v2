@@ -56,7 +56,7 @@ io.on('error', (error) => {
   console.error('Socket.IO Error:', error);
 });
 
-const PORT = 8000; 
+const PORT = 4001; 
 
 httpServer.listen(PORT, () => {
   console.log(`Socket.IO server running on http://localhost:${PORT}`);
