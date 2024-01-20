@@ -3,6 +3,7 @@ import { Server } from 'socket.io';
 import cors from 'cors';
 
 const httpServer = http.createServer();
+console.log("88888888888888888888888888888888888888888888888888888")
 
 const io = new Server(httpServer, {
   cors: {
@@ -11,7 +12,7 @@ const io = new Server(httpServer, {
     // credentials: true,
   },
   transports: ['websocket'],
-  path: '/socket.io', 
+  path: '/socket.io',
 });
 
 
