@@ -50,18 +50,18 @@ function CompNavbar() {
 
   useEffect(() => {
     console.log("Attempting to connect to Socket.IO...");
-    // const socket = socketIoClient('https://platform-jorpor.vercel.app', {
-    //   path: '/socket.io',
-    //   withCredentials: true,
-    //   transports: ['websocket'],
-    // });
-
     const socket = socketIoClient('https://platform-jorpor-chada.koyeb.app', {
+      path: '/socket.io',
+      withCredentials: true,
       transports: ['websocket'],
-      extraHeaders: {
-        "my-custom-header": "abcd"
-      }    
     });
+
+    // const socket = socketIoClient('https://platform-jorpor-chada.koyeb.app', {
+    //   transports: ['websocket'],
+    //   extraHeaders: {
+    //     "my-custom-header": "abcd"
+    //   }    
+    // });
 
   
     socket.on('connect', () => {

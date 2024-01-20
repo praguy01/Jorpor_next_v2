@@ -9,7 +9,7 @@ const io = require("socket.io")(httpServer, {
   cors: {
     origin: 'https://platform-jorpor-chada.koyeb.app',
     methods: ['GET', 'POST'],
-    allowedHeaders: ["my-custom-header"],
+    // allowedHeaders: ["my-custom-header"],
     credentials: true,
   },
   // transports: ['websocket'],
