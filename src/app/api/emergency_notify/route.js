@@ -61,7 +61,7 @@
 // File: api/socket.js
 import { NextResponse } from 'next/server';
 import socketIoClient from 'socket.io-client';
-import { io } from '../../page'
+import { io } from '../../socketServer'
 
 export async function POST(request) {
   if (request.method === 'POST') {
