@@ -81,10 +81,11 @@ function CompNavbar() {
     socket.on('disconnect', (reason) => {
       console.log('WebSocket disconnected:', reason);
     });
-
+    
     socket.on('error', (error) => {
       console.error('WebSocket error:', error);
     });
+    
         
   
     return () => {
