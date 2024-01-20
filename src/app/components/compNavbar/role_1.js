@@ -56,7 +56,7 @@ function CompNavbar() {
     //   transports: ['websocket'],
     // });
 
-    const socket = io('https://platform-jorpor-chada.koyeb.app', {
+    const socket = socketIoClient('https://platform-jorpor-chada.koyeb.app', {
       transports: ['websocket'],
       extraHeaders: {
         "my-custom-header": "abcd"
