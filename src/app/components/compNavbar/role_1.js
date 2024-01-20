@@ -48,7 +48,6 @@ function CompNavbar() {
   const [notify, setNotify] = useState(false); 
   const [notification, setNotification] = useState(null);
 
-
   useEffect(() => {
     console.log("Attempting to connect to Socket.IO...");
     // const socket = socketIoClient('https://platform-jorpor.vercel.app', {
@@ -57,9 +56,11 @@ function CompNavbar() {
     //   transports: ['websocket'],
     // });
 
-    const socket = socketIoClient('https://platform-jorpor-chada.koyeb.app', {
+    const socket = io('https://platform-jorpor-chada.koyeb.app', {
       transports: ['websocket'],
-      path: '/socket.io',
+      extraHeaders: {
+        "my-custom-header": "abcd"
+      }    
     });
 
   

@@ -5,14 +5,15 @@ import cors from 'cors';
 const httpServer = http.createServer();
 console.log("88888888888888888888888888888888888888888888888888888")
 
-const io = new Server(httpServer, {
+const io = require("socket.io")(httpServer, {
   cors: {
     origin: 'https://platform-jorpor-chada.koyeb.app',
     methods: ['GET', 'POST'],
+    allowedHeaders: ["my-custom-header"],
     credentials: true,
   },
-  transports: ['websocket'],
-  path: '/socket.io',
+  // transports: ['websocket'],
+  // path: '/socket.io',
 });
 
 io.on('connection', (socket) => {
@@ -23,7 +24,7 @@ io.on('error', (error) => {
   console.error('Socket.IO Error:', error);
 });
 
-const PORT = 443; 
+const PORT = 4001; 
 
 httpServer.listen(PORT, () => {
   console.log(`Socket.IO server running on http://localhost:${PORT}`);
