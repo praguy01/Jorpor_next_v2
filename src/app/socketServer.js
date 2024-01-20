@@ -23,7 +23,7 @@ io.on('error', (error) => {
   console.error('Socket.IO Error:', error);
 });
 
-const PORT = 4001; 
+const PORT = 443; 
 
 httpServer.listen(PORT, () => {
   console.log(`Socket.IO server running on http://localhost:${PORT}`);
