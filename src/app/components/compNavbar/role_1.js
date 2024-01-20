@@ -57,7 +57,7 @@ function CompNavbar() {
     //   transports: ['websocket'],
     // });
 
-    const socket = socketIoClient('wss://platform-jorpor-chada.koyeb.app', {
+    const socket = socketIoClient('https://platform-jorpor-chada.koyeb.app', {
       transports: ['websocket'],
       path: '/socket.io',
     });

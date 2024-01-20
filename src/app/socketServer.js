@@ -7,7 +7,7 @@ console.log("88888888888888888888888888888888888888888888888888888")
 
 const io = new Server(httpServer, {
   cors: {
-    origin: 'wss://platform-jorpor-chada.koyeb.app',
+    origin: 'https://platform-jorpor-chada.koyeb.app',
     methods: ['GET', 'POST'],
     // credentials: true,
   },
