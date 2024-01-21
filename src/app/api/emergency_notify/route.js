@@ -90,41 +90,69 @@
 // }
 
 
-const express = require('express');
-const app = express();
+// File: pages/api/emergency_notify.js
 
-app.use((req, res, next) => {
+import { NextResponse } from 'next/server';
+import { io } from '../../socketServer';
+
+export async function POST(request) {
   // Allow requests from a specific origin
-  res.header('Access-Control-Allow-Origin', 'https://button-emergency-jorpot.vercel.app');
-  // Allow specific headers
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  next();
-});
+  const allowedOrigin = 'https://button-emergency-jorpot.vercel.app';
+  const requestOrigin = request.headers.get('origin');
+  
+  if (request.method === 'POST' && requestOrigin === allowedOrigin) {
+    try {
+      const res = await request.json();
+      const { date, time, location } = res;
+      console.log('MESSAGE NodeMCU: ', res);
 
-// เพิ่ม route ที่คุณสร้างไว้
-app.post('/api/emergency_notify', async (req, res) => {
-  try {
-    const requestData = req.body;
-    const { date, time, location } = requestData;
-    console.log('Received emergency notification:', requestData);
+      // Emit the message to the socket.io server
+      io.emit('emergencyNotify', res);
+      console.log('SENDD: ', res);
 
-    // ทำตามที่คุณต้องการกับข้อมูลที่รับมา
+      // Respond with CORS headers and a JSON success message
+      return new NextResponse({
+        status: 200,
+        headers: {
+          'Access-Control-Allow-Origin': allowedOrigin,
+          'Access-Control-Allow-Methods': 'POST',
+          'Access-Control-Allow-Headers': 'Content-Type',
+        },
+        body: {
+          success: true,
+          message: 'Notification has been sent successfully.',
+        },
+      });
+    } catch (error) {
+      console.error('Error processing the request:', error);
 
-    res.json({
-      success: true,
-      message: 'Notification has been processed successfully.',
-    });
-  } catch (error) {
-    console.error('Error processing the request:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Failed to process the request',
+      // Respond with CORS headers and a JSON error message
+      return new NextResponse({
+        status: 500,
+        headers: {
+          'Access-Control-Allow-Origin': allowedOrigin,
+          'Access-Control-Allow-Methods': 'POST',
+          'Access-Control-Allow-Headers': 'Content-Type',
+        },
+        body: {
+          success: false,
+          error: 'Failed to process the request',
+        },
+      });
+    }
+  } else {
+    // Respond with CORS headers and a JSON error message for disallowed requests
+    return new NextResponse({
+      status: 403,
+      headers: {
+        'Access-Control-Allow-Origin': allowedOrigin,
+        'Access-Control-Allow-Methods': 'POST',
+        'Access-Control-Allow-Headers': 'Content-Type',
+      },
+      body: {
+        success: false,
+        error: 'Request from this origin is not allowed.',
+      },
     });
   }
-});
-
-// Start เซิร์ฟเวอร์
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+}
