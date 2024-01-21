@@ -88,58 +88,47 @@
 //     return NextResponse.json('Method not allowed or invalid Content-Type');
 //   }
 // }
+
 import { NextResponse } from 'next/server';
-import { createHandler } from 'next-connect';
 import { io } from '../../socketServer';
 
-const allowedOrigin = 'https://button-emergency-jorpot.vercel.app';
+export async function POST(request) {
+  // เพิ่ม header สำหรับอนุญาต CORS
+  const headers = {
+    'Access-Control-Allow-Origin': 'https://button-emergency-jorpot.vercel.app', // ใส่ domain ของคุณที่ต้องการให้ส่วนต่าง ๆ ส่ง request มาได้
+    'Access-Control-Allow-Methods': 'POST',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Credentials': 'true', // ถ้าใช้ Credential (เช่นการส่ง Cookie)
+  };
 
-const handler = createHandler()
-  .options((req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
-    res.setHeader('Access-Control-Allow-Methods', 'POST');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    res.status(200).end();
-  })
-  .post(async (req, res) => {
-    const requestOrigin = req.headers.origin;
+  if (request.method === 'OPTIONS') {
+    // ตรวจสอบว่าเป็น preflight request หรือไม่ (การส่ง OPTIONS ก่อนที่จะส่ง POST)
+    return NextResponse.ok(null, { headers });
+  }
 
-    if (requestOrigin === allowedOrigin) {
-      try {
-        const { date, time, location } = req.body;
-        console.log('MESSAGE NodeMCU:', req.body);
+  if (request.method === 'POST') {
+    try {
+      const res = await request.json();
+      const { date, time, location } = res;
+      console.log('MESSAGE NodeMCU: ', res);
 
-        // Emit the message to the socket.io server
-        io.emit('emergencyNotify', req.body);
-        console.log('SENDD:', req.body);
+      io.emit('emergencyNotify', res);
+      console.log('SENDD: ', res);
 
-        res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
-        res.setHeader('Access-Control-Allow-Methods', 'POST');
-        res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-        res.status(200).json({
-          success: true,
-          message: 'Notification has been sent successfully.',
-        });
-      } catch (error) {
-        console.error('Error processing the request:', error);
-
-        res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
-        res.setHeader('Access-Control-Allow-Methods', 'POST');
-        res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-        res.status(500).json({
-          success: false,
-          error: 'Failed to process the request',
-        });
-      }
-    } else {
-      res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
-      res.setHeader('Access-Control-Allow-Methods', 'POST');
-      res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-      res.status(403).json({
+      // ส่ง response พร้อมกับ headers ที่ต้องการ
+      return NextResponse.json({
+        success: true,
+        message: 'Notification has been sent successfully.',
+      }, { headers });
+    } catch (error) {
+      console.error('Error processing the request:', error);
+      return NextResponse.json({
         success: false,
-        error: 'Request from this origin is not allowed.',
-      });
+        error: 'Failed to process the request',
+      }, { headers });
     }
-  });
+  } else {
+    return NextResponse.json('Method not allowed or invalid Content-Type', { headers });
+  }
+}
 
-export default handler;
