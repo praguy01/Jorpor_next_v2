@@ -89,82 +89,64 @@
 //   }
 // }
 
-import { NextResponse } from 'next/server';
+import nc from 'next-connect';
 import { io } from '../../socketServer';
 
-export async function POST(request) {
-  // Allow requests from a specific origin
-  const allowedOrigin = 'https://button-emergency-jorpot.vercel.app';
-  const requestOrigin = request.headers.get('origin');
-  
-  if (request.method === 'OPTIONS') {
-    // Respond to preflight request
-    return new NextResponse({
-      status: 200,
-      headers: {
-        'Access-Control-Allow-Origin': allowedOrigin,
-        'Access-Control-Allow-Methods': 'POST',
-        'Access-Control-Allow-Headers': 'Content-Type',
-      },
-    });
-  }
+const allowedOrigin = 'https://button-emergency-jorpot.vercel.app';
 
-  if (request.method === 'POST' && requestOrigin === allowedOrigin) {
-    try {
-      const res = await request.json();
-      const { date, time, location } = res;
-      console.log('MESSAGE NodeMCU: ', res);
+const handler = nc()
+  // Middleware for handling preflight requests
+  .options((req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
+    res.setHeader('Access-Control-Allow-Methods', 'POST');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.status(200).end();
+  })
+  // Middleware for handling POST requests
+  .post(async (req, res) => {
+    const requestOrigin = req.headers.origin;
 
-      // Emit the message to the socket.io server
-      io.emit('emergencyNotify', res);
-      console.log('SENDD: ', res);
+    if (requestOrigin === allowedOrigin) {
+      try {
+        const { date, time, location } = req.body;
+        console.log('MESSAGE NodeMCU:', req.body);
 
-      // Respond with CORS headers and a JSON success message
-      return new NextResponse({
-        status: 200,
-        headers: {
-          'Access-Control-Allow-Origin': allowedOrigin,
-          'Access-Control-Allow-Methods': 'POST',
-          'Access-Control-Allow-Headers': 'Content-Type',
-        },
-        body: {
+        // Emit the message to the socket.io server
+        io.emit('emergencyNotify', req.body);
+        console.log('SENDD:', req.body);
+
+        // Respond with CORS headers and a JSON success message
+        res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
+        res.setHeader('Access-Control-Allow-Methods', 'POST');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+        res.status(200).json({
           success: true,
           message: 'Notification has been sent successfully.',
-        },
-      });
-    } catch (error) {
-      console.error('Error processing the request:', error);
+        });
+      } catch (error) {
+        console.error('Error processing the request:', error);
 
-      // Respond with CORS headers and a JSON error message
-      return new NextResponse({
-        status: 500,
-        headers: {
-          'Access-Control-Allow-Origin': allowedOrigin,
-          'Access-Control-Allow-Methods': 'POST',
-          'Access-Control-Allow-Headers': 'Content-Type',
-        },
-        body: {
+        // Respond with CORS headers and a JSON error message
+        res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
+        res.setHeader('Access-Control-Allow-Methods', 'POST');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+        res.status(500).json({
           success: false,
           error: 'Failed to process the request',
-        },
-      });
-    }
-  } else {
-    // Respond with CORS headers and a JSON error message for disallowed requests
-    return new NextResponse({
-      status: 403,
-      headers: {
-        'Access-Control-Allow-Origin': allowedOrigin,
-        'Access-Control-Allow-Methods': 'POST',
-        'Access-Control-Allow-Headers': 'Content-Type',
-      },
-      body: {
+        });
+      }
+    } else {
+      // Respond with CORS headers and a JSON error message for disallowed requests
+      res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
+      res.setHeader('Access-Control-Allow-Methods', 'POST');
+      res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+      res.status(403).json({
         success: false,
         error: 'Request from this origin is not allowed.',
-      },
-    });
-  }
-}
+      });
+    }
+  });
 
+export default handler;
 
 
