@@ -118,10 +118,10 @@ export async function POST(request) {
           'Access-Control-Allow-Methods': 'POST',
           'Access-Control-Allow-Headers': 'Content-Type',
         },
-        body: {
+        body: JSON.stringify({
           success: true,
           message: 'Notification has been sent successfully.',
-        },
+        }),
       });
     } catch (error) {
       console.error('Error processing the request:', error);
@@ -134,10 +134,10 @@ export async function POST(request) {
           'Access-Control-Allow-Methods': 'POST',
           'Access-Control-Allow-Headers': 'Content-Type',
         },
-        body: {
+        body: JSON.stringify({
           success: false,
           error: 'Failed to process the request',
-        },
+        }),
       });
     }
   } else {
@@ -149,10 +149,10 @@ export async function POST(request) {
         'Access-Control-Allow-Methods': 'POST',
         'Access-Control-Allow-Headers': 'Content-Type',
       },
-      body: {
+      body: JSON.stringify({
         success: false,
         error: 'Request from this origin is not allowed.',
-      },
+      }),
     });
   }
 }
