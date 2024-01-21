@@ -93,45 +93,76 @@ import { NextResponse } from 'next/server';
 import { io } from '../../socketServer';
 
 export async function POST(request) {
-  console.log('Received request:', request.method, request.url);
-
-  // เพิ่ม header สำหรับอนุญาต CORS
-  const headers = {
-    'Access-Control-Allow-Origin': 'https://button-emergency-jorpot.vercel.app', // ใส่ domain ของคุณที่ต้องการให้ส่วนต่าง ๆ ส่ง request มาได้
-    'Access-Control-Allow-Methods': 'POST',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Credentials': 'true', // ถ้าใช้ Credential (เช่นการส่ง Cookie)
-  };
-
+  // Allow requests from a specific origin
+  const allowedOrigin = 'https://button-emergency-jorpot.vercel.app';
+  const requestOrigin = request.headers.get('origin');
+  
   if (request.method === 'OPTIONS') {
-    console.log("OPTIONNNNNNNN")
-    // ตรวจสอบว่าเป็น preflight request หรือไม่ (การส่ง OPTIONS ก่อนที่จะส่ง POST)
-    return NextResponse.ok(null, { headers });
+    // Respond to preflight request
+    return new NextResponse({
+      status: 200,
+      headers: {
+        'Access-Control-Allow-Origin': allowedOrigin,
+        'Access-Control-Allow-Methods': 'POST',
+        'Access-Control-Allow-Headers': 'Content-Type',
+      },
+    });
   }
 
-  if (request.method === 'POST') {
+  if (request.method === 'POST' && requestOrigin === allowedOrigin) {
     try {
       const res = await request.json();
       const { date, time, location } = res;
       console.log('MESSAGE NodeMCU: ', res);
 
+      // Emit the message to the socket.io server
       io.emit('emergencyNotify', res);
       console.log('SENDD: ', res);
 
-      // ส่ง response พร้อมกับ headers ที่ต้องการ
-      return NextResponse.json({
-        success: true,
-        message: 'Notification has been sent successfully.',
-      }, { headers });
+      // Respond with CORS headers and a JSON success message
+      return new NextResponse({
+        status: 200,
+        headers: {
+          'Access-Control-Allow-Origin': allowedOrigin,
+          'Access-Control-Allow-Methods': 'POST',
+          'Access-Control-Allow-Headers': 'Content-Type',
+        },
+        body: {
+          success: true,
+          message: 'Notification has been sent successfully.',
+        },
+      });
     } catch (error) {
       console.error('Error processing the request:', error);
-      return NextResponse.json({
-        success: false,
-        error: 'Failed to process the request',
-      }, { headers });
+
+      // Respond with CORS headers and a JSON error message
+      return new NextResponse({
+        status: 500,
+        headers: {
+          'Access-Control-Allow-Origin': allowedOrigin,
+          'Access-Control-Allow-Methods': 'POST',
+          'Access-Control-Allow-Headers': 'Content-Type',
+        },
+        body: {
+          success: false,
+          error: 'Failed to process the request',
+        },
+      });
     }
   } else {
-    return NextResponse.json('Method not allowed or invalid Content-Type', { headers });
+    // Respond with CORS headers and a JSON error message for disallowed requests
+    return new NextResponse({
+      status: 403,
+      headers: {
+        'Access-Control-Allow-Origin': allowedOrigin,
+        'Access-Control-Allow-Methods': 'POST',
+        'Access-Control-Allow-Headers': 'Content-Type',
+      },
+      body: {
+        success: false,
+        error: 'Request from this origin is not allowed.',
+      },
+    });
   }
 }
 
