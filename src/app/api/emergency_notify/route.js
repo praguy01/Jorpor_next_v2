@@ -94,6 +94,8 @@ import { io } from '../../socketServer';
 
 export async function POST(request) {
   // Allow requests from a specific origin
+  console.log('Received request:', request.method, request.url);
+
   const allowedOrigin = 'https://button-emergency-jorpot.vercel.app';
   const requestOrigin = request.headers.get('origin');
   
