@@ -3,6 +3,8 @@ import React from 'react';
 import '@fontsource/mitr';
 import { PiHandTapBold } from "react-icons/pi";
 import axios from 'axios';
+import '../../globals.css'
+
 
 export default function NotifyButton() {
   const handleButtonClick = async () => {
