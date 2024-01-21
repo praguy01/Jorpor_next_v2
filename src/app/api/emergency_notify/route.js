@@ -88,21 +88,19 @@
 //     return NextResponse.json('Method not allowed or invalid Content-Type');
 //   }
 // }
-
-import nc from 'next-connect';
+import { NextResponse } from 'next/server';
+import { createHandler } from 'next-connect';
 import { io } from '../../socketServer';
 
 const allowedOrigin = 'https://button-emergency-jorpot.vercel.app';
 
-const handler = nc()
-  // Middleware for handling preflight requests
+const handler = createHandler()
   .options((req, res) => {
     res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
     res.setHeader('Access-Control-Allow-Methods', 'POST');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     res.status(200).end();
   })
-  // Middleware for handling POST requests
   .post(async (req, res) => {
     const requestOrigin = req.headers.origin;
 
@@ -115,7 +113,6 @@ const handler = nc()
         io.emit('emergencyNotify', req.body);
         console.log('SENDD:', req.body);
 
-        // Respond with CORS headers and a JSON success message
         res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
         res.setHeader('Access-Control-Allow-Methods', 'POST');
         res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -126,7 +123,6 @@ const handler = nc()
       } catch (error) {
         console.error('Error processing the request:', error);
 
-        // Respond with CORS headers and a JSON error message
         res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
         res.setHeader('Access-Control-Allow-Methods', 'POST');
         res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -136,7 +132,6 @@ const handler = nc()
         });
       }
     } else {
-      // Respond with CORS headers and a JSON error message for disallowed requests
       res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
       res.setHeader('Access-Control-Allow-Methods', 'POST');
       res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -148,5 +143,3 @@ const handler = nc()
   });
 
 export default handler;
-
-
