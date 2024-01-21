@@ -93,6 +93,8 @@ import { NextResponse } from 'next/server';
 import { io } from '../../socketServer';
 
 export async function POST(request) {
+  console.log('Received request:', request.method, request.url);
+
   // เพิ่ม header สำหรับอนุญาต CORS
   const headers = {
     'Access-Control-Allow-Origin': 'https://button-emergency-jorpot.vercel.app', // ใส่ domain ของคุณที่ต้องการให้ส่วนต่าง ๆ ส่ง request มาได้
