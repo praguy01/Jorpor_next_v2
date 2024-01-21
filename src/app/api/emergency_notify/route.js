@@ -59,34 +59,71 @@
 
 // File: D:/SeniorNextjs/jorpor-nextjs/src/app/api/emergency_notify/route.ts
 // File: api/socket.js
-import { NextResponse } from 'next/server';
-import socketIoClient from 'socket.io-client';
-import { io } from '../../socketServer'
+// import { NextResponse } from 'next/server';
+// import socketIoClient from 'socket.io-client';
+// import { io } from '../../socketServer'
 
-export async function POST(request) {
-  if (request.method === 'POST') {
-    try {
-      const res = await request.json();
-      const { date, time, location } = res;
-      console.log('MESSAGE NodeMCU: ', res);
+// export async function POST(request) {
+//   if (request.method === 'POST') {
+//     try {
+//       const res = await request.json();
+//       const { date, time, location } = res;
+//       console.log('MESSAGE NodeMCU: ', res);
 
-      io.emit('emergencyNotify', res);
-      console.log('SENDD: ',res);
+//       io.emit('emergencyNotify', res);
+//       console.log('SENDD: ',res);
 
-      return NextResponse.json({
-        success: true,
-        message: 'Notification has been sent successfully.',
-      });
-    } catch (error) {
-      console.error('Error processing the request:', error);
-      return NextResponse.json({
-        success: false,
-        error: 'Failed to process the request',
-      });
-    }
-  } else {
-    return NextResponse.json('Method not allowed or invalid Content-Type');
+//       return NextResponse.json({
+//         success: true,
+//         message: 'Notification has been sent successfully.',
+//       });
+//     } catch (error) {
+//       console.error('Error processing the request:', error);
+//       return NextResponse.json({
+//         success: false,
+//         error: 'Failed to process the request',
+//       });
+//     }
+//   } else {
+//     return NextResponse.json('Method not allowed or invalid Content-Type');
+//   }
+// }
+
+
+const express = require('express');
+const app = express();
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://button-emergency-jorpot.vercel.app');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
+
+// เพิ่ม route ที่คุณสร้างไว้
+app.post('/api/emergency_notify', async (req, res) => {
+  try {
+    const requestData = req.body;
+    const { date, time, location } = requestData;
+    console.log('Received emergency notification:', requestData);
+
+    // ทำตามที่คุณต้องการกับข้อมูลที่รับมา
+
+    res.json({
+      success: true,
+      message: 'Notification has been processed successfully.',
+    });
+  } catch (error) {
+    console.error('Error processing the request:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to process the request',
+    });
   }
-}
+});
 
-
+// Start เซิร์ฟเวอร์
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
