@@ -111,7 +111,7 @@ export async function POST(request) {
       console.log('SENDD: ', res);
 
       // Respond with CORS headers and a JSON success message
-      return new NextResponse({
+      return NextResponse.json({
         status: 200,
         headers: {
           'Access-Control-Allow-Origin': allowedOrigin,
@@ -127,7 +127,7 @@ export async function POST(request) {
       console.error('Error processing the request:', error);
 
       // Respond with CORS headers and a JSON error message
-      return new NextResponse({
+      return NextResponse.json({
         status: 500,
         headers: {
           'Access-Control-Allow-Origin': allowedOrigin,
@@ -142,7 +142,7 @@ export async function POST(request) {
     }
   } else {
     // Respond with CORS headers and a JSON error message for disallowed requests
-    return new NextResponse({
+    return NextResponse.json({
       status: 403,
       headers: {
         'Access-Control-Allow-Origin': allowedOrigin,
