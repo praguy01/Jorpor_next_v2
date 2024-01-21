@@ -49,51 +49,73 @@ function CompNavbar() {
   const [notification, setNotification] = useState(null);
 
   useEffect(() => {
-    console.log("Attempting to connect to Socket.IO...");
-    const socket = socketIoClient('https://platform-jorpor-chada.koyeb.app', {
-      path: '/socket.io',
-      withCredentials: true,
-      transports: ['websocket'],
-    });
+    // ในที่นี้คุณอาจต้องใช้ socket.io-client หรือวิธีการเชื่อมต่อกับ server ที่ส่ง notification
+    // ตัวอย่างเท่านี้ใช้ useEffect สำหรับเรียก API หรือทำอย่างอื่น ๆ ตามความเหมาะสม
 
-    // const socket = socketIoClient('https://platform-jorpor-chada.koyeb.app', {
-    //   transports: ['websocket'],
-    //   extraHeaders: {
-    //     "my-custom-header": "abcd"
-    //   }    
-    // });
+    // เช่น
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/api/emergency_notify'); // แก้ไขเส้นทางของ API ตามที่คุณได้สร้าง
+        const data = await response.json();
+          setNotification(data);
+          setShowPopup(true);      
+          
+          } catch (error) {
+        console.error('Error fetching notification data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // useEffect(() => {
+  //   console.log("Attempting to connect to Socket.IO...");
+  //   const socket = socketIoClient('https://platform-jorpor-chada.koyeb.app', {
+  //     path: '/socket.io',
+  //     withCredentials: true,
+  //     transports: ['websocket'],
+  //   });
+
+  //   // const socket = socketIoClient('https://platform-jorpor-chada.koyeb.app', {
+  //   //   transports: ['websocket'],
+  //   //   extraHeaders: {
+  //   //     "my-custom-header": "abcd"
+  //   //   }    
+  //   // });
 
   
-    socket.on('connect', () => {
-      console.log('WebSocket connected: ');
-      console.log(socket.connected);
+  //   socket.on('connect', () => {
+  //     console.log('WebSocket connected: ');
+  //     console.log(socket.connected);
 
-    });
+  //   });
   
-    socket.on('emergencyNotify', (res) => {
-      setNotification(res);
-      setShowPopup(true);
-      console.log("MESSAGE EMERGENCY: ", res);
+  //   socket.on('emergencyNotify', (res) => {
+  //     setNotification(res);
+  //     setShowPopup(true);
+  //     console.log("MESSAGE EMERGENCY: ", res);
   
-      socket.disconnect();
-      console.log('Socket.IO connection closed');
-    });
+  //     socket.disconnect();
+  //     console.log('Socket.IO connection closed');
+  //   });
   
-    socket.on('disconnect', (reason) => {
-      console.log('WebSocket disconnected:', reason);
-    });
+  //   socket.on('disconnect', (reason) => {
+  //     console.log('WebSocket disconnected:', reason);
+  //   });
     
-    socket.on('error', (error) => {
-      console.error('WebSocket error:', error);
-    });
+  //   socket.on('error', (error) => {
+  //     console.error('WebSocket error:', error);
+  //   });
     
         
   
-    return () => {
-      socket.disconnect();
-      console.log('Socket.IO connection closed');
-    };
-  }, []); // ให้ว่างไว้เพื่อให้ทำงานเมื่อ component ถูก unmounted
+  //   return () => {
+  //     socket.disconnect();
+  //     console.log('Socket.IO connection closed');
+  //   };
+  // }, []); // ให้ว่างไว้เพื่อให้ทำงานเมื่อ component ถูก unmounted
+
+
   
 
   const currentPath = usePathname();
