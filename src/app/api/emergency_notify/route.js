@@ -59,101 +59,36 @@
 
 // File: D:/SeniorNextjs/jorpor-nextjs/src/app/api/emergency_notify/route.ts
 // File: api/socket.js
-// import { NextResponse } from 'next/server';
-// import socketIoClient from 'socket.io-client';
-// import { io } from '../../socketServer'
-
-// export async function POST(request) {
-//   if (request.method === 'POST') {
-//     try {
-//       const res = await request.json();
-//       const { date, time, location } = res;
-//       console.log('MESSAGE NodeMCU: ', res);
-
-//       io.emit('emergencyNotify', res);
-//       console.log('SENDD: ',res);
-
-//       return NextResponse.json({
-//         success: true,
-//         message: 'Notification has been sent successfully.',
-//       });
-//     } catch (error) {
-//       console.error('Error processing the request:', error);
-//       return NextResponse.json({
-//         success: false,
-//         error: 'Failed to process the request',
-//       });
-//     }
-//   } else {
-//     return NextResponse.json('Method not allowed or invalid Content-Type');
-//   }
-// }
-
-
-// File: pages/api/emergency_notify.js
-
 import { NextResponse } from 'next/server';
-import { io } from '../../socketServer';
+import socketIoClient from 'socket.io-client';
+import { io } from '../../socketServer'
 
 export async function POST(request) {
-  // Allow requests from a specific origin
-  // const allowedOrigin = 'https://button-emergency-jorpot.vercel.app';
-  const requestOrigin = request.headers.get('origin');
-  const allowedOrigin = '*';
-
-  if (request.method === 'POST' && requestOrigin === allowedOrigin) {
+  if (request.method === 'POST') {
     try {
       const res = await request.json();
       const { date, time, location } = res;
       console.log('MESSAGE NodeMCU: ', res);
 
-      // Emit the message to the socket.io server
       io.emit('emergencyNotify', res);
-      console.log('SENDD: ', res);
+      console.log('SENDD: ',res);
 
-      // Respond with CORS headers and a JSON success message
       return NextResponse.json({
-        status: 200,
-        headers: {
-          'Access-Control-Allow-Origin': allowedOrigin,
-          'Access-Control-Allow-Methods': 'POST',
-          'Access-Control-Allow-Headers': 'Content-Type',
-        },
-        body: JSON.stringify({
-          success: true,
-          message: 'Notification has been sent successfully.',
-        }),
+        success: true,
+        message: 'Notification has been sent successfully.',
       });
     } catch (error) {
       console.error('Error processing the request:', error);
-
-      // Respond with CORS headers and a JSON error message
       return NextResponse.json({
-        status: 500,
-        headers: {
-          'Access-Control-Allow-Origin': allowedOrigin,
-          'Access-Control-Allow-Methods': 'POST',
-          'Access-Control-Allow-Headers': 'Content-Type',
-        },
-        body: JSON.stringify({
-          success: false,
-          error: 'Failed to process the request',
-        }),
+        success: false,
+        error: 'Failed to process the request',
       });
     }
   } else {
-    // Respond with CORS headers and a JSON error message for disallowed requests
-    return NextResponse.json({
-      status: 403,
-      headers: {
-        'Access-Control-Allow-Origin': allowedOrigin,
-        'Access-Control-Allow-Methods': 'POST',
-        'Access-Control-Allow-Headers': 'Content-Type',
-      },
-      body: JSON.stringify({
-        success: false,
-        error: 'Request from this origin is not allowed.',
-      }),
-    });
+    return NextResponse.json('Method not allowed or invalid Content-Type');
   }
 }
+
+
+File: pages/api/emergency_notify.js
+
