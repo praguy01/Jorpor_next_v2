@@ -63,8 +63,12 @@ import { NextResponse } from 'next/server';
 import socketIoClient from 'socket.io-client';
 import { io } from '../../socketServer'
 
+const allowedOrigin = 'https://button-emergency-jorpot.vercel.app';
+const requestOrigin = request.headers.get('origin');
+
+
 export async function POST(request) {
-  if (request.method === 'POST') {
+  if (request.method === 'POST' && requestOrigin === allowedOrigin) {
     try {
       const res = await request.json();
       const { date, time, location } = res;
@@ -88,7 +92,4 @@ export async function POST(request) {
     return NextResponse.json('Method not allowed or invalid Content-Type');
   }
 }
-
-
-File: pages/api/emergency_notify.js
 
