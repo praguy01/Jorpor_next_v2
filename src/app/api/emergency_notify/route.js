@@ -102,6 +102,7 @@ export async function POST(request) {
   };
 
   if (request.method === 'OPTIONS') {
+    console.log("OPTIONNNNNNNN")
     // ตรวจสอบว่าเป็น preflight request หรือไม่ (การส่ง OPTIONS ก่อนที่จะส่ง POST)
     return NextResponse.ok(null, { headers });
   }
