@@ -94,8 +94,9 @@ const express = require('express');
 const app = express();
 
 app.use((req, res, next) => {
+  // Allow requests from a specific origin
   res.header('Access-Control-Allow-Origin', 'https://button-emergency-jorpot.vercel.app');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  // Allow specific headers
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next();
 });
