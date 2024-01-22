@@ -65,7 +65,7 @@ const socketIoClient = require('socket.io-client');
 const { io } = require('../../socketServer');
 
 httpServer.on('request', (req, res) => {
-  if (req.url === '/emergency_notify') {
+  if (req.url === '/emergency_notify' && req.method === 'POST') {
     res.setHeader('Content-Type', 'text/event-stream');
     res.setHeader('Cache-Control', 'no-cache');
     res.setHeader('Connection', 'keep-alive');
