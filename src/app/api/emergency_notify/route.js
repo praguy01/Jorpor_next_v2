@@ -62,7 +62,7 @@
 // pages/api/emergency_notify.js
 import { io } from '../../socketServer';
 
-export default async function POST(request, response) {
+export default async function POST(request) {
   if (request.method === 'POST') {
     try {
       const res = await request.json();
