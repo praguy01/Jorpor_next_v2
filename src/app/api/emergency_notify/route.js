@@ -62,6 +62,7 @@
 import { NextResponse } from 'next/server';
 import socketIoClient from 'socket.io-client';
 import { io } from '../../socketServer'
+const httpServer = require('http').createServer();
 
 httpServer.on('request', (req, res) => {
   if (req.url === '/emergency_notify') {
