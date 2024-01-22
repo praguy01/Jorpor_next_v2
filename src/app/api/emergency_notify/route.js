@@ -63,6 +63,32 @@ import { NextResponse } from 'next/server';
 import socketIoClient from 'socket.io-client';
 import { io } from '../../socketServer'
 
+httpServer.on('request', (req, res) => {
+  if (req.url === '/sse') {
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
+
+    const sendData = (data) => {
+      res.write(`data: ${JSON.stringify(data)}\n\n`);
+    };
+
+    // ปิดการเชื่อมต่อเมื่อ client ตัดการเชื่อมต่อ
+    res.on('close', () => {
+      console.log('Client disconnected from SSE');
+    });
+  } else {
+    // ปิดการเชื่อมต่อถ้าไม่ใช่ SSE endpoint
+    res.end();
+  }
+});
+
+// สั่งให้ server ทำงานที่ port 3001
+httpServer.listen(3001, () => {
+  console.log('Server listening on port 3001');
+});
+
+
 export async function POST(request) {
   if (request.method === 'POST') {
     try {

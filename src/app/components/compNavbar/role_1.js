@@ -46,28 +46,26 @@ function CompNavbar() {
   const [shouldCallEditLanguage, setshouldCallEditLanguage] = useState(false);
   const [showPopup, setShowPopup] = useState(false); 
   const [notify, setNotify] = useState(false); 
-  const [notification, setNotification] = useState(null);
+  const [notification, setNotification] = useState('');
 
   useEffect(() => {
-    // ในที่นี้คุณอาจต้องใช้ socket.io-client หรือวิธีการเชื่อมต่อกับ server ที่ส่ง notification
-    // ตัวอย่างเท่านี้ใช้ useEffect สำหรับเรียก API หรือทำอย่างอื่น ๆ ตามความเหมาะสม
+    const eventSource = new EventSource('https://platform-jorpor.vercel.app/api/emergency_notify');
 
-    // เช่น
-    const fetchData = async () => {
-      try {
-        const response = await fetch('/api/emergency_notify'); // แก้ไขเส้นทางของ API ตามที่คุณได้สร้าง
-        const data = await response.json();
-          setNotification(data);
-          setShowPopup(true);      
-          
-          } catch (error) {
-        console.error('Error fetching notification data:', error);
-      }
+    eventSource.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      setNotification(data.message);
+      setShowPopup(true);
     };
 
-    fetchData();
-  }, []);
+    eventSource.onerror = (error) => {
+      console.error('SSE Error:', error);
+      eventSource.close();
+    };
 
+    return () => {
+      eventSource.close();
+    };
+  }, []);
   // useEffect(() => {
   //   console.log("Attempting to connect to Socket.IO...");
   //   const socket = socketIoClient('https://platform-jorpor-chada.koyeb.app', {
