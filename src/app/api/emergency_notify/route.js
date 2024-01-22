@@ -60,7 +60,6 @@
 // File: D:/SeniorNextjs/jorpor-nextjs/src/app/api/emergency_notify/route.ts
 // File: api/socket.js
 // pages/api/emergency_notify.js
-import { EventSource } from 'next/eventsource';
 import { io } from '../../socketServer';
 
 export default function handler(req, res) {
@@ -97,6 +96,7 @@ export default function handler(req, res) {
     res.status(405).end(); // Method Not Allowed
   }
 }
+
 
 
 
