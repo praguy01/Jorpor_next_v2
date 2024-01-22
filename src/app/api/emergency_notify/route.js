@@ -64,7 +64,7 @@ import socketIoClient from 'socket.io-client';
 import { io } from '../../socketServer'
 
 httpServer.on('request', (req, res) => {
-  if (req.url === '/sse') {
+  if (req.url === '/emergency_notify') {
     res.setHeader('Content-Type', 'text/event-stream');
     res.setHeader('Cache-Control', 'no-cache');
     res.setHeader('Connection', 'keep-alive');

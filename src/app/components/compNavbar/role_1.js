@@ -52,9 +52,11 @@ function CompNavbar() {
     const eventSource = new EventSource('https://platform-jorpor.vercel.app/api/emergency_notify');
 
     eventSource.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      setNotification(data.message);
-      setShowPopup(true);
+      if (event.data.trim() !== '') {
+        const data = JSON.parse(event.data);
+        setNotification(data.message);
+        setShowPopup(true);
+      }
     };
 
     eventSource.onerror = (error) => {
@@ -66,6 +68,14 @@ function CompNavbar() {
       eventSource.close();
     };
   }, []);
+
+  // เพิ่มโค้ดที่ต้องการให้ทำเมื่อมีการแจ้งเตือน
+  useEffect(() => {
+    if (showPopup) {
+      // ทำสิ่งที่คุณต้องการเมื่อมีการแจ้งเตือน
+      console.log('Notification:', notification);
+    }
+  }, [showPopup, notification]);
   // useEffect(() => {
   //   console.log("Attempting to connect to Socket.IO...");
   //   const socket = socketIoClient('https://platform-jorpor-chada.koyeb.app', {
