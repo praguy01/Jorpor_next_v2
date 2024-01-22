@@ -31,16 +31,13 @@ function App() {
 
 
   useEffect(() => {
-    console.log("localStorage: ",localStorage)
     localStorage.removeItem('recheck');
     localStorage.removeItem('isSubmitted', JSON.stringify(true));
 
-    // อ่านค่า isSubmitted จาก Local Storage หรือ Session Storage
     const storedIsSubmitted = localStorage.getItem('isSubmitted');
     if (storedIsSubmitted) {
       setIsSubmitted(JSON.parse(storedIsSubmitted));
     } else {
-      // ถ้าไม่มีค่า isSubmitted ใน Storage ให้เซ็ตเป็น false
       setIsSubmitted(false);
     }
   }, []);

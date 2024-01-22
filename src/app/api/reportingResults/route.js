@@ -10,21 +10,21 @@ export async function POST(request) {
 
     try {
       const { fetchdata} = res;
-      console.log("RES_ROUTE_examineRe7777777777777777: ", res);
+      // console.log("RES_ROUTE_examineRe7777777777777777: ", res);
 
       if (res.send) {
 
         for (const item of res.nameExamine.items) {
-          console.log("res.items.examine: ", item);
+          // console.log("res.items.examine: ", item);
 
           Object.keys(item.examine).forEach(async (key , index) => {
             const data = item.examine[key][0];
             
-            console.log("res.data.examine: ", key, data.useEmployee);
+            // console.log("res.data.examine: ", key, data.useEmployee);
             if (data.useEmployee === 'false') {
 
               for (const B of data.itemA){
-                console.log("LLLL: ",B)
+                // console.log("LLLL: ",B)
                 const insertValueQuery = `
                 INSERT INTO checklist_examine_row_2 (date, examinename_id, status, details, inspector, examine_id, examinelist_id)
                 VALUES (?,?,?,?,?,?,?);
@@ -34,11 +34,11 @@ export async function POST(request) {
               }
 
             } else if (data.useEmployee === 'true') {
-              console.log("QQQQฤฤฤฤ: ",data)
+              // console.log("QQQQฤฤฤฤ: ",data)
 
               for (const B of data.itemA){
                 for (const C of B.itemB){
-                  console.log("QQQQQQQQQQQQQQ: ",B.itemB.length)
+                  // console.log("QQQQQQQQQQQQQQ: ",B.itemB.length)
                   const insertValueQuery = `
                     INSERT INTO checklist_employee_row_2 (date, employee_name_id, examinename_id, status, details, inspector, examine_id, examinelist_id)
                     VALUES (?,?,?,?,?,?,?,?);
@@ -84,7 +84,7 @@ export async function POST(request) {
           const year = currentDate.getFullYear();
           const formattedDate = `${day}/${month}/${year}`;
 
-          console.log("XXXXXXXXXXXXXXXXx")
+          // console.log("XXXXXXXXXXXXXXXXx")
 
             const idList = [];
             const resultDict = {};
@@ -97,7 +97,7 @@ export async function POST(request) {
 
             if (UserIDResult.length > 0 && UserIDResult[0].name && UserIDResult[0].lastname) {
               fullName.push(`${UserIDResult[0].name} ${UserIDResult[0].lastname}`) ;
-              console.log("USER: ", fullName);
+              // console.log("USER: ", fullName);
             } else {
               console.error("User not found or missing name/lastname information.");
             }   
@@ -112,12 +112,12 @@ export async function POST(request) {
             const selectIdString = idResult[0].select_id;
 
             const item_id = JSON.parse(selectIdString);
-            console.log("4444idResult: ",item_id)
+            // console.log("4444idResult: ",item_id)
 
             const nameList = [];
           
             for (const item of item_id) {
-              console.log("4444: ",item)
+              // console.log("4444: ",item)
           
               const getNameExamineListQuery = "SELECT name FROM examinelist WHERE id = ? AND user_id = ?";
               const [nameExamineListResult] = await db.query(getNameExamineListQuery, [item, res.user_IdValue]);
@@ -127,15 +127,15 @@ export async function POST(request) {
               if (nameExamineListResultmap.length > 0) {
                 nameList.push(nameExamineListResultmap);
               }
-              console.log("nameList: ", nameList,nameExamineListResult);
+              // console.log("nameList: ", nameList,nameExamineListResult);
             }
           
 
-            console.log("EXAMINELISTTT: ", nameList)
+            // console.log("EXAMINELISTTT: ", nameList)
 
                   
             for (const name of  nameList) {
-              console.log("NAME: ", name);
+              // console.log("NAME: ", name);
               const getExamineIDQuery = "SELECT id FROM examinelist WHERE name = ? AND user_id = ?";
               const [examineIDResult] = await db.query(getExamineIDQuery, [name , res.user_IdValue]);
         
@@ -157,14 +157,14 @@ export async function POST(request) {
               } else {
                 console.error(`No id found for ${name}`);
               }
-              console.log("idListtt: ", idList);
+              // console.log("idListtt: ", idList);
 
             }
         
            
          
         
-            console.log("Date: ", formattedDate);
+            // console.log("Date: ", formattedDate);
 
             const getDateQuery = "SELECT DISTINCT send_date FROM checklist_examine_row_2 WHERE date = ? AND inspector = ?" ;        
             const [dateResult] = await db.query(getDateQuery, [formattedDate,res.user_IdValue]);
@@ -190,7 +190,7 @@ export async function POST(request) {
             };
             // Loop through each item in idList
             for (const data of idList) {
-              console.log("Examinename222: ", data);
+              // console.log("Examinename222: ", data);
               const currentItem = {
                 id: data.id,
                 name: data.name,
@@ -199,16 +199,16 @@ export async function POST(request) {
         
               // Loop through each examine in the examine property of the current item
               for (const examine of data.examine) {
-                console.log("Examine444: ", examine.name);
+                // console.log("Examine444: ", examine.name);
         
                 try {
                   const getExaminelistIDQuery = "SELECT id FROM examinelist WHERE name = ? AND user_id = ?";
                   const [examinelistIDResult] = await db.query(getExaminelistIDQuery, [data.name ,res.user_IdValue]);
-                  console.log("Examinelist ID: ", examinelistIDResult[0].id);
+                  // console.log("Examinelist ID: ", examinelistIDResult[0].id);
         
                   const getExamineNameQuery = "SELECT id FROM examine WHERE name = ? AND examinelist_id = ? ";
                   const [examineNameResult] = await db.query(getExamineNameQuery, [examine.name, examinelistIDResult[0].id ]);
-                  console.log("Examine ID: ", examineNameResult[0].id);
+                  // console.log("Examine ID: ", examineNameResult[0].id);
         
                   const dataChecklistQuery = `
                   SELECT 
@@ -232,19 +232,19 @@ export async function POST(request) {
                 
                 const [dataChecklistQueryResult] = await db.query(dataChecklistQuery, [formattedDate, examineNameResult[0].id, examinelistIDResult[0].id]);
                
-                  console.log("dataChecklistQueryResult: ", dataChecklistQueryResult,formattedDate, examineNameResult[0].id, examinelistIDResult[0].id);
+                  // console.log("dataChecklistQueryResult: ", dataChecklistQueryResult,formattedDate, examineNameResult[0].id, examinelistIDResult[0].id);
         
                   for (const dataA of dataChecklistQueryResult) {
                     // console.log("Data Source: ", data.data_source);
-                    console.log("DATA: ", dataA);
+                    // console.log("DATA: ", dataA);
                   
                       if (!currentItem.examine[examine.name]) {
                         currentItem.examine[examine.name] = [{ useEmployee: examine.useEmployee, itemA: [] }];
                       }
                       currentItem.examine[examine.name][0].itemA.push(dataA);
                     }
-                    
-                    console.log("currentItem: ",currentItem)
+                    // 
+                    // console.log("currentItem: ",currentItem)
 
                     // const seenEmployeeNameIds = new Set();
 
@@ -273,12 +273,12 @@ export async function POST(request) {
                       const [examinelistNameResult] = await db.query(getExaminelistNameQuery, [formattedDate,examineNameResult[0].id, emp.id, examinelistIDResult[0].id]);
 
                     
-                    console.log("examinelistNameResult: ", examinelistNameResult);
+                    // console.log("examinelistNameResult: ", examinelistNameResult);
 
                     const employee = []
                     for (const dataB of examinelistNameResult) {
                       // console.log("Data Source: ", data.data_source);
-                      console.log("DATA: ", dataB);
+                      // console.log("DATA: ", dataB);
                     
                       if (!currentItem.examine[examine.name]) {
                         currentItem.examine[examine.name] = [{ useEmployee: examine.useEmployee, itemA: [] }];
@@ -295,7 +295,7 @@ export async function POST(request) {
                       currentItem.examine[examine.name][0].itemA[lastItemAIndex].itemB.push(dataB);
                         }
                       
-                      console.log("currentItem: ",currentItem)
+                      // console.log("currentItem: ",currentItem)
   
                   
                   }}
@@ -312,7 +312,7 @@ export async function POST(request) {
             // Convert the dictionary values into an array
             // const resultList = Object.values(resultDict);
         
-            console.log("ResultList: ", resultList);
+            // console.log("ResultList: ", resultList);
         
             return NextResponse.json({ success: true, dbData: resultList });
           } catch (error) {
@@ -328,7 +328,7 @@ export async function POST(request) {
             const month = currentDate.getMonth() + 1; // Adding 1 because January starts at 0
             const year = currentDate.getFullYear();
             const formattedDate = `${day}/${month}/${year}`;
-            console.log("XXXXXXXXXXXXXXXXx")
+            // console.log("XXXXXXXXXXXXXXXXx")
   
               const idList = [];
               const resultDict = {};
@@ -341,7 +341,7 @@ export async function POST(request) {
   
               if (UserIDResult.length > 0 && UserIDResult[0].name && UserIDResult[0].lastname) {
                 fullName.push(`${UserIDResult[0].name} ${UserIDResult[0].lastname}`) ;
-                console.log("USER: ", fullName);
+                // console.log("USER: ", fullName);
               } else {
                 console.error("User not found or missing name/lastname information.");
               }   
@@ -355,13 +355,13 @@ export async function POST(request) {
               const selectIdString = idResult[0].select_id;
 
               const item_id = JSON.parse(selectIdString);
-              console.log("4444idResult: ",item_id)
+              // console.log("4444idResult: ",item_id)
   
   
               const nameList = [];
             
               for (const item of item_id) {
-                console.log("4444: ",item)
+                // console.log("4444: ",item)
             
                 const getNameExamineListQuery = "SELECT name FROM examinelist WHERE id = ? AND user_id = ?";
                 const [nameExamineListResult] = await db.query(getNameExamineListQuery, [item, res.user_IdValue]);
@@ -370,15 +370,15 @@ export async function POST(request) {
                 if (nameExamineListResultmap.length > 0) {
                   nameList.push(nameExamineListResultmap);
                 }                
-                console.log("nameList: ", nameList,nameExamineListResult);
+                // console.log("nameList: ", nameList,nameExamineListResult);
               }
             
   
-              console.log("EXAMINELISTTT: ", nameList)
+              // console.log("EXAMINELISTTT: ", nameList)
   
                     
               for (const name of  nameList) {
-                console.log("NAME: ", name);
+                // console.log("NAME: ", name);
                 const getExamineIDQuery = "SELECT id FROM examinelist WHERE name = ? AND user_id = ?";
                 const [examineIDResult] = await db.query(getExamineIDQuery, [name , res.user_IdValue]);
           
@@ -400,14 +400,14 @@ export async function POST(request) {
                 } else {
                   console.error(`No id found for ${name}`);
                 }
-                console.log("idListtt: ", idList);
+                // console.log("idListtt: ", idList);
   
               }
           
              
 
           
-              console.log("Date: ", formattedDate);
+              // console.log("Date: ", formattedDate);
   
               const getDateQuery = "SELECT DISTINCT send_date FROM checklist_examine_row_2 WHERE date = ? AND inspector = ?" ;        
               const [dateResult] = await db.query(getDateQuery, [formattedDate,res.user_IdValue]);
@@ -429,7 +429,7 @@ export async function POST(request) {
               };
               // Loop through each item in idList
               for (const data of idList) {
-                console.log("Examinename222: ", data);
+                // console.log("Examinename222: ", data);
                 const currentItem = {
                   id: data.id,
                   name: data.name,
@@ -438,16 +438,16 @@ export async function POST(request) {
           
                 // Loop through each examine in the examine property of the current item
                 for (const examine of data.examine) {
-                  console.log("Examine444: ", examine.name);
+                  // console.log("Examine444: ", examine.name);
           
                   try {
                     const getExaminelistIDQuery = "SELECT id FROM examinelist WHERE name = ? AND user_id = ?";
                     const [examinelistIDResult] = await db.query(getExaminelistIDQuery, [data.name ,res.user_IdValue]);
-                    console.log("Examinelist ID: ", examinelistIDResult[0].id);
+                    // console.log("Examinelist ID: ", examinelistIDResult[0].id);
           
                     const getExamineNameQuery = "SELECT id FROM examine WHERE name = ? AND examinelist_id = ? ";
                     const [examineNameResult] = await db.query(getExamineNameQuery, [examine.name, examinelistIDResult[0].id ]);
-                    console.log("Examine ID: ", examineNameResult[0].id);
+                    // console.log("Examine ID: ", examineNameResult[0].id);
           
                     const dataChecklistQuery = `
                     SELECT 
@@ -471,11 +471,11 @@ export async function POST(request) {
                   
                   const [dataChecklistQueryResult] = await db.query(dataChecklistQuery, [formattedDate, examineNameResult[0].id, examinelistIDResult[0].id]);
                  
-                    console.log("dataChecklistQueryResult: ", dataChecklistQueryResult,formattedDate, examineNameResult[0].id, examinelistIDResult[0].id);
+                    // console.log("dataChecklistQueryResult: ", dataChecklistQueryResult,formattedDate, examineNameResult[0].id, examinelistIDResult[0].id);
           
                     for (const dataA of dataChecklistQueryResult) {
                       // console.log("Data Source: ", data.data_source);
-                      console.log("DATA: ", dataA);
+                      // console.log("DATA: ", dataA);
                     
                         if (!currentItem.examine[examine.name]) {
                           currentItem.examine[examine.name] = [{ useEmployee: examine.useEmployee, itemA: [] }];
@@ -483,7 +483,7 @@ export async function POST(request) {
                         currentItem.examine[examine.name][0].itemA.push(dataA);
                       }
                       
-                      console.log("currentItem: ",currentItem)
+                      // console.log("currentItem: ",currentItem)
   
                       // const seenEmployeeNameIds = new Set();
   
@@ -512,12 +512,12 @@ export async function POST(request) {
                         const [examinelistNameResult] = await db.query(getExaminelistNameQuery, [formattedDate,examineNameResult[0].id, emp.id, examinelistIDResult[0].id]);
   
                       
-                      console.log("examinelistNameResult: ", examinelistNameResult);
+                      // console.log("examinelistNameResult: ", examinelistNameResult);
   
                       const employee = []
                       for (const dataB of examinelistNameResult) {
                         // console.log("Data Source: ", data.data_source);
-                        console.log("DATA: ", dataB);
+                        // console.log("DATA: ", dataB);
                       
                         if (!currentItem.examine[examine.name]) {
                           currentItem.examine[examine.name] = [{ useEmployee: examine.useEmployee, itemA: [] }];
@@ -534,7 +534,7 @@ export async function POST(request) {
                         currentItem.examine[examine.name][0].itemA[lastItemAIndex].itemB.push(dataB);
                           }
                         
-                        console.log("currentItem: ",currentItem)
+                        // console.log("currentItem: ",currentItem)
     
                     
                     }}
@@ -551,7 +551,7 @@ export async function POST(request) {
               // Convert the dictionary values into an array
               // const resultList = Object.values(resultDict);
           
-              console.log("ResultList: ", resultList);
+              // console.log("ResultList: ", resultList);
           
               return NextResponse.json({ success: true, dbData: resultList });
             } catch (error) {

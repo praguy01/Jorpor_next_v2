@@ -8,7 +8,7 @@ export async function POST(request) {
 
     try {
       const { fetchdata} = res;
-      console.log("RES_ROUTE_examineRe88: ", res);
+      // console.log("RES_ROUTE_examineRe88: ", res);
 
   
       if (res.fetch) {
@@ -29,14 +29,14 @@ export async function POST(request) {
         const nameList = [];
       
         for (const item of item_id) {
-          console.log("4444: ",item)
+          // console.log("4444: ",item)
       
           const getNameExamineListQuery = "SELECT name FROM examinelist WHERE id = ? AND user_id = ?";
           const [nameExamineListResult] = await db.query(getNameExamineListQuery, [item, res.user_IdValue]);
       
           const nameExamineListResultmap = nameExamineListResult.map(row => row.name);
           nameList.push(nameExamineListResultmap);
-          console.log("nameList: ", nameList,nameExamineListResult);
+          // console.log("nameList: ", nameList,nameExamineListResult);
         }
       
         return NextResponse.json({ success: true, dbnameExamineList: nameList, dbsentdate: getdate_R2QueryResult });
@@ -52,14 +52,14 @@ export async function POST(request) {
         const getExamineIDQuery = "SELECT id FROM examinelist WHERE name = ? AND user_id = ?";
         const [examineIDResult] = await db.query(getExamineIDQuery, [res.selectedOption , res.id]);
 
-        console.log("111: ",examineIDResult)
+        // console.log("111: ",examineIDResult)
     
         const getIDExamineListQuery = "SELECT name FROM examine WHERE examinelist_id = ?";
         const [idExamineListResult] = await db.query(getIDExamineListQuery, [ examineIDResult[0].id ]);
 
         const idExamineListResultmap = idExamineListResult.map(row => row.name);
 
-        console.log("WWW: ",idExamineListResultmap)
+        // console.log("WWW: ",idExamineListResultmap)
 
         const getEmployeeQuery = "SELECT * FROM employee WHERE examinelist_id  = ?";
         const [employeeResult] = await db.query(getEmployeeQuery, [ idExamineListResult[0].id ]);
@@ -86,17 +86,17 @@ export async function POST(request) {
         const year = currentDate.getFullYear();
         const formattedDate = `${day}/${month}/${year}`;
 
-        console.log("Date: ",formattedDate)
+        // console.log("Date: ",formattedDate)
 
         const getExaminelistIDQuery = "SELECT id FROM examinelist WHERE name = ? AND user_id = ?";
         const [examinelistIDResult] = await db.query(getExaminelistIDQuery, [res.selectedOption , res.id]);
 
-        console.log("000000000000000000: ",examinelistIDResult[0].id)
+        // console.log("000000000000000000: ",examinelistIDResult[0].id)
     
         // หาชื่อของ examinelist โดยใช้ ID จาก selectedExamineOption
         const getExamineNameQuery = "SELECT * FROM examine WHERE name = ? AND examinelist_id = ?";
         const [examineNameResult] = await db.query(getExamineNameQuery, [res.selectedExamineOption , examinelistIDResult[0].id]);
-        console.log("1111111111111111111a: ",examineNameResult[0])
+        // console.log("1111111111111111111a: ",examineNameResult[0])
 
         if (examineNameResult[0].useEmployee === 'false') {
         if (examineNameResult.length > 0) {
@@ -117,7 +117,7 @@ export async function POST(request) {
 
         const [dataChecklistQueryResult] = await db.query(dataChecklistQuery ,[formattedDate , examineNameResult[0].id ,examinelistIDResult[0].id])
 
-        console.log("listdata: ",dataChecklistQueryResult);
+        // console.log("listdata: ",dataChecklistQueryResult);
        
     
           return NextResponse.json({ success: true, dbData: dataChecklistQueryResult ,useEmployee: false});
@@ -128,15 +128,15 @@ export async function POST(request) {
           const fullName = [];
            
             
-          console.log("examineNameResult.length: ",examineNameResult.length)
+          // console.log("examineNameResult.length: ",examineNameResult.length)
           if (examineNameResult.length > 0) {
             const getZoneIDQuery = "SELECT id FROM examinelist WHERE name = ?";
             const [ZoneIDResult] = await db.query(getZoneIDQuery, [res.selectedOption]);
-            console.log("Zone: ",ZoneIDResult[0].id);
+            // console.log("Zone: ",ZoneIDResult[0].id);
 
             const getUserIDQuery = "SELECT * FROM employee WHERE users_id = ? AND examinelist_id = ?";
             const [UserIDResult] = await db.query(getUserIDQuery, [res.id , ZoneIDResult[0].id]);
-            console.log("USER: ", UserIDResult);
+            // console.log("USER: ", UserIDResult);
 
             for (const user of UserIDResult) {
             const getUserNameQuery = "SELECT * FROM employee WHERE id = ?";
@@ -144,7 +144,7 @@ export async function POST(request) {
 
             if (UserNameResult.length > 0 && UserNameResult[0].name && UserNameResult[0].lastname) {
               fullName.push(`${UserNameResult[0].name} ${UserNameResult[0].lastname}`) ;
-              console.log("USER1: ", fullName);
+              // console.log("USER1: ", fullName);
             } else {
               console.error("User not found or missing name/lastname information.");
             }  
@@ -152,11 +152,11 @@ export async function POST(request) {
 
             const getexamineIDQuery = "SELECT id FROM examine WHERE name = ? AND examinelist_id = ? ";
             const [examineIDResult] = await db.query(getexamineIDQuery, [res.selectedExamineOption , ZoneIDResult[0].id]);
-            console.log("examine: ", examineIDResult);
+            // console.log("examine: ", examineIDResult);
             
             const getexaminenameIDQuery = "SELECT * FROM examinename WHERE examine_id = ?  ";
             const [examinenameIDResult] = await db.query(getexaminenameIDQuery, [examineIDResult[0].id]);
-            console.log("examinename: ", examinenameIDResult);
+            // console.log("examinename: ", examinenameIDResult);
            
             // examinenameIDResult.forEach(examinename => {
             //   idList.push({ id: examinename.id, name: examinename.name });
@@ -187,29 +187,29 @@ export async function POST(request) {
             
             const [DATAIDResult] = await db.query(getDATAIDQuery, [user.id, formattedDate]);
             
-            console.log("DATAIDResult: ",DATAIDResult)
+            // console.log("DATAIDResult: ",DATAIDResult)
             const uniqueUserIds = [...new Set(DATAIDResult.map(item => item.inspector))];
-            console.log("DATAIDResult: ",uniqueUserIds)
+            // console.log("DATAIDResult: ",uniqueUserIds)
 
             const getinspectorIDQuery = "SELECT name , lastname FROM users WHERE id = ?  ";
             const [inspectorIDResult] = await db.query( getinspectorIDQuery, [uniqueUserIds]);
             inspector = inspectorIDResult[0];
-            console.log("examinename: ", inspectorIDResult);
+            // console.log("examinename: ", inspectorIDResult);
 
               for (const data of DATAIDResult) {
-                console.log("DATA: ",data)
+                // console.log("DATA: ",data)
 
                 if (!seenEmployeeNameIds.has(data.employee_name_id)) {
                   resultList.push({ id_employee: data.employee_name_id , name:  data.employee_name + ' ' + data.employee_lastname, employee: data.employee, items: [DATAIDResult] });
                   seenEmployeeNameIds.add(data.employee_name_id);
                 } else {
-                  console.log(`employee_name_id ${data.employee_name_id} ซ้ำ`);
+                  // console.log(`employee_name_id ${data.employee_name_id} ซ้ำ`);
                 }
               }
               
             }
 
-            console.log("SSSSSSS: ", resultList);
+            // console.log("SSSSSSS: ", resultList);
             
 
 

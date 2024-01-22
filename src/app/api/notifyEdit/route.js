@@ -8,7 +8,7 @@ export async function POST(request) {
     try {
       const {data } = res;
 
-      console.log("RES_ROUTE_: ", res);
+      // console.log("RES_ROUTE_: ", res);
         const deleteExamineQuery = "DELETE FROM notify WHERE id = ?";
         await db.query(deleteExamineQuery, [res.todo.id]);
 

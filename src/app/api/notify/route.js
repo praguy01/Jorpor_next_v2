@@ -10,8 +10,8 @@ export async function POST(request) {
 
       const file = formData.get('file');
       const fileBuffer = await file.arrayBuffer();
-      console.log("buffer: ",fileBuffer)
-      console.log("bufferfile: ",file)
+      // console.log("buffer: ",fileBuffer)
+      // console.log("bufferfile: ",file)
 
 
 
@@ -26,7 +26,7 @@ export async function POST(request) {
         id,
       } = Object.fromEntries(formData);
 
-      console.log("Test: ",formData)
+      // console.log("Test: ",formData)
 
       const getQuery = "SELECT role_2_id FROM users WHERE employee = ? ";
       const [Result] = await db.query(getQuery , [employee]);
@@ -66,7 +66,7 @@ export async function GET(request) {
       const getQuery = "SELECT * FROM notify ";
       const [Result] = await db.query(getQuery);
 
-      console.log("Data_examine: ",Result)
+      // console.log("Data_examine: ",Result)
 
 
       return NextResponse.json({ success: true ,dbnotify_name: Result});

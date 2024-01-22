@@ -36,7 +36,6 @@ const CompSendEmail = () => {
 
     try {
 
-      console.log("FROM_DATA: ",formData)
 
       const response = await axios.post('/api/sendemail', 
       formData, {
@@ -46,7 +45,6 @@ const CompSendEmail = () => {
       });
 
       const resdata = response.data;
-      console.log("RESDATA: ",resdata)
       if (response.status === 200) {
         if (resdata.success === true) {
 
@@ -62,7 +60,6 @@ const CompSendEmail = () => {
               router.push(resdata.redirect);
             }, 1000); 
         } else {
-          console.log("RESDATA Message: ",resdata.message)
           setMessage(resdata.message);
         }
       } else {
@@ -86,10 +83,7 @@ const CompSendEmail = () => {
           <Link href="login">JorPor</Link>
 
           </div>
-          {/* <div className='text-white font-ntr '>
-              <Link href="/" className=' text-[20px] px-4 py-1 rounded-md text-[#fff] hover:text-[#5A985E] hover:bg-[#fff]  '>log out</Link>
-        
-          </div> */}
+         
         </div>
       </div>
       <div className=' bg-[url("/bg1.png")] bg-cover bg-no-repeat  z-[-1] top-0 left-0 w-full h-full bg-center fixed  overflow-auto'>

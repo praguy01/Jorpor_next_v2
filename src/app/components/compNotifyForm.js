@@ -14,13 +14,6 @@ import { CompLanguageProvider, useLanguage } from './compLanguageProvider_role_1
 import { toUnicode } from 'punycode';
 
 
-// function CompNotifyForm() {
-//   return (
-//     <CompLanguageProvider>
-//       <CompNotifyForm />
-//     </CompLanguageProvider>
-//   );
-// }
 
 function CompNotifyForm({ onSubmit }) {
   const { t } = useTranslation();
@@ -54,7 +47,6 @@ function CompNotifyForm({ onSubmit }) {
           notifyfetch: true
         };
         const requestData = JSON.stringify(editedData)
-        console.log("requestData222222222: ",requestData)
 
         const response = await axios.post('/api/examinelist', requestData, {
           headers: { 'Content-Type': 'application/json' },
@@ -64,15 +56,7 @@ function CompNotifyForm({ onSubmit }) {
 
         if (response.status === 200) {
           if (data.success === true) {
-            console.log("DATA222222222: ",data)
-
-            // const notifyData = data.dbexaminelist_name.map(item => ({
-              
-            //   examinelist: item.name,
-             
-            // }));
-            console.log("notifyData: ",data.dbexaminelist_name[0])
-
+  
             setTodoList(data.dbexaminelist_name);
             
 
@@ -96,12 +80,11 @@ function CompNotifyForm({ onSubmit }) {
     };
 
     fetchData();
-  }, []); // โหลดข้อมูลเมื่อค่า state reloadData เปลี่ยนแปลง
+  }, []);
 
   const handleInputChange = (e) => {
     const { name , value, files } = e.target;
   
-    // ตรวจสอบว่าชื่อฟิลด์เป็น 'file' และสกุลไฟล์เป็น .jpeg
     
     if (name === 'file' && files && files.length > 0) {
       const allowedExtensions = ['jpg'];
@@ -109,20 +92,15 @@ function CompNotifyForm({ onSubmit }) {
       setMessage('');
 
       if (allowedExtensions.includes(fileExtension)) {
-        // ถ้าสกุลไฟล์ถูกต้อง, ให้ทำการอัปเดต state
         setFormData({
           ...formData,
           [name]: files[0],
           fileName: files[0].name,
         });
-        // setMessage('');
       } else {
-        // ถ้าสกุลไฟล์ไม่ถูกต้อง, แจ้งเตือนหรือทำการตอบสนองตามที่คุณต้องการ
         setMessage('Only .jpg files are accepted')
-        console.log('Only .jpg files are accepted');
       }
     } else {
-      // ถ้าไม่ใช่ฟิลด์ 'file' หรือไม่มีไฟล์ที่เลือก, ให้ทำการอัปเดต state
       setFormData({
         ...formData,
         [name]: value,
@@ -145,7 +123,6 @@ function CompNotifyForm({ onSubmit }) {
       formData.file === null ||
       formData.detail === ''
     ) {
-      console.log("formDATA: ",formData)
       setMessage('Please fill out all required fields.');
     } else {
     const isSuccess = await onSubmit(formData);
@@ -188,15 +165,7 @@ function CompNotifyForm({ onSubmit }) {
                      <div  className='flex px-3 items-center '>
                      <p className='text-[#000] text-left   w-[75px]  ml-[-1px] md:w-[100px] md:ml-[-11px]' >{t('Employee')}</p>
                      <p className='pl-2'>:</p>
-                     {/* {todoList.map((todo, index) => ( */}
-
-                     {/* <input
-                        type="text"
-                        name="employee"  // Change to the desired field name
-                        value={formData.employee}
-                        onChange={(e) => handleInputChange(e, index)}
-                        className={`${language === 'EN' ? ' font-ntr text-[14px]' : ' font-mitr text-[12px] '  } rounded-[2px]  items-center p-2 mt-[-2px] ml-[10px] md:ml-[15px] w-[100px] h-[20px] md:text-[17px] md:w-[200px] md:h-[20px] bg-[#D9D9D9]  `}
-                        readOnly/>  */}
+                     
                         <input type="text" name="employee" value={formData.employee} onChange={handleInputChange} className={`text-[11px] md:text-[13px]   rounded-[2px]  items-center p-2 mt-[-2px] ml-[10px] md:ml-[15px] w-[100px] h-[20px] md:w-[200px] md:h-[20px] bg-[#D9D9D9]  `} readOnly/>
 
                      </div>
@@ -207,15 +176,7 @@ function CompNotifyForm({ onSubmit }) {
                           <p className='text-[#000] text-left  w-[75px]  ml-[-1px] md:w-[100px] md:ml-[-11px]'>{t("Work Owner")} </p>
                           <p className='pl-2'>:</p>
                           <input type="text" name="work_owner" value={formData.work_owner} onChange={handleInputChange} className={`text-[11px] md:text-[13px]  rounded-[2px]  items-center p-2 mt-[-2px] ml-[10px] md:ml-[15px] w-[100px] h-[20px]  md:w-[200px] md:h-[20px] bg-[#D9D9D9]  `} readOnly/>
-                          {/* {todoList.map((todo, index) => (
-                          <p  
-                              key={index} 
-                              name="work_owner"  // Change to the desired field name
-                              value={todo.name}
-                              onChange={(e) => handleInputChange(e, index)}
-                              className='pl-2  w-[110px] h-[20px]  md:text-[17px]  text-[15px] md:w-[200px] overflow-hidden whitespace-nowrap overflow-ellipsis text-left ml-[3px] md:ml-[6px]' >{todo.name}</p>
-
-                          ))} */}
+                         
                      </div>
 
                       <div className='flex px-3 mt-[5px]  items-center'>
@@ -223,21 +184,13 @@ function CompNotifyForm({ onSubmit }) {
                         <p className='pl-2'>:</p>
                         <input type="text" name="position" value={formData.position} onChange={handleInputChange} className={`text-[11px] md:text-[13px]  rounded-[2px]  items-center p-2 pl-1 mt-[-2px] ml-[10px] md:ml-[15px] w-[100px] h-[20px] md:w-[200px] md:h-[20px] bg-[#D9D9D9]  `} readOnly/>
 
-                        {/* {todoList.map((todo, index) => (
-                           <p  
-                           key={index} 
-                           name="position"  // Change to the desired field name
-                           value={formData.position}  
-                            className='pl-2  w-[110px] h-[20px] md:text-[17px] text-[15px]  md:w-[200px] overflow-hidden whitespace-nowrap overflow-ellipsis ml-[3px]' >{todo.position}</p>
-                         
-                        ))}  */}
+                      
                     </div>
                    
 
                     <div className='flex px-3 mt-[5px] items-center '>
                       <p className='text-[#000] text-left w-[75px] ml-[-1px] md:w-[100px] md:ml-[-11px]'>{t('Location')}</p>
                       <p className='pl-2'>:</p>
-                      {/* {console.log("TESTTTTTT : ",todoList[0].examinelist) } */}
                       {todoList.length > 0 ? (
                         <div>
                           {todoList[0].examinelist !== null ? (
@@ -311,19 +264,13 @@ function CompNotifyForm({ onSubmit }) {
                     {message}
                   </p>
                 )}
-                {/* {notifyMessage && (
-                  <p className=' mt-3 text-red-500 text-xs py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-lg md:mt-[30px]'>
-                    {notifyMessage}
-                  </p>
-                )} */}
+               
 
                 <div className='flex items-center md:px-10  md:mt-[20px] ' >
-                  {/* <button type= "submit" href="/NotifyTwo" className=' mt-[20px] text-md md:text-[20px] md:ml-[480px] border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>Submit</button> */}
                     <button type='submit' onClick={handleSubmit} className=  {` text-[15px]  mt-[20px]  md:text-[15px] mx-auto border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 `}>{t('confirm')}</button>
                    
                    
                 </div>
-              {/* </form> */}
               
         
 

@@ -81,7 +81,7 @@ function App() {
 
         if (response.status === 200) {
           if (resdata.success === true) {
-            console.log('DATAProfile44444: ',resdata.profile[0]);
+            // console.log('DATAProfile44444: ',resdata.profile[0]);
             
             setEmployee(resdata.profile[0].employee);
             let newProfile = {
@@ -100,7 +100,7 @@ function App() {
             setEditedProfileData(newProfile);
             setProfileData(newProfile);
           
-            console.log("newDataProfile: ", newProfile);
+            // console.log("newDataProfile: ", newProfile);
 
             if (resdata.profile[0].picture.data.length > 0) {
           
@@ -136,7 +136,7 @@ function App() {
   const handleEditClick = () => {
     setIsEditing(true);
     // คัดลอกข้อมูล profileData เพื่อแก้ไข
-    console.log("editedProfileData: ",editedProfileData)
+    // console.log("editedProfileData: ",editedProfileData)
     setEditedProfileData({ ...editedProfileData });
   };
   
@@ -159,13 +159,13 @@ function App() {
       
       // ส่งข้อมูลที่แก้ไขไปยัง API
 
-      console.log("Editprofile: ", editedProfileData)
+      // console.log("Editprofile: ", editedProfileData)
       const editedData = { ...editedProfileData , edit_role_2: true };
       // formData.append('data', JSON.stringify(editedData));
       // const data = formData.get('data');
       // console.log("FormDATA: ", data);
       const data = JSON.stringify(editedData)
-      console.log("EditDATA: ", editedData)
+      // console.log("EditDATA: ", editedData)
 
       // ส่งข้อมูลไปยัง API
       const response = await axios.post('/api/profile', data, {
@@ -179,7 +179,7 @@ function App() {
       const resdata = response.data;
   
       if (response.status === 200) {
-        console.log("resdata:", resdata.message);
+        // console.log("resdata:", resdata.message);
 
         if (resdata.success === true) {
           // การบันทึกสำเร็จ ปิดโหมดแก้ไข
@@ -218,7 +218,7 @@ function App() {
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      console.log("FILE: ",file)
+      // console.log("FILE: ",file)
       const reader = new FileReader();
       reader.onload = (event) => {
         const imageUrl = event.target.result;
@@ -229,7 +229,7 @@ function App() {
           ...prevData,
           img: file,
         }));
-        console.log("FILEPICTURE: ",editedProfileData)
+        // console.log("FILEPICTURE: ",editedProfileData)
 
 
         setImagedata(file)
@@ -338,7 +338,7 @@ function App() {
                   <div className='flex flex-col  '>
                   {isEditing ? (
                     <div className=' flex mx-auto ml-[15px] md:ml-[0]  mt-[6px]'>
-                      {console.log("EDITdata: ",editedProfileData)}
+                      {/* {console.log("EDITdata: ",editedProfileData)} */}
                       <input
                         type="text"
                         placeholder={editedProfileData.name}

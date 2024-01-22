@@ -44,19 +44,19 @@ function App() {
         try {
           const storedId = localStorage.getItem('id');
           if (storedId) {
-            console.log('Stored: ', storedId);
+            // console.log('Stored: ', storedId);
           }
     
           const AddData = { storedId ,meet_role_2:true};
           const data = JSON.stringify(AddData);
-          console.log('DD: ', data);
+          // console.log('DD: ', data);
     
           const response = await axios.post('/api/plan', data, {
             headers: { 'Content-Type': 'application/json' },
           });
     
           const resdata = response.data;
-          console.log('DATA: ', resdata);
+          // console.log('DATA: ', resdata);
     
           if (response.status === 200) {
             if (resdata.success === true) {
@@ -73,7 +73,7 @@ function App() {
                 return dateA - dateB;
               });
               
-              console.log("Sorted dbData:", dbData);
+              // console.log("Sorted dbData:", dbData);
               
 
               dbData.forEach((item) => {
@@ -118,9 +118,9 @@ function App() {
 
               if (isCurrentDate) {
                 if (isCurrentTime < isTime) {
-                  console.log("End",item.activity,isCurrentTime,isTime)
+                  // console.log("End",item.activity,isCurrentTime,isTime)
                 
-                  console.log("ITEm",item)
+                  // console.log("ITEm",item)
                 closestPlan = Plan;
 
 
@@ -129,7 +129,7 @@ function App() {
               } else if ( convertedDate1.getTime() < convertedDate2.getTime())  {
                 
 
-                console.log("DATee: ", formattedDate , item.date);
+                // console.log("DATee: ", formattedDate , item.date);
 
                 closestPlan = Plan;
 
@@ -138,7 +138,7 @@ function App() {
               }
 
             
-            console.log("Use: ",PlanToAdd)
+            // console.log("Use: ",PlanToAdd)
 
             });
     

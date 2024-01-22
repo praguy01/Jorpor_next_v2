@@ -62,7 +62,6 @@ function App({ onSubmit }) {
   const [showPopup, setShowPopup] = useState(false); 
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [reloadData, setReloadData] = useState(false); 
-  // const [showPopupUseEmployee, setShowPopupUseEmployee] = useState(false);
   const [useEmployee, setUseEmployee] = useState(false);
   const [User_id, setUser_id] = useState('');
   const [id, setId] = useState('');
@@ -77,7 +76,6 @@ function App({ onSubmit }) {
   
   useEffect(() => {
     const storedUser_id = localStorage.getItem('id');
-    console.log("user_id11: ",storedUser_id);
 
     const fetchData = async () => {
       try {
@@ -94,7 +92,6 @@ function App({ onSubmit }) {
         if (response.status === 200) {
           if (data.success === true) {
             const examinelistNames = data.dbexaminelist_name.map(item => ({ id: item.id, name: item.name }));
-            console.log("DATAAA:22 ",examinelistNames)
 
             setTodoList(examinelistNames);
             setUser_id(storedUser_id);
@@ -127,7 +124,6 @@ function App({ onSubmit }) {
 
   const openEditPopup = async (index, todo) => {
     setMessage('');
-    console.log("2222: ",todo)
     setShowEditPopup({ isOpen: true, index, todo }); 
   };
 
@@ -147,12 +143,10 @@ function App({ onSubmit }) {
     
     try {
 
-      console.log("useEmployee name: " ,examinelist_name, id  )
 
 
       const AddData = { examinelist_name , id , add: true};
       const data = JSON.stringify(AddData);
-      console.log("data222: ",data)
 
       const response = await axios.post('/api/examinelist', data, {
         headers: { 'Content-Type': 'application/json' },
@@ -162,12 +156,10 @@ function App({ onSubmit }) {
   
       if (response.status === 200) {
         if (resdata.success === true) {
-          console.log("Message: ", resdata);
 
           const updatedTodoList = [...todoList, resdata.dbexaminelist_name];
           setTodoList(resdata.dbexaminelist_name);
           
-          console.log("ADD: ",resdata.message)
           setShowAddSuccessPopup(true);
           setaddMessage(resdata.message);
 
@@ -202,12 +194,10 @@ function App({ onSubmit }) {
 
   const deleteTodo = async (index, todo) => {
     try {
-      console.log("6666: ",todo)
       const storedUser_id = localStorage.getItem('id');
 
       const editedData = { todo ,storedUser_id, editselect: true };
       const data = JSON.stringify(editedData)
-      console.log("datadelete: ",data)
 
       const response = await axios.post('/api/examinelist', data,  {
         headers: { 'Content-Type': 'application/json' },
@@ -221,7 +211,6 @@ function App({ onSubmit }) {
         if (resdata.success === true) {
           setReloadData(prev => !prev);
 
-          console.log("Message: ", resdata);
           setShowDeleteSuccessPopup(true);
           setdeleteMessage(resdata.message);
 
@@ -255,15 +244,12 @@ function App({ onSubmit }) {
       if (response.status === 200) {
         if (resdata.success === true) {
 
-          console.log("Message: ", resdata);
-
         } else {
           setMessage(resdata.error);
         }
       } else {
         setMessage(resdata.error);
       }
-      console.log("********")
       const isSuccess = await onSubmit(checkedItems);
       if (isSuccess) {
         setMessage('');
@@ -277,7 +263,6 @@ function App({ onSubmit }) {
   };
   
   const handleCheckboxChange = (index, todoId) => {
-    console.log("TODOID: ", todoId, index);
   
     if (checkedItems.includes(todoId)) {
       setCheckedItems(checkedItems.filter((item) => item !== todoId).sort((a, b) => a - b));
@@ -310,9 +295,7 @@ function App({ onSubmit }) {
         )}
 
         <div className="mt-[5px] border-t border-gray-300"></div>
-        {/* {!isEditing && (
-        <PiPencilSimpleFill onClick={handleEditClick} className='absolute text-black md:text-[20px] text-[13px]  md:ml-[910px] md:mt-[15px] ml-[270px]  mt-[12px] cursor-pointer ' />
-        )} */}
+       
         
         <div className='items-center mx-auto w-[250px] md:w-[650px] lg:w-[850px]   h-[400px] text-black bg-[#F5F5F5] text-center mt-[20px] rounded-[20px]'>
       <div className='mt-4 ml-4 flex items-center justify-between'>
@@ -325,7 +308,6 @@ function App({ onSubmit }) {
         </p>
       </div>
 
-      {/* Display selected items with checkboxes */}
       <div className='items-center  text-[14px]  mx-auto border w-[220px] md:w-[600px] lg:w-[800px]  h-[100px] text-black bg-[#fff] text-center mt-[10px] rounded-[10px] overflow-y-auto'>
   {checkedItems.length > 0 && (
     <div className='p-2 flex flex-col'>
@@ -340,7 +322,6 @@ function App({ onSubmit }) {
   )}
 </div>
 
-{/* Todo List with Checkboxes */}
 <div className='items-center mx-auto border w-[220px] md:w-[600px] lg:w-[800px] h-[210px] text-black bg-[#fff] text-center mt-[10px] rounded-[10px] overflow-auto'>
 
 { todoList.length === 0 && (
@@ -414,7 +395,6 @@ function App({ onSubmit }) {
 
 
 
-      {/* Delete Button */}
      
 
               {showDeleteSuccessPopup && (
@@ -452,14 +432,7 @@ function App({ onSubmit }) {
             </div>
            )}
             <div className="flex items-center  ">
-            {/* {!isEditing && (
-              <button
-                onClick={openPopup}
-                className="item-center text-[#5A985E] ml-[10px] text-4xl mt-[20px] hover:-translate-y-0.5 duration-200"
-              >
-                <BsPlusCircleFill />
-              </button>
-            )} */}
+           
             </div>
            
             {showPopup && (

@@ -6,7 +6,7 @@ export async function POST(request) {
     const res = await request.json();
     try {
       const {data } = res;
-      console.log("RES_ROUTE_employee: ", res);
+      // console.log("RES_ROUTE_employee: ", res);
 
       if (res.edit_role_1) {
         try {
@@ -94,7 +94,7 @@ export async function POST(request) {
       if (res.add) {
         try {
 
-          const checkemployeeQuery1 = "SELECT COUNT(*) AS employeeCount FROM users WHERE employee = ?";
+          const checkemployeeQuery1 = "SELECT COUNT(*) AS employeeCount FROM employee WHERE employee = ?";
           const [employeeCountResult1] = await db.query(checkemployeeQuery1, [res.employee]);
 
           if (employeeCountResult1[0].employeeCount > 0) {
@@ -230,11 +230,11 @@ export async function POST(request) {
 
           // Sort the array based on the custom sorting function
           const sortedEmployeeResult = employeeResult.sort(customSort);
-          console.log("sortedEmployeeResult: ",sortedEmployeeResult,res.selectedOption)
+          // console.log("sortedEmployeeResult: ",sortedEmployeeResult,res.selectedOption)
 
           return NextResponse.json({ success: true, dbemployee_name: sortedEmployeeResult });
         } catch (error) {
-          console.error('ErrorEditEx:', error);
+          // console.error('ErrorEditEx:', error);
           return NextResponse.json({ success: false, error: error.message });
         }
       }
@@ -285,7 +285,7 @@ export async function POST(request) {
             userEmployeeTable = true;
           }
     
-          console.log("User comes from table:", userEmployeeTable);
+          // console.log("User comes from table:", userEmployeeTable);
     
         
     
@@ -414,7 +414,7 @@ export async function POST(request) {
         if (idResultmap) {
           try {
             item_id = JSON.parse(idResultmap);
-            console.log("Parsed item_id: ", item_id);
+            // console.log("Parsed item_id: ", item_id);
           } catch (error) {
             console.error("Error parsing JSON:", error);
             // Handle the error appropriately, e.g., log the error or set a default value
@@ -424,7 +424,7 @@ export async function POST(request) {
           // Handle the case where idResultmap is undefined or null
         }
        
-        console.log("RESULTTTT------: ",item_id)
+        // console.log("RESULTTTT------: ",item_id)
      
 
         if (idResultmap === undefined){
@@ -439,14 +439,14 @@ export async function POST(request) {
       let flattenedNameList = []
     
       for (const item of item_id) {
-        console.log("4444: ",item)
+        // console.log("4444: ",item)
     
         const getNameExamineListQuery = "SELECT id,name FROM examinelist WHERE id = ? AND user_id = ?";
         const [nameExamineListResult] = await db.query(getNameExamineListQuery, [item, res.storedId]);
     
         const nameExamineListResultmap = nameExamineListResult.map(row => ({ id: row.id, name: row.name }));
         nameList.push(nameExamineListResultmap[0]);
-        console.log("nameList: ", nameList);
+        // console.log("nameList: ", nameList);
         // flattenedNameList = nameList.flatMap(zone => zone.map(item => item.name));
       }
         return NextResponse.json({ success: true, dbnameExamineList: nameList});
@@ -459,7 +459,7 @@ export async function POST(request) {
       return NextResponse.json({ success: true});
 
     } catch (error) {
-      console.error('Error:', error);
+      // console.error('Error:', error);
       return NextResponse.json({ success: false, error: error.message });
     }
     

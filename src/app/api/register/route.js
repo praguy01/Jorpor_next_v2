@@ -14,18 +14,18 @@ export async function POST(request)  {
         } = res;
   
 
-      console.log("JSON.DATA route: ", res);
+      // console.log("JSON.DATA route: ", res);
       
       if (res.requestData.PIN_confirm === res.requestData.PIN) {
-        console.log("/////////////////////////////////");
+        // console.log("/////////////////////////////////");
 
 
         const insertSql = "INSERT INTO users_r3 (name, lastname, email, position, employee, password ,phone ,line ,picture) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         const insertValues = [res.requestDataUser.name, res.requestDataUser.last_name, res.requestDataUser.email, res.requestDataUser.position, res.requestDataUser.employee, res.requestDataUser.password,'','',''];
         const result = await db.query(insertSql, insertValues);
 
-        console.log("result :",result);
-        console.log("result.affectedRows :",result[0].affectedRows);
+        // console.log("result :",result);
+        // console.log("result.affectedRows :",result[0].affectedRows);
 
 
         if (result[0].affectedRows === 1) {
@@ -57,33 +57,33 @@ export async function POST(request)  {
         password,
       } = data;
 
-      console.log("ress: ",data)
+      // console.log("ress: ",data)
 
       const checkEmailQuery1 = "SELECT COUNT(*) AS emailCount FROM users WHERE email = ?";
       const [emailCountResult1] = await db.query(checkEmailQuery1, [data.email]);
-      console.log("emailCountResult1: ", emailCountResult1[0].emailCount);
+      // console.log("emailCountResult1: ", emailCountResult1[0].emailCount);
 
       const checkemployeeQuery1 = "SELECT COUNT(*) AS employeeCount FROM users WHERE employee = ?";
       const [employeeCountResult1] = await db.query(checkemployeeQuery1, [data.employee]);
-      console.log("employeeCountResult1: ", employeeCountResult1[0].employeeCount);
+      // console.log("employeeCountResult1: ", employeeCountResult1[0].employeeCount);
 
       
       const checkEmailQuery2 = "SELECT COUNT(*) AS emailCount FROM users_r2 WHERE email = ?";
       const [emailCountResult2] = await db.query(checkEmailQuery2, [data.email]);
-      console.log("emailCountResult2: ", emailCountResult2[0].emailCount);
+      // console.log("emailCountResult2: ", emailCountResult2[0].emailCount);
 
       const checkemployeeQuery2 = "SELECT COUNT(*) AS employeeCount FROM users_r2 WHERE employee = ?";
       const [employeeCountResult2] = await db.query(checkemployeeQuery2, [data.employee]);
-      console.log("employeeCountResult2: ", employeeCountResult2[0].employeeCount);
+      // console.log("employeeCountResult2: ", employeeCountResult2[0].employeeCount);
 
       
       const checkEmailQuery3 = "SELECT COUNT(*) AS emailCount FROM users_r3 WHERE email = ?";
       const [emailCountResult3] = await db.query(checkEmailQuery3, [data.email]);
-      console.log("emailCountResult3: ", emailCountResult3[0].emailCount);
+      // console.log("emailCountResult3: ", emailCountResult3[0].emailCount);
 
       const checkemployeeQuery3 = "SELECT COUNT(*) AS employeeCount FROM users_r3 WHERE employee = ?";
       const [employeeCountResult3] = await db.query(checkemployeeQuery3, [data.employee]);
-      console.log("employeeCountResult3: ", employeeCountResult3[0].employeeCount);
+      // console.log("employeeCountResult3: ", employeeCountResult3[0].employeeCount);
 
       let userEmailTable = false;
 
@@ -95,8 +95,8 @@ export async function POST(request)  {
           userEmailTable = true;
       }
 
-      console.log("User comes from table:", userEmailTable);
-
+      // console.log("User comes from table:", userEmailTable);
+// 
     
 
       let userEmployeeTable = false;
@@ -109,7 +109,7 @@ export async function POST(request)  {
         userEmployeeTable = true;
       }
 
-      console.log("User comes from table:", userEmployeeTable);
+      // console.log("User comes from table:", userEmployeeTable);
 
     
 
@@ -148,7 +148,7 @@ export async function POST(request)  {
       
 
       await transporter.sendMail(mailOptions);
-      console.log("EMAIL: ",data.email)
+      // console.log("EMAIL: ",data.email)
       // บันทึกรหัสยืนยันลงในฐานข้อมูล หรือส่งไปยังส่วนที่เกี่ยวข้องกับการยืนยัน
 
       return NextResponse.json({ success: true, message: 'The password has been sent to your email. Please confirm your password.', email: data.email ,PINconfirm: confirmationCode });

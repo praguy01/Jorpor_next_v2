@@ -11,7 +11,7 @@ import jwt from 'jsonwebtoken';
 export async function POST(request)  {
   if (request.method === 'POST') {
     const res = await request.json();
-    console.log("RES-----------------: ",res)
+    // console.log("RES-----------------: ",res)
 
     if (res.rememberPassword) {
       
@@ -43,10 +43,10 @@ export async function POST(request)  {
         const getUserQuery = `SELECT * FROM ${foundInTable} WHERE employee = ?`;
         const [userQueryResult] = await db.query(getUserQuery, [res.formData.employee]);
         userResult = userQueryResult[0]; // Assign the result to the outer-scope variable
-        console.log("88888888888888:", userResult, userResult?.position);
+        // console.log("88888888888888:", userResult, userResult?.position);
       }
       
-      console.log("User comes from table:", userEmployeeTable, userResult);
+      // console.log("User comes from table:", userEmployeeTable, userResult);
       
       if (!userEmployeeTable) {
         return NextResponse.json({ success: false, error: 'Account not found. Please register.' });
@@ -85,10 +85,10 @@ export async function POST(request)  {
          
   //     }
   
-      console.log("oooooooooooooooo: ", userResult);
+      // console.log("oooooooooooooooo: ", userResult);
   
       const storedPassword = userResult.password;
-      console.log("storedPassword: ", storedPassword);
+      // console.log("storedPassword: ", storedPassword);
 
 
       const passwordMatch = await bcrypt.compare(res.formData.password, storedPassword);
@@ -96,7 +96,7 @@ export async function POST(request)  {
       if (!passwordMatch) {
         return NextResponse.json({ success: false, error: 'Invalid password for user ' + res.formData.employee });
       } else if (passwordMatch) {
-        console.log("Login Pass");
+        // console.log("Login Pass");
        
         const currentTimestamp = Math.floor(Date.now() / 1000);
 
@@ -109,15 +109,15 @@ export async function POST(request)  {
 
         };
 
-        console.log("0000000: ",res.formData.employee)
+        // console.log("0000000: ",res.formData.employee)
 
         const token = jwt.sign(tokenPayload, 'user_login');
 
         if (userResult.position === 'Safety Officer Professional level '){
-          console.log("111111")
+          // console.log("111111")
           return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/select' , profile: [userResult] ,token});
         } else if (userResult.position === 'Safety Officer Technical level'){
-          console.log("22222")
+          // console.log("22222")
           return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_role_2' , profile: [userResult] ,token});
         } else if (userResult.position === 'Safety Officer Supervisory level'){
           return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_role_3' , profile: [userResult] ,token});
@@ -128,7 +128,7 @@ export async function POST(request)  {
     }
 
     try {
-      console.log("RES_ROUTE******************: ", res);
+      // console.log("RES_ROUTE******************: ", res);
       const checkemployeeQuery1 = "SELECT COUNT(*) AS employeeCount FROM users WHERE employee = ?";
       const [employeeCountResult1] = await db.query(checkemployeeQuery1, [res.formData.employee]);
 
@@ -157,10 +157,10 @@ export async function POST(request)  {
         const getUserQuery = `SELECT * FROM ${foundInTable} WHERE employee = ?`;
         const [userQueryResult] = await db.query(getUserQuery, [res.formData.employee]);
         userResult = userQueryResult[0]; // Assign the result to the outer-scope variable
-        console.log("88888888888888:", userResult, userResult?.position);
+        // console.log("88888888888888:", userResult, userResult?.position);
       }
 
-      console.log("User comes from table:", userEmployeeTable, userResult);
+      // console.log("User comes from table:", userEmployeeTable, userResult);
 
       if (!userEmployeeTable) {
         return NextResponse.json({ success: false, error: 'Account not found. Please register.' });
@@ -168,10 +168,10 @@ export async function POST(request)  {
 
          
   
-      console.log("oooooooooooooooo: ", userResult);
+      // console.log("oooooooooooooooo: ", userResult);
   
       const storedPassword = userResult.password;
-      console.log("storedPassword: ", storedPassword);
+      // console.log("storedPassword: ", storedPassword);
 
 
       const passwordMatch = await bcrypt.compare(res.formData.password, storedPassword);
@@ -179,7 +179,7 @@ export async function POST(request)  {
       if (!passwordMatch) {
         return NextResponse.json({ success: false, error: 'Invalid password for user ' + res.formData.employee });
       } else if (passwordMatch) {
-        console.log("Login Pass");
+        // console.log("Login Pass");
         if (typeof window !== 'undefined') {
           // กำหนดให้มีการ redirect
           await signIn("credentials", {
@@ -188,12 +188,12 @@ export async function POST(request)  {
 
           
         }
-        console.log("ddddd: ",res.rememberedDataArray)
+        // console.log("ddddd: ",res.rememberedDataArray)
         if (res.remember) {
           for (const item of res.rememberedDataArray) {
             if (item.hasOwnProperty('employee')) {
-              console.log("TTTT ", res.formData.employee)
-              console.log("oooo ", item.employee)
+              // console.log("TTTT ", res.formData.employee)
+              // console.log("oooo ", item.employee)
               if (res.formData.employee === item.employee) {
                 const tokenPayload = {
                   employee: res.formData.employee,
@@ -202,15 +202,15 @@ export async function POST(request)  {
                   exp: Math.floor(Date.now() / 1000) + 86400, // 1 ชั่วโมงหลังจากนี้ (ในรูปแบบของ UNIX timestamp)
                   iat: Math.floor(Date.now() / 1000) // เวลาปัจจุบัน (ในรูปแบบของ UNIX timestamp)
                 };
-                console.log("88788: ", tokenPayload)
+                // console.log("88788: ", tokenPayload)
         
                 const token = jwt.sign(tokenPayload, 'user_login');
         
                 if (userResult.position === 'Safety Officer Professional level '){
-                  console.log("111111")
+                  // console.log("111111")
                   return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/select' , profile: [userResult] ,token});
                 } else if (userResult.position === 'Safety Officer Technical level'){
-                  console.log("22222")
+                  // console.log("22222")
                   return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_role_2' , profile: [userResult] ,token});
                 } else if (userResult.position === 'Safety Officer Supervisory level'){
                   return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_role_3' , profile: [userResult] ,token});
@@ -226,20 +226,20 @@ export async function POST(request)  {
           exp: Math.floor(Date.now() / 1000) + 86400, // 1 ชั่วโมงหลังจากนี้ (ในรูปแบบของ UNIX timestamp)
           iat: Math.floor(Date.now() / 1000) // เวลาปัจจุบัน (ในรูปแบบของ UNIX timestamp)
         };
-        console.log("0000000: ", tokenPayload)
+        // console.log("0000000: ", tokenPayload)
         
         const token = jwt.sign(tokenPayload, 'user_login');
         
-        console.log("POSITION/////: ", userResult.position ,[userResult]);
+        // console.log("POSITION/////: ", userResult.position ,[userResult]);
 
         if (userResult.position === 'Safety Officer Professional level') {
-          console.log("111111");
+          // console.log("111111");
           return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/select', profile: [userResult], token });
         } else if (userResult.position === 'Safety Officer Technical level') {
-          console.log("22222");
+          // console.log("22222");
           return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_role_2', profile: [userResult], token });
         } else if (userResult.position === 'Safety Officer Supervisory level') {
-          console.log("33333");
+          // console.log("33333");
           return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_role_3', profile: [userResult], token });
         }
             

@@ -17,7 +17,7 @@ export async function POST(request)  {
         PIN,
       } = res;
 
-      console.log("RES_ROUTE: ",res);
+      // console.log("RES_ROUTE: ",res);
 
 
       if (PIN_confirm === PIN) {
@@ -27,7 +27,7 @@ export async function POST(request)  {
       }
 
     } catch (error) {
-      console.error('Error change password:', error);
+      // console.error('Error change password:', error);
       return NextResponse.json({ success: false, error: error.message }, { res });
     }
   } else {

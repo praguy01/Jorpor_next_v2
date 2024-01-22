@@ -23,7 +23,6 @@ export default  function CompLogin() {
 
   useEffect(() => {
             const TOKEN = localStorage.user_login;
-            console.log("Token: ",TOKEN)
             if (TOKEN){
                 const base64Url = TOKEN.split('.')[1];
                 const base64 = base64Url.replace('-', '+').replace('_', '/');
@@ -102,9 +101,6 @@ export default  function CompLogin() {
             }
           }
         }
-
-
-    console.log("storage: ",localStorage);
   
     const rememberedData = localStorage.getItem('rememberedData');
     if (rememberedData) {
@@ -189,9 +185,7 @@ export default  function CompLogin() {
 
       if (response.status === 200) {
         if (resdata.success === true) {
-          
-console.log("resdata.profile[0]: ",resdata.profile)
-          
+                    
           if (rememberPassword) {
 
             const storedData = localStorage.getItem('rememberedData');
@@ -207,9 +201,7 @@ console.log("resdata.profile[0]: ",resdata.profile)
               { employee: formData.employee, password: formData.password }
             ];
         
-            console.log("newremember: ",newrememberedData)
             rememberedData = [...rememberedData, ...newrememberedData];
-            console.log("rememberedData: ",rememberedData)
         
           
             localStorage.setItem('rememberedData', JSON.stringify(rememberedData));
@@ -221,7 +213,6 @@ console.log("resdata.profile[0]: ",resdata.profile)
             const storedToken = localStorage.getItem('user_login');
             try {
 
-                // const token = localStorage.getItem('user_login')
                 const base64Url = token.split('.')[1];
                 const base64 = base64Url.replace('-', '+').replace('_', '/');
                 const Token = JSON.parse(atob(base64));
@@ -280,10 +271,7 @@ console.log("resdata.profile[0]: ",resdata.profile)
               <span>JorPor</span>
 
             </div>
-            {/* <div className='text-white font-ntr '>
-                <Link href="/" className=' text-[20px] px-4 py-1 rounded-md text-[#fff] hover:text-[#5A985E] hover:bg-[#fff]  '>log out</Link>
-          
-            </div> */}
+           
           </div>
           
         </div>

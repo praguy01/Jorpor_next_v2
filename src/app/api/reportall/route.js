@@ -9,7 +9,7 @@ export async function POST(request) {
     
     const res = await request.json();
     try {
-    console.log("RESS!1111!!!!!!!!!!!!!!!!!!!!!1: ",res ,res.storedId)
+    // console.log("RESS!1111!!!!!!!!!!!!!!!!!!!!!1: ",res ,res.storedId)
 
 
     if (res.fetch_role_2){
@@ -36,7 +36,7 @@ export async function POST(request) {
       // วนลูป Array เพื่อจัดกลุ่ม
       for (const data of Result) {
         
-        console.log("ITEMMM//////////////////////////",data);
+        // console.log("ITEMMM//////////////////////////",data);
         const { utcToZonedTime } = require('date-fns-tz');
         const timeZone = 'Asia/Bangkok';
   
@@ -51,7 +51,7 @@ export async function POST(request) {
     // และไม่จำเป็นต้องใช้ Promise.all
       const formattedDatenew = format(inputDate, 'dd/MM/yyyy HH:mm');
       // data.formattedDate = formattedDateA;
-      console.log("Formatted Date", formattedDatenew);
+      // console.log("Formatted Date", formattedDatenew);
 
         // const dateTime = `${day}/${month}/${year} ${hours}:${minutes}`;
         // const dateTime = inputDate.toLocaleString('en-US', { timeZone: 'Asia/Bangkok' , year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
@@ -84,7 +84,7 @@ export async function POST(request) {
         if (idResultmap) {
           try {
             item_id = JSON.parse(idResultmap);
-            console.log("Parsed item_id: ", item_id);
+            // console.log("Parsed item_id: ", item_id);
           } catch (error) {
             console.error("Error parsing JSON:", error);
             // Handle the error appropriately, e.g., log the error or set a default value
@@ -290,10 +290,10 @@ export async function POST(request) {
         // The result is an array of distinct inspector values
         const distinctInspectors = getCheckUser_R2QueryResult.map(result => result.inspector);
   
-        console.log("distinctInspectors: ",user_r1,distinctInspectors,res.storedId ,formattedDateNew)
+        // console.log("distinctInspectors: ",user_r1,distinctInspectors,res.storedId ,formattedDateNew)
 
         if (distinctInspectors.includes(user_r1)) {
-          console.log("NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOONNNN  ",user_r1)
+          // console.log("NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOONNNN  ",user_r1)
         
         const getIdQuery = "SELECT select_id FROM `select` WHERE date = ? AND user_id = ?";
         const [idResult] = await db.query(getIdQuery, [currentDateA,user_r1]);
@@ -306,7 +306,7 @@ export async function POST(request) {
         if (idResultmap) {
           try {
             item_id = JSON.parse(idResultmap);
-            console.log("Parsed item_id: ", item_id);
+            // console.log("Parsed item_id: ", item_id);
           } catch (error) {
             console.error("Error parsing JSON:", error);
             // Handle the error appropriately, e.g., log the error or set a default value
@@ -326,7 +326,7 @@ export async function POST(request) {
       
           // const nameExamineListResultmap = nameExamineListResult.map(row => row.name);
           nameList.push(nameExamineListResult);
-          console.log("nameExamineListResult: ", nameExamineListResult);
+          // console.log("nameExamineListResult: ", nameExamineListResult);
           flattenedNameList = nameList.flatMap(zone => zone.map(item => item));
           // console.log("Flattened nameList: ", flattenedNameList);
           // const uniqueFlattenedNameList = [...new Set(flattenedNameList)];
@@ -334,7 +334,7 @@ export async function POST(request) {
           
         }
       }
-          console.log("nameList: ",nameList)
+          // console.log("nameList: ",nameList)
 
         if (!dataPercent[user_r1]) {
           dataPercent[user_r1] = [];
@@ -419,19 +419,19 @@ export async function POST(request) {
                 // console.log("getChecklist_R2QueryResult: ", examineInfo.id, getexaminenameQueryResult);
 
                 const getexaminenameQueryResultMap = getexaminenameQueryResult.map(item => item.id);
-                console.log("getChecklist_R2QueryResultMap: ", examineInfo, getexaminenameQueryResultMap);
+                // console.log("getChecklist_R2QueryResultMap: ", examineInfo, getexaminenameQueryResultMap);
                 // examine_idArray.push({ examineInfo, id: getexaminenameQueryResultMap });
                 examineInfo.examinename = getexaminenameQueryResultMap
                 const getemployeeQuery = "SELECT 	id FROM employee WHERE examinelist_id = ? ";
                 const [getemployeeQueryResult] = await db.query(getemployeeQuery, [idValue]);
                 const getemployeeQueryResultMap = getemployeeQueryResult.map(item => item.id);
-                console.log("8888888888: ", getemployeeQueryResultMap, idValue );
+                // console.log("8888888888: ", getemployeeQueryResultMap, idValue );
 
                 for (const employee of getemployeeQueryResultMap){
                   // console.log("99999: ",employee,examineInfo.id)
                 const getChecklist_R2Query = "SELECT  examinename_id ,	status FROM checklist_employee_row_2 WHERE  examine_id = ? AND employee_name_id = ? AND date = ?";
                 const [getChecklist_R2QueryResult] = await db.query(getChecklist_R2Query, [examineInfo.id , employee ,  currentDateA]);
-                console.log("getChecklist_R2QueryResult888: ", getChecklist_R2QueryResult,getexaminenameQueryResult,employee);
+                // console.log("getChecklist_R2QueryResult888: ", getChecklist_R2QueryResult,getexaminenameQueryResult,employee);
                 // const examinenameIds = getChecklist_R2QueryResult.map(item => item.examinename_id);
 
                 // const isAnyIdInQueryResult = examinenameIds.some(id =>
@@ -462,9 +462,9 @@ export async function POST(request) {
                 //   examineInfo[employee] = {employee , passCount , percentage }
                 // }
 
-                console.log("totalPassCount:",totalPassCount,'employee: ',employee,'passCount: ',passCount, 'getChecklist_R2QueryResult: ' ,getChecklist_R2QueryResult ,'getexaminenameQueryResultMap: ',getexaminenameQueryResultMap,'getexaminenameQueryResultMap.length: ',getexaminenameQueryResultMap.length,'percentage; ',percentage);
+                // console.log("totalPassCount:",totalPassCount,'employee: ',employee,'passCount: ',passCount, 'getChecklist_R2QueryResult: ' ,getChecklist_R2QueryResult ,'getexaminenameQueryResultMap: ',getexaminenameQueryResultMap,'getexaminenameQueryResultMap.length: ',getexaminenameQueryResultMap.length,'percentage; ',percentage);
 
-                console.log("getexaminenameQueryResultMap.length:", getexaminenameQueryResultMap.length);
+                // console.log("getexaminenameQueryResultMap.length:", getexaminenameQueryResultMap.length);
                 // console.log("Percentage:", Math.floor(percentage), examineInfo.id);
                 // examineInfo.percentage = Math.floor(percentage);
           }
@@ -473,14 +473,14 @@ export async function POST(request) {
           const percentageAll = Math.floor((totalPassCount / (getexaminenameQueryResultMap.length * getemployeeQueryResultMap.length)) * 100);
           examineInfo.percentageAll = percentageAll;
           totalPercentage += percentageAll;
-          console.log("percentageAll,: ",percentageAll,totalPassCount,getexaminenameQueryResultMap.length, getemployeeQueryResultMap.length)
+          // console.log("percentageAll,: ",percentageAll,totalPassCount,getexaminenameQueryResultMap.length, getemployeeQueryResultMap.length)
 
         }
-          console.log("percentageAllidObject[idValue].examine_id.length:",  totalPercentage, idObject[idValue].examine_id.length );
+          // console.log("percentageAllidObject[idValue].examine_id.length:",  totalPercentage, idObject[idValue].examine_id.length );
 
         }
         const percentageZone = Math.floor((totalPercentage / (idObject[idValue].examine_id.length * 100)) * 100);
-        console.log("percentageZone:", percentageZone );
+        // console.log("percentageZone:", percentageZone );
         idObject.percentageZone = percentageZone;
         
         // console.log("8888888888888888888:", totalPercentage, idValue);
@@ -491,7 +491,7 @@ export async function POST(request) {
       }
 
       dataAll.data = dataPercent
-      console.log(dataAll. currentDateA); // แสดงค่า currentDate ที่อยู่ในอ็อบเจ็กต์ dataAll
+      // console.log(dataAll. currentDateA); // แสดงค่า currentDate ที่อยู่ในอ็อบเจ็กต์ dataAll
 
       // console.log("Final dataPercent:", dataPercent);
       // console.log("Final dataPercent dataAll ------------------------:",  dataAll);
@@ -502,8 +502,8 @@ export async function POST(request) {
 
       calPercent.push(dataAll)
       reversedCalPercentCopy = [...calPercent].reverse();
-      console.log("CalPercentCopy----------------:", calPercent);
-      console.log("reversedCalPercentCopy----------------:", reversedCalPercentCopy);
+      // console.log("CalPercentCopy----------------:", calPercent);
+      // console.log("reversedCalPercentCopy----------------:", reversedCalPercentCopy);
       groupedData.key.reverse();
 
 
@@ -539,7 +539,7 @@ export async function POST(request) {
         
         // console.log("ITEMMM",item.inspector);
 
-        console.log("ITEMMM//////////////////////////",data);
+        // console.log("ITEMMM//////////////////////////",data);
         const { utcToZonedTime } = require('date-fns-tz');
         const timeZone = 'Asia/Bangkok';
   
@@ -553,7 +553,7 @@ export async function POST(request) {
     // ในที่นี้, คุณไม่ได้ใช้ inspector หรือ inputDate ซ้ำ
     // และไม่จำเป็นต้องใช้ Promise.all
       const formattedDatenew = format(inputDate, 'dd/MM/yyyy HH:mm');
-      console.log("Formatted Date", formattedDatenew);
+      // console.log("Formatted Date", formattedDatenew);
         // const dateTime = `${day}/${month}/${year} ${hours}:${minutes}`;
         // const dateTime = inputDate.toLocaleString('en-US', { timeZone: 'Asia/Bangkok' , year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
 
@@ -583,7 +583,7 @@ export async function POST(request) {
         if (idResultmap) {
           try {
             item_id = JSON.parse(idResultmap);
-            console.log("Parsed item_id: ", item_id);
+            // console.log("Parsed item_id: ", item_id);
           } catch (error) {
             console.error("Error parsing JSON:", error);
             // Handle the error appropriately, e.g., log the error or set a default value
@@ -637,7 +637,7 @@ export async function POST(request) {
       };
 
       // แสดงผลลัพธ์
-      console.log("resultGroup",res.storedId);
+      // console.log("resultGroup",res.storedId);
       const calPercent = []
       let reversedCalPercentCopy = []
       let item_id = [];
@@ -645,8 +645,8 @@ export async function POST(request) {
       const getChecklist_R2Query = "SELECT DISTINCT date FROM checklist_examine_row_2 ";
         const [getChecklist_R2QueryResult] = await db.query(getChecklist_R2Query);
    
-        console.log("Distinct Dates:", getChecklist_R2QueryResult.map(result => result.date));
-        console.log("Number of Dates:", getChecklist_R2QueryResult.length);
+        // console.log("Distinct Dates:", getChecklist_R2QueryResult.map(result => result.date));
+        // console.log("Number of Dates:", getChecklist_R2QueryResult.length);
         
         // for (const i in getChecklist_R2QueryResult.map(result => result.date)) {
         //   if ( i === formattedDate) {
@@ -655,12 +655,12 @@ export async function POST(request) {
         const dateArray = getChecklist_R2QueryResult.map(result => result.date);
 
         
-        console.log("Reversed Distinct Dates:", dateArray);
+        // console.log("Reversed Distinct Dates:", dateArray);
 
         const hasMatchingDate = dateArray.includes(formattedDate);
          if (!hasMatchingDate) {
             dateArray.push(formattedDate);
-            console.log("Reversed Distinct Dates22222:", dateArray);
+            // console.log("Reversed Distinct Dates22222:", dateArray);
             dateArray.reverse();
 
             dateArray.splice(5);
@@ -669,8 +669,8 @@ export async function POST(request) {
           }
           // dateArray.reverse();
 
-        console.log(`Does the checklist have a date matching ${formattedDate}? ${hasMatchingDate}`);
-        console.log("DATEE-------------------: ",dateArray)
+        // console.log(`Does the checklist have a date matching ${formattedDate}? ${hasMatchingDate}`);
+        // console.log("DATEE-------------------: ",dateArray)
         // let recentDates = getChecklist_R2QueryResult.map(result => result.date);
         // const currentDate = new Date();
         // const formattedCurrentDate = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`;
@@ -682,7 +682,7 @@ export async function POST(request) {
         // const dateArray = [formattedDate];
 
         
-        console.log("DATEE1111-------------------: ",getChecklist_R2QueryResult.length , getChecklist_R2QueryResult)
+        // console.log("DATEE1111-------------------: ",getChecklist_R2QueryResult.length , getChecklist_R2QueryResult)
         // If there are more than 5 dates, take the most recent 5
         if (dateArray.length >= 5) {
           // const day = currentDate.getDate() - 5;
@@ -698,7 +698,7 @@ export async function POST(request) {
            
           } else if (dateArray.includes(formattedDate)) {
             while (dateArray.length < 5) {
-              console.log("CHECKKKKK///////////////////2222: ",dateArray)
+              // console.log("CHECKKKKK///////////////////2222: ",dateArray)
 
               currentDate.setDate(currentDate.getDate() - 1);
             
@@ -751,9 +751,9 @@ export async function POST(request) {
           // const year = currentDate.getFullYear();
           // formattedDateA = `${day}/${month}/${year}`;
         }
-        console.log("Date Array:", dateArray);
+        // console.log("Date Array:", dateArray);
 
-        console.log("Recent Dates:", formattedDateA );
+        // console.log("Recent Dates:", formattedDateA );
 
         // Subtract one day at a time until dateArray has 5 elements
      
@@ -789,10 +789,10 @@ export async function POST(request) {
         // The result is an array of distinct inspector values
         const distinctInspectors = getCheckUser_R2QueryResult.map(result => result.inspector);
   
-        console.log("distinctInspectors: ",user_r1,distinctInspectors,res.storedId ,formattedDateNew)
+        // console.log("distinctInspectors: ",user_r1,distinctInspectors,res.storedId ,formattedDateNew)
 
         if (distinctInspectors.includes(user_r1)) {
-          console.log("NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOONNNN  ",user_r1)
+          // console.log("NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOONNNN  ",user_r1)
         
         const getIdQuery = "SELECT select_id FROM `select` WHERE date = ? AND user_id = ?";
         const [idResult] = await db.query(getIdQuery, [currentDateA,user_r1]);
@@ -805,7 +805,7 @@ export async function POST(request) {
         if (idResultmap) {
           try {
             item_id = JSON.parse(idResultmap);
-            console.log("Parsed item_id: ", item_id);
+            // console.log("Parsed item_id: ", item_id);
           } catch (error) {
             console.error("Error parsing JSON:", error);
             // Handle the error appropriately, e.g., log the error or set a default value
@@ -825,7 +825,7 @@ export async function POST(request) {
       
           // const nameExamineListResultmap = nameExamineListResult.map(row => row.name);
           nameList.push(nameExamineListResult);
-          console.log("nameExamineListResult: ", nameExamineListResult);
+          // console.log("nameExamineListResult: ", nameExamineListResult);
           flattenedNameList = nameList.flatMap(zone => zone.map(item => item));
           // console.log("Flattened nameList: ", flattenedNameList);
           // const uniqueFlattenedNameList = [...new Set(flattenedNameList)];
@@ -917,19 +917,19 @@ export async function POST(request) {
                 // console.log("getChecklist_R2QueryResult: ", examineInfo.id, getexaminenameQueryResult);
 
                 const getexaminenameQueryResultMap = getexaminenameQueryResult.map(item => item.id);
-                console.log("getChecklist_R2QueryResultMap: ", examineInfo, getexaminenameQueryResultMap);
+                // console.log("getChecklist_R2QueryResultMap: ", examineInfo, getexaminenameQueryResultMap);
                 // examine_idArray.push({ examineInfo, id: getexaminenameQueryResultMap });
                 examineInfo.examinename = getexaminenameQueryResultMap
                 const getemployeeQuery = "SELECT 	id FROM employee WHERE examinelist_id = ? ";
                 const [getemployeeQueryResult] = await db.query(getemployeeQuery, [idValue]);
                 const getemployeeQueryResultMap = getemployeeQueryResult.map(item => item.id);
-                console.log("8888888888: ", getemployeeQueryResultMap, idValue );
+                // console.log("8888888888: ", getemployeeQueryResultMap, idValue );
 
                 for (const employee of getemployeeQueryResultMap){
                   // console.log("99999: ",employee,examineInfo.id)
                 const getChecklist_R2Query = "SELECT  examinename_id ,	status FROM checklist_employee_row_2 WHERE  examine_id = ? AND employee_name_id = ? AND date = ?";
                 const [getChecklist_R2QueryResult] = await db.query(getChecklist_R2Query, [examineInfo.id , employee ,  currentDateA]);
-                console.log("getChecklist_R2QueryResult888: ", getChecklist_R2QueryResult,getexaminenameQueryResult,employee);
+                // console.log("getChecklist_R2QueryResult888: ", getChecklist_R2QueryResult,getexaminenameQueryResult,employee);
                 // const examinenameIds = getChecklist_R2QueryResult.map(item => item.examinename_id);
 
                 // const isAnyIdInQueryResult = examinenameIds.some(id =>
@@ -960,9 +960,9 @@ export async function POST(request) {
                 //   examineInfo[employee] = {employee , passCount , percentage }
                 // }
 
-                console.log("totalPassCount:",totalPassCount,'employee: ',employee,'passCount: ',passCount, 'getChecklist_R2QueryResult: ' ,getChecklist_R2QueryResult ,'getexaminenameQueryResultMap: ',getexaminenameQueryResultMap,'getexaminenameQueryResultMap.length: ',getexaminenameQueryResultMap.length,'percentage; ',percentage);
+                // console.log("totalPassCount:",totalPassCount,'employee: ',employee,'passCount: ',passCount, 'getChecklist_R2QueryResult: ' ,getChecklist_R2QueryResult ,'getexaminenameQueryResultMap: ',getexaminenameQueryResultMap,'getexaminenameQueryResultMap.length: ',getexaminenameQueryResultMap.length,'percentage; ',percentage);
 
-                console.log("getexaminenameQueryResultMap.length:", getexaminenameQueryResultMap.length);
+                // console.log("getexaminenameQueryResultMap.length:", getexaminenameQueryResultMap.length);
                 // console.log("Percentage:", Math.floor(percentage), examineInfo.id);
                 // examineInfo.percentage = Math.floor(percentage);
           }
@@ -971,14 +971,14 @@ export async function POST(request) {
           const percentageAll = Math.floor((totalPassCount / (getexaminenameQueryResultMap.length * getemployeeQueryResultMap.length)) * 100);
           examineInfo.percentageAll = percentageAll;
           totalPercentage += percentageAll;
-          console.log("percentageAll,: ",percentageAll,totalPassCount,getexaminenameQueryResultMap.length, getemployeeQueryResultMap.length)
+          // console.log("percentageAll,: ",percentageAll,totalPassCount,getexaminenameQueryResultMap.length, getemployeeQueryResultMap.length)
 
         }
-          console.log("percentageAllidObject[idValue].examine_id.length:",  totalPercentage, idObject[idValue].examine_id.length );
+          // console.log("percentageAllidObject[idValue].examine_id.length:",  totalPercentage, idObject[idValue].examine_id.length );
 
         }
         const percentageZone = Math.floor((totalPercentage / (idObject[idValue].examine_id.length * 100)) * 100);
-        console.log("percentageZone:", percentageZone );
+        // console.log("percentageZone:", percentageZone );
         idObject.percentageZone = percentageZone;
         
         // console.log("8888888888888888888:", totalPercentage, idValue);
@@ -988,14 +988,14 @@ export async function POST(request) {
       
       }
       dataAll.data = dataPercent
-      console.log(dataAll. currentDateA); // แสดงค่า currentDate ที่อยู่ในอ็อบเจ็กต์ dataAll
+      // console.log(dataAll. currentDateA); // แสดงค่า currentDate ที่อยู่ในอ็อบเจ็กต์ dataAll
 
       // console.log("Final dataPercent:", dataPercent);
       // console.log("Final dataPercent dataAll ------------------------:",  dataAll);
       calPercent.push(dataAll)
       reversedCalPercentCopy = [...calPercent].reverse();
-      console.log("CalPercentCopy----------------:", calPercent);
-      console.log("reversedCalPercentCopy----------------:", reversedCalPercentCopy);
+      // console.log("CalPercentCopy----------------:", calPercent);
+      // console.log("reversedCalPercentCopy----------------:", reversedCalPercentCopy);
       groupedData.key.reverse();
 
 
@@ -1016,7 +1016,7 @@ export async function POST(request) {
         const getQuery = 'SELECT * FROM notify WHERE id = ?';
         const [responseResult] = await db.query(getQuery ,[res.id]);
 
-        console.log("rusultRoot: ",responseResult)
+        // console.log("rusultRoot: ",responseResult)
 
         return NextResponse.json({ success: true , message: 'successfully!' , responseResult: responseResult});
       } catch (error) {
@@ -1033,7 +1033,7 @@ export async function POST(request) {
         const [responseResult] = await db.query(getQuery , [res.idValue]);
 
 
-        console.log("rusultRoot: ",responseResult)
+        // console.log("rusultRoot: ",responseResult)
 
         return NextResponse.json({ success: true , message: 'successfully!' , responseResult: responseResult});
       } catch (error) {
@@ -1052,7 +1052,7 @@ export async function POST(request) {
         const [responseResult] = await db.query(getQuery);
 
 
-        console.log("rusultRoot: ",responseResult)
+        // console.log("rusultRoot: ",responseResult)
 
         return NextResponse.json({ success: true , message: 'successfully!' , responseResult: responseResult});
       } catch (error) {
@@ -1069,7 +1069,7 @@ export async function POST(request) {
         const [responseResult] = await db.query(getQuery);
 
 
-        console.log("rusultRoot: ",responseResult)
+        // console.log("rusultRoot: ",responseResult)
 
         return NextResponse.json({ success: true , message: 'successfully!' , responseResult: responseResult});
       } catch (error) {

@@ -61,17 +61,13 @@ function App() {
     const storedId = localStorage.getItem('id');
     if (storedId) {
       setId(storedId);
-      console.log("Stored: ",storedId)
     }
-    // ใน useEffect นี้คุณสามารถใช้ Axios เพื่อดึงข้อมูลจากฐานข้อมูล
     if (typeof window !== 'undefined') {
       const searchParams = new URLSearchParams(window.location.search);
       const examinelist_nameValue = searchParams.get('examinelist_name') ; // กำหนดค่าเริ่มต้นว่างไว้ถ้าไม่มีค่า
       const examinelist_idValue = searchParams.get('id') ; // กำหนดค่าเริ่มต้นว่างไว้ถ้าไม่มีค่า
 
-      console.log("queryDataexamine: ",{examinelist_nameValue,examinelist_idValue})
-
-    console.log("STARTExamine: ",useEmployee);
+     
     const fetchData = async () => {
       try {
         const AddData = { examinelist_nameValue,examinelist_idValue,storedId, fetch: true};
@@ -85,16 +81,6 @@ function App() {
         if (response.status === 200) {
           if (data.success === true) {
             console.error('data:', data);
-
-            // const examineNames = data.dbexamine_name.map(item => item.name);
-            // const examineId = data.dbexamine_name.map(item => item.id);
-            // let AllexamineId = [];
-
-            // AllexamineId.push(examineId);
-
-            
-            // setexamine_Id(AllexamineId);
-            // setexaminelist_Id(data.examinelistId);
             setTodoList(data.dbexamine_name);
 
           } else {
@@ -112,7 +98,7 @@ function App() {
     setexaminelist_name(examinelist_nameValue);
     fetchData();
   }
-  }, [reloadData,useEmployee]); // โหลดข้อมูลเมื่อค่า state reloadData เปลี่ยนแปลง
+  }, [reloadData,useEmployee]);
 
 
   const openPopup = () => {
@@ -126,7 +112,7 @@ function App() {
 
   const openEditPopup = async (index, todo) => {
     setMessage('');
-    setShowEditPopup({ isOpen: true, index, todo }); // ส่งค่า isOpen, index, และ todo ไปยัง setShowEditPopup
+    setShowEditPopup({ isOpen: true, index, todo }); 
   };
 
   const closeEditPopup = () => {
@@ -145,13 +131,11 @@ function App() {
     
     try {
 
-      console.log("useEmployee name: " ,examine_name,useEmployee  )
 
       const useEmployeeAsString = useEmployee.toString(); // แปลงค่า useEmployee เป็น string
 
       const AddData = { examine_name ,useEmployeeAsString ,examinelist_Id,examinelist_name ,id, add: true};
       const data = JSON.stringify(AddData);
-      console.log("data222: ",data)
 
       const response = await axios.post('/api/examine', data, {
         headers: { 'Content-Type': 'application/json' },
@@ -161,9 +145,7 @@ function App() {
   
       if (response.status === 200) {
         if (resdata.success === true) {
-          console.log("Message: ", resdata);
 
-          // const updatedTodoList = [...todoList, resdata.dbexamine_name];
           setTodoList(resdata.dbexamine_name);
           
           setShowAddSuccessPopup(true);
@@ -172,7 +154,7 @@ function App() {
 
           setTimeout(() => {
             setShowAddSuccessPopup(false);
-          }, 1000); // 1000 มิลลิวินาที = 1 วินาที
+          }, 1000); 
         } else {
           setMessage(resdata.error);
         }
@@ -192,12 +174,11 @@ function App() {
 
   const handleEditClick = (index) => {
     setIsEditing(true);
-    // setTodoList(updatedTodoList);
   };
 
 
   const handleCheckboxEmployee = () => {
-    setUseEmployee(true); // ใช้การกลับค่าปัจจุบันของ useEmployee
+    setUseEmployee(true); 
   }
 
   const deleteTodo = async (index, todo) => {
@@ -217,14 +198,13 @@ function App() {
         if (resdata.success === true) {
           setReloadData(prev => !prev);
 
-          console.log("Message: ", resdata);
           setShowDeleteSuccessPopup(true);
           setdeleteMessage(resdata.message);
 
 
           setTimeout(() => {
             setShowDeleteSuccessPopup(false);
-          }, 1000); // 1000 มิลลิวินาที = 1 วินาที
+          }, 1000); 
         } else {
           setMessage(resdata.error);
         }
@@ -249,9 +229,7 @@ function App() {
       
       
       const editedData = { formattedDate, id , submit: true};
-      console.log("checkbox: ",editedData)
       const data = JSON.stringify(editedData)
-      console.log("checkboxData: ",data)
 
 
       const response = await axios.post('/api/examine', data, {
@@ -262,8 +240,6 @@ function App() {
   
       if (response.status === 200) {
         if (resdata.success === true) {
-
-          console.log("Message: ", resdata);
 
           setTimeout(() => {
             router.push(resdata.redirect); 
@@ -319,7 +295,6 @@ function App() {
                       }
                     }}
                   >
-                    {/* {console.log("todooooo: ",todo)} */}
                     {isEditing ? (
                       <div>
                         <RxCross2
@@ -356,16 +331,7 @@ function App() {
                       {addmessage}
                       </div>
                     )}
-            {/* <div className='flex w-[100px] md:w-[250px] py-[30px] px-2 text-black flex-col bg-[#BEE3BA] text-center mt-[15px] rounded-[15px]'>
-              <div className='flex px-3'>
-                <input
-                  className='mt-1 p-2 w-full border border-gray-300 rounded-md'
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  placeholder="add examine"
-                />
-              </div>
-            </div> */}
+           
           </div>
         </div>
 
@@ -376,7 +342,6 @@ function App() {
           <button onClick={handleSubmit} className='mt-[20px]   md:mt-[20px]  border-[#64CE3F] bg-[#64CE3F] px-10 py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200  '>{t('submit')}</button>
         )}
           <div>
-            {/* <CompNavbar /> */}
             <div className="flex items-center ml-[0px] ">
             {!isEditing && (
               <button

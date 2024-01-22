@@ -6,7 +6,7 @@ export async function POST(request) {
     const res = await request.json();
     try {
       const {data } = res;
-      console.log("RES_ROUTE_employee: ", res);
+      // console.log("RES_ROUTE_employee: ", res);
 
       const originalDate = new Date();
 
@@ -88,7 +88,7 @@ export async function POST(request) {
           const getExamineEditQuery = "SELECT * FROM plan WHERE id = ?";
           const [ExamineEditResult] = await db.query(getExamineEditQuery, [res.item.id]);
     
-          console.log("Data_examinelistEdit: ",ExamineEditResult)
+          // console.log("Data_examinelistEdit: ",ExamineEditResult)
 
           const deleteExamineQuery = "DELETE FROM plan WHERE id = ?";
           await db.query(deleteExamineQuery, [res.item.id]);
@@ -104,7 +104,7 @@ export async function POST(request) {
           const getExamineEditQuery = "SELECT * FROM plan_r2 WHERE id = ?";
           const [ExamineEditResult] = await db.query(getExamineEditQuery, [res.item.id]);
     
-          console.log("Data_examinelistEdit: ",ExamineEditResult)
+          // console.log("Data_examinelistEdit: ",ExamineEditResult)
 
           const deleteExamineQuery = "DELETE FROM plan_r2 WHERE id = ?";
           await db.query(deleteExamineQuery, [res.item.id]);
@@ -120,7 +120,7 @@ export async function POST(request) {
           const getExamineEditQuery = "SELECT * FROM plan_r3 WHERE id = ?";
           const [ExamineEditResult] = await db.query(getExamineEditQuery, [res.item.id]);
     
-          console.log("Data_examinelistEdit: ",ExamineEditResult)
+          // console.log("Data_examinelistEdit: ",ExamineEditResult)
 
           const deleteExamineQuery = "DELETE FROM plan_r3 WHERE id = ?";
           await db.query(deleteExamineQuery, [res.item.id]);
@@ -138,7 +138,7 @@ export async function POST(request) {
 
           const getIDExamineListQuery = "SELECT id FROM examinelist WHERE name = ?";
           const [idExamineListResult] = await db.query(getIDExamineListQuery, [ res.selectedOption ]);
-          console.log("WWW: ",idExamineListResult)
+          // console.log("WWW: ",idExamineListResult)
 
           const getEmployeeQuery = "SELECT * FROM employee WHERE examinelist_id  = ?";
           const [employeeResult] = await db.query(getEmployeeQuery, [ idExamineListResult[0].id ]);

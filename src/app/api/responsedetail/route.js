@@ -7,7 +7,7 @@ export async function POST(request) {
     
     const res = await request.json();
     try {
-console.log("RESS11: ",res)
+// console.log("RESS11: ",res)
 
 if (res.submit_role_3) {
   try {
@@ -18,11 +18,11 @@ if (res.submit_role_3) {
 
     const [responseResult] = await db.query(updateQuery, [res.id]);
 
-    console.log("Result: ", responseResult);
+    // console.log("Result: ", responseResult);
 
     if (responseResult.affectedRows > 0) {
-      console.log("Update pass");
-
+      // console.log("Update pass");
+// 
       // อัปเดตข้อมูลสำเร็จ
       return NextResponse.json({ success: true, message: 'Successfully updated!', redirect: '/response_role_3' });
     } else {
@@ -44,10 +44,10 @@ if (res.submit_role_3) {
     
         const [responseResult] = await db.query(updateQuery, [res.id]);
     
-        console.log("Result: ", responseResult);
+        // console.log("Result: ", responseResult);
     
         if (responseResult.affectedRows > 0) {
-          console.log("Update pass");
+          // console.log("Update pass");
     
           // อัปเดตข้อมูลสำเร็จ
           return NextResponse.json({ success: true, message: 'Successfully updated!', redirect: '/response_role_2' });

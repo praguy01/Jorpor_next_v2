@@ -6,7 +6,7 @@ export async function POST(request) {
     const res = await request.json();
     try {
       const { examinelist_name , todo } = res;
-      console.log("RES_ROUTE_examineRes: ", res);
+      // console.log("RES_ROUTE_examineRes: ", res);
 
       if (res.add) {
         const currentDate = new Date();
@@ -24,7 +24,7 @@ export async function POST(request) {
         // if (examineExistsResult.length === 0) {
           const insertSql = "INSERT INTO examinelist (name, user_id) VALUES (?,?)";
           const insertValues = await db.query(insertSql,[res.examinelist_name , res.id]);
-          console.log("rusult55555: ",insertValues[0])
+          // console.log("rusult55555: ",insertValues[0])
 
                 
   
@@ -32,12 +32,12 @@ export async function POST(request) {
             const getExamineQuery = "SELECT * FROM examinelist WHERE user_id = ? ";
             const [examinelistResult] = await db.query(getExamineQuery , res.id);
       
-            console.log("Data_examine: ",examinelistResult[0])
+            // console.log("Data_examine: ",examinelistResult[0])
 
             const getIdQuery = "SELECT select_id FROM `select` WHERE date = ? AND user_id = ?";
             const [idResult] = await db.query(getIdQuery, [formattedDate, res.id]);
             const idResultmap = idResult.map(row => row.select_id)[0]; // Extract the string from the array
-            console.log("4444idResult: ", idResultmap);
+            // console.log("4444idResult: ", idResultmap);
           
             let item_id = [];
           
@@ -45,7 +45,7 @@ export async function POST(request) {
             if (idResultmap) {
               try {
                 item_id = JSON.parse(idResultmap);
-                console.log("Parsed item_id: ", item_id);
+                // console.log("Parsed item_id: ", item_id);
               } catch (error) {
                 console.error("Error parsing JSON:", error);
                 // Handle the error appropriately, e.g., log the error or set a default value
@@ -58,24 +58,24 @@ export async function POST(request) {
             const nameList = [];
           
             for (const item of item_id) {
-              console.log("4444: ", item);
+              // console.log("4444: ", item);
           
               const getNameExamineListQuery = "SELECT id ,name FROM examinelist WHERE id = ? AND user_id = ?";
               const [nameExamineListResult] = await db.query(getNameExamineListQuery, [item, res.id]);
           
               nameList.push(nameExamineListResult);
-              console.log("nameList: ", nameList);
+              // console.log("nameList: ", nameList);
             }
           
             flattenedNameList = nameList.flatMap(zone => zone.map(item => item));
-            console.log("Flattened nameList: ", flattenedNameList);
+            // console.log("Flattened nameList: ", flattenedNameList);
           
             // Filter out elements in examinelistResult[0] where id is in flattenedNameList
             const filteredExamineListResult = examinelistResult.filter(item =>
               !flattenedNameList.some(flattenedItem => flattenedItem.id === item.id)
             );
           
-            console.log("Filtered examinelistResult[0]: ", filteredExamineListResult);
+            // console.log("Filtered examinelistResult[0]: ", filteredExamineListResult);
 
              return NextResponse.json({ success: true, message: ` ${res.examinelist_name} created successfully` ,dbexaminelist_name: examinelistResult,dbexaminelist_nameNew:filteredExamineListResult});
           }
@@ -99,7 +99,7 @@ export async function POST(request) {
 
     const [examinelistResult] = await db.query(getExamineQuery, [res.storedUser_id]);
     // const key = examinelistResult.name + ' ' + examinelistResult.lastname;
-    console.log("Data_examineUsersSSSSSexaminelistResult: ", examinelistResult);
+    // console.log("Data_examineUsersSSSSSexaminelistResult: ", examinelistResult);
 
     if (examinelistResult.length > 0) {
 
@@ -107,7 +107,7 @@ export async function POST(request) {
 
   // Iterate through the examinelistResult array
   examinelistResult.forEach(result => {
-  console.log("Data_examineUsersSSSSS: ", result);
+  // console.log("Data_examineUsersSSSSS: ", result);
 
   // Check if the ID is not in the array, add it to the array
   const existingData = uniqueDataArray.find(item => item.id === result.id);
@@ -126,7 +126,7 @@ export async function POST(request) {
 });
 
 // Convert the set back to an array if needed
-console.log("Data_examineUsers: ", uniqueDataArray);
+// console.log("Data_examineUsers: ", uniqueDataArray);
       
   
   
@@ -141,7 +141,7 @@ const uniqueDataArray = [];
 
 // Iterate through the examinelistResult array
 examinelistResult.forEach(result => {
-console.log("Data_examineUsersSSSSS: ", result);
+// console.log("Data_examineUsersSSSSS: ", result);
 
 // Check if the ID is not in the array, add it to the array
 const existingData = uniqueDataArray.find(item => item.id === result.id);
@@ -160,7 +160,7 @@ if (!existingData) {
 });
 
 // Convert the set back to an array if needed
-console.log("Data_examineUsers: ", uniqueDataArray);
+// console.log("Data_examineUsers: ", uniqueDataArray);
     
 
 
@@ -180,12 +180,12 @@ console.log("Data_examineUsers: ", uniqueDataArray);
           const getExamineQuery = "SELECT * FROM examinelist WHERE user_id = ? ";
           const [examinelistResult] = await db.query(getExamineQuery, res.storedUser_id);
         
-          console.log("Data_examine44: ", examinelistResult);
+          // console.log("Data_examine44: ", examinelistResult);
         
           const getIdQuery = "SELECT select_id FROM `select` WHERE date = ? AND user_id = ?";
           const [idResult] = await db.query(getIdQuery, [formattedDate, res.storedUser_id]);
           const idResultmap = idResult.map(row => row.select_id)[0]; // Extract the string from the array
-          console.log("4444idResult: ", idResultmap);
+          // console.log("4444idResult: ", idResultmap);
         
           let item_id = [];
         
@@ -193,7 +193,7 @@ console.log("Data_examineUsers: ", uniqueDataArray);
           if (idResultmap) {
             try {
               item_id = JSON.parse(idResultmap);
-              console.log("Parsed item_id: ", item_id);
+              // console.log("Parsed item_id: ", item_id);
             } catch (error) {
               console.error("Error parsing JSON:", error);
               // Handle the error appropriately, e.g., log the error or set a default value
@@ -206,7 +206,7 @@ console.log("Data_examineUsers: ", uniqueDataArray);
           const nameList = [];
         
           for (const item of item_id) {
-            console.log("4444: ", item);
+            // console.log("4444: ", item);
         
             const getNameExamineListQuery = "SELECT id ,name FROM examinelist WHERE id = ? AND user_id = ?";
             const [nameExamineListResult] = await db.query(getNameExamineListQuery, [item, res.storedUser_id]);
@@ -225,7 +225,7 @@ console.log("Data_examineUsers: ", uniqueDataArray);
           // console.log("Filtered examinelistResult[0]: ", filteredExamineListResult);
           // console.log("Flattened nameList: ", flattenedNameList);
 
-          console.log("nameList: ", nameList);
+          // console.log("nameList: ", nameList);
 
           return NextResponse.json({ success: true, dbexaminelist_name: examinelistResult });
         }
@@ -242,12 +242,12 @@ console.log("Data_examineUsers: ", uniqueDataArray);
           const getExamineQuery = "SELECT * FROM examinelist WHERE user_id = ? ";
           const [examinelistResult] = await db.query(getExamineQuery, res.storedUser_id);
         
-          console.log("Data_examine44: ", examinelistResult);
-        
+          // console.log("Data_examine44: ", examinelistResult);
+        // 
           const getIdQuery = "SELECT select_id FROM `select` WHERE date = ? AND user_id = ?";
           const [idResult] = await db.query(getIdQuery, [formattedDate, res.storedUser_id]);
           const idResultmap = idResult.map(row => row.select_id)[0]; // Extract the string from the array
-          console.log("4444idResult: ", idResultmap);
+          // console.log("4444idResult: ", idResultmap);
         
           let item_id = [];
         
@@ -255,7 +255,7 @@ console.log("Data_examineUsers: ", uniqueDataArray);
           if (idResultmap) {
             try {
               item_id = JSON.parse(idResultmap);
-              console.log("Parsed item_id: ", item_id);
+              // console.log("Parsed item_id: ", item_id);
             } catch (error) {
               console.error("Error parsing JSON:", error);
               // Handle the error appropriately, e.g., log the error or set a default value
@@ -268,7 +268,7 @@ console.log("Data_examineUsers: ", uniqueDataArray);
           const nameList = [];
         
           for (const item of item_id) {
-            console.log("4444: ", item);
+            // console.log("4444: ", item);
         
             const getNameExamineListQuery = "SELECT id ,name FROM examinelist WHERE id = ? AND user_id = ?";
             const [nameExamineListResult] = await db.query(getNameExamineListQuery, [item, res.storedUser_id]);
@@ -277,7 +277,7 @@ console.log("Data_examineUsers: ", uniqueDataArray);
           }
         
           flattenedNameList = nameList.flatMap(zone => zone.map(item => item));
-          console.log("Flattened nameList: ", flattenedNameList);
+          // console.log("Flatte/ned nameList: ", flattenedNameList);
         
           // Filter out elements in examinelistResult[0] where id is in flattenedNameList
           const filteredExamineListResult = examinelistResult.filter(item =>
@@ -287,7 +287,7 @@ console.log("Data_examineUsers: ", uniqueDataArray);
           // console.log("Filtered examinelistResult[0]: ", filteredExamineListResult);
           // console.log("Flattened nameList: ", flattenedNameList);
 
-          console.log("nameList: ", nameList);
+          // console.log("nameList: ", nameList);
 
           return NextResponse.json({ success: true, dbexaminelist_name: filteredExamineListResult });
         }
@@ -303,12 +303,12 @@ console.log("Data_examineUsers: ", uniqueDataArray);
         let flattenedNameList = []; // Declare outside of the try block
 
         try {
-          console.log("Data_examinelistEdit888: ",res)
+          // console.log("Data_examinelistEdit888: ",res)
 
           const getIdQuery = "SELECT select_id FROM `select` WHERE date = ? AND user_id = ?";
           const [idResult] = await db.query(getIdQuery, [formattedDate, res.storedUser_id]);
           const idResultmap = idResult.map(row => row.select_id)[0]; // Extract the string from the array
-          console.log("4444idResult666: ", idResultmap);
+          // console.log("4444idResult666: ", idResultmap);
   
           let item_id = [];
   
@@ -316,7 +316,7 @@ console.log("Data_examineUsers: ", uniqueDataArray);
           if (idResultmap) {
             try {
               item_id = JSON.parse(idResultmap);
-              console.log("Parsed item_id: ", item_id);
+              // console.log("Parsed item_id: ", item_id);
             } catch (error) {
               console.error("Error parsing JSON:", error);
               // Handle the error appropriately, e.g., log the error or set a default value
@@ -331,17 +331,17 @@ console.log("Data_examineUsers: ", uniqueDataArray);
 
           try {
             for (const item of item_id) {
-              console.log("4444: ", item);
+              // console.log("4444: ", item);
 
               const getNameExamineListQuery = "SELECT id ,name FROM examinelist WHERE id = ? AND user_id = ?";
               const [nameExamineListResult] = await db.query(getNameExamineListQuery, [item, res.storedUser_id]);
 
               nameList.push(nameExamineListResult);
-              console.log("nameList: ", nameList);
+              // console.log("nameList: ", nameList);
             }
 
             flattenedNameList = nameList.flatMap(zone => zone.map(item => item));
-            console.log("Flattened nameList: ", flattenedNameList);
+            // console.log("Flattened nameList: ", flattenedNameList);
           } catch (error) {
             console.error("Error inserting data:", error);
             // Handle the error as needed
@@ -355,7 +355,7 @@ console.log("Data_examineUsers: ", uniqueDataArray);
         }
 
         if (res.selected) {
-          console.log("8888: ", res.checkedItems);
+          // console.log("8888: ", res.checkedItems);
           const currentDate = new Date();
           const day = currentDate.getDate();
           const month = currentDate.getMonth() + 1; // เพิ่ม 1 เนื่องจากมกราคมเริ่มที่ 0
@@ -366,21 +366,21 @@ console.log("Data_examineUsers: ", uniqueDataArray);
           // Check if the data already exists
              const checkSql = "SELECT * FROM `select` WHERE date = ? AND user_id = ?";
             const checkValues = await db.query(checkSql, [formattedDate, res.id]);
-            console.log("resultcheckValues: ", checkValues);
+            // console.log("resultcheckValues: ", checkValues);
 
             if (checkValues[0].length === 0) {
               const insertSql = "INSERT INTO `select` (date, select_id, user_id) VALUES (?, ?, ?)";
               
               try {
                 const insertValues = await db.query(insertSql, [formattedDate, JSON.stringify(res.checkedItems), res.id]);
-                console.log("result55555: ", insertValues[0]);
-                console.log("Data added successfully.");
+                // console.log("result55555: ", insertValues[0]);
+                // console.log("Data added successfully.");
               } catch (error) {
                 console.error("Error inserting data:", error);
                 // Handle the error as needed
               }
             } else {
-              console.log("Data already exists, skipping insertion.");
+              // console.log("Data already exists, skipping insertion.");
             }
           return NextResponse.json({ success: true });
         }
@@ -395,24 +395,24 @@ console.log("Data_examineUsers: ", uniqueDataArray);
         let flattenedNameList = []; // Declare outside of the try block
 
         try {
-          console.log("Data_examinelistEdit888: ",res)
+          // console.log("Data_examinelistEdit888: ",res)
 
           // const getExamineEditQuery = "SELECT * FROM examinelist WHERE name = ? AND id = ?";
           // const [ExamineEditResult] = await db.query(getExamineEditQuery, [res.todo.name , res.todo.id]);
           // const checkedItems = res.checkedItems.filter(item => item !== res.todo.id);
           const checkedItemsdata = JSON.stringify(res.checkedItems);
           
-          console.log("124578ssss", checkedItemsdata);
+          // console.log("124578ssss", checkedItemsdata);
           
           const updateSql = "UPDATE `select` SET select_id = ? WHERE date = ? AND user_id = ? ";
           const updateSqlValues = await db.query(updateSql, [checkedItemsdata, formattedDate, res.id]);
           
-          console.log("124578sssscheckValues", updateSqlValues, formattedDate, res.id);
+          // console.log("124578sssscheckValues", updateSqlValues, formattedDate, res.id);
 
           const getIdQuery = "SELECT select_id FROM `select` WHERE date = ? AND user_id = ?";
           const [idResult] = await db.query(getIdQuery, [formattedDate, res.id]);
           const idResultmap = idResult.map(row => row.select_id)[0]; // Extract the string from the array
-          console.log("4444idResult: ", idResultmap);
+          // console.log("4444idResult: ", idResultmap);
   
           let item_id = [];
   
@@ -420,7 +420,7 @@ console.log("Data_examineUsers: ", uniqueDataArray);
           if (idResultmap) {
             try {
               item_id = JSON.parse(idResultmap);
-              console.log("Parsed item_id: ", item_id);
+              // console.log("Parsed item_id: ", item_id);
             } catch (error) {
               console.error("Error parsing JSON:", error);
               // Handle the error appropriately, e.g., log the error or set a default value
@@ -435,17 +435,17 @@ console.log("Data_examineUsers: ", uniqueDataArray);
 
           try {
             for (const item of item_id) {
-              console.log("4444: ", item);
+              // console.log("4444: ", item);
 
               const getNameExamineListQuery = "SELECT id ,name FROM examinelist WHERE id = ? AND user_id = ?";
               const [nameExamineListResult] = await db.query(getNameExamineListQuery, [item, res.id]);
 
               nameList.push(nameExamineListResult);
-              console.log("nameList: ", nameList);
+              // console.log("nameList: ", nameList);
             }
 
             flattenedNameList = nameList.flatMap(zone => zone.map(item => item));
-            console.log("Flattened nameList: ", flattenedNameList);
+            // console.log("Flattened nameList: ", flattenedNameList);
           } catch (error) {
             console.error("Error inserting data:", error);
             // Handle the error as needed
@@ -462,7 +462,7 @@ console.log("Data_examineUsers: ", uniqueDataArray);
         
 
       if (res.edit) {
-        console.log("Data_examinelistEdit888+++++: ",res)
+        // console.log("Data_examinelistEdit888+++++: ",res)
 
         const currentDate = new Date();
         const day = currentDate.getDate();
@@ -477,23 +477,23 @@ console.log("Data_examineUsers: ", uniqueDataArray);
           const getIdselectQuery = "SELECT select_id FROM `select` WHERE date = ? AND user_id = ?";
           const [idselectResult] = await db.query(getIdselectQuery, [formattedDate, res.id]);
           const idselectResultmap = idselectResult.map(row => row.select_id)[0]; // Extract the string from the array
-          console.log("4444idResult: ", idselectResultmap);
+          // console.log("4444idResult: ", idselectResultmap);
           const idselectResultmapjson = JSON.parse(idselectResultmap);
 
           const checkedItems = idselectResultmapjson.filter(item => item !== res.todo.id);
           const checkedItemsdata = JSON.stringify(checkedItems);
           
-          console.log("124578ssss", checkedItemsdata);
+          // console.log("124578ssss", checkedItemsdata);
           
           const updateSql = "UPDATE `select` SET select_id = ? WHERE date = ? AND user_id = ? ";
           const updateSqlValues = await db.query(updateSql, [checkedItemsdata, formattedDate, res.id]);
           
-          console.log("124578sssscheckValues", updateSqlValues, formattedDate, res.id);
+          // console.log("124578sssscheckValues", updateSqlValues, formattedDate, res.id);
 
           const getIdQuery = "SELECT select_id FROM `select` WHERE date = ? AND user_id = ?";
           const [idResult] = await db.query(getIdQuery, [formattedDate, res.id]);
           const idResultmap = idResult.map(row => row.select_id)[0]; // Extract the string from the array
-          console.log("88888idResult: ", idResultmap);
+          // console.log("88888idResult: ", idResultmap);
           const idResultmapjson = JSON.parse(idResultmap);
           // const deleteExamineQuery = "DELETE FROM examinelist WHERE name = ? AND id = ?";
           // await db.query(deleteExamineQuery, [res.todo.name , res.todo.id]);
@@ -510,7 +510,7 @@ console.log("Data_examineUsers: ", uniqueDataArray);
           const getExamineEditQuery = "SELECT * FROM examinelist WHERE name = ? AND id = ? AND user_id = ?";
           const [ExamineEditResult] = await db.query(getExamineEditQuery, [res.todo.name , res.todo.id ,res.storedUser_id]);
     
-          console.log("Data_examineEdit: ",ExamineEditResult , res.todo.name , res.todo.id ,res.storedUser_id)
+          // console.log("Data_examineEdit: ",ExamineEditResult , res.todo.name , res.todo.id ,res.storedUser_id)
 
           const deleteExamineQuery = "DELETE FROM examinelist WHERE name = ? AND id = ? AND user_id = ?";
           await db.query(deleteExamineQuery, [res.todo.name , res.todo.id ,res.storedUser_id]);

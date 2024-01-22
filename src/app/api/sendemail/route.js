@@ -10,16 +10,16 @@ export async function POST(request) {
       const checkEmailQuery1 = "SELECT COUNT(*) AS emailCount FROM users WHERE email = ?";
       const [emailCountResult1] = await db.query(checkEmailQuery1, [res.email]);
 
-      console.log("3333: ",emailCountResult1)
+      // console.log("3333: ",emailCountResult1)
       if (emailCountResult1[0]?.emailCount === 0) {
         const checkEmailQuery2 = "SELECT COUNT(*) AS emailCount FROM users_r2 WHERE email = ?";
         const [emailCountResult2] = await db.query(checkEmailQuery2, [res.email]);
-        console.log("4444: ",emailCountResult2)
+        // console.log("4444: ",emailCountResult2)
 
         if (emailCountResult2[0]?.emailCount === 0) {
           const checkEmailQuery3 = "SELECT COUNT(*) AS emailCount FROM users_r3 WHERE email = ?";
           const [emailCountResult3] = await db.query(checkEmailQuery3, [res.email]);
-          console.log("5555: ",emailCountResult3)
+          // console.log("5555: ",emailCountResult3)
 
           if (emailCountResult3[0]?.emailCount === 0) {
             return NextResponse.json({ success: false, error: 'Account not found.' }, { res });

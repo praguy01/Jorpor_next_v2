@@ -13,7 +13,7 @@ const hashPassword = async (password) => {
 };
 
 export default function CompRegister() {
-  const [PINconfirm, setPINconfirm] = useState(''); // Initialize the email state
+  const [PINconfirm, setPINconfirm] = useState(''); 
 
 
  
@@ -91,7 +91,6 @@ export default function CompRegister() {
         password: hashedPassword,
       };
   
-      console.log('Submitted Data:', requestData);
       
       const data = JSON.stringify(requestData);
       
@@ -103,28 +102,17 @@ export default function CompRegister() {
       
       const resdata = response.data; 
 
-      console.log("RESDATA: ",resdata)
-      console.log("response.status: ",response.status);
-      console.log("response.error: ",resdata.error);
-
       if (response.status === 200) {
         const resdata = response.data;
     
         if (resdata.success === true) {
           localStorage.setItem('PINconfirm', resdata.PINconfirm);
             setTimeout(() => {
-              setIsLoadingSingin(true); // เริ่มแสดง Loading
+              setIsLoadingSingin(true);
               setShowPopup(true);
-            }, 500); // รอ 1 วินาทีก่อนเปลี่ยนหน้า
+            }, 500); 
               
             
-
-          // setRegistrationMessage('');
-          // setRegistrationMessagePass("Already registered.");
-          // setTimeout(() => {
-          //   setIsLoading(true); // เริ่มแสดง Loading
-          //   window.location.href = resdata.redirect;
-          // }, 1000); // รอ 1 วินาทีก่อนเปลี่ยนหน้า
         } else {
           setRegistrationMessage(resdata.error);
           setMessage('');
@@ -144,7 +132,7 @@ export default function CompRegister() {
       setRegistrationMessagePass('');
 
     } finally {
-      setIsLoading(false); // สิ้นสุดแสดง Loading
+      setIsLoading(false); 
     }
   
   }
@@ -156,26 +144,18 @@ export default function CompRegister() {
       if (storedPIN) {
         setPINconfirm(storedPIN); 
       }    
-      console.log("LOCAL: ", localStorage);
     
     const { name, value } = e.target;
-    console.log("PIDindex: ",{ name, value })
     setFormDataConfirm({ ...formDataConfirm, [name]: value });
-    console.log("setPIN: ",{ ...formDataConfirm, [name]: value })
   
-    // ตรวจสอบถ้าความยาวของ value ถึง maxLength
     if (value.length === e.target.maxLength) {
-      // หาชื่อ input ถัดไป
       const currentInputNumber = parseInt(name.substring(3));
       const nextInputNumber = currentInputNumber + 1;
   
-      // สร้างชื่อของ input ถัดไป
       const nextInputName = `PIN${nextInputNumber}`;
   
-      // หา DOM element ของ input ถัดไป
       const nextInput = document.querySelector(`[name="${nextInputName}"]`);
   
-      // ถ้ามี input ถัดไปให้ focus ลงไป
       if (nextInput) {
         nextInput.focus();
       }
@@ -184,7 +164,6 @@ export default function CompRegister() {
 
   const handleConfirmSubmit = async (e) => {
     e.preventDefault();
-    console.log("formdataconfirm: ",formDataConfirm)
    
    
     try {
@@ -208,7 +187,6 @@ export default function CompRegister() {
 
       const listData = {requestData ,requestDataUser, confirm: true}
       const data = JSON.stringify(listData);
-      console.log("FROM_DATA: ",data)
 
 
       const response = await axios.post('/api/register', 
@@ -219,7 +197,6 @@ export default function CompRegister() {
       });
      
       const resdata = response.data;
-      console.log("RESDATA: ",resdata)
       if (response.status === 200) {
         if (resdata.success === true) {
           setMessagePass(resdata.message);
@@ -230,7 +207,6 @@ export default function CompRegister() {
             window.location.href = resdata.redirect;
           }, 1000); 
         } else {
-          console.log("RESDATA error: ", resdata.error);
           setMessagepop(resdata.error);
           setFormDataConfirm({
             PIN1: '',
@@ -260,9 +236,7 @@ export default function CompRegister() {
           <div className='text-[#fff] font-bold text-[24px]'>
             <Link href="login">JorPor</Link>
           </div>
-          {/* <div className='text-white font-ntr '>
-            <Link href="/" className='text-[20px] px-4 py-1 rounded-md text-[#fff] hover:text-[#5A985E] hover:bg-[#fff]  '>log out</Link>
-          </div> */}
+          
         </div>
       </div>
       <div>
@@ -304,8 +278,6 @@ export default function CompRegister() {
                             <p className='text-left text-[11px] ml-[10px] md:ml-[10px] mt-[15px]  md:text-[16px]'>Position</p>
                             <select id="dropdown" name="position" value={formData.position} onChange={handleInputChange} className='rounded-[20px]  pl-[15px] w-[100px]  h-[25px] text-[11px] md:text-[16px] md:w-[211px] md:h-[41px] ' >
                               <option value="">Select an option</option>
-                              {/* <option value="Safety Officer Professional level">Professional level</option>
-                              <option value="Safety Officer Technical level">Technical level</option> */}
                               <option value="Safety Officer Supervisory level">Supervisory level</option>
                             </select>
                           </div>

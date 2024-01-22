@@ -81,7 +81,7 @@ function App() {
 
         if (response.status === 200) {
           if (resdata.success === true) {
-            console.log('DATAProfile44444: ',resdata.profile[0]);
+            // console.log('DATAProfile44444: ',resdata.profile[0]);
             
             setEmployee(resdata.profile[0].employee);
             let newProfile = {
@@ -100,7 +100,7 @@ function App() {
             setEditedProfileData(newProfile);
             setProfileData(newProfile);
           
-            console.log("newDataProfile: ", newProfile);
+            // console.log("newDataProfile: ", newProfile);
 
             if (resdata.profile[0].picture.data.length > 0) {
           
@@ -136,7 +136,7 @@ function App() {
   const handleEditClick = () => {
     setIsEditing(true);
     // คัดลอกข้อมูล profileData เพื่อแก้ไข
-    console.log("editedProfileData: ",editedProfileData)
+    // console.log("editedProfileData: ",editedProfileData)
     setEditedProfileData({ ...editedProfileData });
   };
 
@@ -167,13 +167,13 @@ function App() {
       
       // ส่งข้อมูลที่แก้ไขไปยัง API
 
-      console.log("Editprofile: ", editedProfileData)
+      // console.log("Editprofile: ", editedProfileData)
       const editedData = { ...editedProfileData , edit_role_1: true };
       // formData.append('data', JSON.stringify(editedData));
       // const data = formData.get('data');
       // console.log("FormDATA: ", data);
       const data = JSON.stringify(editedData)
-      console.log("EditDATA: ", editedData)
+      // console.log("EditDATA: ", editedData)
 
       // ส่งข้อมูลไปยัง API
       const response = await axios.post('/api/profile', data, {
@@ -187,7 +187,7 @@ function App() {
       const resdata = response.data;
   
       if (response.status === 200) {
-        console.log("resdata:", resdata.message);
+        // console.log("resdata:", resdata.message);
 
         if (resdata.success === true) {
           // การบันทึกสำเร็จ ปิดโหมดแก้ไข
@@ -315,7 +315,7 @@ function App() {
                         className="absolute md:ml-[25px] ml-[-65px] ring-2 ring-white ring-offset-2 md:mt-[30px]  ring-offset-[#5A985E] w-32 h-32 mx-auto md:w-[150px] md:h-[150px] rounded-full  opacity-0  object-cover cursor-pointer"
                         onChange={handleImageUpload}
                       />
-                      {console.log("IMG: ",selectedImage)}
+                      {/* {console.log("IMG: ",selectedImage)} */}
                        <Image
                               src={selectedImage || fileData || "/img/profile.jpg"}
                               alt="Profile Image"
@@ -339,7 +339,7 @@ function App() {
                   <div className='flex flex-col  '>
                   {isEditing ? (
                     <div className=' flex mx-auto ml-[15px] md:ml-[0] mt-[6px]'>
-                      {console.log("EDITdata: ",editedProfileData)}
+                      {/* {console.log("EDITdata: ",editedProfileData)} */}
                       <input
                         type="text"
                         placeholder={editedProfileData.name}

@@ -47,72 +47,21 @@ function App() {
   const router = useRouter();
 
 
-  // useEffect(() => {
-  //   // ใน useEffect นี้คุณสามารถใช้ Axios เพื่อดึงข้อมูลจากฐานข้อมูล
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await axios.get('/api/response'); // แทน '/api/examine' ด้วยเส้นทางที่ถูกต้องไปยัง API ของคุณ
-  //       const data = response.data;
-        
-  //       console.log("response: ",response.status)
-
-  //       if (response.status === 200) {
-  //         if (data.success === true) {
-  //           console.log("DATA: ",data)
-  //           // const url = window.URL.createObjectURL(new Blob([data]));
-  //           // const a = document.createElement('a');
-  //           // a.href = url;
-  //           // a.download = 'your_pdf_file.pdf'; // ชื่อไฟล์ที่ผู้ใช้จะดาวน์โหลด
-  //           // a.click();
-  //           // window.URL.revokeObjectURL(url);
-          
-  //           // setFileData(data);
-  //         } else {
-  //           setMessage(data.error);
-  //         }
-  //       } else {
-  //         setMessage(data.error);
-  //       }
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //       setMessage('');
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []); // โหลดข้อมูลเมื่อค่า state reloadData เปลี่ยนแปลง
-
-
-  // const handleDownload = () => {
-  //   if (fileData) {
-  //     const url = window.URL.createObjectURL(new Blob([fileData]));
-  //     const a = document.createElement('a');
-  //     a.href = url;
-  //     a.download = 'file-name.ext'; // Specify the desired file name
-  //     document.body.appendChild(a);
-  //     a.click();
-  //     window.URL.revokeObjectURL(url);
-  //   }
-  // };
 
   useEffect(() => {
 
     if (typeof window !== 'undefined') {
       const searchParams = new URLSearchParams(window.location.search);
-      const responseValue = searchParams.get('response') ; // กำหนดค่าเริ่มต้นว่างไว้ถ้าไม่มีค่า
-      const idValue = searchParams.get('id') ; // กำหนดค่าเริ่มต้นว่างไว้ถ้าไม่มีค่า
+      const responseValue = searchParams.get('response') ; 
+      const idValue = searchParams.get('id') ; 
 
      
 
-      console.log("queryData: ",{responseValue , idValue})
-      
-    // ใน useEffect นี้คุณสามารถใช้ Axios เพื่อดึงข้อมูลจากฐานข้อมูล
-    const fetchData = async () => {
+      const fetchData = async () => {
       try {
 
         const AddData = { responseValue ,idValue , responseDetail_role_3 : true};
         const dataDetail = JSON.stringify(AddData);
-        console.log("send: ",dataDetail)
 
         const response = await axios.post('/api/response', dataDetail, {
           headers: { 'Content-Type': 'application/json' },
@@ -124,7 +73,6 @@ function App() {
 
         if (response.status === 200) {
           if (data.success === true) {
-            console.log("DATA: ",data)
             const notifyData = data.responseResult.map(item => ({
               title: item.title,
               employee: item.employee,
@@ -137,46 +85,21 @@ function App() {
               Verification_status: item.Verification_status
             }));
 
-            console.log("fileData: ", data.responseResult[0].file);
-            
-            // const buffer = data.responseResult[0].file.data; // ข้อมูล Buffer
-            // const fileType = 'image/jpeg'; // ประเภทของไฟล์ข้อมูล สามารถเปลี่ยนเป็นประเภทที่ถูกต้อง
-            // const blob = new Blob([buffer], { type: fileType });
-            // console.log("blob: ",blob)
+            const byteArray = data.responseResult[0].file.data; 
 
-            // const url = URL.createObjectURL(blob);
-            // const image = new Image();
-            // image.src = url;
-            // document.body.appendChild(image);
-            // console.log(buffer)
-
-            const byteArray = data.responseResult[0].file.data; // Replace ... with the full array
-
-            // Create a Uint8Array from the byte array
             const uint8Array = new Uint8Array(byteArray);
 
-            // Convert the Uint8Array to a Blob
-            const blob = new Blob([uint8Array], { type: 'image/jpeg' }); // Change 'image/jpeg' to the appropriate image type
+            const blob = new Blob([uint8Array], { type: 'image/jpeg' }); 
 
-            // Create a data URL from the Blob
             const url = URL.createObjectURL(blob);
 
-            // Create an image element and set its source to the data URL
-            // const image = new Image();
-            // image.src = url;
-
-            // Append the image element to the document body or any other HTML element
-            // document.body.appendChild(image);
-
+           
 
             setFileData(url);
-            console.log(url)
             setId(idValue)
 
 
-            console.log("notify: ",notifyData)
             setTodoList(notifyData);
-            // console.log("Test: ",notifyData[indexValue])
           } else {
             setMessage(data.error);
           }
@@ -192,93 +115,17 @@ function App() {
 
     fetchData();
   }
-  }, [reloadData]); // โหลดข้อมูลเมื่อค่า state reloadData เปลี่ยนแปลง
+  }, [reloadData]); 
 
 
-  // const fileName = data.file.name; // ชื่อไฟล์ที่อัปโหลด
-  // const fileExtension = fileName.split('.').pop(); // ดึงนามสกุลไฟล์
-
-  // const detectAndDisplayFileType = (todo) => {
-  //   const buffer = todo.file;
-  //   const fileType = detectFileType(buffer);
-  //   const blob = new Blob([buffer], { type: fileType });
-  
-  //   if (fileType === 'text/plain') {
-  //     const text = new TextDecoder().decode(buffer);
-  //     console.log('ไฟล์ข้อความ:', text);
-  //   } else if (fileType.startsWith('image/')) {
-  //     const img = document.createElement('img');
-  //     img.src = URL.createObjectURL(blob);
-  //     document.body.appendChild(img);
-  //   } else if (fileType.startsWith('application/')) {
-  //     window.open(`https://docs.google.com/viewer?url=${encodeURIComponent(URL.createObjectURL(blob))}&embedded=true`);
-  //   } else {
-  //     console.log('ไม่รู้ประเภทของไฟล์:', fileType);
-  //   }
-  // }
-  
-  // const detectFileType = (buffer) => {
-  //   // ตรวจสอบประเภทของไฟล์จากเฮ็ดเดอร์ (หากเป็นไฟล์ข้อความ) หรือช่วยจากลายเซอร์
-  //   if (isTextFile(buffer)) {
-  //     return 'text/plain';
-  //   } else if (isImageFile(buffer)) {
-  //     return 'image/jpeg'; // หรือประเภทอื่น ๆ ของรูปภาพ
-  //   } else if (isDocumentFile(buffer)) {
-  //     return 'application/msword'; // หรือประเภทอื่น ๆ ของเอกสาร
-  //   } else {
-  //     return 'application/octet-stream'; // ถ้าไม่รู้จริง ๆ ในที่นี้ให้ใช้ตามประเภททั่วไปของไฟล์
-  //   }
-  // }
-
-  // const isTextFile = (buffer,todo) => {
-  //   // ทำการตรวจสอบประเภทของไฟล์ข้อความ โดยตรวจสอบนามสกุลไฟล์หรือเนื้อหาของไฟล์
-  //   // อย่างไรก็ตาม นี่เป็นตัวอย่างง่าย โปรดปรับปรุงตามความต้องการ
-  //   const textFileExtensions = ['txt', 'csv', 'log', 'md']; // รายการนามสกุลไฟล์ข้อความที่คุณต้องการตรวจสอบ
-  
-  //   // ดึงนามสกุลไฟล์จากชื่อไฟล์ (สมมุติว่าชื่อไฟล์มีนามสกุลแนบอยู่)
-  //   const fileExtension = todo.file.name.split('.').pop().toLowerCase();
-  
-  //   // ตรวจสอบว่านามสกุลไฟล์อยู่ในรายการของไฟล์ข้อความหรือไม่
-  //   return textFileExtensions.includes(fileExtension);
-  // };
-  
-  
-  // const openFileInNewTab = () => {
-  //   if (todo.file) {
-  //     const blobURL = URL.createObjectURL(todo.file);
-  //     window.open(blobURL, '_blank');
-  //   }
-  // };
-
-
-  const formatDateTime = (isoDateTime) => {
-    const inputDate = new Date(isoDateTime);
-    const formattedDate = format(inputDate, 'dd/MM/yyyy HH:mm');
-    console.log("yyyy-MM-dd HH:mm",formattedDate);
-  // const formattedDate = moment(isoDateTime).tz('Asia/Bangkok').format('DD/MM/YYYY HH:mm');
-  // // const formattedDate = inputDate.format('DD/MM/YYYY HH:mm');
-  // console.log("Formatted Date:", formattedDate);
-
-  return formattedDate;
-};
-  
   
   const handleSubmit = async () => {
-    console.log("DDD: ",id)
     try {
 
-      // const currentDate = new Date();
-      // const day = currentDate.getDate();
-      // const month = currentDate.getMonth() + 1;
-      // const year = currentDate.getFullYear();
-      // const formattedDate = `${day}/${month}/${year}`;
-
-      
+    
       
       const editedData = { id , submit_role_3: true};
-      console.log("checkbox: ",editedData)
       const data = JSON.stringify(editedData)
-      console.log("checkboxData: ",data)
 
 
       const response = await axios.post('/api/responsedetail', data, {
@@ -290,7 +137,6 @@ function App() {
       if (response.status === 200) {
         if (resdata.success === true) {
 
-          console.log("Message: ", resdata);
 
           setTimeout(() => {
             router.push(resdata.redirect); 
@@ -322,7 +168,6 @@ function App() {
           {todoList.map((todo, index) => (
 
           <div  key={index} className='mx-auto w-[300px] md:w-[750px] lg:w-[800px] mb-[50px]  py-[30px] text-black flex flex-col  bg-[#FFF] text-center md:rounded-[50px] rounded-[30px] mt-[106px]  '>
-          {console.log("TODOOO: ",todoList)}
             
                 <div className='md:mt-[30px]'>
               
@@ -376,9 +221,7 @@ function App() {
                 <div className='mx-auto'>
                 <p className="text-[#808080] text-[13px] md:text-[16px] md:mt-[20px] ml-[-170px] md:ml-[-540px] lg:ml-[-590px] mt-[10px]">{t("Uploaded images")}</p>
 
-                {/* <h1 className=" whitespace-nowrap overflow-hidden overflow-ellipsis ml-[25px] text-left w-[245px] md:w-[705px] py-1 px-2 border mt-[5px] md:mt-[10px] md:ml-[35px] border-gray-300 p-4 rounded-lg cursor-pointer "
-                  onClick={() => openFileInNewTab()}>{detectAndDisplayFileType(todo.file)}</h1> */}
-             {/* ตัวอย่าง: แสดงรูปภาพ */}
+               
              {fileData && (
                 <div className="border mt-[20px] border-grey-800 p-2 w-[235px] ">
                   <Image width={150} height={150} src={fileData} alt="รูปภาพ" className="w-full h-full" />
@@ -397,7 +240,7 @@ function App() {
                       placeholder={todo.detail}
                       className='rounded-[10px] mt-[5px] pl-[15px] w-[250px]  h-[100px]  md:text-[16px] text-[13px] md:w-[670px] lg:w-[720px] md:h-[80px] bg-[#fff] border border-gray-300 p-4'
                       readOnly
-                    />                    {/* <textarea value={formData.detail} onChange={handleInputChange} className='border border-gray-300 rounded-md bg-[#F5F5F5] w-[250px] h-[100px] text-black text-sm pl-2 pt-2' /> */}
+                    />                    
                 </div>
                 
 

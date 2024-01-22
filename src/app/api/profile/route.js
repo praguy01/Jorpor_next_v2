@@ -18,27 +18,27 @@ export async function POST(request) {
         email,
         img
       } = res;
-      console.log("RES.Route profile88811111111: ", res);
+      // console.log("RES.Route profile88811111111: ", res);
 
 
       if (res.profile_role_1) {
           const getUserQuery = "SELECT * FROM users WHERE id = ?";
           const [userResult] = await db.query(getUserQuery, [res.storedId]);
-          console.log("list ID1: ", userResult);
+          // console.log("list ID1: ", userResult);
           return NextResponse.json({ success: true, message: 'successfully', profile: userResult });
       }
       
       if (res.profile_role_2) {
           const getUserQuery = "SELECT * FROM users_r2 WHERE id = ?";
           const [userResult] = await db.query(getUserQuery, [res.storedId]);
-          console.log("list ID2: ", userResult);
+          // console.log("list ID2: ", userResult);
           return NextResponse.json({ success: true, message: 'successfully', profile: userResult });
       }
       
       if (res.profile_role_3) {
           const getUserQuery = "SELECT * FROM users_r3 WHERE id = ?";
           const [userResult] = await db.query(getUserQuery, [res.storedId]);
-          console.log("list ID3: ", userResult);
+          // console.log("list ID3: ", userResult);
           return NextResponse.json({ success: true, message: 'successfully', profile: userResult });
       }
 
@@ -58,17 +58,17 @@ export async function POST(request) {
                 const UsersR3Query = "SELECT employee FROM users_r3 WHERE id = ?";
                 const [UsersR3Result] = await db.query(UsersR3Query, [res.id]);
     
-                console.log("list ID from users_r3: ", UsersR3Result);
+                // console.log("list ID from users_r3: ", UsersR3Result);
     
                 return NextResponse.json({ success: true, UsersResult: UsersR3Result });
             }
     
-            console.log("list ID from users_r2: ", UsersR2Result);
+            // console.log("list ID from users_r2: ", UsersR2Result);
     
             return NextResponse.json({ success: true, UsersResult: UsersR2Result });
         }
     
-        console.log("list ID from users: ", UsersResult);
+        // console.log("list ID from users: ", UsersResult);
     
         return NextResponse.json({ success: true, UsersResult });
     }
@@ -77,7 +77,7 @@ export async function POST(request) {
       // if (userResult) {
         // ค้นพบข้อมูลผู้ใช้งาน ดังนั้นเราจะตรวจสอบการเปลี่ยนแปลง
         if (res.edit_role_1) {
-          console.log("RES.Route profile_EDITTT222222222: ",res);
+          // console.log("RES.Route profile_EDITTT222222222: ",res);
 
           // const file = formData.get('file');
           // const fileBuffer = await res.picture.arrayBuffer();
@@ -88,7 +88,7 @@ export async function POST(request) {
               const fileBuffer = Buffer.from(res.img.split(',')[1], 'base64');
           
           
-          console.log("buffer333: ", fileBuffer);
+          // console.log("buffer333: ", fileBuffer);
           // มีการเปลี่ยนแปลง ดังนั้นเราจะทำการอัปเดตข้อมูล
           const updateQuery = `
             UPDATE users
@@ -104,7 +104,7 @@ export async function POST(request) {
             WHERE
                 id = ?
         `;
-        console.log('update: ',fileBuffer)
+        // console.log('update: ',fileBuffer)
 
         const updatedUserResult = await db.query(updateQuery, [
             res.name,
@@ -178,7 +178,7 @@ export async function POST(request) {
         } 
         
         if (res.edit_role_2) {
-          console.log("RES.Route profile_EDITTT222222222: ",res.picture.data.length);
+          // console.log("RES.Route profile_EDITTT222222222: ",res.picture.data.length);
 
           // const file = formData.get('file');
           // const fileBuffer = await res.picture.arrayBuffer();
@@ -189,7 +189,7 @@ export async function POST(request) {
               const fileBuffer = Buffer.from(res.img.split(',')[1], 'base64');
           
           
-          console.log("buffer333: ", fileBuffer);
+          // console.log("buffer333: ", fileBuffer);
           // มีการเปลี่ยนแปลง ดังนั้นเราจะทำการอัปเดตข้อมูล
           const updateQuery = `
             UPDATE users_r2
@@ -205,7 +205,7 @@ export async function POST(request) {
             WHERE
                 id = ?
         `;
-        console.log('update: ',fileBuffer)
+        // console.log('update: ',fileBuffer)
 
         const updatedUserResult = await db.query(updateQuery, [
             res.name,
@@ -277,7 +277,7 @@ export async function POST(request) {
         }
 
         }  if (res.edit_role_3) {
-          console.log("RES.Route profile_EDITTT222222222: ",res.picture.data.length);
+          // console.log("RES.Route profile_EDITTT222222222: ",res.picture.data.length);
 
           // const file = formData.get('file');
           // const fileBuffer = await res.picture.arrayBuffer();
@@ -288,7 +288,7 @@ export async function POST(request) {
               const fileBuffer = Buffer.from(res.img.split(',')[1], 'base64');
           
           
-          console.log("buffer333: ", fileBuffer);
+          // console.log("buffer333: ", fileBuffer);
           // มีการเปลี่ยนแปลง ดังนั้นเราจะทำการอัปเดตข้อมูล
           const updateQuery = `
             UPDATE users_r3
@@ -304,7 +304,7 @@ export async function POST(request) {
             WHERE
                 id = ?
         `;
-        console.log('update: ',fileBuffer)
+        // console.log('update: ',fileBuffer)
 
         const updatedUserResult = await db.query(updateQuery, [
             res.name,

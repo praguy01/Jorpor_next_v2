@@ -66,23 +66,23 @@ function App() {
     
     const fetchDataForSelectedOption = useCallback(async () => {
       try {
-        console.log('Selected Option88: ', selectedOption);
+        // console.log('Selected Option88: ', selectedOption);
         const storedId = localStorage.getItem('id');
 
         const AddData = { selectedOption,storedId, fetch: true };
         const data = JSON.stringify(AddData);
-        console.log('BB: ', data);
+        // console.log('BB: ', data);
     
         const response = await axios.post('/api/employee', data, {
           headers: { 'Content-Type': 'application/json' },
         });
     
         const resdata = response.data;
-        console.log('DATA111: ', resdata);
+        // console.log('DATA111: ', resdata);
     
         if (response.status === 200) {
           if (resdata.success === true) {
-            console.log('employeeDB: ', resdata.dbemployee_name.employee);
+            // console.log('employeeDB: ', resdata.dbemployee_name.employee);
             const dbEmployees = resdata.dbemployee_name || [];
     
             const employeesToAdd = dbEmployees.map((employeeData) => ({
@@ -114,19 +114,19 @@ function App() {
           const storedId = localStorage.getItem('id');
           if (storedId) {
             setId(storedId);
-            console.log('Stored: ', storedId);
+            // console.log('Stored: ', storedId);
           }
     
           const AddData = { storedId , zone: true };
           const data = JSON.stringify(AddData);
-          console.log('DD: ', data);
+          // console.log('DD: ', data);
     
           const response = await axios.post('/api/employee', data, {
             headers: { 'Content-Type': 'application/json' },
           });
     
           const resdata = response.data;
-          console.log('DATAZONEEE: ', resdata,resdata.dbnameExamineList[0]);
+          // console.log('DATAZONEEE: ', resdata,resdata.dbnameExamineList[0]);
     
           if (response.status === 200) {
             if (resdata.success === true) {
@@ -175,9 +175,9 @@ function App() {
   };
 
   const addTodo = async () => {
-    console.log("employee: ",employee)  
-    console.log("name: ",name )  
-    console.log("lastname: ",lastname,selectedOption)
+    // console.log("employee: ",employee)  
+    // console.log("name: ",name )  
+    // console.log("lastname: ",lastname,selectedOption)
     const storedId = localStorage.getItem('id');
 
     try {
@@ -197,7 +197,7 @@ function App() {
 
     const AddData = { employee, name, lastname ,selectedOption ,id, add: true };
     const data = JSON.stringify(AddData);
-    console.log("777777777777: ",data)
+    // console.log("777777777777: ",data)
   
     const response = await axios.post('/api/employee', data, {
       headers: { 'Content-Type': 'application/json' },
@@ -207,7 +207,7 @@ function App() {
   
       if (response.status === 200) {
         if (resdata.success === true) {
-          console.log("Message: ", resdata);
+          // console.log("Message: ", resdata);
 
    
           // Add the new item to the todoList
@@ -223,7 +223,7 @@ function App() {
 
         } else {
          
-          console.log("Messageresdata.error: ", resdata.error);
+          // console.log("Messageresdata.error: ", resdata.error);
           setEmployee("");
           setName("");
           setlastname("");
@@ -285,11 +285,9 @@ function App() {
         const sheet = workbook.Sheets[sheetName];
         const jsonData = XLSX.utils.sheet_to_json(sheet);
   
-        // ลูปผ่านข้อมูลที่ได้จาก Excel และส่งไปยัง API
         for (const item of jsonData) {
           const { employee, name, lastname } = item; // ประมวลผลข้อมูลจากแต่ละแถวของ Excel
-          const AddData = { employee, name, lastname,selectedOption ,id,add: true };
-          console.log("Excel: ",AddData)
+          const AddData = { employee, name, lastname,selectedOption ,id, add: true };
 
           const response = await axios.post('/api/employee', AddData, {
             headers: { 'Content-Type': 'application/json' },
@@ -298,7 +296,6 @@ function App() {
           const resdata = response.data;
   
           if (response.status === 200 && resdata.success === true) {
-            console.log("DATAAAAA: 00 : ",resdata)
             setTodoList(() => [
               ...resdata.dbemployee.map((employeeData) => ({
                 employee: employeeData.employee,
@@ -308,7 +305,7 @@ function App() {
             ]);
             
             
-            console.log("DATAAAAA: 11 : ",resdata.dbemployee.employee,resdata.dbemployee.name,resdata.dbemployee.lastname,)
+            // console.log("DATAAAAA: 11 : ",resdata.dbemployee.employee,resdata.dbemployee.name,resdata.dbemployee.lastname,)
 
             setUploadFile(true)
             setShowAddSuccessPopup(true);
@@ -343,7 +340,7 @@ function App() {
   };
 
   const handleDropdownChange = (event) => {
-    console.log("event.target.value: ",event.target.value)
+    // console.log("event.target.value: ",event.target.value)
     setSelectedOption(event.target.value); // เมื่อเลือกตัวเลือกใน Dropdown ให้อัปเดต state
   };
 
@@ -361,7 +358,7 @@ function App() {
   };
 
   const openEditPopup = async (index, todo ) => {
-    console.log("TODOO: ",todo)
+    // console.log("TODOO: ",todo)
     setMessage('');
     setShowEditPopup({ isOpen: true, index, todo  }); 
   };
@@ -371,7 +368,7 @@ function App() {
       // ตรงนี้คุณใช้ตัวแปร id ที่ไม่ได้ถูกกำหนดค่า
       const editedData = { ...todo, id, selectedOption , edit_role_1: true };
       const data = JSON.stringify(editedData)
-      console.log("datadelete: ",data)
+      // console.log("datadelete: ",data)
 
       const response = await axios.post('/api/employee', data,  {
         headers: { 'Content-Type': 'application/json' },
@@ -385,14 +382,14 @@ function App() {
         if (resdata.success === true) {
           setReloadData(prev => !prev);
 
-          console.log("Message: ", resdata.dbemployee_name);
+          // console.log("Message: ", resdata.dbemployee_name);
           setdeleteMessage(resdata.message);
           setTodoList(resdata.dbemployee_name);  
 
           setTimeout(() => {
             setdeleteMessage(false);
           }, 1000); 
-          console.log("UPDATE: ",todoList)
+          // console.log("UPDATE: ",todoList)
 
         } else {
           setMessage(resdata.error);
@@ -542,14 +539,14 @@ function App() {
               >
                 {nameExamineList.length > 0 && nameExamineList.map((name, index) => (
                   <option key={index} value={name.id}>
-                   {console.log("selectedOption::::11 ",name)}
+                   {/* {console.log("selectedOption::::11 ",name)} */}
 
                     {name.name}
                   </option>
                 ))}
               </select>
               </div>
-              {console.log("selectedOption:::: ",selectedOption ,selectedOption.name ,nameExamineList)}
+              {/* {console.log("selectedOption:::: ",selectedOption ,selectedOption.name ,nameExamineList)} */}
 
               {selectedOption  && (
               <div className='mt-[20px]'>

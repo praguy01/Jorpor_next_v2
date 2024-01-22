@@ -39,11 +39,9 @@ function App() {
 
 
     useEffect(() => {
-      // ใน useEffect นี้คุณสามารถใช้ Axios เพื่อดึงข้อมูลจากฐานข้อมูล
       const storedId = localStorage.getItem('id');
       if (storedId) {
         setId(storedId);
-        console.log("Stored: ",storedId)
       }
 
       const fetchData = async () => {
@@ -51,7 +49,6 @@ function App() {
           
         const AddData = { storedId , fetch : true};
         const dataDetail = JSON.stringify(AddData);
-        console.log("send: ",dataDetail)
 
         const response = await axios.post('/api/response', dataDetail, {
           headers: { 'Content-Type': 'application/json' },
@@ -64,7 +61,6 @@ function App() {
   
           if (response.status === 200) {
             if (data.success === true) {
-              console.log("DATA: ",data)
 
               const notifyData = data.dbnotify_name.map(item => ({
                 id: item.id,
@@ -86,24 +82,12 @@ function App() {
       };
   
       fetchData();
-    }, [reloadData]); // โหลดข้อมูลเมื่อค่า state reloadData เปลี่ยนแปลง
+    }, [reloadData]);
 
 
-
-    const formatDateTime = (isoDateTime) => {
-      const inputDate = new Date(isoDateTime);
-      const formattedDate = format(inputDate, 'dd/MM/yyyy HH:mm');
-      console.log("yyyy-MM-dd HH:mm",formattedDate);
-    // const formattedDate = moment(isoDateTime).tz('Asia/Bangkok').format('DD/MM/YYYY HH:mm');
-    // // const formattedDate = inputDate.format('DD/MM/YYYY HH:mm');
-    // console.log("Formatted Date:", formattedDate);
-  
-    return formattedDate;
-  };
 
   const handleEditClick = (index) => {
     setIsEditing(true);
-    // setTodoList(updatedTodoList);
   };
 
 
@@ -111,10 +95,8 @@ function App() {
     try {
       const storedId = localStorage.getItem('id');
 
-      // ตรงนี้คุณใช้ตัวแปร id ที่ไม่ได้ถูกกำหนดค่า
       const editedData = { todo, storedId , edit: true };
       const data = JSON.stringify(editedData)
-      console.log("datadelete: ",data)
 
 
       const response = await axios.post('/api/response', data,  {
@@ -129,7 +111,6 @@ function App() {
         if (resdata.success === true) {
           setReloadData(prev => !prev);
 
-          console.log("Message: ", resdata.dbnotify_name);
           setdeleteMessage(resdata.message);
           const notifyData = resdata.dbnotify_name.map(item => ({
             id: item.id,
@@ -142,7 +123,6 @@ function App() {
           setTimeout(() => {
             setdeleteMessage(false);
           }, 1000); 
-          console.log("UPDATE: ",notifyData)
 
         } else {
           setMessage(resdata.error);
@@ -157,7 +137,6 @@ function App() {
 }
     
   const openEditPopup = async (index, todo ) => {
-    console.log("TODOO: ",todo)
     setMessage('');
     setShowEditPopup({ isOpen: true, index, todo  }); 
   };
@@ -195,10 +174,8 @@ function App() {
                 <>
                   {todoList.map((todo, index) => (
                     <div key={index} className={'mx-auto  mt-[8px] w-[250px] p-2 h-[100px] md:h-[105px] md:w-[600px] lg:w-[700px] px-2 text-black flex-col bg-[#FFF] text-center rounded-[15px] '}>
-                      {/* {console.log("TODOLIST: ",todoList)} */}
                       <div className='flex justify-center  h-[40px] md:ml-[15px] lg:ml-[20px] mt-[5px]'>
                         {isEditing ? (
-                          // ไม่ให้ใช้ Link เมื่อ isEditing เป็น true
                           <div className='flex  '>
                             <p className='text-[#000]   text-[14px] text-left md:text-[18px] w-[210px] md:w-[500px] lg:w-[598px]  break-words whitespace-pre-wrap'>
                               {todo.title}  <span className='text-gray-500 text-[12px] md:text-[15px]'>{todo.date} {t('N')}</span>
@@ -212,7 +189,6 @@ function App() {
                             />
                           </div>
                         ) : (
-                          // ให้ใช้ Link เมื่อ isEditing เป็น false
                           <Link href={`/responsedetail_role_1?response=${todo.title}&id=${todo.id}`} key={index}>
                             <p className='text-[#000]  ml-[5px]  text-[14px] text-left md:text-[18px] w-[230px] md:w-[580px] lg:w-[670px]  break-words whitespace-pre-wrap'>
                               {todo.title}  <span className='text-gray-500 text-[12px] md:text-[15px]'>{todo.date} {t('N')}</span>

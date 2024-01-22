@@ -6,7 +6,7 @@ export async function POST(request) {
     const res = await request.json();
     try {
       const {datasend } = res;
-      console.log("RES_ROUTE_checklistexamineEmployee: ", res);
+      // console.log("RES_ROUTE_checklistexamineEmployee: ", res);
      
 
       if (res.checkbox) {

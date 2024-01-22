@@ -20,7 +20,7 @@ export async function POST(request)  {
         code
       } = res;
 
-      console.log("RES_ROUTE: ",res);
+      // console.log("RES_ROUTE: ",res);
 
 
       const passwordMatch = await bcrypt.compare(confirmpassword, newpassword);
@@ -50,7 +50,7 @@ export async function POST(request)  {
 
         const userResults = [...userResultTable1, ...userResultTable2, ...userResultTable3];
       
-        console.log("USER CHANGE:", userResults);
+        // console.log("USER CHANGE:", userResults);
       
         if (userResults.length === 0) {
           return NextResponse.json({ success: false, error: 'User not found.' });

@@ -20,13 +20,13 @@ export async function POST(request) {
         line,
         email
       } = res;
-      console.log("RES.Route profile: ", res);
+      // console.log("RES.Route profile: ", res);
 
     
       const getUserQuery = "SELECT * FROM users WHERE employee = ?";
       const [userResult] = await db.query(getUserQuery, [employee]);
 
-      console.log("userResult: ",userResult)
+      // console.log("userResult: ",userResult)
       if (userResult) {
         if (res.edit) {
           const updateQuery = `
@@ -79,7 +79,7 @@ export async function POST(request) {
         return NextResponse.json({ success: false, message: 'User not found' });
       }
     } catch (error) {
-      console.error('Error Profile:', error);
+      // console.error('Error Profile:', error);
       return NextResponse.json({ success: false, error: error.message });
     }
   } else {

@@ -6,7 +6,7 @@ export async function POST(request) {
     const res = await request.json();
     try {
       const { examine_name , todo } = res;
-      console.log("RES_ROUTE_examineRes: ", res);
+      // console.log("RES_ROUTE_examineRes: ", res);
 
       if (res.fetch) {
 
@@ -18,8 +18,8 @@ export async function POST(request) {
         const getExamineQuery = "SELECT id,name FROM examine WHERE examinelist_id = ? ";
         const [examineResult] = await db.query(getExamineQuery , res.examinelist_idValue);
   
-        console.log("Data_examine11: ",examineResult)
-        console.log("Data_examine_id: ",examineResult.id)
+        // console.log("Data_examine11: ",examineResult)
+        // console.log("Data_examine_id: ",examineResult.id)
 
   
         return NextResponse.json({ success: true ,dbexamine_name: examineResult });
@@ -36,7 +36,7 @@ export async function POST(request) {
           const getExamineEditQuery = "SELECT * FROM examine  WHERE name = ? AND examinelist_id = ? ";
           const [ExamineEditResult] = await db.query(getExamineEditQuery, [res.todo , res.examinelist_Id ,res.id]);
     
-          console.log("Data_examineEdit: ",ExamineEditResult)
+          // console.log("Data_examineEdit: ",ExamineEditResult)
 
           const deleteExamineQuery = "DELETE FROM examine  WHERE name = ? AND examinelist_id = ?";
           await db.query(deleteExamineQuery, [res.todo , res.examinelist_Id ,res.id]);
@@ -73,7 +73,7 @@ export async function POST(request) {
             const examine_id = examineIdResult[0].id;
             // const examineResultmap = examineIdResult.map(row => row.name);
 
-            console.log("ID: ", examineIdResult);
+            // console.log("ID: ", examineIdResult);
         
             return NextResponse.json({
               success: true,

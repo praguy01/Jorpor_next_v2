@@ -66,23 +66,23 @@ function App() {
           const storedId = localStorage.getItem('id');
           if (storedId) {
             setId(storedId);
-            console.log('Stored: ', storedId);
+            // console.log('Stored: ', storedId);
           }
   
           const AddData = { storedId ,fetch_role_2: true};
           const data = JSON.stringify(AddData);
-          console.log('DD: ', data);
+          // console.log('DD: ', data);
   
           const response = await axios.post('/api/employee', data, {
             headers: { 'Content-Type': 'application/json' },
           });
   
           const resdata = response.data;
-          console.log('DATA: ', resdata);
+          // console.log('DATA: ', resdata);
   
           if (response.status === 200) {
             if (resdata.success === true) {
-              console.log("55555555555555",resdata.dbemployee_name              );
+              // console.log("55555555555555",resdata.dbemployee_name              );
 
               // setSelectedOption(resdata.dbnameExamineList[0]);
               setTodoList(resdata.dbemployee_name);
@@ -182,9 +182,9 @@ function App() {
   };
 
   const addTodo = async () => {
-    console.log("employee: ",employee)  
-    console.log("name: ",name )  
-    console.log("lastname: ",lastname)
+    // console.log("employee: ",employee)  
+    // console.log("name: ",name )  
+    // console.log("lastname: ",lastname)
 
     try {
       if (!formData.employee || !formData.name || !formData.lastname) {
@@ -210,11 +210,11 @@ function App() {
           add_role_2: true
         };
     
-        console.log('Submitted Data:', requestData);
+        // console.log('Submitted Data:', requestData);
         
         const data = JSON.stringify(requestData);
         
-        console.log('Submitted1111:', data);
+        // console.log('Submitted1111:', data);
 
         const response = await axios.post('/api/employee', {
           ...requestData
@@ -224,13 +224,13 @@ function App() {
         
         const resdata = response.data; 
   
-        console.log("RESDATA: ",resdata)
-        console.log("response.status: ",response.status);
-        console.log("response.error: ",resdata.error);
+        // console.log("RESDATA: ",resdata)
+        // console.log("response.status: ",response.status);
+        // console.log("response.error: ",resdata.error);
   
       if (response.status === 200) {
         if (resdata.success === true) {
-          console.log("Message: ", resdata);
+          // console.log("Message: ", resdata);
 
    
           // Add the new item to the todoList
@@ -250,7 +250,7 @@ function App() {
             lastname: '',
             password: '',
           });
-          console.log("Messageresdata.error: ", resdata.error);
+          // console.log("Messageresdata.error: ", resdata.error);
 
           setErraddMessage(true);
           setErrorAddMessage(resdata.error);
@@ -314,7 +314,7 @@ function App() {
         for (const item of jsonData) {
           const { employee, name, lastname } = item; // ประมวลผลข้อมูลจากแต่ละแถวของ Excel
           const AddData = { employee, name, lastname,selectedOption ,id,add: true };
-          console.log("Excel: ",AddData)
+          // console.log("Excel: ",AddData)
 
           const response = await axios.post('/api/employee', AddData, {
             headers: { 'Content-Type': 'application/json' },
@@ -362,7 +362,7 @@ function App() {
   };
 
   const handleDropdownChange = (event) => {
-    console.log("event.target.value: ",event.target.value)
+    // console.log("event.target.value: ",event.target.value)
     setSelectedOption(event.target.value); // เมื่อเลือกตัวเลือกใน Dropdown ให้อัปเดต state
   };
 
@@ -389,7 +389,7 @@ function App() {
   };
 
   const openEditPopup = async (index, todo ) => {
-    console.log("TODOO: ",todo)
+    // console.log("TODOO: ",todo)
     setMessage('');
     setShowEditPopup({ isOpen: true, index, todo  }); 
   };
@@ -399,7 +399,7 @@ function App() {
       // ตรงนี้คุณใช้ตัวแปร id ที่ไม่ได้ถูกกำหนดค่า
       const editedData = { ...todo, id,  edit_role_2: true };
       const data = JSON.stringify(editedData)
-      console.log("datadelete: ",data)
+      // console.log("datadelete: ",data)
 
       const response = await axios.post('/api/employee', data,  {
         headers: { 'Content-Type': 'application/json' },
@@ -415,13 +415,13 @@ function App() {
 
           // setReloadData(prev => !prev);
 
-          console.log("Message: ", resdata.dbemployee_name);
+          // console.log("Message: ", resdata.dbemployee_name);
           setdeleteMessage(resdata.message);
 
           setTimeout(() => {
             setdeleteMessage(false);
           }, 1000); 
-          console.log("UPDATE: ",todoList)
+          // console.log("UPDATE: ",todoList)
 
         } else {
           setMessage(resdata.error);
@@ -528,7 +528,7 @@ function App() {
             <div className='mx-auto w-[330px] md:w-[700px] lg:w-[800px] h-[400px]  text-black flex flex-col  bg-[#FFF] mb-[50px] rounded-b-[20px] md:rounded-b-[20px]   overflow-auto'>
               <div className='mx-auto w-[330px] md:w-[700px] lg:w-[800px] h-[380px]  text-black flex flex-col bg-[#FFF] mb-[20px] rounded-b-[20px] md:rounded-b-[20px]   overflow-auto'>
 
-                    {console.log("todo: ",todoList)}
+                    {/* {console.log("todo: ",todoList)} */}
                     { todoList.length === 0 && (
                       <div className='  mx-auto justify-center text-center mt-5 text-black'>
                       <div className='p-2 px-6'>

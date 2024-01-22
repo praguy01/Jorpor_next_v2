@@ -62,10 +62,8 @@ function App() {
       const dateValue = searchParams.get('date') ; // กำหนดค่าเริ่มต้นว่างไว้ถ้าไม่มีค่า
 
      
-      console.log("queryDataexamine: ",{user_IdValue , dateValue })
       const storedDate = localStorage.getItem("date");
 
-      console.log("DATEEE: ",storedDate , dateValue)
       if (storedDate  <= dateValue) {
         setSent(false);
       } else {
@@ -76,8 +74,7 @@ function App() {
       try {
         const storedId = localStorage.getItem('id');
         if (storedId) {
-          // setIdUser(storedId);
-          console.log('Stored: ', storedId);
+
         }
         const AddData = {user_IdValue,storedId , fetch_role_2: true};
         const fetchdata = JSON.stringify(AddData);
@@ -90,7 +87,6 @@ function App() {
         if (response.status === 200) {
           if (data.success === true) {
             const ResultList = data.dbData
-          console.log("77777777777777 ",data)
 
               
           setNameExamine(ResultList)
@@ -123,27 +119,22 @@ function App() {
       const storedId = localStorage.getItem('id');
     if (storedId) {
       setIdUser(storedId);
-      console.log('Stored: ', storedId);
     }
-      console.log('Selected Option: ', nameExamineList);
 
       const AddData = { id,storedId, option_role_2_3: true };
       const data = JSON.stringify(AddData);
-      console.log('BB: ', data);
 
       const response = await axios.post('/api/reportResultsPdf', data, {
         headers: { 'Content-Type': 'application/json' },
       });
 
       const resdata = response.data;
-      console.log('DATA111: ', resdata);
 
       if (response.status === 200) {
         if (resdata.success === true) {
 
           const checkList_results = []
           const ResultList = resdata.dbData
-          console.log("888888888888888 ",ResultList)
 
           const Date = ResultList.date;
 
@@ -179,79 +170,13 @@ function App() {
   }, [selectedOption, fetchDataForSelectedOption]);
 
   const handleDropdownChange = (event) => {
-    console.log("event.target.value: ",event.target.value)
     setSelectedOption(event.target.value); // เมื่อเลือกตัวเลือกใน Dropdown ให้อัปเดต state
   };
 
 
   const handleDropdownExamineChange = (event) => {
-    console.log("event.target.value: ",event.target.value)
     setSelectedExamineOption(event.target.value); // เมื่อเลือกตัวเลือกใน Dropdown ให้อัปเดต state
   };
-
-
-  // const fetchDataExamine = async () => {
-  //   try {
-
-  //     const AddData = { selectedOption ,selectedExamineOption , selectExamine: true};
-  //     const fetchdata = JSON.stringify(AddData);
-
-  //     // console.log("444: ",fetchdata)
-
-  //     const response = await axios.post('/api/reportResults', fetchdata, {
-  //       headers: { 'Content-Type': 'application/json' },
-  //     });    
-  //     const data = response.data;
-
-  //     if (response.status === 200) {
-  //       if (data.success === true) {
-         
-  //         console.log("Datamm: ",data.dbData)
-     
-
-  //         let checklistToAdd = [];
-          
-
-          
-  //         const dbData = data.dbData || [];
-  //         dbData.forEach((checkListData) => {
-  //           const Data = {
-  //             examinename: checkListData.examinename,
-  //             details: checkListData.details,
-  //             status: checkListData.status
-  //           };
-  //            checklistToAdd.push(Data);
-  //            const Data_1 = {
-  //             date: checkListData.date,
-  //             name: checkListData.name,
-  //             lastname: checkListData.lastname
-
-  //           };
-  //           setcheckList(Data_1)
-  //           console.log("data.dbData: ",checkList)
-
-  //       })
-
-          
-  //         const newTodoList = [...checklistToAdd];
-  //         setTodoList(newTodoList)
-  //         console.log("datachecklist: ",newTodoList)
-  //       } else {
-  //         setMessage(data.error);
-  //       }
-  //     } else {
-  //       setMessage(data.error);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error fetching data:', error);
-  //     setMessage('');
-  //   }
-  //   setMessage('');
-
-  // };
-
-
-  // Call the second useEffect function when the selected option changes
 
 
   const [formData, setFormData] = useState({
@@ -273,7 +198,6 @@ function App() {
     const { name, value, files } = e.target;
   
     if (name === 'file') {
-      // หากเป็นฟิลด์ 'file' ให้ดึงข้อมูลของไฟล์และเก็บชื่อไฟล์
       setFormData({
         ...formData,
         [name]: files[0],
@@ -288,37 +212,11 @@ function App() {
   };
 
 
-  // const handleSubmit = async () => {
-    // if (
-    //   formData.detail === ''
-    // ) {
-    //   setMessage('Please fill out all required fields.');
-    // } else {
-    // const isSuccess = await onSubmit(formData ,nameExamine );
-
-    // if (isSuccess) {
-    //   setMessage('');
-    // } else {
-    //   setMessage('An error occurred while submitting the data.');
-    // }
-  // }
-  // };
-
   const handleSubmit = async () => {
   
     
     try {
-     
-      // const formData = new FormData();
-      // formData.append('title', data.title);
-      // formData.append('employee', data.employee);
-      // formData.append('location', data.location);
-      // formData.append('work_owner', data.work_owner);
-      // formData.append('position', data.position);
-      // formData.append('dateTime', data.dateTime);
-      // formData.append('detail', data.detail);
-      // formData.append('file', data.file);
-      // formData.append('file_name', data.file_name);
+    
 
       const sendData = {
         nameExamine,
@@ -331,20 +229,7 @@ function App() {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
-      // const requestData = {
-      //   ...data,
-      // };
-      
-      // console.log('Submitted Data:', requestData);
-      
-      // // const dataform = JSON.stringify(requestData);
-      
-      // const response = await axios.post('/api/notify', {
-      //   requestData
-      // }, {
-      //   headers: { 'Content-Type': 'application/json' }
-      // });
-      
+     
       
       const resdata = response.data; 
 
@@ -354,26 +239,22 @@ function App() {
         if (resdata.success === true) {
           setShowSuccessPopup(true)
           setaddMessage(resdata.message);
-          // setnotifyMessage('');
           setSent(true)
 
           setTimeout(() => {
             setShowSuccessPopup(false);
             router.push(resdata.redirect);
-          }, 1000); // 1000 milliseconds = 1 second
+          }, 1000); 
         } else {
-          // setnotifyMessage(resdata.error);
           setMessage('');
 
         }
       } else {
-        // setnotifyMessage(resdata.error);
         setMessage('');
 
       }
     } catch (error) {
       console.error('Error registering: ', error);
-      // setnotifyMessage(error);
       setMessage('');
 
     } 
@@ -381,279 +262,6 @@ function App() {
   }
 
 
-  // Example: Applying specific styles for PDF
-// const generatePDF = () => {
-//   const element = document.getElementById('pdf-content');
-//   const pdf = new jsPDF('p', 'mm', 'a4');
-  
-//   // Add title
-//   pdf.text('Verified information', 20, 10);
-
-//   html2canvas(element, { scale: 1.5, logging: true, useCORS: true })
-//     .then((canvas) => {
-//       const imgData = canvas.toDataURL('image/png');
-//       const pdfWidth = pdf.internal.pageSize.getWidth();
-//       const pdfHeight = pdf.internal.pageSize.getHeight();
-//       const imgWidth = pdfWidth - 20;
-//       const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-//       pdf.addImage(imgData, 'PNG', 10, 20, imgWidth, imgHeight);
-//       pdf.save('report.pdf');
-//     });
-// };
-
-// const generatePDF = async () => {
-//   let currentHeight = 0;
-//   const maxPageHeight = 800; // Set the maximum height of a page
-//   const container = document.createElement("div");
-//   container.style.width = "610px"; // Adjust the width to fit the paper size (A4 width in pixels)
-//   container.style.minHeight = "1123px"; // A4 height in pixels (approx. 297mm * 3.78 pixels/mm)
-//   container.style.margin = "0 auto"; // Center the content
-  
-
-//   const createNewPage = () => {
-//     const newContent = document.createElement("div");
-//     newContent.style.width = "100%";
-//     newContent.style.height = "100%";
-//     newContent.innerHTML = '<ul></ul>';
-//     container.appendChild(newContent);
-//     currentHeight = 0;
-//     return newContent;
-//   };
-
-//   let currentPage = createNewPage();
-//   let content = currentPage;
-
-//   content.id = "pdf-content";
-//   content.innerHTML = `
-//     <div class="text-center mb-4"> 
-//       <h1 class="text-black text-[16px] ">แบบรายงานผลการตรวจสอบความปลอดภัย</h1>
-//     </div>
-//     <div class="data-summary text-black text-[14px]">
-//       <p class='mt-5 '>ผู้ตรวจสอบความปลอดภัย : ${nameExamine.inspector}</p>
-//       <p class='mt-2 '>วัน เดือน ปี เวลา ที่ตรวจ : ${nameExamine.date} น.</p>
-//       <ul></ul>
-//     </div>
-//   `;
-  
-//   if (nameExamine && nameExamine.items) {
-//     try {
-//       for (const item of nameExamine.items) {
-//         const itemContainer = document.createElement("div");
-//         const examineHeader = document.createElement("h1");
-//         examineHeader.classList.add("text-left", "text-black", "text-[13px]", 'font-bold', "mt-[10px]");
-//         examineHeader.textContent = ` ${item.name}`;
-//         itemContainer.appendChild(examineHeader);
-
-//         if (item.examine) {
-//           for (const [examKey, examValue] of Object.entries(item.examine)) {
-//             const subContainer = document.createElement("div");
-
-//             if (examValue[0].useEmployee === 'false') {
-//               const examineHeader = document.createElement("h2");
-//               examineHeader.classList.add("text-left", "ml-[10px]", "text-[13px]", "text-black", "mt-[10px]");
-//               examineHeader.textContent = ` ${examKey}`;
-//               subContainer.appendChild(examineHeader);
-
-//               if (examValue[0].itemA) {
-//                 const table = document.createElement("table");
-//                 table.className = "min-w-full divide-gray-200 mt-[10px]";
-
-//                 const thead = document.createElement("thead");
-//                 thead.className = "bg-gray-50 top-0 z-10";
-//                 const headerRow = document.createElement("tr");
-//                 headerRow.className = "text-center items-center";
-
-//                 ["ลำดับ", "รายการตรวจสอบ", "สถานะ", "รายละเอียด"].forEach((key, columnIndex) => {
-//                   const th = document.createElement("th");
-//                   th.scope = "col";
-//                   th.style.whiteSpace = 'nowrap';
-//                   th.className = `border py-1 text-[12px] text-gray-500 uppercase tracking-wider`;
-                  
-//                   // Set a specific width for each column (adjust the values as needed)
-//                   if (columnIndex === 0) {
-//                     th.style.width = "50px"; // Adjust the width for the first column
-//                   } else if (columnIndex === 1) {
-//                     th.style.width = "100px"; // Adjust the width for the second column
-//                   } else {
-//                     th.style.width = "80px"; // Adjust the width for other columns as needed
-//                   }
-                
-//                   th.textContent = key;
-//                   headerRow.appendChild(th);
-//                 });
-
-//                 thead.appendChild(headerRow);
-//                 table.appendChild(thead);
-
-//                 const tbody = document.createElement("tbody");
-//                 tbody.className = "bg-white text-[13px] divide-y divide-gray-200 items-center";
-
-//                 for (const [entryIndex, entry] of examValue[0].itemA.entries()) {
-//                   const tableRow = document.createElement("tr");
-
-//                   ["ลำดับ", "รายการตรวจสอบ", "สถานะ", "รายละเอียด"].forEach((key) => {
-//                     const cell = document.createElement("td");
-//                     cell.className = `py-3 border whitespace-nowrap ${key === 'ลำดับ' ? 'text-black' : ''} text-center items-center`;
-
-//                     let content = '';
-
-//                     if (key === 'ลำดับ') {
-//                       content = entryIndex + 1;
-//                     } else if (key === 'รายการตรวจสอบ') {
-//                       content = entry.examine_name;
-//                     } else if (key === 'สถานะ') {
-//                       content = entry.status;
-//                     } else if (key === 'รายละเอียด') {
-//                       content = entry.details;
-//                     }
-
-//                     cell.innerHTML = `<div>${content}</div>`;
-//                     tableRow.appendChild(cell);
-//                   });
-
-//                   const rowHeight = tableRow.offsetHeight;
-//                   currentHeight += rowHeight;
-
-//                   if (currentHeight > maxPageHeight) {
-//                     content = createNewPage();
-//                     currentPage = content;
-//                     currentHeight = rowHeight;
-//                   }
-
-//                   tbody.appendChild(tableRow);
-//                   subContainer.appendChild(table);
-//                   // content.querySelector('ul').appendChild(subContainer);
-//                 }
-
-//                 table.appendChild(tbody);
-//                 subContainer.appendChild(table);
-//               }
-//             } else {
-//               const examKeyHeader = document.createElement("h2");
-//               examKeyHeader.classList.add("text-left", "ml-[10px]", "text-[13px]", "text-black", "mt-[10px]");
-//               examKeyHeader.textContent = ` ${examKey}`;
-//               subContainer.appendChild(examKeyHeader);
-
-//               for (const [entryIndex, entry] of examValue[0].itemA.entries()) {
-//                 const entryHeader = document.createElement("h2");
-//                 entryHeader.classList.add("text-left", "ml-[10px]", "text-[13px]", "text-black", "mt-[10px]");
-//                 entryHeader.textContent = `${entryIndex + 1} ${entry.key}`;
-//                 subContainer.appendChild(entryHeader);
-
-//                 const table = document.createElement("table");
-//                 table.className = "min-w-full divide-gray-200 mt-[10px]";
-
-//                 const thead = document.createElement("thead");
-//                 thead.className = "bg-gray-50 top-0 z-10";
-//                 const headerRow = document.createElement("tr");
-//                 headerRow.className = "text-center items-center";
-
-//                 ["ลำดับ", "รายการตรวจสอบ", "สถานะ", "รายละเอียด"].forEach((key, columnIndex) => {
-//                   const th = document.createElement("th");
-//                   th.scope = "col";
-//                   th.style.whiteSpace = 'nowrap';
-//                   th.className = `border py-1 text-[12px] text-gray-500 uppercase tracking-wider`;
-                  
-//                   // Set a specific width for each column (adjust the values as needed)
-//                   if (columnIndex === 0) {
-//                     th.style.width = "50px"; // Adjust the width for the first column
-//                   } else if (columnIndex === 1) {
-//                     th.style.width = "100px"; // Adjust the width for the second column
-//                   } else {
-//                     th.style.width = "80px"; // Adjust the width for other columns as needed
-//                   }
-                
-//                   th.textContent = key;
-//                   headerRow.appendChild(th);
-//                 });
-
-//                 thead.appendChild(headerRow);
-//                 table.appendChild(thead);
-
-//                 const tbody = document.createElement("tbody");
-//                 tbody.className = "bg-white text-[13px] divide-y divide-gray-200 items-center";
-
-//                 for (const [itemIndex, item] of entry.itemB.entries()) {
-//                   const tableRow = document.createElement("tr");
-
-//                   ["ลำดับ", "รายการตรวจสอบ", "สถานะ", "รายละเอียด"].forEach((key) => {
-//                     const cell = document.createElement("td");
-//                     cell.className = `py-3 border whitespace-nowrap ${key === 'ลำดับ' ? 'text-black' : ''} text-center items-center`;
-
-//                     let content = '';
-
-//                     if (key === 'ลำดับ') {
-//                       content = itemIndex + 1;
-//                     } else if (key === 'รายการตรวจสอบ') {
-//                       content = item.examinename_name;
-//                     } else if (key === 'สถานะ') {
-//                       content = item.status;
-//                     } else if (key === 'รายละเอียด') {
-//                       content = item.details;
-//                     }
-
-//                     cell.innerHTML = `<div>${content}</div>`;
-//                     tableRow.appendChild(cell);
-//                   });
-
-//                   const rowHeight = tableRow.offsetHeight;
-//                   currentHeight += rowHeight;
-
-//                   if (currentHeight > maxPageHeight) {
-//                     content = createNewPage();
-//                     currentPage = content;
-//                     currentHeight = rowHeight;
-//                   }
-
-//                   tbody.appendChild(tableRow);
-//                   subContainer.appendChild(table);
-//                   // content.querySelector('ul').appendChild(subContainer);
-//                 }
-
-//                 table.appendChild(tbody);
-//                 subContainer.appendChild(table);
-//               }
-//             }
-
-//             itemContainer.appendChild(subContainer);
-//           }
-//         }
-
-//         content.querySelector("ul").appendChild(itemContainer);
-//       }
-
-//       // Additional pages
-//       createNewPage();
-//       createNewPage();
-
-//       const pdfBlob = await new Promise((resolve, reject) => {
-//         html2pdf(container, {
-//           margin: 10,
-//           filename: 'แบบรายงานผลการตรวจสอบความปลอดภัย.pdf',
-//           image: { type: 'jpeg', quality: 0.98 },
-//           html2canvas: { scale: 2 },
-//           jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-//           pagebreak: { mode: ['css', 'legacy'] }
-//         }, resolve, reject);
-//       });
-
-//       if (pdfBlob instanceof Blob) {
-//         const pdfUrl = URL.createObjectURL(pdfBlob);
-
-//         // Open the PDF in a new tab
-//         window.open(pdfUrl, '_blank');
-
-//         // Show success popup (optional)
-//         setShowSuccessPopup(true);
-//       } else {
-//         console.error('html2pdf did not return a Blob:', pdfBlob);
-//       }
-//     } catch (error) {
-//       console.error('Error during PDF generation:', error);
-//     }
-//   };
-// };
 
 const generatePDF = async () => {
   await new Promise(resolve => setTimeout(resolve, 1000));
@@ -664,8 +272,7 @@ const generatePDF = async () => {
     orientation: 'portrait'
   });
 
-  // Add Sarabun font
-  let verticalSpacing = 5; // Set the desired vertical spacing
+  let verticalSpacing = 5; 
   let tableHeight = 0;
   let currentY = 10;
   let currentHeight = 0;
@@ -696,35 +303,29 @@ const generatePDF = async () => {
   doc.text(`วัน เดือน ปี เวลา ที่ตรวจ : ${nameExamine.date} น.`, 20, 38);
 
   if (nameExamine && nameExamine.items) {
-    console.log("nameExamine.items: ", nameExamine.items);
     try {
       for (const item of nameExamine.items) {
-        console.log("HEIGHT item.name: ", item.name, currentY, currentHeight, checkcurrentHeight);
         if (checkcurrentHeight > maxPageHeight) {
           createNewPage();
           currentY = 20; 
           checkcurrentHeight = 0;
         }
         if (startY) {
-          console.log("NEWW 3333");
           startY = false;
           currentY = 46;
         }else if (newPage) {
-          console.log("NEWW PAGEEEE");
           currentY = 20;
           tableHeight = 0;
           currentHeight  = 0;
           newPage = false;
 
         } else if (!newPage) {
-          console.log("NEWW 2222" , currentHeight);
 
           currentY = currentHeight + 8;
         }
 
        
         doc.text(20, currentY, `การตรวจสอบ :  ${item.name}`);
-        console.log("HEIGHT item.name 1: ", item.name, currentY, currentHeight, checkcurrentHeight ,tableHeight);
 
         currentY += 8;
 
@@ -800,7 +401,6 @@ const generatePDF = async () => {
 
                 }
                 
-                console.log("HEIGHT: ", examKey, 'checkcurrentHeight: ', checkcurrentHeight, 'tableHeight: ', tableHeight, 'currentY: ', currentY, 'currentHeight: ', currentHeight);
                 
                 
               }
@@ -808,18 +408,10 @@ const generatePDF = async () => {
               if (examValue[0].itemA) {
                 let entryIndex = 0;
                 for (const entry of examValue[0].itemA) {
-                  console.log("examValue[0].itemA: ", entry, entry.key, currentY,checkcurrentHeight);
-                  console.log("HEIGHT entry.key: ", entry.key, currentY, currentHeight,checkcurrentHeight);
+                 
 
                   entryIndex++;
-                  // if (checkcurrentHeight > maxPageHeight ) {
-                  //   console.log("------------------------------------------------",tableHeight)
-                  //   createNewPage()
-                  //   currentY = tableHeight ;
-                  //   currentHeight = 0;
-                  //   checkcurrentHeight = 0;
-                  //   newPage = true;
-                  // }
+                 
 
                   doc.text(25, currentY, `${entryIndex}. ${entry.key}`);
 
@@ -883,7 +475,6 @@ const generatePDF = async () => {
                     doc.addPage();
 
                   }
-                  console.log("HEIGHT: ", entry.key, 'checkcurrentHeight: ', checkcurrentHeight, 'tableHeight: ', tableHeight, 'currentY: ', currentY, 'currentHeight: ', currentHeight);
                   
                  
                 }
@@ -893,7 +484,6 @@ const generatePDF = async () => {
         }
       }
 
-      // Save the PDF
       doc.save('แบบรายงานผลการตรวจสอบความปลอดภัย.pdf');
     } catch (error) {
       console.error('Error during PDF generation:', error);
@@ -954,7 +544,6 @@ const generatePDF = async () => {
                             nameExamine.items &&
                             nameExamine.items.map((item, index) => (
                               <div key={index}>
-                                {/* {console.log("NAME RESULT: ", index,item.examine)} */}
 
                                 <div className="mt-[10px] md:mt-[10px] md:ml-[-30px] border-t md:border w-full md:w-[750px] border-gray-300"></div>
                                 <h1 className="text-left text-green-600 mt-[10px]">Examine: {item.name}</h1>
@@ -962,13 +551,11 @@ const generatePDF = async () => {
 
                                 {Object.keys(item.examine).map((examKey, examIndex) => (
                                   <div key={examIndex}>
-                                    {/* {console.log("888888: ",examKey,item.examine[examKey][0])}
-                                    {console.log("8888884444444: ",item.examine[examKey][0].itemA[0])} */}
+                                   
 
                                     {item.examine[examKey][0].useEmployee === 'false' ? (
                                       <div key={examIndex}>
-                                        {/* {console.log("888888: ", examKey, item.examine[examKey][0])}
-                                        {console.log("8888884444444: ", item.examine[examKey][0].itemA[0])} */}
+                                        
 
                                         <h2 className="text-left mt-[10px]">{examKey}</h2>
 
@@ -991,7 +578,6 @@ const generatePDF = async () => {
                                           </thead>
                                           <tbody className="bg-white text-[13px] divide-y divide-gray-200">
                                             {item.examine[examKey][0].itemA.map((entry, entryIndex) => (
-                                              // console.log("ITEMA: ", entry),
                                               <tr key={entryIndex} className="text-center">
                                                 <td className="py-4 border whitespace-nowrap">
                                                   <div>{entryIndex + 1}</div>
@@ -1014,13 +600,11 @@ const generatePDF = async () => {
                                       </div>
                                     ) : (
                                         <div key={examIndex}>
-                                          {/* {console.log("888888แต่งกาย: ", examKey, item.examine[examKey][0].itemA)}
-                                          {console.log("8888884444444แต่งกาย: ", item.examine[examKey][0].itemA[0].itemB[0])} */}
+                                        
   
                                           <h2 className="text-left mt-[10px]">{examKey}</h2>
                                           {item.examine[examKey][0].itemA.map((exameKey, exameIndex) => (
                                         <div key={exameIndex}>
-                                            {/* {console.log("YYYY: ",exameKey.itemB)} */}
                                           <div className="mt-[10px] md:mt-[10px] md:ml-[-30px] border-t md:border w-full md:w-[750px] border-gray-300"></div>
 
                                             <h1 className='text-left mt-[10px]'>{exameIndex + 1}. {exameKey.key} </h1>
@@ -1044,8 +628,7 @@ const generatePDF = async () => {
                                             </thead>
                                             <tbody className="bg-white text-[13px] divide-y divide-gray-200">
                                               {exameKey.itemB.map((entry, entryIndex) => (
-                                                // console.log("ITEMA: ", entry),
-                                                // entry.itemB.map((entry, entryIndex) => (
+                                               
 
                                                 <tr key={entryIndex} className="text-center">
                                                   <td className="py-4 border whitespace-nowrap">
@@ -1063,7 +646,6 @@ const generatePDF = async () => {
                                                     </div>
                                                   </td>
                                                 </tr>
-                                              // ))
                                               ))}
 
                                             </tbody>
@@ -1086,44 +668,7 @@ const generatePDF = async () => {
                             </div> 
                           </div>
                         </div>
-                            {/* //  Map over itemA
-
-                            //   console.log("555555: ", entryIndex, entry)
-                            //   return entry.itemA.map((itemAEntry, itemAIndex) => (
-                            //     <tr key={itemAIndex} className='text-center'>
-                            //       {console.log("3333333: ", itemAIndex, itemAEntry)}
-                            //       <td className="py-4 border whitespace-nowrap">
-                            //         <div>{itemAIndex + 1}</div>
-                            //       </td>
-                            //       <td className="py-4 border whitespace-nowrap">
-                            //         <div className="text-left ml-[10px]">{itemAEntry.examine_name}</div>
-                            //       </td>
-                            //       <td className={`py-4 border whitespace-nowrap ${itemAEntry.status === 'pass' ? 'text-green-600' : 'text-red-600'}`}>
-                            //         <div>{itemAEntry.status}</div>
-                            //       </td>
-                            //       <td className="py-4 border">
-                            //         <div className={`break-words ${itemAEntry.details === '-' ? 'text-center' : 'text-left ml-[10px]'}`}>
-                            //           <span className={`break-words ${itemAEntry.details === '-' ? '' : 'ml-[10px]'}`}>{itemAEntry.details}</span>
-                            //         </div>
-                            //       </td>
-                            //     </tr> */}
-
-                        
-
-
-{/*                     
-                    {formData.file && ( // เช็คว่ามีรูปภาพใน formData.file หรือไม่
-                      <div>
-                        <h3>รูปภาพที่อัพโหลด</h3>
-                        <img src={URL.createObjectURL(formData.file)} alt="รูปภาพที่อัพโหลด" />
-                      </div>
-                    )} */}
-      
-
-                {/* <div >
-                    <p className='font-mitr text-[#808080] text-[13px] md:text-[16px] ml-[-160px] md:ml-[-620px] mt-[20px]  md:mt-[15px]'>{t('details')}</p>
-                    <textarea type="text" name="detail" value={formData.detail} onChange={handleInputChange} className='align-text-top rounded-[10px] mt-[5px] pl-[15px] w-[230px]  text-[14px] md:ml-[-25px] h-[100px] md:text-[16px] md:w-[680px] md:h-[80px] bg-[#fff] border border-gray-300  p-4 '/>
-                </div> */}
+                           
               {showSuccessPopup && (
                 <div className="bg-white text-[#5A985E] text-[16px]  w-[300px] p-8  rounded-lg border-black shadow-lg md:w-[400px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                 <BsCheckCircle className=' text-[50px] mx-auto mb-[10px]'/>
@@ -1136,11 +681,7 @@ const generatePDF = async () => {
                     {message}
                   </p>
                 )}
-                {/* {notifyMessage && (
-                  <p className=' mt-3 text-red-500 text-xs py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-lg md:mt-[30px]'>
-                    {notifyMessage}
-                  </p>
-                )} */}
+               
 
                 {showPopup && (
               <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-[9999]">
@@ -1157,9 +698,7 @@ const generatePDF = async () => {
               )}
 
                 <div className=  {`font-mitr text-[15px] md:text-[17px]left-0 flex items-center   md:px-10  md:mt-[20px]`} >
-                  {/* <button type= "submit" href="/NotifyTwo" className=' mt-[20px] text-md md:text-[20px] md:ml-[480px] border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>Submit</button> */}
                     <button onClick={generatePDF} className=' mt-[20px]   border-[#64CE3F] bg-[#64CE3F] px-5  py-1  text-[#fff] hover:-translate-y-0.5 duration-200  mx-auto flex items-center '><IoMdDownload /><span className='ml-[5px]'>Dowload</span></button>
-                    {/* <button onClick={generatePDF}>Generate PDF</button> */}
 
                 </div>
              

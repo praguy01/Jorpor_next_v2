@@ -61,7 +61,6 @@ function App() {
     const [selectedOption, setSelectedOption] = useState('User'); // สร้าง state เพื่อเก็บค่าที่เลือก
     const [employee, setEmployee] = useState(''); // สร้าง state เพื่อเก็บค่าที่เลือก
     const [checked, setchecked] = useState(false);
-    // const [resindex, setresIndex] = useState(''); // เพิ่ม state สำหรับ index
     const [idemployee , setidEmployee] = useState(''); // สร้าง state เพื่อเก็บค่าที่เลือก
     const [dbidemployee , setdbidEmployee] = useState(''); // สร้าง state เพื่อเก็บค่าที่เลือก
     const [examinelist_Id, setexaminelist_Id] = useState('');
@@ -75,13 +74,11 @@ function App() {
       const storedId = localStorage.getItem('id');
       if (storedId) {
         setId(storedId);
-        console.log("Stored: ",storedId)
       }
     }, []);
 
     useEffect(() => {
-      console.log("STARTChecklist: ",useEmployee);
-      console.log("selectedOption: ",selectedOption)
+ 
 
       if (typeof window !== 'undefined') {
         const searchParams = new URLSearchParams(window.location.search);
@@ -93,22 +90,15 @@ function App() {
         const examine_IdValue = searchParams.get('examineId') ; // กำหนดค่าเริ่มต้นว่างไว้ถ้าไม่มีค่า
         const examinelist_nameValue = searchParams.get('examinelist_name') ; // กำหนดค่าเริ่มต้นว่างไว้ถ้าไม่มีค่า
 
-        console.log("queryDataexamine1: ",{checklistnameValue,indexValue ,checkedValue ,idemployeeValue,examinelist_IdValue,examine_IdValue ,examinelist_nameValue})
 
-       
-      
-        // ใน useEffect นี้คุณสามารถใช้ Axios เพื่อดึงข้อมูลจากฐานข้อมูล
         const fetchData = async () => {
           try {
-            // if (useEmployee && selectedOption === 'user') {
-            //   await fetchEmployeeData();
-            // }
+            
 
             fetchEmployeeData();
 
 
             if (useEmployee === false) {
-            console.log("TODO88888888888888888888: ",checklistnameValue)
             const AddData = { examine_IdValue};
             const datacheck = JSON.stringify(AddData);
 
@@ -122,8 +112,7 @@ function App() {
     
             if (response.status === 200) {
               if (data.success === true) {
-                console.log("AllDataChecklist: ",data)
-                console.log("Datachecklist1: ",data.dbchecklist[name])
+              
                 setTodoList(data.dbchecklist);
               } else {
                 setMessage(data.error);
@@ -148,7 +137,6 @@ function App() {
 
         const fetchEmployeeData = async () => {
           try {
-            console.log("CheckUseEmployee")
           const AddData = { checklistnameValue , check : true};
           const datacheck = JSON.stringify(AddData);
 
@@ -160,22 +148,12 @@ function App() {
       
             if (checkUseEmployee.status === 200) {
               if (data.success === true) {
-                console.log("Datachecklist: ",data.ResultUseEmployee[0].useEmployee)
-
-                // const stateUseEmployee = (data.ResultUseEmployee[0].useEmployee);
-                // console.log("stateUseEmployee: ",stateUseEmployee)
-                // const state = JSON.stringify(stateUseEmployee);
-                // console.log("state: ",state)
-                // setUseEmployee(state);
-
-                // const stateUseEmployee = data.ResultUseEmployee[0].useEmployee;
+               
                 setUseEmployee(data.ResultUseEmployee[0].useEmployee);
 
-                console.log("ค่า useEmployee:", data.ResultUseEmployee[0].useEmployee);
 
                 if (data.ResultUseEmployee[0].useEmployee === "true") {
-                  console.log("ค่าเป็น true");
-                  console.log("ค่า Selectoption: ",selectedOption);
+                
 
                     if (selectedOption === "User") {
 
@@ -189,11 +167,9 @@ function App() {
                           });                           
                           
                           const data = response.data;
-                          console.log("DATA: ",data)
                   
                           if (response.status === 200) {
                             if (data.success === true) {
-                              console.log("employeeDB: ",data.dbemployee_name)
                               let employeesToAdd = [];
                               let employeeToSend = [];
                               let idemployeeToSend = [];
@@ -213,7 +189,6 @@ function App() {
 
                               });
                 
-                              // console.log("empToadd: ", employeesToAdd);
                               fetchidEmployeeData();
 
                               setchecked(true);
@@ -247,8 +222,7 @@ function App() {
               
                       if (response.status === 200) {
                         if (data.success === true) {
-                          console.log("AllDataChecklist: ",data)
-                          // console.log("Datachecklist1: ",data.dbchecklist[0])
+                         
                           setTodoList(data.dbchecklist);
                         } else {
                           setMessage(data.error);
@@ -261,7 +235,6 @@ function App() {
                     setMessage('');
                   }}
                   } else {
-                    console.log("ค่าเป็น false");
                   }
               } else {
                 setMessage(data.error);
@@ -277,12 +250,10 @@ function App() {
 
         fetchData();
       }
-    // โหลดข้อมูลเมื่อค่า state reloadData เปลี่ยนแปลง
     const fetchidEmployeeData = async () => {
       try {
         const Checkid = {checklistname ,checkid : true};
         const datacheckid = JSON.stringify(Checkid);
-        console.log("Id_resultEmployee: ",datacheckid)
 
         const response = await axios.post('/api/checklistexamine', datacheckid, {
           headers: { 'Content-Type': 'application/json' },
@@ -292,7 +263,6 @@ function App() {
 
         if (response.status === 200) {
           if (data.success === true) {
-            console.log("AllDataChecklistIDemployee: ",data)
             const resultString = data.ResultidEmployee.toString();
 
             setdbidEmployee(resultString);
@@ -328,10 +298,8 @@ function App() {
   };
   
   const handleCheckboxChange = (todo, passChecked, failChecked, details) => {
-  // สร้างค่าเริ่มต้นของสถานะสำหรับเครื่องจักร A และ B
   const updatedTodoStatus = { ...todoStatus };
   
-  // กำหนดค่า "pass" หรือ "fail" ตามเครื่องจักรที่เลือก
   if (passChecked) {
     updatedTodoStatus[todo] = { name: todo, pass: true,status: "pass", details: details || "-" };
   } else if (failChecked) {
@@ -341,16 +309,9 @@ function App() {
   }
   
   setTodoStatus(updatedTodoStatus);
-  console.log("State: ", updatedTodoStatus);
 };
 
   
-  
-  
-
- 
-  
-
   const addTodo = async () => {
     if (input.trim() === "") {
       setMessage("Please fill in the checklist field");
@@ -369,9 +330,7 @@ function App() {
   
       if (response.status === 200) {
         if (resdata.success === true) {
-          console.log("Message: ", resdata);
           setMessage('');
-          // Add the new item to the todoList
           setTodoList((prevTodoList) => [...prevTodoList, resdata.dbchecklist]);
   
           setShowAddSuccessPopup(true);
@@ -379,7 +338,7 @@ function App() {
   
           setTimeout(() => {
             setShowAddSuccessPopup(false);
-          }, 1000); // 1000 milliseconds = 1 second
+          }, 1000);
         } else {
           setMessage(resdata.error);
         }
@@ -395,15 +354,9 @@ function App() {
     closePopup();
   };
 
-    // setTodoList([...todoList, input + '  ' + lastname]);
-    // setInput('');
-    // setlastname('');
-    // closePopup(); 
-  
 
     const openEditPopup = async (todo, checklistname) => {
       setMessage('');
-      console.log("Editdata: ", checklistname)
       setShowEditPopup({ isOpen: true, todo, checklistname }); // ส่งค่า isOpen, index, และ todo ไปยัง setShowEditPopup
     };
 
@@ -415,9 +368,7 @@ function App() {
     const deleteChecklist = async (todo , checklistname ) => {
       try {
         const editedData = { todo , checklistname , examine_Id , id, edit_role_1: true };
-        console.log("delete: ",editedData)
         const data = JSON.stringify(editedData)
-        console.log("deleteData: ",data)
 
         const response = await axios.post('/api/checklistexamine', data, {
           headers: { 'Content-Type': 'application/json' },
@@ -432,7 +383,6 @@ function App() {
             setTodoList(resdata.dbchecklist);
 
 
-            console.log("Message: ", resdata);
             setShowDeleteSuccessPopup(true);
             setdeleteMessage(resdata.message);
 
@@ -454,18 +404,12 @@ function App() {
 
     const handleSubmit = async () => {
       try {
-        // const selectedItemsArray = Object.entries(selectedItems)
-        //   .filter(([_, isSelected]) => isSelected)
-        //   .map(([todo]) => todo);
+        
     
         if (useEmployee === "false") {
 
-        console.log("checklist: ",todoStatus)
         const editedData = {todoStatus,examine_Id,examinelist_Id,id, checkbox: true };
-        // const data = JSON.stringify(editedData)
-        // console.log("checkboxData: ",data)
-    
-        // ส่งข้อมูลไปยัง API โดยใช้ axios หรือวิธีอื่น ๆ ตามที่คุณใช้
+        
         const response = await axios.post('/api/checklistexamine', editedData, {
           headers: { 'Content-Type': 'application/json' },
         });    
@@ -475,7 +419,6 @@ function App() {
         if (response.status === 200) {
           if (resdata.success === true) {
 
-            console.log("Message: ", resdata);
             setShowDeleteSuccessPopup(true);
             setdeleteMessage(resdata.message);
 
@@ -493,19 +436,17 @@ function App() {
 
 
         } else {
-          console.log("TEEEEEE: ",examinelist_name)
           router.push(`/examine?examinelist_name=${examinelist_name}&id=${examinelist_Id}`)
         }
 
         
       } catch (error) {
         console.error('Error:', error);
-        // ดำเนินการเมื่อเกิดข้อผิดพลาดในการส่งข้อมูลไปยัง API
       }
     };
     
     const handleDropdownChange = (event) => {
-      setSelectedOption(event.target.value); // เมื่อเลือกตัวเลือกใน Dropdown ให้อัปเดต state
+      setSelectedOption(event.target.value); 
     };
 
      
@@ -519,9 +460,9 @@ function App() {
         <div className=' bg-[url("/bg1.png")] overflow-auto bg-cover bg-no-repeat absolute z-[-1] top-0 left-0 w-full h-full bg-center   '>
           <div className='md:w-[800px] lg:w-[1000px] mx-auto '>
             <div className=' w-[280px] mx-auto md:w-[963px]  '>
-              <div className=  {` text-[21px] md:text-[35px] md:w-[700px] lg:w-[800px] w-[300px] left-0 md:ml-[70px] lg:ml-[90px]  flex items-center md:mt-[100px] mt-[90px] `}>
-                  <h1 className=' text-[#5A985E]   mr-[10px] '>{t('Examine')}</h1>
-                  <p className='text-black text-sm md:text-[20px]  '>({checklistname})</p>
+              <div className=  {` text-[21px] md:text-[35px] border  md:w-[700px] lg:w-[800px] w-[300px] left-0 md:ml-[70px] lg:ml-[90px]  flex items-center md:mt-[100px] mt-[90px] `}>
+                  <h1 className=' text-[#5A985E] border   mr-[10px] '>{t('Examine')}</h1>
+                  <p className='text-black  w-[170px] md:w-[400px] text-sm md:text-[20px] border  text-ellipsis whitespace-nowrap overflow-hidden'>({checklistname})</p>
               </div>
               <div className='flex items-center text-center  w-[110px] h-[24px] md:w-[140px] md:h-[30px] rounded-[5px] text-[#fff] border-[#000] bg-[#000] md:ml-[70px] lg:ml-[90px] '>
                     <div className=' md:ml-[10px] ml-[10px] '><BsCalendar2Minus/></div>
@@ -604,17 +545,13 @@ function App() {
                 ) : (
                   selectedOption === 'Checklist' ? (
                   <div className=' justify-center mx-auto items-center   flex'> 
-                  {/* <Link href={`/checklistEmployee?checklistname=${todo}&examine_Id=${examine_Id}&examinelist_Id=${examinelist_Id}&examinename=${checklistname}&employeeName=${employee[index]}&idemployee=${idemployee[index]}`} key={idemployee[index]}> */}
                     <div className=' text-sm md:text-[20px] mt-[10px] w-[250px] rounded-[10px] md:w-[340px] py-2 md:py-4 bg-[#F5F5F5] mx-auto'>
                       <div className='flex items-center px-3 '>
-                        {/* <input type="checkbox" className='mr-[10px]' /> */}
                         
 
                         <p className =' text-[#000] ml-[10px] text-[14px] w-[200px]  whitespace-nowrap overflow-hidden overflow-ellipsis'>{todo} </p>
-                        {/* <Link href='' className='text-[#000]'>{todo}  {index}</Link> */}
                       </div>
                     </div>
-                  {/* </Link> */}
 
                   {isEditing && (
                         <div className='flex absolute items-center text-[13px] md:text-[18px] justify-end  space-x-2 w-[20px] md:w-[50px]  ml-[215px] mt-[8px]  md:ml-[270px] h-[15px]  '>
@@ -633,10 +570,8 @@ function App() {
                     <Link href={`/checklistEmployee?checklistname=${todo}&examine_Id=${examine_Id}&examinelist_Id=${examinelist_Id}&examinelist_name=${examinelist_name}&examinename=${checklistname}&employee_Id=${employee[index]}&idemployee=${idemployee[index]}`} key={idemployee[index]}>
                       <div className=' text-sm md:text-[20px] mt-[10px] w-[250px] rounded-[10px] md:w-[340px] py-2 md:py-4 bg-[#F5F5F5] mx-auto'>
                         <div className='flex items-center px-3'>
-                          {/* <input type="checkbox" className='mr-[10px]' /> */}
                           {checked && (
                           <>
-                            {/* {console.log("Checked and index: ", index, idemployee[index], "dbidemployee: ", dbidemployee ,"state: ", idemployee.includes(dbidemployee))} */}
                             
                             {dbidemployee.includes(idemployee[index])  && (
                               <>
@@ -647,7 +582,6 @@ function App() {
                         )}
   
                           <p className={`text-[#000] ${dbidemployee.includes(idemployee[index]) ? 'ml-[13px]' : 'ml-[26px]' } text-[14px] w-[200px]  whitespace-nowrap overflow-hidden overflow-ellipsis`}>{todo}</p>
-                          {/* <Link href='' className='text-[#000]'>{todo}  {index}</Link> */}
                         </div>
                       </div>
                     </Link>
@@ -690,7 +624,6 @@ function App() {
                     {showEditPopup.isOpen && (
                       <div className="text-center fixed top-0 left-0 w-full h-full flex items-center justify-center ">
                         <div className="bg-white p-4 rounded-lg border-black shadow-lg md:w-[380px] md:h-[150px]  ">
-                          {/* เนื้อหาของ popup */}
                           <div className='md:text-[30px]  text-[22px] flex justify-center items-center'>
                           <h2 className= {`font-mitr  text-[18px] md:text-[20px] text-[#5A985E] mt-[10px] `}>{t("Do you want to delete")} <span style={{ color: '#FF6B6B' }} className='mr-2'>{showEditPopup.todo}</span> {t("?")}</h2>
                           </div>
@@ -708,15 +641,11 @@ function App() {
                     {showPopup && (
                       <div className="text-center fixed top-0 left-0 w-full h-full flex items-center justify-center ">
                         <div className="bg-white p-4 rounded-lg py-[30px] shadow-lg border border-gray-200 md:w-[400px] ">
-                          {/* เนื้อหาของ popup */}
                           <h2 className='text-[25px] text-[#5A985E]  font-bold'>{t('Add checklist')}</h2>
                             <div className="mt-1">
-                              {/* <label htmlFor="name" className="md:text-[18px] font-mitr block text-sm font-medium text-gray-700">ชื่อ-นามสกุล</label> */}
                               <input className='mt-1 p-2 w-full border border-gray-300 rounded-md'value={input} onChange={(e) => setInput(e.target.value)} placeholder={t("add checklist")}/>
                             </div>
-                            {/* <div>
-                            <input className='mt-1 p-2 w-full border border-gray-300 rounded-md'value={lastname} onChange={(e) => setlastname(e.target.value)}placeholder="Lastname"/>
-                            </div> */}
+                            
                           <div className="flex justify-center mt-[20px]">
                             <button className="flex justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={addTodo}>{t('Add')}</button>
                             <button className="flex justify-center items-center bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600" onClick={() => closePopup(false)}>{t('Cancel')}</button>
@@ -731,16 +660,7 @@ function App() {
                     )}
 
                     <div className='h-[300px] '>
-                      {/* {!isEditing && (
-                        <div className=' md:absolute w-[250px] h-[100px] mt-[20px] md:mt-[-450px] md:ml-[450px] mx-auto'>
-                          <p className='font-mitr md:text-[18px] text-sm mb-2'>รายละเอียด</p>
-                          <textarea
-                            value={details}
-                            onChange={(e) => setDetails(e.target.value)}
-                            className='border border-gray-300 rounded-md md:w-[300px] md:h-[150px] bg-[#F5F5F5] w-[250px] h-[100px] text-sm pl-2 pt-2'
-                          />
-                        </div>
-                      )} */}
+                     
                       <div className= {` items-center text-[15px] md:text-[17px] flex ${!isEditing && 'justify-end' }  w-[250px] md:mt-[40px] mt-[60px]  mx-auto md:w-[700px] lg:w-[800px]  md:px-10 `} >
                       {isEditing ? (
                         <button onClick={() => setIsEditing(false)} className={`flex mx-auto   border-[#64CE3F] bg-[#64CE3F] px-10 py-1  rounded-[20px]   text-[#fff] hover:-translate-y-0.5 duration-200  `}>{t('confirm')}</button>

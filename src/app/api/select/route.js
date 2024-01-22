@@ -8,13 +8,13 @@ export async function POST(request) {
     const res = await request.json();
     try {
       const { examinelist_name, todo } = res;
-      console.log("RES_ROUTE_SELECTTTTT: ", res);
+      // console.log("RES_ROUTE_SELECTTTTT: ", res);
 
       if (res.fetch) {
         const getIdQuery = "SELECT select_id FROM `select` WHERE date = ? AND user_id = ?";
         const [idResult] = await db.query(getIdQuery, [res.formattedDate, res.storedUser_id]);
         const idResultmap = idResult.map(row => row.select_id)[0]; // Extract the string from the array
-        console.log("4444idResult: ", idResultmap);
+        // console.log("4444idResult: ", idResultmap);
 
 
         return NextResponse.json({ success: true, idResultmap: idResultmap });

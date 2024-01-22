@@ -68,7 +68,7 @@ export async function POST(request, response) {
     try {
       const data = await request.json();
       const { date, time, location } = data;
-      console.log('MESSAGE NodeMCU: ', data);
+      // console.log('MESSAGE NodeMCU: ', data);
 
       response.setHeader('Content-Type', 'text/event-stream');
       response.setHeader('Cache-Control', 'no-cache');
@@ -101,7 +101,6 @@ export async function POST(request, response) {
     return NextResponse.error('Method Not Allowed');
   }
 }
-
 
 
 

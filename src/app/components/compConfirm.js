@@ -40,7 +40,6 @@ export default function CompConfirm() {
     if (storedPIN) {
       setPIN(storedPIN); 
     }    
-    console.log("LOCAL: ", localStorage);
   
   }, [])
 
@@ -48,19 +47,13 @@ export default function CompConfirm() {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   
-    // ตรวจสอบถ้าความยาวของ value ถึง maxLength
     if (value.length === e.target.maxLength) {
-      // หาชื่อ input ถัดไป
       const currentInputNumber = parseInt(name.substring(3));
       const nextInputNumber = currentInputNumber + 1;
+        const nextInputName = `PIN${nextInputNumber}`;
   
-      // สร้างชื่อของ input ถัดไป
-      const nextInputName = `PIN${nextInputNumber}`;
-  
-      // หา DOM element ของ input ถัดไป
       const nextInput = document.querySelector(`[name="${nextInputName}"]`);
   
-      // ถ้ามี input ถัดไปให้ focus ลงไป
       if (nextInput) {
         nextInput.focus();
       }
@@ -83,7 +76,6 @@ export default function CompConfirm() {
         PIN: storedPIN,
       };
 
-      console.log("FROM_DATA: ",requestData)
       const data = JSON.stringify(requestData);
 
       const response = await axios.post('/api/confirm', 
@@ -94,7 +86,6 @@ export default function CompConfirm() {
       });
      
       const resdata = response.data;
-      console.log("RESDATA: ",resdata)
       if (response.status === 200) {
         if (resdata.success === true) {
           setMessagePass(resdata.message);
@@ -117,7 +108,6 @@ export default function CompConfirm() {
           });
         }, 100); 
 
-          console.log("RESDATA error: ", resdata.error);
           setMessage(resdata.error);
         }
       } else {
@@ -142,10 +132,7 @@ export default function CompConfirm() {
           <Link href="login">JorPor</Link>
 
           </div>
-          {/* <div className='text-white font-ntr '>
-              <Link href="/" className=' text-[20px] px-4 py-1 rounded-md text-[#fff] hover:text-[#5A985E] hover:bg-[#fff]  '>log out</Link>
-        
-          </div> */}
+          
         </div>
       </div>
       <div className=' bg-[url("/bg1.png")] bg-cover bg-no-repeat  z-[-1] top-0 left-0 w-full h-full bg-center fixed  overflow-auto'>

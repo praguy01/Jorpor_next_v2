@@ -7,12 +7,10 @@ import axios from 'axios';
 import React, { useState ,useEffect ,useCallback } from 'react';
 import {useLanguage } from './compLanguageProvider_role_1';
 import { useTranslation } from 'react-i18next';
-// import i18n from '../i18n'; 
-// import { initReactI18next } from 'react-i18next';
+
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import '../Sarabun-Regular-normal';  
-// import html2pdf from 'html2pdf.js';
 import {BsFillExclamationTriangleFill} from 'react-icons/bs'
 import {BsCheckCircle} from 'react-icons/bs'
 import { useRouter } from 'next/navigation';
@@ -41,25 +39,20 @@ export default function CompReportResultsForm({ onSubmit }) {
   const [selectedOption, setSelectedOption] = useState('');
   const [selectedExamineOption, setSelectedExamineOption] = useState('');
   const [nameExamine , setNameExamine] = useState([]); 
-  const [checklistnameExamine , setChecklistNameExamine] = useState([]); 
   const [showPopup, setShowPopup] = useState(false); // เพิ่ม state เพื่อควบคุมการแสดง/ซ่อน popup
-  const [currentDate, setcurrentDate] = useState(false); // เพิ่ม state เพื่อควบคุมการแสดง/ซ่อน popup
   const [sent, setSent] = useState(true); // เพิ่ม state เพื่อควบคุมการแสดง/ซ่อน popup
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const [addmessage, setaddMessage] = useState(false);
   const router = useRouter();
 
-  // const element = document.getElementById('your-element-id');
 
 
   useEffect(() => {
-    // ใน useEffect นี้คุณสามารถใช้ Axios เพื่อดึงข้อมูลจากฐานข้อมูล
     if (typeof window !== 'undefined') {
       const searchParams = new URLSearchParams(window.location.search);
       const user_IdValue = searchParams.get('id');
       const dateValue = searchParams.get('date');
   
-      console.log("queryDataexamine: ", { user_IdValue, dateValue })
   
       const fetchData = async () => {
         try {
@@ -74,30 +67,24 @@ export default function CompReportResultsForm({ onSubmit }) {
   
           if (response.status === 200) {
             if (data.success === true) {
-              console.log("Data1222: ", data.dbnameExamineList)
               setSelectedOption(data.dbnameExamineList[0]);
               setNameExamineList(data.dbnameExamineList);
-              console.log("Data88888: ", data.dbsentdate)
               data.dbsentdate.reverse();
               data.dbsentdate.splice(1);
               const datesOnly = data.dbsentdate.map(item => item.date);
-              console.log("Data9999: ", datesOnly)
   
               const storedDate = localStorage.getItem("date");
               const date1 = new Date(dateValue.split("/").reverse().join("-"));
               const date2 = new Date(datesOnly[0].split("/").reverse().join("-"));
   
-              console.log("DATEEE: ", date1, date2)
   
               const dateString1 = date1.toDateString();
               const dateString2 = date2.toDateString();
   
               if (dateString1 === dateString2) {
                 setSent(false);
-                console.log("วันที่เท่ากัน");
               } else {
                 setSent(true);
-                console.log("วันที่ไม่เท่ากัน");
               }
   
             } else {
@@ -116,32 +103,26 @@ export default function CompReportResultsForm({ onSubmit }) {
       setId(user_IdValue);
       fetchData();
     } else {
-      console.log("ERRORRR")
     }
-    }, []); // โหลดข้อมูลเมื่อค่า state reloadData เปลี่ยนแปลง
+    }, []); 
   
-  // เลื่อน fetchDataForSelectedOption ไปใน useEffect callback
   useEffect(() => {
     const fetchDataForSelectedOption = async () => {
       try {
-        console.log('Selected Option: ', nameExamineList);
   
         const AddData = { nameExamineList, id, option: true };
         const data = JSON.stringify(AddData);
-        console.log('BB: ', data);
   
         const response = await axios.post('/api/reportResultsPdf', data, {
           headers: { 'Content-Type': 'application/json' },
         });
   
         const resdata = response.data;
-        console.log('DATA111: ', resdata);
   
         if (response.status === 200) {
           if (resdata.success === true) {
             const checkList_results = []
             const ResultList = resdata.dbData
-            console.log("77777777777777 ", ResultList)
   
             const Date = ResultList.date;
   
@@ -179,7 +160,6 @@ export default function CompReportResultsForm({ onSubmit }) {
   
       if (response.status === 200) {
         if (data.success === true) {
-          console.log("Datamm: ", data.dbData)
   
           let checklistToAdd = [];
   
@@ -197,13 +177,11 @@ export default function CompReportResultsForm({ onSubmit }) {
               lastname: checkListData.lastname
             };
             setcheckList(Data_1)
-            console.log("data.dbData: ", checkList)
   
           })
   
           const newTodoList = [...checklistToAdd];
           setTodoList(newTodoList)
-          console.log("datachecklist: ", newTodoList)
         } else {
           setMessage(data.error);
         }
@@ -224,7 +202,6 @@ export default function CompReportResultsForm({ onSubmit }) {
   }, [selectedExamineOption, fetchDataExamine]);
 
 
-  // Call the second useEffect function when the selected option changes
 
 
   const [formData, setFormData] = useState({
@@ -239,60 +216,13 @@ export default function CompReportResultsForm({ onSubmit }) {
     detail: '',
   });
 
-  const [uploadedImage, setUploadedImage] = useState(null);
   const [message, setMessage] = useState('');
 
-  const handleInputChange = (e) => {
-    const { name, value, files } = e.target;
-  
-    if (name === 'file') {
-      // หากเป็นฟิลด์ 'file' ให้ดึงข้อมูลของไฟล์และเก็บชื่อไฟล์
-      setFormData({
-        ...formData,
-        [name]: files[0],
-        fileName: files[0] ? files[0].name : '', // กำหนดชื่อไฟล์
-      });
-    } else {
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
-    }
-  };
 
-
-  // const handleSubmit = async () => {
-    // if (
-    //   formData.detail === ''
-    // ) {
-    //   setMessage('Please fill out all required fields.');
-    // } else {
-    // const isSuccess = await onSubmit(formData ,nameExamine );
-
-    // if (isSuccess) {
-    //   setMessage('');
-    // } else {
-    //   setMessage('An error occurred while submitting the data.');
-    // }
-  // }
-  // };
 
   const handleSubmit = async () => {
-  
-    
-    try {
+   try {
      
-      // const formData = new FormData();
-      // formData.append('title', data.title);
-      // formData.append('employee', data.employee);
-      // formData.append('location', data.location);
-      // formData.append('work_owner', data.work_owner);
-      // formData.append('position', data.position);
-      // formData.append('dateTime', data.dateTime);
-      // formData.append('detail', data.detail);
-      // formData.append('file', data.file);
-      // formData.append('file_name', data.file_name);
-
       const sendData = {
         nameExamine,
         send: true
@@ -303,21 +233,6 @@ export default function CompReportResultsForm({ onSubmit }) {
       const response = await axios.post('/api/reportResultsPdf', dataform, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-
-      // const requestData = {
-      //   ...data,
-      // };
-      
-      // console.log('Submitted Data:', requestData);
-      
-      // // const dataform = JSON.stringify(requestData);
-      
-      // const response = await axios.post('/api/notify', {
-      //   requestData
-      // }, {
-      //   headers: { 'Content-Type': 'application/json' }
-      // });
-      
       
       const resdata = response.data; 
 
@@ -327,26 +242,22 @@ export default function CompReportResultsForm({ onSubmit }) {
         if (resdata.success === true) {
           setShowSuccessPopup(true)
           setaddMessage(resdata.message);
-          // setnotifyMessage('');
           setSent(true)
 
           setTimeout(() => {
             setShowSuccessPopup(false);
             router.push(resdata.redirect)
-          }, 1000); // 1000 milliseconds = 1 second
+          }, 1000); 
         } else {
-          // setnotifyMessage(resdata.error);
           setMessage('');
 
         }
       } else {
-        // setnotifyMessage(resdata.error);
         setMessage('');
 
       }
     } catch (error) {
       console.error('Error registering: ', error);
-      // setnotifyMessage(error);
       setMessage('');
 
     } 
@@ -363,7 +274,6 @@ export default function CompReportResultsForm({ onSubmit }) {
       orientation: 'portrait'
     });
   
-    // Add Sarabun font
     let verticalSpacing = 5; // Set the desired vertical spacing
     let tableHeight = 0;
     let currentY = 10;
@@ -395,35 +305,29 @@ export default function CompReportResultsForm({ onSubmit }) {
     doc.text(`วัน เดือน ปี เวลา ที่ตรวจ : ${nameExamine.date} น.`, 20, 38);
   
     if (nameExamine && nameExamine.items) {
-      console.log("nameExamine.items: ", nameExamine.items);
       try {
         for (const item of nameExamine.items) {
-          console.log("HEIGHT item.name: ", item.name, currentY, currentHeight, checkcurrentHeight);
           if (checkcurrentHeight > maxPageHeight) {
             createNewPage();
             currentY = 20; 
             checkcurrentHeight = 0;
           }
           if (startY) {
-            console.log("NEWW 3333");
             startY = false;
             currentY = 46;
           }else if (newPage) {
-            console.log("NEWW PAGEEEE");
             currentY = 20;
             tableHeight = 0;
             currentHeight  = 0;
             newPage = false;
   
           } else if (!newPage) {
-            console.log("NEWW 2222" , currentHeight);
   
             currentY = currentHeight + 8;
           }
   
          
           doc.text(20, currentY, `การตรวจสอบ :  ${item.name}`);
-          console.log("HEIGHT item.name 1: ", item.name, currentY, currentHeight, checkcurrentHeight ,tableHeight);
   
           currentY += 8;
   
@@ -499,7 +403,6 @@ export default function CompReportResultsForm({ onSubmit }) {
   
                   }
                   
-                  console.log("HEIGHT: ", examKey, 'checkcurrentHeight: ', checkcurrentHeight, 'tableHeight: ', tableHeight, 'currentY: ', currentY, 'currentHeight: ', currentHeight);
                   
                   
                 }
@@ -507,18 +410,10 @@ export default function CompReportResultsForm({ onSubmit }) {
                 if (examValue[0].itemA) {
                   let entryIndex = 0;
                   for (const entry of examValue[0].itemA) {
-                    console.log("examValue[0].itemA: ", entry, entry.key, currentY,checkcurrentHeight);
-                    console.log("HEIGHT entry.key: ", entry.key, currentY, currentHeight,checkcurrentHeight);
+                   
   
                     entryIndex++;
-                    // if (checkcurrentHeight > maxPageHeight ) {
-                    //   console.log("------------------------------------------------",tableHeight)
-                    //   createNewPage()
-                    //   currentY = tableHeight ;
-                    //   currentHeight = 0;
-                    //   checkcurrentHeight = 0;
-                    //   newPage = true;
-                    // }
+                   
   
                     doc.text(25, currentY, `${entryIndex}. ${entry.key}`);
   
@@ -582,7 +477,6 @@ export default function CompReportResultsForm({ onSubmit }) {
                       doc.addPage();
   
                     }
-                    console.log("HEIGHT: ", entry.key, 'checkcurrentHeight: ', checkcurrentHeight, 'tableHeight: ', tableHeight, 'currentY: ', currentY, 'currentHeight: ', currentHeight);
                     
                    
                   }
@@ -592,7 +486,6 @@ export default function CompReportResultsForm({ onSubmit }) {
           }
         }
   
-        // Save the PDF
         doc.save('แบบรายงานผลการตรวจสอบความปลอดภัย.pdf');
       } catch (error) {
         console.error('Error during PDF generation:', error);
@@ -656,7 +549,6 @@ export default function CompReportResultsForm({ onSubmit }) {
                             nameExamine.items &&
                             nameExamine.items.map((item, index) => (
                               <div key={index}>
-                                {/* {console.log("NAME RESULT: ", index,item.examine)} */}
 
                                 <div className="mt-[10px] md:mt-[10px] md:ml-[-30px] border-t md:border w-full md:w-[750px] border-gray-300"></div>
                                 <h1 className="text-left text-green-600 mt-[10px]">{t('Examine')} : {item.name}</h1>
@@ -664,13 +556,11 @@ export default function CompReportResultsForm({ onSubmit }) {
 
                                 {Object.keys(item.examine).map((examKey, examIndex) => (
                                   <div key={examIndex}>
-                                    {/* {console.log("888888: ",examKey,item.examine[examKey][0])}
-                                    {console.log("8888884444444: ",item.examine[examKey][0].itemA[0])} */}
+                                   
 
                                     {item.examine[examKey][0].useEmployee === 'false' ? (
                                       <div key={examIndex}>
-                                        {/* {console.log("888888: ", examKey, item.examine[examKey][0])}
-                                        {console.log("8888884444444: ", item.examine[examKey][0].itemA[0])} */}
+                                       
 
                                         <h2 className="text-left mt-[10px]">{examKey}</h2>
 
@@ -693,7 +583,6 @@ export default function CompReportResultsForm({ onSubmit }) {
                                           </thead>
                                           <tbody className="bg-white text-[13px] divide-y divide-gray-200">
                                             {item.examine[examKey][0].itemA.map((entry, entryIndex) => (
-                                              // console.log("ITEMA: ", entry),
                                               <tr key={entryIndex} className="text-center">
                                                 <td className="py-4 border whitespace-nowrap">
                                                   <div>{entryIndex + 1}</div>
@@ -716,13 +605,11 @@ export default function CompReportResultsForm({ onSubmit }) {
                                       </div>
                                     ) : (
                                         <div key={examIndex}>
-                                          {/* {console.log("888888แต่งกาย: ", examKey, item.examine[examKey][0].itemA)}
-                                          {console.log("8888884444444แต่งกาย: ", item.examine[examKey][0].itemA[0].itemB[0])} */}
+                                          
   
                                           <h2 className="text-left mt-[10px]">{examKey}</h2>
                                           {item.examine[examKey][0].itemA.map((exameKey, exameIndex) => (
                                         <div key={exameIndex}>
-                                            {/* {console.log("YYYY: ",exameKey.itemB)} */}
                                           <div className="mt-[10px] md:mt-[10px] md:ml-[-30px] border-t md:border w-full md:w-[750px] border-gray-300"></div>
 
                                             <h1 className='text-left mt-[10px]'>{exameIndex + 1}. {exameKey.key} </h1>
@@ -746,8 +633,7 @@ export default function CompReportResultsForm({ onSubmit }) {
                                             </thead>
                                             <tbody className="bg-white text-[13px] divide-y divide-gray-200">
                                               {exameKey.itemB.map((entry, entryIndex) => (
-                                                // console.log("ITEMA: ", entry),
-                                                // entry.itemB.map((entry, entryIndex) => (
+                                             
 
                                                 <tr key={entryIndex} className="text-center">
                                                   <td className="py-4 border whitespace-nowrap">
@@ -788,44 +674,7 @@ export default function CompReportResultsForm({ onSubmit }) {
                             </div> 
                           </div>
                         </div>
-                            {/* //  Map over itemA
-
-                            //   console.log("555555: ", entryIndex, entry)
-                            //   return entry.itemA.map((itemAEntry, itemAIndex) => (
-                            //     <tr key={itemAIndex} className='text-center'>
-                            //       {console.log("3333333: ", itemAIndex, itemAEntry)}
-                            //       <td className="py-4 border whitespace-nowrap">
-                            //         <div>{itemAIndex + 1}</div>
-                            //       </td>
-                            //       <td className="py-4 border whitespace-nowrap">
-                            //         <div className="text-left ml-[10px]">{itemAEntry.examine_name}</div>
-                            //       </td>
-                            //       <td className={`py-4 border whitespace-nowrap ${itemAEntry.status === 'pass' ? 'text-green-600' : 'text-red-600'}`}>
-                            //         <div>{itemAEntry.status}</div>
-                            //       </td>
-                            //       <td className="py-4 border">
-                            //         <div className={`break-words ${itemAEntry.details === '-' ? 'text-center' : 'text-left ml-[10px]'}`}>
-                            //           <span className={`break-words ${itemAEntry.details === '-' ? '' : 'ml-[10px]'}`}>{itemAEntry.details}</span>
-                            //         </div>
-                            //       </td>
-                            //     </tr> */}
-
-                        
-
-
-{/*                     
-                    {formData.file && ( // เช็คว่ามีรูปภาพใน formData.file หรือไม่
-                      <div>
-                        <h3>รูปภาพที่อัพโหลด</h3>
-                        <img src={URL.createObjectURL(formData.file)} alt="รูปภาพที่อัพโหลด" />
-                      </div>
-                    )} */}
-      
-
-                {/* <div >
-                    <p className='font-mitr text-[#808080] text-[13px] md:text-[16px] ml-[-160px] md:ml-[-620px] mt-[20px]  md:mt-[15px]'>{t('details')}</p>
-                    <textarea type="text" name="detail" value={formData.detail} onChange={handleInputChange} className='align-text-top rounded-[10px] mt-[5px] pl-[15px] w-[230px]  text-[14px] md:ml-[-25px] h-[100px] md:text-[16px] md:w-[680px] md:h-[80px] bg-[#fff] border border-gray-300  p-4 '/>
-                </div> */}
+                          
               {showSuccessPopup && (
                 <div className="bg-white text-[#5A985E] text-[16px]  w-[300px] p-8  rounded-lg border-black shadow-lg md:w-[400px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                 <BsCheckCircle className=' text-[50px] mx-auto mb-[10px]'/>
@@ -838,11 +687,7 @@ export default function CompReportResultsForm({ onSubmit }) {
                     {message}
                   </p>
                 )}
-                {/* {notifyMessage && (
-                  <p className=' mt-3 text-red-500 text-xs py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-lg md:mt-[30px]'>
-                    {notifyMessage}
-                  </p>
-                )} */}
+              
 
                 {showPopup && (
               <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-[9999]">
@@ -860,14 +705,10 @@ export default function CompReportResultsForm({ onSubmit }) {
 
               {sent ? (
                 <div className=  {` w-[300px] md:w-[650px] lg:w-[750px]  text-[15px] md:text-[17px] md:ml-[-25px]  flex items-center mx-auto md:px-10  md:mt-[20px]`} >
-                  {/* <button type= "submit" href="/NotifyTwo" className=' mt-[20px] text-md md:text-[20px] md:ml-[480px] border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>Submit</button> */}
                   <button onClick={generatePDF} className=' mt-[20px]  md:mr-[370px] lg:mr-[450px] mr-[80px] bg-[#808080]  text-[12px] px-5  py-1  text-[#fff] hover:-translate-y-0.5 duration-200  flex items-center '><IoMdDownload /><span className='ml-[5px]'>Dowload</span></button>
 
                   <button type='submit' onClick={(e) => setShowPopup(true)} className=' mt-[20px]  border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200    '>{t('send')}</button>
-                    {/* <button onClick={generatePDF}>Generate PDF</button> */}
-                    {/* <div className=  {`${language === 'EN' ? ' font-ntr text-md md:text-[20px]' : ' font-mitr text-[15px] md:text-[17px] '  } left-0 flex items-center   md:px-10  md:mt-[20px]`} > */}
-                  {/* <button type= "submit" href="/NotifyTwo" className=' mt-[20px] text-md md:text-[20px] md:ml-[480px] border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>Submit</button> */}
-                    
+                  
                 </div>
                ) : (
                 <div >

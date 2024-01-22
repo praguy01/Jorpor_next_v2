@@ -68,17 +68,14 @@ function App() {
       const storedId = localStorage.getItem('id');
       if (storedId) {
         setId(storedId);
-        console.log("Stored: ",storedId)
       }
     }, []);
 
     useEffect(() => {
-      console.log("STARTChecklist: ",useEmployee);
 
       if (typeof window !== 'undefined') {
         const searchParams = new URLSearchParams(window.location.search);
         const checklistnameValue = searchParams.get('checklistname') ; // กำหนดค่าเริ่มต้นว่างไว้ถ้าไม่มีค่า
-        // const indexValue = searchParams.get('index') ; // กำหนดค่าเริ่มต้นว่างไว้ถ้าไม่มีค่า
         const examinenameValue = searchParams.get('examinename') ; // กำหนดค่าเริ่มต้นว่างไว้ถ้าไม่มีค่า
         const employeeValue = searchParams.get('employee_Id') ; // กำหนดค่าเริ่มต้นว่างไว้ถ้าไม่มีค่า
         const idemployeeValue = searchParams.get('idemployee') ; // กำหนดค่าเริ่มต้นว่างไว้ถ้าไม่มีค่า
@@ -87,7 +84,6 @@ function App() {
         const examinelist_nameValue = searchParams.get('examinelist_name') ; // กำหนดค่าเริ่มต้นว่างไว้ถ้าไม่มีค่า
 
        
-        console.log("queryData: ",{checklistnameValue,examine_IdValue,examinenameValue ,employeeValue ,idemployeeValue,examinelist_nameValue })
 
        
       
@@ -95,10 +91,8 @@ function App() {
           try {
            
 
-            console.log("TODO: ", examinenameValue ,examine_IdValue)
             const editedData = { examinenameValue ,examine_IdValue};
             const datasend = JSON.stringify(editedData)
-            console.log("checkboxDataEmployee: ",datasend)
             const response = await axios.post('/api/checklistemployee', datasend, {
               headers: { 'Content-Type': 'application/json' },
             });          
@@ -107,8 +101,7 @@ function App() {
     
             if (response.status === 200) {
               if (data.success === true) {
-                console.log("AllDataChecklist: ",data)
-                console.log("Datachecklist1: ",data.dbchecklist[0])
+              
                 setTodoList(data.dbchecklist);
               } else {
                 setMessage(data.error);
@@ -135,22 +128,10 @@ function App() {
     }, [reloadData, useEmployee]); // โหลดข้อมูลเมื่อค่า state reloadData เปลี่ยนแปลง
 
     
-   
-
-  
-  
-  // const handleCheckboxChange = (todo, isChecked) => {
-  //   setSelectedItems((prevSelectedItems) => ({
-  //     ...prevSelectedItems,
-  //     [todo]: isChecked,
-  //   }));
-  // };
-
+ 
   const handleCheckboxChange = (todo, passChecked, failChecked, details) => {
-    // สร้างค่าเริ่มต้นของสถานะสำหรับเครื่องจักร A และ B
     const updatedTodoStatus = { ...todoStatus };
     
-    // กำหนดค่า "pass" หรือ "fail" ตามเครื่องจักรที่เลือก
     if (passChecked) {
       updatedTodoStatus[todo] = { name: todo, pass: true,status: "pass", details: details || "-" };
     } else if (failChecked) {
@@ -160,7 +141,6 @@ function App() {
     }
     
     setTodoStatus(updatedTodoStatus);
-    console.log("State: ", updatedTodoStatus);
   };
   
 
@@ -168,17 +148,11 @@ function App() {
 
     const handleSubmit = async () => {
       try {
-        // const selectedItemsArray = Object.entries(selectedItems)
-        //   .filter(([_, isSelected]) => isSelected)
-        //   .map(([todo]) => todo);
-    
+       
 
         const editedData = {todoStatus , checklistname ,examine_Id,examinelist_Id,examinename,examinelist_name, employee_Id ,currentDate,idemployee, id, details, checkbox: true };
-        console.log("checkbox: ",editedData)
         const data = JSON.stringify(editedData)
-        console.log("checkboxDataEmployee: ",data)
     
-        // ส่งข้อมูลไปยัง API โดยใช้ axios หรือวิธีอื่น ๆ ตามที่คุณใช้
         const response = await axios.post('/api/checklistemployee', data, {
           headers: { 'Content-Type': 'application/json' },
         });    
@@ -188,7 +162,6 @@ function App() {
         if (response.status === 200) {
           if (resdata.success === true) {
 
-            console.log("Messageemployee: ", resdata);
             setShowDeleteSuccessPopup(true);
             setdeleteMessage(resdata.message);
 
@@ -207,7 +180,7 @@ function App() {
 
       } catch (error) {
         console.error('Error:', error);
-        // ดำเนินการเมื่อเกิดข้อผิดพลาดในการส่งข้อมูลไปยัง API
+       
       }
     };
     
@@ -224,9 +197,9 @@ function App() {
         <div className=' bg-[url("/bg1.png")] overflow-auto bg-cover bg-no-repeat absolute z-[-1] top-0 left-0 w-full h-full bg-center   '>
           <div className='md:w-[800px] lg:w-[1000px] mx-auto '>
             <div className=' w-[280px] mx-auto md:w-[963px]'>
-              <div className='left-0 md:ml-[90px] md:w-[700px] lg:w-[800px] w-[300px]  flex items-center md:mt-[100px] mt-[90px] '>
-                  <h1 className=' text-[#5A985E] text-[25px] md:text-[40px]  mr-[10px] '>{t('Examine')}</h1>
-                  <p className='text-black   w-[400px] text-sm md:text-[20px] mt-[2px] '>({checklistname})</p>
+            <div className=  {` text-[21px] md:text-[35px] border md:w-[700px] lg:w-[800px] w-[300px] left-0 md:ml-[70px] lg:ml-[90px]  flex items-center md:mt-[100px] mt-[90px] `}>
+                  <h1 className=' text-[#5A985E] text-[25px] md:text-[40px]  mr-[10px] border '>{t('Examine')}</h1>
+                  <p className='text-black   w-[170px] md:w-[400px] text-sm md:text-[20px] mt-[2px] border text-ellipsis whitespace-nowrap overflow-hidden'>({checklistname})</p>
               </div>
               <div className='flex items-center text-center  w-[110px] h-[24px] md:w-[140px] md:h-[30px] rounded-[5px] text-[#fff] border-[#000] bg-[#000] md:ml-[90px] '>
                     <div className=' md:ml-[10px] ml-[10px] '><BsCalendar2Minus/></div>
@@ -294,7 +267,6 @@ function App() {
                     <div className='flex px-3'>
                       <input type="checkbox" className='mr-[10px]' />
                       <p className='text-[#000] text-[14px] w-[180px]  whitespace-nowrap overflow-hidden overflow-ellipsis'>{todo}</p>
-                      {/* <Link href='' className='text-[#000]'>{todo}  {index}</Link> */}
                     </div>
                   </div>
                   </Link>
@@ -354,15 +326,11 @@ function App() {
                     {showPopup && (
                       <div className="text-center fixed top-0 left-0 w-full h-full flex items-center justify-center ">
                         <div className="bg-white p-4 rounded-lg border-black shadow-lg md:w-[400px] ">
-                          {/* เนื้อหาของ popup */}
                           <h2 className='text-[30px] text-[#5A985E]  font-bold'>{t("Add checklist")}</h2>
                             <div className="mt-1">
-                              {/* <label htmlFor="name" className="md:text-[18px] font-mitr block text-sm font-medium text-gray-700">ชื่อ-นามสกุล</label> */}
                               <input className='mt-1 p-2 w-full border border-gray-300 rounded-md'value={input} onChange={(e) => setInput(e.target.value)} placeholder={t("add checklist")}/>
                             </div>
-                            {/* <div>
-                            <input className='mt-1 p-2 w-full border border-gray-300 rounded-md'value={lastname} onChange={(e) => setlastname(e.target.value)}placeholder="Lastname"/>
-                            </div> */}
+                            
                           <div className="flex justify-center mt-[10px]">
                             <button className="flex justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={addTodo}>{t('Add')}</button>
                             <button className="flex justify-center items-center bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600" onClick={() => closePopup(false)}>{t('Cancel')}</button>
@@ -377,16 +345,7 @@ function App() {
                     )}
 
                     <div className=' text-center w-full'>
-                      {/* {!isEditing && (
-                        <div className='w-[250px] h-[100px] mt-[20px] mx-auto'>
-                          <p className='font-mitr text-sm mb-2'>รายละเอียด</p>
-                          <textarea
-                            value={details}
-                            onChange={(e) => setDetails(e.target.value)}
-                            className='border border-gray-300 rounded-md bg-[#F5F5F5] w-[250px] h-[100px] text-sm pl-2 pt-2'
-                          />
-                        </div>
-                      )} */}
+                   
                      
                         <button onClick={handleSubmit} className= ' text-md md:text-[18px]   border-[#64CE3F] bg-[#64CE3F] px-10 py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>{t('Submit')}</button>
                         

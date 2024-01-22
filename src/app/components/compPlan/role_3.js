@@ -54,19 +54,19 @@ function App() {
       const storedId = localStorage.getItem('id');
       if (storedId) {
         setId(storedId);
-        console.log('Stored: ', storedId);
+        // console.log('Stored: ', storedId);
       }
   
       const AddData = { storedId ,data_role_3:true};
       const data = JSON.stringify(AddData);
-      console.log('DD: ', data);
+      // console.log('DD: ', data);
   
       const response = await axios.post('/api/plan', data, {
         headers: { 'Content-Type': 'application/json' },
       });
   
       const resdata = response.data;
-      console.log('DATA: ', resdata);
+      // console.log('DATA: ', resdata);
   
       if (response.status === 200) {
         if (resdata.success === true) {
@@ -116,10 +116,10 @@ function App() {
               if (isCurrentDate) {
                 let isCurrentTime = `${new Date().getHours().toString().padStart(2, '0')}.${new Date().getMinutes().toString().padStart(2, '0')} `
                 let isTime = `${item.endTime.substring(0, 5).replace(':', '.')}`
-                console.log("Time: ", isCurrentTime,isTime);
+                // console.log("Time: ", isCurrentTime,isTime);
               
                 if (isCurrentTime < isTime) {
-                  console.log("End",item.endTime)
+                  // console.log("End",item.endTime)
                 
 
                 const highlightedPlan = {
@@ -135,7 +135,7 @@ function App() {
               } else if ( convertedDate1.getTime() < convertedDate2.getTime())  {
                 
 
-                console.log("DATee: ", formattedDate , item.date);
+                // console.log("DATee: ", formattedDate , item.date);
 
 
                 const highlightedPlan = {
@@ -153,7 +153,7 @@ function App() {
           });
   
           setSchedule(PlanToAdd);
-          console.log("Testt: ", PlanToAdd);
+          // console.log("Testt: ", PlanToAdd);
         } else {
           setMessage(resdata.error);
         }
@@ -192,10 +192,10 @@ function App() {
 
       let isCurrentTime = parseFloat(`${new Date().getHours().toString().padStart(2, '0')}.${new Date().getMinutes().toString().padStart(2, '0')} `)
       let isTime = parseFloat(`${newEndTime.substring(0, 5).replace(':', '.')}`)
-      console.log("DATEEEE: ", formattedDate,selectedformattedDate);
+      // console.log("DATEEEE: ", formattedDate,selectedformattedDate);
       const date1 = new Date(formattedDate.split("/").reverse().join("-"));
       const date2 = new Date(selectedformattedDate.split("/").reverse().join("-"));
-      console.log("DATEEEE777: ", date1,date2);
+      // console.log("DATEEEE777: ", date1,date2);
 
 
       if (date1.toDateString() === date2.toDateString() && isCurrentTime > isTime) {
@@ -211,7 +211,7 @@ function App() {
       } else {
 
       const storedUser_id = localStorage.getItem('id');
-      console.log("user_id: ",storedUser_id);
+      // console.log("user_id: ",storedUser_id);
       setId(storedUser_id);
 
       const originalDate = new Date(selectedDate);
@@ -235,7 +235,7 @@ function App() {
     
         if (response.status === 200) {
           if (resdata.success === true) {
-            console.log("Message: ", resdata);
+            // console.log("Message: ", resdata);
            
             let PlanToAdd = [];
 
@@ -284,12 +284,12 @@ function App() {
               if (isCurrentDate) {
                 let isCurrentTime = parseFloat(`${new Date().getHours().toString().padStart(2, '0')}.${new Date().getMinutes().toString().padStart(2, '0')} `)
                 let isTime = parseFloat(`${item.endTime.substring(0, 5).replace(':', '.')}`)
-                console.log("Time: ", isCurrentTime,isTime);
+                // console.log("Time: ", isCurrentTime,isTime);
               
                 if (isCurrentTime < isTime) {
-                  console.log("ITEm",item)
+                  // console.log("ITEm",item)
 
-                  console.log("End",item.endTime)
+                  // console.log("End",item.endTime)
                 
 
                 const highlightedPlan = {
@@ -307,7 +307,7 @@ function App() {
               } else if ( convertedDate1.getTime() < convertedDate2.getTime())  {
                 
 
-                console.log("DATee: ", formattedDate , item.date);
+                // console.log("DATee: ", formattedDate , item.date);
 
 
                 const highlightedPlan = {
@@ -326,7 +326,7 @@ function App() {
           });
   
             setSchedule(PlanToAdd);
-            console.log("Testt2: ", PlanToAdd);
+            // console.log("Testt2: ", PlanToAdd);
 
             setUseMeeting(false)
             setSelectedDate('');
@@ -400,11 +400,11 @@ function App() {
   
   
   const openEditPopup = async (item) => {
-    console.log("22345: ",item)
+    // console.log("22345: ",item)
 
     setMessage('');
     setShowEditPopup({ isOpen: true, item });
-    console.log("edit: ",showEditPopup)
+    // console.log("edit: ",showEditPopup)
   };
 
   const closeEditPopup = () => {
@@ -413,11 +413,11 @@ function App() {
   
   const deleteTodo = async (item) => {
     try {
-      console.log("22345: ",item)
+      // console.log("22345: ",item)
 
       const editedData = { item , id, edit_role_3: true };
       const data = JSON.stringify(editedData)
-      console.log("delete data: ",data)
+      // console.log("delete data: ",data)
 
 
       const response = await axios.post('/api/plan', data,  {
@@ -432,7 +432,7 @@ function App() {
         if (resdata.success === true) {
           // setReloadData(prev => !prev);
 
-          console.log("Message: ", resdata);
+          // console.log("Message: ", resdata);
           setShowDeleteSuccessPopup(true);
           setdeleteMessage(resdata.message);
           fetchData();

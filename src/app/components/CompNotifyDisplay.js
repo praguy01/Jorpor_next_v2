@@ -38,29 +38,10 @@ export default function CompNotifyDisplay({ data , onSubmit}) {
   const [id, setId] = useState('');
 
 
-  const fileName = data.file.name; // ชื่อไฟล์ที่อัปโหลด
-  // const fileExtension = fileName.split('.').pop(); // ดึงนามสกุลไฟล์
-
-  // useEffect(() => {
-  //   // ใช้ useEffect เพื่อตรวจสอบและอัปเดต state เมื่อ fileExtension เปลี่ยนแปลง
-  //   if (fileExtension === 'docx') {
-  //     setdocx(true);
-  //   } else if (fileExtension === 'jpg') {
-  //     setjpg(true);
-  //   } else if (fileExtension === 'pdf') {
-  //     setpdf(true);
-  //   } else if (fileExtension === 'xlsx') {
-  //     setxlsx(true);
-  //   } else {
-  //     setelse(true);
-  //   }
-  // }, [fileExtension]);
-
   useEffect(() => {
     const storedId = localStorage.getItem("id");
     setId(storedId)
 
-    console.log('Submitted Data:',data.file);
 
     const date = new Date(data.dateTime);
     const formattedDate = new Intl.DateTimeFormat('th-TH', {
@@ -158,7 +139,6 @@ export default function CompNotifyDisplay({ data , onSubmit}) {
           <div className='mx-auto w-[300px] md:w-[700px] lg:w-[800px]  mb-[50px]  py-[30px] text-black flex flex-col  bg-[#FFF] text-center md:rounded-[50px] rounded-[30px] mt-[106px]  '>
           
             
-          {/* <form onSubmit={!recheck ? handleConfirm : handleSubmit}> */}
 
                 <div className='md:mt-[30px]'>
               
@@ -217,71 +197,11 @@ export default function CompNotifyDisplay({ data , onSubmit}) {
                     onClick={() => openFileInNewTab()}>{data.file.name}</h1>
                 </div>
 
-              {/* <div className='flex items-center mx-auto'>
-                <div>
-                <h1 className=" whitespace-nowrap overflow-hidden overflow-ellipsis mr-[10px] w-[225px] md:w-[710px] py-1 px-2 border mt-[5px] md:mt-[10px] md:ml-[-25px] border-gray-300 p-4 rounded-lg"
-                  onClick={() => openFileInNewTab()}>{data.file.name}</h1>
-                </div>  
-                <div>
-                <a href={URL.createObjectURL(data.file)} download>
-                  <BiSolidDownload />
-                </a>                
-                </div>
-              </div> */}
-
-                {/* {jpg && (
-                  <div className="bg-white border border-gray-300 rounded-[10px] w-[300px] text-[#5A985E] p-8 shadow-lg md:w-[400px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                    <h1>รูปภาพที่อัพโหลด</h1>
-                    <img className="mt-[10px] rounded-[10px]" src={URL.createObjectURL(data.file)} alt="รูปภาพที่อัพโหลด" />
-                    <button className="mt-[20px] justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={() => setjpg(false)}>
-                      OK
-                    </button>
-                  </div>
-                )}
-
-                {docx && (
-                  <div className="bg-white border border-gray-300 rounded-[10px] w-[400px] text-[#5A985E] p-8 shadow-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                    <h1>ไฟล์ที่อัพโหลด</h1>
-                    <a href={`https://docs.google.com/viewer?url=${encodeURIComponent(URL.createObjectURL(data.file))}&embedded=true`} target="_blank" rel="noopener noreferrer">เปิดไฟล์ .docx</a>
-                    <button className="mt-[20px] justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover-bg-green-600" onClick={() => setdocx(false)}>
-                      OK
-                    </button>
-                  </div>
-                )}
-
-                {pdf && (
-                  <div className="bg-white border border-gray-300 rounded-[10px] w-[400px] text-[#5A985E] p-8 shadow-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                    <h1>ไฟล์ที่อัพโหลด</h1>
-                    <iframe src={URL.createObjectURL(data.file)} frameBorder="0" width="100%" height="500px"></iframe>
-                    <button className="mt-[20px] justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover-bg-green-600" onClick={() => setpdf(false)}>
-                      OK
-                    </button>
-                  </div>
-                )}
-                {xlsx && (
-                  <div className="bg-white border border-gray-300 rounded-[10px] w-[400px] text-[#5A985E] p-8 shadow-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                    <h1>ไฟล์ที่อัพโหลด</h1>
-                    <iframe src={`https://docs.google.com/viewer?url=${encodeURIComponent(URL.createObjectURL(data.file))}&embedded=true`} frameBorder="0" width="100%" height="500px"></iframe>
-                    <button className="mt-[20px] justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover-bg-green-600" onClick={() => setxlsx(false)}>
-                      OK
-                    </button>
-                  </div>
-                )}
-
-                {fileelse && (
-                  <div className="bg-white border border-gray-300 rounded-[10px] w-[400px] text-[#5A985E] p-8 shadow-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                    <h1>เปิดไฟล์ที่อัพโหลดไม่สำเร็จ</h1>
-                    <button className="mt-[20px] justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover-bg-green-600" onClick={() => setelse(false)}>
-                      OK
-                    </button>
-                  </div>
-                )} */}
-
+             
                 
                 <div className=' mx-auto w-[250px]  md:w-[620px]   lg:w-[720px] justify-center'>
                     <p className=' text-[#808080] text-[13px] md:text-[14px] ml-[5px] text-left  mt-[20px]  md:mt-[16px]'>{t('details')}</p>
                     <textarea  type="text" name="detail" placeholder={data.detail} className='rounded-[10px] mt-[5px] pl-[15px] w-[250px]  h-[100px] md:text-[14px] text-[13px] md:w-[620px]   lg:w-[720px] md:h-[80px] bg-[#fff] border border-gray-300  p-4 '/>
-                    {/* <textarea value={formData.detail} onChange={handleInputChange} className='border border-gray-300 rounded-md bg-[#F5F5F5] w-[250px] h-[100px] text-black text-sm pl-2 pt-2' /> */}
                 </div>
                 
 
@@ -290,17 +210,10 @@ export default function CompNotifyDisplay({ data , onSubmit}) {
                     {message}
                   </p>
                 )}
-                {/* {notifyMessage && (
-                  <p className=' mt-3 text-red-500 text-xs py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-lg md:mt-[30px]'>
-                    {notifyMessage}
-                  </p>
-                )} */}
+               
 
                 <div className='flex items-center md:px-10  md:mt-[20px]' >
-                  {/* <button type= "submit" href="/NotifyTwo" className=' mt-[20px] text-md md:text-[20px] md:ml-[480px] border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>Submit</button> */}
-                  
-                    {/* // <button type= "submit" onClick={handleSubmit} className=' mt-[20px] text-md md:text-[20px] md:ml-[300px] ml-[85px] border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>submit</button> */}
-                    <button type= "submit" onClick={handleSubmit} className=' mt-[20px] text-md md:text-[15px] mx-auto border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>{t('submit')}</button>
+                  <button type= "submit" onClick={handleSubmit} className=' mt-[20px] text-md md:text-[15px] mx-auto border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>{t('submit')}</button>
 
                     
                 </div>

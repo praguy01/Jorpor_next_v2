@@ -17,7 +17,7 @@ function CompNavbar() {
   const { language, toggleLanguage } = useLanguage();
   const [toggle, setToggle] = useState(false);
   useEffect (() => {
-    console.log("ภาษา ",language)
+    // console.log("ภาษา ",language)
     localStorage.setItem('language', language);
   })
   const currentPath = usePathname();

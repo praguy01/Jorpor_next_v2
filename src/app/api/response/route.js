@@ -8,7 +8,7 @@ export async function POST(request) {
     
     const res = await request.json();
     try {
-    console.log("RESS: ",res ,res.storedId)
+    // console.log("RESS: ",res ,res.storedId)
 
     if (res.fetch){
       const getQuery = "SELECT * FROM notify WHERE user_id = ?";
@@ -31,7 +31,7 @@ export async function POST(request) {
       try {
         const {data } = res;
   
-        console.log("RES_ROUTE_: ", res);
+        // console.log("RES_ROUTE_: ", res);
           const deleteExamineQuery = "DELETE FROM notify WHERE id = ?";
           await db.query(deleteExamineQuery, [res.todo.id]);
   

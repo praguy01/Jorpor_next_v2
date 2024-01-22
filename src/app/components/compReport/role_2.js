@@ -54,7 +54,7 @@ function App() {
     const handleResize = () => {
       setChartWidth(window.innerWidth < 768 ? 300 : 600);
       setChartHeight(window.innerWidth < 768 ? 200 : 300);
-      console.log("WINDOWW: ", window.innerWidth);
+      // console.log("WINDOWW: ", window.innerWidth);
     };
 
     // Attach the event listener when the component mounts
@@ -71,7 +71,7 @@ function App() {
   }, []);  // The empty dependency array ensures that the effect runs only once when the component mounts
   
   
-  console.log("WINDOWWHHHH: ", chartWidth,chartHeight);
+  // console.log("WINDOWWHHHH: ", chartWidth,chartHeight);
 
 
 
@@ -89,7 +89,7 @@ function App() {
       try {
         const AddData = { storedId, fetch_role_2 : true};
         const dataDetail = JSON.stringify(AddData);
-        console.log("send: ",dataDetail)
+        // console.log("send: ",dataDetail)
 
         const response = await axios.post('/api/reportall', dataDetail, {
           headers: { 'Content-Type': 'application/json' },
@@ -100,18 +100,18 @@ function App() {
 
         if (response.status === 200) {
           if (data.success === true) {
-            console.log("DATA: ",data)
+            // console.log("DATA: ",data)
             for (const percentage of data.percent){
               // console.log("percentage: ",percentage)
               if (percentage.currentDateA === formattedDate) {
-                console.log("datatoday: ",percentage.data)
+                // console.log("datatoday: ",percentage.data)
                 let allValuesAreEmptyArrays = true;
 
                 Object.entries(percentage.data).forEach(([key, value]) => {
-                  console.log("/////////////////////-*-*-*-")
+                  // console.log("/////////////////////-*-*-*-")
 
                   if (Array.isArray(value) && value.length === 0) {
-                    console.log(`Length of key ${key}: ${value.length}`);
+                    // console.log(`Length of key ${key}: ${value.length}`);
                     setTodoZone(percentage.data)
                     setTodoAll(data.percent)
 
@@ -119,7 +119,7 @@ function App() {
                     setTodoZone(percentage.data)
                     setTodoAll(data.percent)
                     allValuesAreEmptyArrays = false;
-                    console.log("datatoday222: ",percentage.data)
+                    // console.log("datatoday222: ",percentage.data)
 
                   }
                 });
@@ -128,7 +128,7 @@ function App() {
                   setdataToday(false)
                   setTodoAll(data.percent.reverse());
 
-                  console.log("ไม่มีข้อมูล");
+                  // console.log("ไม่มีข้อมูล");
 
                 }
 
@@ -318,16 +318,16 @@ function App() {
   
     // อ่านค่า data
     const dataday = day.data;
-    console.log("DatacurrentDateA:",currentDateA, dataday);
+    // console.log("DatacurrentDateA:",currentDateA, dataday);
   
     // ทำตามที่ต้องการกับข้อมูลใน data
     for (const key of Object.keys(dataday)) {
       const arrayData = dataday[key];
-      console.log("Array Data:", arrayData);
+      // console.log("Array Data:", arrayData);
   
       // ทำตามที่ต้องการกับข้อมูลใน arrayData
       for (const item of arrayData) {
-        console.log("Item:", item.name);
+        // console.log("Item:", item.name);
         if (!Zone.includes(item.name)) {
           // If not, push it to the array
           Zone.push(item.name);
@@ -339,8 +339,8 @@ function App() {
           const name = item.name;
           const percentageZone = item.percentageZone;
         
-          console.log("Name:", name);
-          console.log("Percentage Zone:", percentageZone);
+          // console.log("Name:", name);
+          // console.log("Percentage Zone:", percentageZone);
         // }}
         // newDataItem.push(name:percentageZone)
         // newDataItem.name = day.currentDateA;
@@ -354,8 +354,8 @@ function App() {
     }
         data.push(newDataItem);
 
-    console.log("percentage Data:", data);
-    console.log("ZONEEEEEEEEE:", Zone);
+    // console.log("percentage Data:", data);
+    // console.log("ZONEEEEEEEEE:", Zone);
 
 }
 
@@ -370,7 +370,7 @@ function App() {
               
             <div className={`mx-auto mb-[20px] ${!dataToday && ('justify-center')} flex items-center w-[350px] h-[120px] md:w-[600px] md:h-[160px] overflow-auto`}>
             <div className='justify-center  flex flex-row'>
-              {console.log("todoZone: ",todoZone)}
+              {/* {console.log("todoZone: ",todoZone)} */}
             {dataToday ? (
               todoZone && Object.values(todoZone).flat().map((item, index) => (
                 <div

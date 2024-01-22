@@ -6,7 +6,7 @@ export async function POST(request) {
     const res = await request.json();
     try {
       const {data } = res;
-      console.log("RES_ROUTE_checklistexamine: ", res);
+      // console.log("RES_ROUTE_checklistexamine: ", res);
 
 
 
@@ -177,7 +177,7 @@ export async function POST(request) {
     
           return NextResponse.json({ success: true, message: "successfully" ,dbemployee_name: sortedEmployeeResult});
         } catch (error) {
-          console.error('ErrorEditEx:', error);
+          // console.error('ErrorEditEx:', error);
           return NextResponse.json({ success: false, error: error.message });
         }
       }
@@ -193,7 +193,7 @@ export async function POST(request) {
 
       return NextResponse.json({ success: true, message: "successfully" ,dbchecklist: examineResultmap});
     } catch (error) {
-      console.error('Error:', error);
+      // console.error('Error:', error);
       return NextResponse.json({ success: false, error: error.message });
     }
     

@@ -23,7 +23,6 @@ function  CompResponse() {
 }
 
 function App() {
-  // const { language, toggleLanguage } = useLanguage();
   const { t } = useTranslation();
     const [toggle, setToggle] = useState(false);
     const [reloadData, setReloadData] = useState(false); // เพิ่ม state นี้
@@ -32,7 +31,6 @@ function App() {
 
 
     useEffect(() => {
-      // ใน useEffect นี้คุณสามารถใช้ Axios เพื่อดึงข้อมูลจากฐานข้อมูล
 
 
       const fetchData = async () => {
@@ -41,17 +39,14 @@ function App() {
 
           const AddData = { storedId, response_role_3 : true};
           const dataDetail = JSON.stringify(AddData);
-          console.log("send: ",dataDetail)
   
           const response = await axios.post('/api/response', dataDetail, {
             headers: { 'Content-Type': 'application/json' },
           });
-          // const response = await axios.get('/api/notify'); // แทน '/api/examine' ด้วยเส้นทางที่ถูกต้องไปยัง API ของคุณ
           const data = response.data;
   
           if (response.status === 200) {
             if (data.success === true) {
-              console.log("DATA: ",data)
 
               const notifyData = data.responseResult.map(item => ({
                 id: item.id,
@@ -73,19 +68,15 @@ function App() {
       };
   
       fetchData();
-    }, [reloadData]); // โหลดข้อมูลเมื่อค่า state reloadData เปลี่ยนแปลง
+    }, [reloadData]); 
 
 
 
-    // const moment = require('moment-timezone');
 
       const formatDateTime = (isoDateTime) => {
         const inputDate = new Date(isoDateTime);
         const formattedDate = format(inputDate, 'dd/MM/yyyy HH:mm');
-        console.log("yyyy-MM-dd HH:mm",formattedDate);
-      // const formattedDate = moment(isoDateTime).tz('Asia/Bangkok').format('DD/MM/YYYY HH:mm');
-      // // const formattedDate = inputDate.format('DD/MM/YYYY HH:mm');
-      // console.log("Formatted Date:", formattedDate);
+       
     
       return formattedDate;
     };
@@ -122,7 +113,6 @@ function App() {
                 {todoList.map((todo, index) => (
                   <Link href={`/responsedetail_role_3?response=${todo.title}&id=${todo.id}`} key={index}>
                   <div key={index} className={'mx-auto  mt-[8px] w-[250px] p-2 h-[100px] md:h-[105px] md:w-[600px] lg:w-[700px] px-2 text-black flex-col bg-[#FFF] text-center rounded-[15px] '}>
-                    {console.log("TODOLIST: ",todoList)}
                     <div className='flex justify-center  h-[40px] md:ml-[15px] lg:ml-[20px] mt-[5px]'>
                       <p className='text-[#000]  ml-[5px]  text-[14px] text-left md:text-[18px] w-[250px] md:w-[600px] lg:w-[700px]  break-words whitespace-pre-wrap'>
                         {todo.title}  <span className='text-gray-500 text-[12px] md:text-[15px]'>{todo.date} {t('N')}</span>

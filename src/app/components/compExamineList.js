@@ -19,7 +19,6 @@ import {i18n } from '../i18n'; // import i18n instance
 import { initReactI18next } from 'react-i18next';
 
 function CompExamineList({ checkedItems , onSubmit}) {
-  console.log("checkedItems : ",checkedItems )
 
   return (
     <CompLanguageProvider>
@@ -44,14 +43,12 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
   const [reloadData, setReloadData] = useState(false); 
   const [showPopupAddnew, setShowPopupAddnew] = useState(false); 
 
-  // const [showPopupUseEmployee, setShowPopupUseEmployee] = useState(false);
   const [useEmployee, setUseEmployee] = useState(false);
   const [User_id, setUser_id] = useState('');
   const [id, setId] = useState('');
   const [selected, setSelected] = useState(false);
 
   const currentDate = new Date().toLocaleDateString();
-  // const [checkedItems, setCheckedItems] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
   const [todoListSelected, setTodoListSelected] = useState([]);
   const [checkedItems, setCheckedItems] = useState(initialCheckedItems);
@@ -60,16 +57,9 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
   const router = useRouter();
   
   useEffect(() => {
-    // const storedCheckedItems = localStorage.getItem('checkedItems');
-    // console.log("storedCheckedItems: ",JSON.parse(storedCheckedItems));
-
-    // const checkedItems = JSON.parse(storedCheckedItems)
-    // // if (checkedItems) {
-    //   setCheckedItems(checkedItems);
-    // }
+   
 
     const storedUser_id = localStorage.getItem('id');
-    console.log("user_id11: ",storedUser_id);
 
     const fetchData = async () => {
       try {
@@ -86,12 +76,10 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
         if (response.status === 200) {
           if (data.success === true) {
             const examinelistNames = data.dbexaminelist_name.map(item => ({ id: item.id, name: item.name }));
-            console.log("DATAAA:22 ",data.dbexaminelist_name)
 
             setTodoList(examinelistNames);
             setUser_id(storedUser_id);
             const examinelistId = data.dbexaminelist_name.map(item => item.id );
-            console.log("DATAAA:22examinelistId ",examinelistId)
 
             setCheckedItems(examinelistId);
 
@@ -117,7 +105,6 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
       const storedUser_id = id
       const AddData = {  storedUser_id , fetchSelect: true};
       const data = JSON.stringify(AddData);
-      console.log("data222: ",data)
 
       const response = await axios.post('/api/examinelist', data, {
         headers: { 'Content-Type': 'application/json' },
@@ -127,18 +114,13 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
   
       if (response.status === 200) {
         if (resdata.success === true) {
-          console.log("Message: ", resdata);
 
           
           const examinelistNames = resdata.dbexaminelist_name.map(item => ({ id: item.id, name: item.name }));
-          console.log("MessageexaminelistNames: ", examinelistNames);
           
 
           setTodoListadd(examinelistNames)
-          
-          // setShowAddSuccessPopup(true);
-          // setaddMessage(resdata.message);
-
+    
 
           setTimeout(() => {
             setShowAddSuccessPopup(false);
@@ -159,19 +141,13 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
     setShowPopup(true);
   };
 
-  // const openPopup = () => {
-    
-  //   setMessage('');
-  //   setShowPopup(true);
-  // };
-
+ 
   const closePopup = () => {
     setShowPopup(false);
   };
 
   const openEditPopup = async (index, todo) => {
     setMessage('');
-    console.log("2222: ",todo)
     setShowEditPopup({ isOpen: true, index, todo }); 
   };
 
@@ -191,12 +167,8 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
     
     try {
 
-      console.log("useEmployee name: " ,examinelist_name, id  )
-
-
       const AddData = { examinelist_name , id , add:true};
       const data = JSON.stringify(AddData);
-      console.log("data222: ",data)
 
       const response = await axios.post('/api/examinelist', data, {
         headers: { 'Content-Type': 'application/json' },
@@ -206,14 +178,9 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
   
       if (response.status === 200) {
         if (resdata.success === true) {
-          console.log("Message: ", resdata);
 
-          // const updatedTodoList = [...todoList, resdata.dbexaminelist_name];
-          // setTodoList(resdata.dbexaminelist_name);
           setTodoListadd(resdata.dbexaminelist_nameNew)
 
-          
-          console.log("ADD: ",resdata.message)
           setShowAddSuccessPopup(true);
           setaddMessage(resdata.message);
 
@@ -248,10 +215,8 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
 
   const deleteTodo = async (index, todo) => {
     try {
-      console.log("6666: ",todo)
       const editedData = { todo ,id,checkedItems, edit: true };
       const data = JSON.stringify(editedData)
-      console.log("datadelete: ",data)
 
       const response = await axios.post('/api/examinelist', data,  {
         headers: { 'Content-Type': 'application/json' },
@@ -265,7 +230,6 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
         if (resdata.success === true) {
           setReloadData(prev => !prev);
 
-          console.log("Message: ", resdata);
           setShowDeleteSuccessPopup(true);
           setCheckedItems(resdata.data);
           setdeleteMessage(resdata.message);
@@ -286,44 +250,6 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
     }
   }
 
-  // const deleteTodo = async (index, todo) => {
-  //   try {
-  //     console.log("6666: ",todo)
-  //     const editedData = { todo ,id, edit: true };
-  //     const data = JSON.stringify(editedData)
-  //     console.log("datadelete: ",data)
-
-  //     const response = await axios.post('/api/examinelist', data,  {
-  //       headers: { 'Content-Type': 'application/json' },
-  //     });
-
-  //     closeEditPopup();
-
-  //      const resdata = response.data;
-  
-  //     if (response.status === 200) {
-  //       if (resdata.success === true) {
-  //         setReloadData(prev => !prev);
-
-  //         console.log("Message: ", resdata);
-  //         setShowDeleteSuccessPopup(true);
-  //         setdeleteMessage(resdata.message);
-
-
-  //         setTimeout(() => {
-  //           setShowDeleteSuccessPopup(false);
-  //         }, 1000); 
-  //       } else {
-  //         setMessage(resdata.error);
-  //       }
-  //     } else {
-  //       setMessage(resdata.error);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error Examine:', error);
-  //     setMessage('');
-  //   }
-  // }
 
   const handleSubmit = async () => {
     try {
@@ -337,9 +263,7 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
       
       
       const editedData = { formattedDate, id , submit: true};
-      console.log("checkbox: ",editedData)
       const data = JSON.stringify(editedData)
-      console.log("checkboxData: ",data)
 
 
       const response = await axios.post('/api/examinelist', data, {
@@ -351,7 +275,6 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
       if (response.status === 200) {
         if (resdata.success === true) {
 
-          console.log("Message: ", resdata);
 
           setTimeout(() => {
             router.push(resdata.redirect); 
@@ -370,14 +293,12 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
   };
 
   const handleCheckboxChange = (index, todoId) => {
-    console.log("TODOID: ", todoId, index);
   
     if (checkedItems && checkedItems.includes(todoId)) {
       setCheckedItems(checkedItems.filter((item) => item !== todoId).sort((a, b) => a - b));
     } else {
       setCheckedItems([...(checkedItems || []), todoId].sort((a, b) => a - b));
     }
-    console.log("TODOIDcheckedItems: ", checkedItems);
 
   };
   
@@ -396,7 +317,6 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
       if (response.status === 200) {
         if (resdata.success === true) {
 
-          console.log("Message: ", resdata);
           setTodoList(resdata.data)
           setShowAddSuccessPopup(true);
           setaddMessage(resdata.message);
@@ -412,63 +332,15 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
       } else {
         setMessage(resdata.error);
       }
-      console.log("********")
      
     } catch (error) {
       console.error('Error:', error);
       setMessage('An error occurred while submitting the data.');
     }
 
-    console.log("checkedItems: ",checkedItems)
     setShowPopup(false);
   };
 
-  const handleConfirm = async () => {
-    try {
-
-      const currentDate = new Date();
-      const day = currentDate.getDate();
-      const month = currentDate.getMonth() + 1;
-      const year = currentDate.getFullYear();
-      const formattedDate = `${day}/${month}/${year}`;
-
-      
-      
-      const editedData = { formattedDate, id, checkedItems, selectchecklist: true};
-      console.log("checkbox: ",editedData)
-      const data = JSON.stringify(editedData)
-      console.log("checkboxData: ",data)
-
-
-      const response = await axios.post('/api/examinelist', data, {
-        headers: { 'Content-Type': 'application/json' },
-      });    
-      
-      const resdata = response.data;
-  
-      if (response.status === 200) {
-        if (resdata.success === true) {
-
-          console.log("Message: ", resdata);
-          setTodoListSelected(resdata.dbexaminelist_name)
-          setTimeout(() => {
-            // router.push(resdata.redirect); 
-            setSelected(true)
-            
-          }, 1000); 
-
-        } else {
-          setMessage(resdata.error);
-        }
-      } else {
-        setMessage(resdata.error);
-      }
-
-
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
 
   const resetCheckboxes = () => {
     setCheckedItems([]);
@@ -691,98 +563,7 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
         </div>
         </div>
 
-        {/* ) : (
-          <div className='mx-auto border w-[300px] md:w-[950px] py-[20px] md:h-[600px] h-[550px] text-black flex flex-col   md:rounded-[30px] rounded-[30px] mt-[106px]  bg-[#fff]'>
 
-          <h1 className={` ml-[30px] text-[20px] mt-[3px] mb-[5px] md:text-[30px] md:ml-[50px] `}>
-          {language === 'EN' ? 'Select checklist' : 'เลือกรายการตรวจสอบ' }
-        </h1>
-
-        <div className="mt-[5px] border-t border-gray-300"></div>
-       
-        
-        <div className='items-center mx-auto w-[250px] md:w-[850px] h-[380px] text-black bg-[#F5F5F5] text-center mt-[20px] rounded-[20px]'>
-      <div className='mt-4 ml-4 flex items-center justify-between'>
-        <div className='flex items-center text-center w-[110px] h-[24px] md:w-[140px] md:h-[30px] rounded-[5px] text-[#fff] border-[#000] bg-[#5A985E] md:ml-[90px]'>
-          <div className='md:ml-[10px] ml-[10px]'><BsCalendar2Minus /></div>
-          <p className="mt-[2px] ml-[8px] md:text-[17px] text-[12px] md:ml-[8px] ">{currentDate}</p>
-        </div>
-        <p className='text-[14px] mr-4'>
-          {checkedItems.length} Selected
-        </p>
-      </div>
-
-      <div className='items-center  text-[14px]  mx-auto border w-[220px] md:w-[850px] h-[100px] text-black bg-[#fff] text-center mt-[10px] rounded-[10px] overflow-y-auto'>
-  {checkedItems.length > 0 && (
-    <div className='p-2 flex flex-col'>
-      {checkedItems.map((todoId) => (
-        <div key={todoId} className="flex items-center mb-1">
-          <div className='border rounded-[10px] p-1 px-4 bg-[#BEE3BA] whitespace-nowrap '>
-            {todoList.find((todo) => todo.id === todoId)?.name}
-          </div>
-        </div>
-      ))}
-    </div>
-  )}
-</div>
-
-<div className='items-center mx-auto border w-[220px] md:w-[850px] h-[210px] text-black bg-[#fff] text-center mt-[10px] rounded-[10px] overflow-auto'>
-  {todoList.map((todo, index) => (
-    <div
-      key={index}
-      className={`
-        cursor-pointer 
-        pl-2 pt-1
-        text-left
-        text-black 
-        flex 
-        items-center
-        ${index % 2 === 0 ? 'clear-left' : ''} 
-        ${checkedItems.includes(todo.id) ? 'checked' : ''}
-      `}
-      onClick={() => handleCheckboxChange(index, todo.id)}
-    >
-      <input
-        type='checkbox'
-        className='mr-2'
-        checked={checkedItems.includes(todo.id)}
-        onChange={() => handleCheckboxChange(index, todo.id)}
-      />
-      <p className='text-[#000] bg-[#BEE3BA] rounded-[10px]  border-[#F5F5F5]  py-1 px-4  text-[14px] md:text-[18px] md:w-[100px]  break-words whitespace-pre-wrap'>
-        {todo.name}
-      </p>
-    </div>
-  ))}
-
-
-     
-
-              {showDeleteSuccessPopup && (
-                <div className="bg-white w-[250px] text-[#5A985E] p-8 text-center rounded-lg border-black shadow-lg  absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                <BsCheckCircle className=' text-[50px] mx-auto mb-[10px]'/>
-                {deletemessage}
-                </div>
-              )}
-
-              {showAddSuccessPopup && (
-                <div className="bg-white text-center text-[#5A985E] p-8  rounded-lg border-black shadow-lg  absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                <BsCheckCircle className=' text-[50px] mx-auto mb-[10px]'/>
-                {addmessage}
-                </div>
-              )}
-            
-          </div>
-        </div>
-        
-
-          <button onClick={handleConfirm}  className={`flex mx-auto mt-[20px]   md:mt-[20px] border-[#64CE3F] bg-[#64CE3F] px-10 py-1  rounded-[20px]    text-[#fff] hover:-translate-y-0.5 duration-200 `}>{t('confirm')}</button>
-      
-          <div>
-          </div>
-          </div>
-          </div>
-
-          )} */}
 
       </div>
       

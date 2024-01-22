@@ -40,7 +40,7 @@ export default function CompChangepass() {
     const storedEmail = localStorage.getItem('email');
     if (storedEmail) {
       setEmail(storedEmail); // Set the email state
-    }    console.log("LOCAL :", email);
+    }    
    
   }, [email])
 
@@ -72,7 +72,6 @@ export default function CompChangepass() {
         email: email,
       };
 
-      console.log("FROM_DATA: ",formData)
       const data = JSON.stringify(requestData);
 
       const response = await axios.post('/api/changepass', 
@@ -83,7 +82,6 @@ export default function CompChangepass() {
       });
      
       const resdata = response.data;
-      console.log("RESDATA: ",resdata)
       if (response.status === 200) {
         if (resdata.success === true) {
           setMessagePass(resdata.message);
@@ -94,7 +92,6 @@ export default function CompChangepass() {
             window.location.href = resdata.redirect;
           }, 1000); 
         } else {
-          console.log("RESDATA error: ", resdata.error);
           setMessage(resdata.error);
         }
       } else {
@@ -118,10 +115,7 @@ export default function CompChangepass() {
           <Link href="login">JorPor</Link>
 
           </div>
-          {/* <div className='text-white font-ntr '>
-              <Link href="/" className=' text-[20px] px-4 py-1 rounded-md text-[#fff] hover:text-[#5A985E] hover:bg-[#fff]  '>log out</Link>
-        
-          </div> */}
+          
         </div>
       </div>
       <div className=' bg-[url("/bg1.png")] bg-cover bg-no-repeat  z-[-1] top-0 left-0 w-full h-full bg-center fixed  overflow-auto'>

@@ -53,7 +53,7 @@ function App() {
     const handleResize = () => {
       setChartWidth(window.innerWidth < 768 ? 350 : 600);
       setChartHeight(window.innerWidth < 768 ? 200 : 300);
-      console.log("WINDOWW: ", window.innerWidth);
+      // console.log("WINDOWW: ", window.innerWidth);
     };
 
     // Attach the event listener when the component mounts
@@ -84,7 +84,7 @@ function App() {
       try {
         const AddData = { storedId, fetch_role_3 : true};
         const dataDetail = JSON.stringify(AddData);
-        console.log("send: ",dataDetail)
+        // console.log("send: ",dataDetail)
 
         const response = await axios.post('/api/reportall', dataDetail, {
           headers: { 'Content-Type': 'application/json' },
@@ -95,16 +95,16 @@ function App() {
 
         if (response.status === 200) {
           if (data.success === true) {
-            console.log("DATA: ",data)
+            // console.log("DATA: ",data)
             for (const percentage of data.percent){
               // console.log("percentage: ",percentage)
               if (percentage.currentDateA === formattedDate) {
-                console.log("datatoday: ",percentage.data)
+                // console.log("datatoday: ",percentage.data)
                 let allValuesAreEmptyArrays = true;
 
                 Object.entries(percentage.data).forEach(([key, value]) => {
                   if (Array.isArray(value) && value.length === 0) {
-                    console.log(`Length of key ${key}: ${value.length}`);
+                    // console.log(`Length of key ${key}: ${value.length}`);
                     setTodoZone(percentage.data)
                     setTodoAll(data.percent)
 
@@ -112,7 +112,7 @@ function App() {
                     setTodoZone(percentage.data)
                     setTodoAll(data.percent)
                     allValuesAreEmptyArrays = false;
-                    console.log("datatoday222: ",percentage.data)
+                    // console.log("datatoday222: ",percentage.data)
 
                   }
                 });
@@ -121,7 +121,7 @@ function App() {
                   setdataToday(false)
                   setTodoAll(data.percent.reverse());
 
-                  console.log("ไม่มีข้อมูล");
+                  // console.log("ไม่มีข้อมูล");
 
                 }
 
@@ -309,13 +309,13 @@ function App() {
   
     const currentDateA = day.currentDateA;
     const dataday = day.data;
-    console.log("DatacurrentDateA:", day.data);
+    // console.log("DatacurrentDateA:", day.data);
   
     let length = 0;
   
     for (const key in day.data) {
       const arrayData = day.data[key];
-      console.log("Item******************:", key);
+      // console.log("Item******************:", key);
 
       // ทำตามที่ต้องการกับข้อมูลใน arrayData
       for (const item of arrayData) {
@@ -343,7 +343,7 @@ function App() {
         // ดึงค่า name และ percentageZone
         const percentageZone = item.percentageZone;
     
-        console.log(name,':', percentageZone);
+        // console.log(name,':', percentageZone);
         // console.log("Percentage Zone:", percentageZone);
         
         newDataItem[name] = percentageZone;
@@ -355,8 +355,8 @@ function App() {
     
   
     data.push(newDataItem);
-    console.log("percentage Data:", data);
-    console.log("Zone Data:", Zone);
+    // console.log("percentage Data:", data);
+    // console.log("Zone Data:", Zone);
 
   }
   
