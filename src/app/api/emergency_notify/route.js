@@ -59,28 +59,28 @@
 
 // File: D:/SeniorNextjs/jorpor-nextjs/src/app/api/emergency_notify/route.ts
 // File: api/socket.js
-const httpServer = require('http').createServer();
-const { NextResponse } = require('next/server');
-const socketIoClient = require('socket.io-client');
-const { io } = require('../../socketServer');
+// pages/api/emergency_notify.js
+import { EventSource } from 'next/eventsource';
+import { io } from '../../socketServer';
 
-httpServer.on('request', (req, res) => {
-  if (req.url === '/emergency_notify' && req.method === 'POST') {
-    res.setHeader('Content-Type', 'text/event-stream');
-    res.setHeader('Cache-Control', 'no-cache');
-    res.setHeader('Connection', 'keep-alive');
+export default async function handler(req, res) {
+  if (req.method === 'POST') {
+    const { url, method } = req;
 
-    const sendData = (data) => {
-      res.write(`data: ${JSON.stringify(data)}\n\n`);
-    };
+    if (url === '/emergency_notify' && method === 'POST') {
+      res.setHeader('Content-Type', 'text/event-stream');
+      res.setHeader('Cache-Control', 'no-cache');
+      res.setHeader('Connection', 'keep-alive');
 
-    // ปิดการเชื่อมต่อเมื่อ client ตัดการเชื่อมต่อ
-    res.on('close', () => {
-      console.log('Client disconnected from SSE');
-    });
+      const sendData = (data) => {
+        res.write(`data: ${JSON.stringify(data)}\n\n`);
+      };
 
-    // ตรวจสอบว่า req.method เป็น POST หรือไม่
-    if (req.method === 'POST') {
+      // ปิดการเชื่อมต่อเมื่อ client ตัดการเชื่อมต่อ
+      res.on('close', () => {
+        console.log('Client disconnected from SSE');
+      });
+
       req.on('data', (chunk) => {
         const rawData = chunk.toString();
         const jsonData = JSON.parse(rawData);
@@ -96,17 +96,15 @@ httpServer.on('request', (req, res) => {
       req.on('end', () => {
         res.end();
       });
+    } else {
+      // ปิดการเชื่อมต่อถ้าไม่ใช่ SSE endpoint
+      res.end();
     }
   } else {
-    // ปิดการเชื่อมต่อถ้าไม่ใช่ SSE endpoint
-    res.end();
+    res.status(405).end(); // Method Not Allowed
   }
-});
+}
 
-// สั่งให้ server ทำงานที่ port 3001
-httpServer.listen(3001, () => {
-  console.log('Server listening on port 3001');
-});
 
 
 
