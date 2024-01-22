@@ -98,6 +98,8 @@ export async function POST(request) {
       console.log('MESSAGE NodeMCU: ', res);
 
       io.emit('emergencyNotify', res);
+      sendData(res);
+
       console.log('SENDD: ',res);
 
       return NextResponse.json({
