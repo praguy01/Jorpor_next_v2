@@ -93,12 +93,13 @@ export async function POST(request) {
 
       if (res.add) {
         try {
+          console.log("REA: ",res)
 
           const checkemployeeQuery1 = "SELECT COUNT(*) AS employeeCount FROM employee WHERE employee = ?";
           const [employeeCountResult1] = await db.query(checkemployeeQuery1, [res.employee]);
 
           if (employeeCountResult1[0].employeeCount > 0) {
-            return NextResponse.json({ success: false, error: 'Employee is already in use.' });
+            return NextResponse.json({ success: false, error: `${res.employee} is already in use.` });
           } else {
 
           // const getIDExamineListQuery = "SELECT id FROM examinelist WHERE name = ?";

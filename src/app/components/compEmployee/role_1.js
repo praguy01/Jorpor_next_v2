@@ -294,7 +294,8 @@ function App() {
           });
   
           const resdata = response.data;
-  
+          console.log("DATAAAAA: 11 : ",resdata)
+
           if (response.status === 200 && resdata.success === true) {
             setTodoList(() => [
               ...resdata.dbemployee.map((employeeData) => ({
@@ -305,7 +306,6 @@ function App() {
             ]);
             
             
-            // console.log("DATAAAAA: 11 : ",resdata.dbemployee.employee,resdata.dbemployee.name,resdata.dbemployee.lastname,)
 
             setUploadFile(true)
             setShowAddSuccessPopup(true);
@@ -313,7 +313,12 @@ function App() {
     
             setTimeout(() => {
               setShowAddSuccessPopup(false);
-            }, 1000); // 1000 milliseconds = 1 second
+            }, 1000); 
+          } else {
+            
+            setErraddMessage(true);
+            setErrorAddMessage(resdata.error);
+          
           }
         }
       } catch (error) {
