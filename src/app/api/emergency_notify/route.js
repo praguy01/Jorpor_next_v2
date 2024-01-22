@@ -59,10 +59,10 @@
 
 // File: D:/SeniorNextjs/jorpor-nextjs/src/app/api/emergency_notify/route.ts
 // File: api/socket.js
-import { NextResponse } from 'next/server';
-import socketIoClient from 'socket.io-client';
-import { io } from '../../socketServer'
 const httpServer = require('http').createServer();
+const { NextResponse } = require('next/server');
+const socketIoClient = require('socket.io-client');
+const { io } = require('../../socketServer');
 
 httpServer.on('request', (req, res) => {
   if (req.url === '/emergency_notify') {
@@ -78,6 +78,25 @@ httpServer.on('request', (req, res) => {
     res.on('close', () => {
       console.log('Client disconnected from SSE');
     });
+
+    // ตรวจสอบว่า req.method เป็น POST หรือไม่
+    if (req.method === 'POST') {
+      req.on('data', (chunk) => {
+        const rawData = chunk.toString();
+        const jsonData = JSON.parse(rawData);
+
+        console.log('MESSAGE NodeMCU: ', jsonData);
+
+        io.emit('emergencyNotify', jsonData);
+        sendData(jsonData);
+
+        console.log('SENDD: ', jsonData);
+      });
+
+      req.on('end', () => {
+        res.end();
+      });
+    }
   } else {
     // ปิดการเชื่อมต่อถ้าไม่ใช่ SSE endpoint
     res.end();
@@ -89,34 +108,8 @@ httpServer.listen(3001, () => {
   console.log('Server listening on port 3001');
 });
 
+module.exports = { httpServer };
 
-export async function POST(request) {
-  if (request.method === 'POST') {
-    try {
-      const res = await request.json();
-      const { date, time, location } = res;
-      console.log('MESSAGE NodeMCU: ', res);
-
-      io.emit('emergencyNotify', res);
-      sendData(res);
-
-      console.log('SENDD: ',res);
-
-      return NextResponse.json({
-        success: true,
-        message: 'Notification has been sent successfully.',
-      });
-    } catch (error) {
-      console.error('Error processing the request:', error);
-      return NextResponse.json({
-        success: false,
-        error: 'Failed to process the request',
-      });
-    }
-  } else {
-    return NextResponse.json('Method not allowed or invalid Content-Type');
-  }
-}
 
 // import { NextResponse } from 'next/server';
 // import { io } from '../../socketServer';
