@@ -108,7 +108,6 @@ httpServer.listen(3001, () => {
   console.log('Server listening on port 3001');
 });
 
-module.exports = { httpServer };
 
 
 // import { NextResponse } from 'next/server';
