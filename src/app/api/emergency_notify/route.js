@@ -63,47 +63,41 @@
 import { EventSource } from 'next/eventsource';
 import { io } from '../../socketServer';
 
-export default async function handler(req, res) {
-  if (req.method === 'POST') {
-    const { url, method } = req;
+export default function handler(req, res) {
+  if (req.method === 'POST' && req.url === '/emergency_notify') {
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
 
-    if (url === '/emergency_notify' && method === 'POST') {
-      res.setHeader('Content-Type', 'text/event-stream');
-      res.setHeader('Cache-Control', 'no-cache');
-      res.setHeader('Connection', 'keep-alive');
+    const sendData = (data) => {
+      res.write(`data: ${JSON.stringify(data)}\n\n`);
+    };
 
-      const sendData = (data) => {
-        res.write(`data: ${JSON.stringify(data)}\n\n`);
-      };
+    // ปิดการเชื่อมต่อเมื่อ client ตัดการเชื่อมต่อ
+    res.on('close', () => {
+      console.log('Client disconnected from SSE');
+    });
 
-      // ปิดการเชื่อมต่อเมื่อ client ตัดการเชื่อมต่อ
-      res.on('close', () => {
-        console.log('Client disconnected from SSE');
-      });
+    req.on('data', (chunk) => {
+      const rawData = chunk.toString();
+      const jsonData = JSON.parse(rawData);
 
-      req.on('data', (chunk) => {
-        const rawData = chunk.toString();
-        const jsonData = JSON.parse(rawData);
+      console.log('MESSAGE NodeMCU: ', jsonData);
 
-        console.log('MESSAGE NodeMCU: ', jsonData);
+      io.emit('emergencyNotify', jsonData);
+      sendData(jsonData);
 
-        io.emit('emergencyNotify', jsonData);
-        sendData(jsonData);
+      console.log('SENDD: ', jsonData);
+    });
 
-        console.log('SENDD: ', jsonData);
-      });
-
-      req.on('end', () => {
-        res.end();
-      });
-    } else {
-      // ปิดการเชื่อมต่อถ้าไม่ใช่ SSE endpoint
+    req.on('end', () => {
       res.end();
-    }
+    });
   } else {
     res.status(405).end(); // Method Not Allowed
   }
 }
+
 
 
 
