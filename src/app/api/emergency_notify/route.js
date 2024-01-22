@@ -61,6 +61,7 @@
 // File: api/socket.js
 // pages/api/emergency_notify.js
 import { io } from '../../socketServer';
+import { NextResponse } from 'next/server';
 
 export async function POST(request, response) {
   if (request.method === 'POST') {
@@ -91,13 +92,13 @@ export async function POST(request, response) {
       response.end();
     } catch (error) {
       console.error('Error processing the request:', error);
-      response.status(500).json({
+      return NextResponse.json({
         success: false,
         error: 'Failed to process the request',
       });
     }
   } else {
-    response.status(405).end(); // Method Not Allowed
+    return NextResponse.error('Method Not Allowed');
   }
 }
 
