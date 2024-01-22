@@ -62,12 +62,12 @@
 // pages/api/emergency_notify.js
 import { io } from '../../socketServer';
 
-export async function POST(request) {
+export async function POST(request, response) {
   if (request.method === 'POST') {
     try {
-      const res = await request.json();
-      const { date, time, location } = res;
-      console.log('MESSAGE NodeMCU: ', res);
+      const data = await request.json();
+      const { date, time, location } = data;
+      console.log('MESSAGE NodeMCU: ', data);
 
       response.setHeader('Content-Type', 'text/event-stream');
       response.setHeader('Cache-Control', 'no-cache');
@@ -82,21 +82,13 @@ export async function POST(request) {
         console.log('Client disconnected from SSE');
       });
 
-      request.on('data', (chunk) => {
-        const rawData = chunk.toString();
-        const jsonData = JSON.parse(rawData);
+      // ทำสิ่งที่คุณต้องการกับข้อมูลที่ได้รับ
+      io.emit('emergencyNotify', data);
+      sendData(data);
 
-        console.log('MESSAGE NodeMCU: ', jsonData);
+      console.log('SENDD:', data);
 
-        io.emit('emergencyNotify', jsonData);
-        sendData(jsonData);
-
-        console.log('SENDD: ', jsonData);
-      });
-
-      request.on('end', () => {
-        response.end();
-      });
+      response.end();
     } catch (error) {
       console.error('Error processing the request:', error);
       response.status(500).json({
@@ -108,6 +100,7 @@ export async function POST(request) {
     response.status(405).end(); // Method Not Allowed
   }
 }
+
 
 
 
