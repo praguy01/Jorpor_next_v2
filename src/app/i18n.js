@@ -97,6 +97,8 @@ i18n
           "Enter your email":"Enter your email",
           "Please enter the verification code sent to your email.":"Please enter the verification code sent to your email.",
           "No information":"No information",
+          "Emergency notification":"Emergency notification",
+          Time:'Time',
 
 
 
@@ -194,6 +196,8 @@ i18n
           "Enter your email":"กรอกอีเมล์ของคุณ",
           "Please enter the verification code sent to your email.":"กรุณากรอกรหัสยืนยันที่ส่งไปยังอีเมล์ของคุณ",
           "No information":"ไม่มีข้อมูล",
+          "Emergency notification":"การแจ้งเหตุฉุกเฉิน",
+          Time:'เวลา',
 
 
 

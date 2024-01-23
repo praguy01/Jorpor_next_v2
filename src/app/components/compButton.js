@@ -13,7 +13,7 @@ export default function NotifyButton() {
     // Get the current date and time
     const currentDate = new Date();
     const formattedDate = currentDate.toLocaleDateString();
-    const formattedTime = currentDate.toLocaleTimeString();
+    const formattedTime = currentDate.toLocaleTimeString(undefined, { hour12: false, hour: '2-digit', minute: '2-digit' });
 
     // Prepare data to be sent in the POST request
     const requestData = {
@@ -37,13 +37,13 @@ export default function NotifyButton() {
     const data =  JSON.stringify(requestData);
     console.log('requestData:',data);
 
-    const response = await fetch('https://platform-jorpor.vercel.app/api/emergency_notify', {
+    const response = await fetch('http://localhost:3000/api/emergency_notify', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             // ไม่ต้องระบุ 'Origin' ใน headers
         },
-        body: JSON.stringify(data),
+        body: data,
     });
 
 
@@ -70,13 +70,13 @@ export default function NotifyButton() {
         <div className="text-[#A6A6A6] md:text-3xl text-[20px] ">Press the button below.</div>
       </div>
 
-      <div className="flex items-center justify-center md:mt-[50px] h-full">
+      <div className="flex items-center justify-center md:mt-[50px] h-full ">
         <div className="w-[250px] h-[250px]  md:w-[450px] md:h-[450px]  rounded-full bg-[#FFD9D9] absolute z-[-2]"></div>
         <div className="w-[220px] h-[220px]  md:w-[370px] md:h-[370px]  rounded-full bg-[#FDB1B1] absolute z-[-1]"></div>
-        <div className="w-[190px] h-[190px]  md:w-[290px] md:h-[290px]  rounded-full bg-[#F44040] relative">
+        <div onClick={handleButtonClick} className="w-[190px] h-[190px]  md:w-[290px] md:h-[290px]  rounded-full bg-[#F44040] relative cursor-pointer     hover:scale-105 active:scale-95">
           <button onClick={handleButtonClick} style={{ background: 'transparent', border: 'none', padding: 0, cursor: 'pointer' }}>
-            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-              <PiHandTapBold style={{ fontSize: '100px', color: '#fff' }} />
+            <div  style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' } }>
+              <PiHandTapBold style={{ fontSize: '100px', color: '#fff' }} className=' cursor-pointer' />
             </div>
           </button>
         </div>

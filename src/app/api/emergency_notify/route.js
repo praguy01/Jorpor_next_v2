@@ -60,36 +60,60 @@
 // File: D:/SeniorNextjs/jorpor-nextjs/src/app/api/emergency_notify/route.ts
 // File: api/socket.js
 // pages/api/emergency_notify.js
-import { io } from '../../socketServer';
+// import { io } from '../../socketServer';
 import { NextResponse } from 'next/server';
+import { createServer } from 'http'
+import { Server } from 'socket.io'
+
+let httpServer;
 
 export async function POST(request, response) {
   if (request.method === 'POST') {
     try {
       const data = await request.json();
       const { date, time, location } = data;
-      // console.log('MESSAGE NodeMCU: ', data);
+      let count = 0
 
-      response.setHeader('Content-Type', 'text/event-stream');
-      response.setHeader('Cache-Control', 'no-cache');
-      response.setHeader('Connection', 'keep-alive');
+      if (!httpServer) {
+        console.log("http working")
+      httpServer = createServer()
+      const io = new Server(httpServer, {
+          cors: {
+              origin: 'http://localhost:3000'
+          }
+      })
 
-      const sendData = (data) => {
-        response.write(`data: ${JSON.stringify(data)}\n\n`);
-      };
-
-      // ปิดการเชื่อมต่อเมื่อ client ตัดการเชื่อมต่อ
-      response.on('close', () => {
-        console.log('Client disconnected from SSE');
+      io.on('connection', (socket) => {
+        count++;
+        console.log("connected: ", count);
+        socket.on('disconnect', () => {
+          count--;
+          console.log("disconnected1: ", count);
+          // socket.emit("emergencyNotify", data);
+          // socket.broadcast.emit("emergencyNotify", data);
+          
+          // Close httpServer when all clients disconnect
+          if (count === 0) {
+            stopServer();
+          }
+        });
+        socket.emit("emergencyNotify", data);
+        socket.broadcast.emit("emergencyNotify", data);
       });
 
-      // ทำสิ่งที่คุณต้องการกับข้อมูลที่ได้รับ
-      io.emit('emergencyNotify', data);
-      sendData(data);
+      httpServer.listen(3001)
+      console.log("listening port 3001")
+    
+    }
 
       console.log('SENDD:', data);
 
-      response.end();
+
+      // setTimeout(() => {
+      //   stopServer()
+      //     }, 9000);        
+          return NextResponse.json({ success: true, message: 'Notification has been sent successfully.'});
+
     } catch (error) {
       console.error('Error processing the request:', error);
       return NextResponse.json({
@@ -99,6 +123,15 @@ export async function POST(request, response) {
     }
   } else {
     return NextResponse.error('Method Not Allowed');
+  }
+}
+
+export function stopServer() {
+  console.log("STOPP")
+  if (httpServer) {
+    httpServer.close(() => {
+      console.log('Server stopped');
+    });
   }
 }
 

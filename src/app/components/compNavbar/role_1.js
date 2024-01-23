@@ -17,6 +17,7 @@ import { BsCalendar2DateFill } from "react-icons/bs";
 import { FaLocationDot } from "react-icons/fa6"; 
 import { io as socketIoClient } from 'socket.io-client';
 
+
 // const socket = socketIoClient('http://localhost:4000', {
 //   path: '/socket.io',
 //   withCredentials: true,
@@ -47,81 +48,83 @@ function CompNavbar() {
   const [showPopup, setShowPopup] = useState(false); 
   const [notify, setNotify] = useState(false); 
   const [notification, setNotification] = useState('');
+  // import notificationSound from '../../../../public/audio/notification.mp3';
 
-  useEffect(() => {
-    const eventSource = new EventSource('https://platform-jorpor.vercel.app/api/emergency_notify');
-
-    eventSource.onmessage = (event) => {
-      if (event.data.trim() !== '') {
-        const data = JSON.parse(event.data);
-        setNotification(data.message);
-        setShowPopup(true);
-      }
-    };
-
-    eventSource.onerror = (error) => {
-      console.error('SSE Error:', error);
-      eventSource.close();
-    };
-
-    return () => {
-      eventSource.close();
-    };
-  }, []);
-
-  // เพิ่มโค้ดที่ต้องการให้ทำเมื่อมีการแจ้งเตือน
-  useEffect(() => {
-    if (showPopup) {
-      // ทำสิ่งที่คุณต้องการเมื่อมีการแจ้งเตือน
-      console.log('Notification:', notification);
-    }
-  }, [showPopup, notification]);
   // useEffect(() => {
-  //   console.log("Attempting to connect to Socket.IO...");
-  //   const socket = socketIoClient('https://platform-jorpor-chada.koyeb.app', {
-  //     path: '/socket.io',
-  //     withCredentials: true,
-  //     transports: ['websocket'],
-  //   });
+  //   const eventSource = new EventSource('https://platform-jorpor.vercel.app/api/emergency_notify');
 
-  //   // const socket = socketIoClient('https://platform-jorpor-chada.koyeb.app', {
-  //   //   transports: ['websocket'],
-  //   //   extraHeaders: {
-  //   //     "my-custom-header": "abcd"
-  //   //   }    
-  //   // });
-
-  
-  //   socket.on('connect', () => {
-  //     console.log('WebSocket connected: ');
-  //     console.log(socket.connected);
-
-  //   });
-  
-  //   socket.on('emergencyNotify', (res) => {
-  //     setNotification(res);
-  //     setShowPopup(true);
-  //     console.log("MESSAGE EMERGENCY: ", res);
-  
-  //     socket.disconnect();
-  //     console.log('Socket.IO connection closed');
-  //   });
-  
-  //   socket.on('disconnect', (reason) => {
-  //     console.log('WebSocket disconnected:', reason);
-  //   });
-    
-  //   socket.on('error', (error) => {
-  //     console.error('WebSocket error:', error);
-  //   });
-    
-        
-  
-  //   return () => {
-  //     socket.disconnect();
-  //     console.log('Socket.IO connection closed');
+  //   eventSource.onmessage = (event) => {
+  //     if (event.data.trim() !== '') {
+  //       const data = JSON.parse(event.data);
+  //       setNotification(data.message);
+  //       setShowPopup(true);
+  //     }
   //   };
-  // }, []); // ให้ว่างไว้เพื่อให้ทำงานเมื่อ component ถูก unmounted
+
+  //   eventSource.onerror = (error) => {
+  //     console.error('SSE Error:', error);
+  //     eventSource.close();
+  //   };
+
+  //   return () => {
+  //     eventSource.close();
+  //   };
+  // }, []);
+
+  // // เพิ่มโค้ดที่ต้องการให้ทำเมื่อมีการแจ้งเตือน
+  // useEffect(() => {
+  //   if (showPopup) {
+  //     // ทำสิ่งที่คุณต้องการเมื่อมีการแจ้งเตือน
+  //     console.log('Notification:', notification);
+  //   }
+  // }, [showPopup, notification]);
+
+
+
+
+  useEffect(() => {
+    console.log("Attempting to connect to Socket.IO...");
+    const socket = socketIoClient('http://localhost:3001/', {
+      // path: '/socket.io',
+      withCredentials: true,
+      transports: ['websocket'],
+    });
+
+    // const socket = socketIoClient('https://platform-jorpor-chada.koyeb.app', {
+    //   transports: ['websocket'],
+    //   extraHeaders: {
+    //     "my-custom-header": "abcd"
+    //   }    
+    // });
+
+  
+    socket.on('connect', () => {
+      console.log('WebSocket connected: ');
+      console.log(socket.connected);
+      socket.on('emergencyNotify', (res) => {
+        setNotification(res);
+        setShowPopup(true);
+        console.log("MESSAGE EMERGENCY: ", res);
+        console.log("2",socket.connected);
+  
+        socket.disconnect();
+        console.log('Socket.IO connection closed');
+
+      });
+
+    });
+
+
+    socket.on('error', (error) => {
+      console.error('WebSocket error:', error);
+    });
+    
+  
+    return () => {
+      socket.disconnect();
+      console.log('Socket.IO connection closed');
+    };
+  }, []); // ให้ว่างไว้เพื่อให้ทำงานเมื่อ component ถูก unmounted
 
 
   
@@ -164,7 +167,7 @@ function CompNavbar() {
   };
   
 
-
+ 
     
 
   return (
@@ -293,7 +296,7 @@ function CompNavbar() {
         {showPopup && (
               <div className="bg-white text-center text-black p-8 border border-grey-400 absolute rounded-lg shadow-lg  w-[300px]  top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
               <AiFillAlert className=' text-[50px] mx-auto mb-[10px] text-red-500  '/>
-              <p className='text-[18px] mb-5'>Emergency notification!!</p>
+              <p className='text-[18px] mb-5'>{t("Emergency notification")}!!</p>
 
               {/* <p className='flex items-center justify-center '> <IoTime className=' mr-2'/> Time  : 15:25 น.</p>
               <p className='flex items-center justify-center mt-1'> <BsCalendar2DateFill className='text-[14px]  mr-2'/> Date : 10/1/2024</p>
@@ -301,10 +304,11 @@ function CompNavbar() {
               
              {notification && (
                 <div>
-                  <p>Location: {notification.location}</p>
+                  
+                  <p>{t('Location')} : {notification.location}</p>
 
-                  <p>Date: {notification.date}</p>
-                  <p>Time: {notification.time}</p>
+                  <p>{t('Date')} : {notification.date}</p>
+                  <p>{t('Time')} : {notification.time} {t('N')}</p>
                 </div>
               )}
 
