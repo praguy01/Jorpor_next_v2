@@ -132,7 +132,10 @@ function CompNavbar() {
         
         if (response.status === 200) {
           const emergencyNotifications = response.data;
-          console.log('Emergency Notifications:', emergencyNotifications);
+          console.log('Emergency Notifications:', emergencyNotifications[0]);
+          if (emergencyNotifications.length > 0) {
+            setNotification(emergencyNotifications[0])
+          }
         } else {
           console.error('Failed to retrieve emergency notifications');
         }

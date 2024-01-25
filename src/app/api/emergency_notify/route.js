@@ -99,9 +99,12 @@ export async function POST(request, response) {
           // socket.broadcast.emit("emergencyNotify", data);
           
           // Close httpServer when all clients disconnect
-          // if (count === 0) {
-          //   stopServer();
-          // }
+          if (count === 0) {
+            httpServer.close(() => {
+            console.log('Server stopped');
+            });
+            httpServer = null;           
+          }
         });
         socket.emit("emergencyNotify", data);
         socket.broadcast.emit("emergencyNotify", data);
@@ -156,10 +159,20 @@ export async function GET(request) {
   if (request.method === 'GET') {
     try {
   
- 
+      const currentDate = new Date();
+
+      const day = currentDate.getDate();
+      const month = currentDate.getMonth() + 1;
+      const year = currentDate.getFullYear();
       
-      const getExamineQuery = "SELECT * FROM emergency_notify ";
-      const [examineResult] = await db.query(getExamineQuery);
+      // Create the formatted string
+      const formattedDate = `${month}/${day}/${year}`;
+      
+      console.log('Formatted Date:', formattedDate);
+      
+
+      const getExamineQuery = "SELECT * FROM emergency_notify WHERE date = ?";
+      const [examineResult] = await db.query(getExamineQuery, formattedDate);
 
       console.log("Data_examine: ",examineResult)
 
