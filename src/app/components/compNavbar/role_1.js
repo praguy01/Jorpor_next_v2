@@ -54,13 +54,11 @@ function CompNavbar() {
   const [notification, setNotification] = useState('');
   const [audio, setAudio] = useState(null);
   const [sound, setSound] = useState(false);
+  const [refresh, setRefresh] = useState(false);
 
 
   useEffect(() => {
     setAudio(new Audio(audioFile));
-    setTimeout(() => {
-      setNotification('');
-    }, 60 * 60 * 1000);
     
   }, []);
 
@@ -132,9 +130,9 @@ function CompNavbar() {
         
         if (response.status === 200) {
           const emergencyNotifications = response.data;
-          console.log('Emergency Notifications:', emergencyNotifications[0]);
-          if (emergencyNotifications.length > 0) {
-            setNotification(emergencyNotifications[0])
+          console.log('Emergency Notifications:', emergencyNotifications,emergencyNotifications.dbexamine_name[0] , emergencyNotifications.length);
+          if (emergencyNotifications.dbexamine_name.length > 0) {
+            setNotification(emergencyNotifications.dbexamine_name[0])
           }
         } else {
           console.error('Failed to retrieve emergency notifications');
@@ -224,6 +222,29 @@ function CompNavbar() {
   };
   
 
+  const close = async () => {
+    try {
+
+      const editedData = { notification , change: true }
+      const data = JSON.stringify(editedData)
+
+      const response = await axios.post('/api/emergency_notify', 
+      data, {
+        headers: { 'Content-Type': 'application/json' 
+      }});
+      
+      
+      if (response.status === 200) {
+        const emergencyNotifications = response.data;
+        console.log('Emergency Notifications:', emergencyNotifications);
+       
+      } else {
+        console.error('Failed to retrieve emergency notifications');
+      }
+    } catch (error) {
+      console.error('Error fetching emergency notifications:', error);
+    }
+  };
  
     
 
@@ -401,7 +422,7 @@ function CompNavbar() {
               )}
 
 
-              <button className="flex mx-auto  mt-7 items-center text-[15px]  bg-[#5A985E] text-white px-3 py-1  rounded hover:bg-green-600" onClick={() => {setShowPopup(false); stopAudio()}}>{t('Close')}</button>
+              <button className="flex mx-auto  mt-7 items-center text-[15px]  bg-[#5A985E] text-white px-3 py-1  rounded hover:bg-green-600" onClick={() => {setShowPopup(false); stopAudio(); close()}}>{t('Close')}</button>
               </div>
            </div>
 

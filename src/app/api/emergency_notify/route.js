@@ -77,6 +77,26 @@ export async function POST(request, response) {
       const data = await request.json();
       const { date, time, location } = data;
       console.log("res: ",data)
+      
+      if (data.change) {
+        
+        console.log("res change: ",data,data.notification.date, data.notification.time, data.notification.location)
+
+        const updateStatusQuery = "UPDATE emergency_notify SET status = 1 WHERE date = ? AND time = ? AND location = ? AND status = 0";
+
+        const [updateResult] = await db.query(updateStatusQuery, [data.notification.date, data.notification.time, data.notification.location]);
+        
+        if (updateResult.affectedRows > 0) {
+          // การอัปเดตสำเร็จ
+          console.log("Status updated successfully");
+          console.log("Data in res.notification matches a record in emergency_notify");
+        } else {
+          // ไม่พบรายการที่ต้องการอัปเดตหรือมีปัญหาในการอัปเดต
+          console.log("Failed to update status or no matching records");
+          console.log("Data in res.notification does not match any record in emergency_notify");
+        }
+        return NextResponse.json({ success: true});
+      }
 
       let count = 0
 
@@ -122,7 +142,7 @@ export async function POST(request, response) {
       //   stopServer()
       //     }, 9000);       
 
-      const insertSql = "INSERT INTO emergency_notify (date, time, location) VALUES (?, ?, ?)";
+      const insertSql = "INSERT INTO emergency_notify (date, time, location , status) VALUES (?, ?, ? , 0)";
       const insertValues = await db.execute(insertSql , [data.date, data.time ,data.location]);
 
       if (insertValues[0].affectedRows === 1) {
@@ -171,7 +191,7 @@ export async function GET(request) {
       console.log('Formatted Date:', formattedDate);
       
 
-      const getExamineQuery = "SELECT * FROM emergency_notify WHERE date = ?";
+      const getExamineQuery = "SELECT * FROM emergency_notify WHERE date = ? AND status = 0";
       const [examineResult] = await db.query(getExamineQuery, formattedDate);
 
       console.log("Data_examine: ",examineResult)
