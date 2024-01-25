@@ -192,14 +192,14 @@ function CompNavbar() {
   }, []);
 
   const logout = () => {
-    const profileImageUrl = localStorage.getItem('profileImageUrl');
+    // const profileImageUrl = localStorage.getItem('profileImageUrl');
     const rememberedData = localStorage.getItem('rememberedData');
 
     localStorage.clear(); 
     
-    if (profileImageUrl) {
-      localStorage.setItem('profileImageUrl', profileImageUrl); 
-    }
+    // if (profileImageUrl) {
+    //   localStorage.setItem('profileImageUrl', profileImageUrl); 
+    // }
     
     if (rememberedData) {
       localStorage.setItem('rememberedData', rememberedData);

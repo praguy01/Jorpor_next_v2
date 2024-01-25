@@ -11,7 +11,7 @@ import jwt from 'jsonwebtoken';
 export async function POST(request)  {
   if (request.method === 'POST') {
     const res = await request.json();
-    // console.log("RES-----------------: ",res)
+    // console.log("RES-----------------: ",res , res.employee , res.password ,res.remember)
 
     if (res.rememberPassword) {
       
@@ -101,8 +101,8 @@ export async function POST(request)  {
         const currentTimestamp = Math.floor(Date.now() / 1000);
 
         const tokenPayload = {
-          employee: res.rememberPassword ?   '' : res.formData.employee,          
-          password: res.rememberPassword ?  '' : res.formData.password , 
+          employee:  res.formData.employee,          
+          password: res.formData.password , 
           rememberPassword: true,
           exp: currentTimestamp + 86400, 
           iat: currentTimestamp 
@@ -126,6 +126,94 @@ export async function POST(request)  {
       }
 
     }
+
+    if (res.remember) {
+      console.log("TTTT ", res.employee)
+      const checkemployeeQuery1 = "SELECT COUNT(*) AS employeeCount FROM users WHERE employee = ?";
+      const [employeeCountResult1] = await db.query(checkemployeeQuery1, [res.employee]);
+      
+      const checkemployeeQuery2 = "SELECT COUNT(*) AS employeeCount FROM users_r2 WHERE employee = ?";
+      const [employeeCountResult2] = await db.query(checkemployeeQuery2, [res.employee]);
+      
+      const checkemployeeQuery3 = "SELECT COUNT(*) AS employeeCount FROM users_r3 WHERE employee = ?";
+      const [employeeCountResult3] = await db.query(checkemployeeQuery3, [res.employee]);
+      
+      let userEmployeeTable = false;
+      let foundInTable = '';
+      let userResult = null; // Initialize to null
+      
+      if (employeeCountResult1[0].employeeCount > 0) {
+        foundInTable = 'users';
+        userEmployeeTable = true;
+      } else if (employeeCountResult2[0].employeeCount > 0) {
+        foundInTable = 'users_r2';
+        userEmployeeTable = true;
+      } else if (employeeCountResult3[0].employeeCount > 0) {
+        foundInTable = 'users_r3';
+        userEmployeeTable = true;
+      }
+      
+      if (userEmployeeTable) {
+        const getUserQuery = `SELECT * FROM ${foundInTable} WHERE employee = ?`;
+        const [userQueryResult] = await db.query(getUserQuery, [res.employee]);
+        userResult = userQueryResult[0];
+          console.log("oooouserResult ", userResult)
+
+      // for (const item of res.rememberedDataArray) {
+      //   if (item.hasOwnProperty('employee')) {
+          
+      //     if (res.employee === item.employee) {
+
+            // const tokenPayload = {
+            //   employee: res.employee,
+            //   password: res.password,
+            //   rememberPassword: true,
+            //   exp: Math.floor(Date.now() / 1000) + 86400, // 1 ชั่วโมงหลังจากนี้ (ในรูปแบบของ UNIX timestamp)
+            //   iat: Math.floor(Date.now() / 1000) // เวลาปัจจุบัน (ในรูปแบบของ UNIX timestamp)
+            // };
+            // // console.log("88788: ", tokenPayload)
+    
+            // const token = jwt.sign(tokenPayload, 'user_login');
+    
+            // if (userResult.position === 'Safety Officer Professional level '){
+            //   // console.log("111111")
+            //   return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/select' , profile: [userResult] ,token});
+            // } else if (userResult.position === 'Safety Officer Technical level'){
+            //   // console.log("22222")
+            //   return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_role_2' , profile: [userResult] ,token});
+            // } else if (userResult.position === 'Safety Officer Supervisory level'){
+            //   return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_role_3' , profile: [userResult] ,token});
+            // }               
+          // }
+        // }
+      // }
+    
+    
+    const tokenPayload = {
+      employee:  res.employee ,
+      password:  res.password,
+      rememberPassword: res.rememberPassword,
+      exp: Math.floor(Date.now() / 1000) + 86400, // 1 ชั่วโมงหลังจากนี้ (ในรูปแบบของ UNIX timestamp)
+      iat: Math.floor(Date.now() / 1000) // เวลาปัจจุบัน (ในรูปแบบของ UNIX timestamp)
+    };
+    // console.log("0000000: ", tokenPayload)
+    
+    const token = jwt.sign(tokenPayload, 'user_login');
+    
+    // console.log("POSITION/////: ", userResult.position ,[userResult]);
+
+    if (userResult.position === 'Safety Officer Professional level') {
+      // console.log("111111");
+      return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/select', profile: [userResult], token });
+    } else if (userResult.position === 'Safety Officer Technical level') {
+      // console.log("22222");
+      return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_role_2', profile: [userResult], token });
+    } else if (userResult.position === 'Safety Officer Supervisory level') {
+      // console.log("33333");
+      return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_role_3', profile: [userResult], token });
+    }
+  }
+}
 
     try {
       // console.log("RES_ROUTE******************: ", res);
@@ -189,44 +277,45 @@ export async function POST(request)  {
           
         }
         // console.log("ddddd: ",res.rememberedDataArray)
-        if (res.remember) {
-          for (const item of res.rememberedDataArray) {
-            if (item.hasOwnProperty('employee')) {
-              // console.log("TTTT ", res.formData.employee)
-              // console.log("oooo ", item.employee)
-              if (res.formData.employee === item.employee) {
-                const tokenPayload = {
-                  employee: res.formData.employee,
-                  password: res.formData.password,
-                  rememberPassword: true,
-                  exp: Math.floor(Date.now() / 1000) + 86400, // 1 ชั่วโมงหลังจากนี้ (ในรูปแบบของ UNIX timestamp)
-                  iat: Math.floor(Date.now() / 1000) // เวลาปัจจุบัน (ในรูปแบบของ UNIX timestamp)
-                };
-                // console.log("88788: ", tokenPayload)
+        // if (res.remember) {
+        //   console.log("TTTT ", res.employee)
+        //       console.log("oooo ", item.employee)
+        //   for (const item of res.rememberedDataArray) {
+        //     if (item.hasOwnProperty('employee')) {
+              
+        //       if (res.employee === item.employee) {
+        //         const tokenPayload = {
+        //           employee: res.employee,
+        //           password: res.password,
+        //           rememberPassword: true,
+        //           exp: Math.floor(Date.now() / 1000) + 86400, // 1 ชั่วโมงหลังจากนี้ (ในรูปแบบของ UNIX timestamp)
+        //           iat: Math.floor(Date.now() / 1000) // เวลาปัจจุบัน (ในรูปแบบของ UNIX timestamp)
+        //         };
+        //         // console.log("88788: ", tokenPayload)
         
-                const token = jwt.sign(tokenPayload, 'user_login');
+        //         const token = jwt.sign(tokenPayload, 'user_login');
         
-                if (userResult.position === 'Safety Officer Professional level '){
-                  // console.log("111111")
-                  return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/select' , profile: [userResult] ,token});
-                } else if (userResult.position === 'Safety Officer Technical level'){
-                  // console.log("22222")
-                  return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_role_2' , profile: [userResult] ,token});
-                } else if (userResult.position === 'Safety Officer Supervisory level'){
-                  return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_role_3' , profile: [userResult] ,token});
-                }               }
-            }
-          }
-        }
+        //         if (userResult.position === 'Safety Officer Professional level '){
+        //           // console.log("111111")
+        //           return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/select' , profile: [userResult] ,token});
+        //         } else if (userResult.position === 'Safety Officer Technical level'){
+        //           // console.log("22222")
+        //           return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_role_2' , profile: [userResult] ,token});
+        //         } else if (userResult.position === 'Safety Officer Supervisory level'){
+        //           return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_role_3' , profile: [userResult] ,token});
+        //         }               }
+        //     }
+        //   }
+        // }
         
         const tokenPayload = {
-          employee: res.rememberPassword ? res.formData.employee : '',
-          password: res.rememberPassword ? res.formData.password : '',
+          employee:  res.formData.employee ,
+          password:  res.formData.password ,
           rememberPassword: res.rememberPassword,
           exp: Math.floor(Date.now() / 1000) + 86400, // 1 ชั่วโมงหลังจากนี้ (ในรูปแบบของ UNIX timestamp)
           iat: Math.floor(Date.now() / 1000) // เวลาปัจจุบัน (ในรูปแบบของ UNIX timestamp)
         };
-        // console.log("0000000: ", tokenPayload)
+        // console.log("0000000888: ", tokenPayload)
         
         const token = jwt.sign(tokenPayload, 'user_login');
         

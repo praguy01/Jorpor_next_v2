@@ -37,7 +37,8 @@ export default  function CompLogin() {
                 const iatDate = new Date(iatUnixTimestamp * 1000); 
 
 
-            if (Token.rememberPassword && expDate.getTime() >= new Date().getTime()) {
+
+            if ( expDate.getTime() >= new Date().getTime()) {
 
               const employee =  Token.employee;
               const password =  Token.password;
@@ -171,7 +172,7 @@ export default  function CompLogin() {
       const rememberedData = localStorage.getItem('rememberedData');
       const rememberedDataArray = JSON.parse(rememberedData);
 
-      const editedData = { formData ,rememberedDataArray, rememberPassword}
+      const editedData = { formData ,rememberedDataArray, rememberPassword  }
       const data = JSON.stringify(editedData)
 
       const response = await axios.post('/api/login', 
@@ -196,7 +197,13 @@ export default  function CompLogin() {
             }
         
             setUserRemember(rememberedData)
-        
+
+            const isEmployeeDuplicated = rememberedData.some(item => item.employee === formData.employee);
+
+            if (isEmployeeDuplicated) {
+              rememberedData = rememberedData.filter(item => item.employee !== formData.employee);
+            }
+
             const newrememberedData = [
               { employee: formData.employee, password: formData.password }
             ];
