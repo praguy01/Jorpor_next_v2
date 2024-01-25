@@ -16,6 +16,9 @@ import { IoTime } from "react-icons/io5";
 import { BsCalendar2DateFill } from "react-icons/bs";
 import { FaLocationDot } from "react-icons/fa6"; 
 import { io as socketIoClient } from 'socket.io-client';
+import audioFile from "../../../../public/audio/notification.mp3";
+
+
 
 
 // const socket = socketIoClient('http://localhost:4000', {
@@ -48,7 +51,36 @@ function CompNavbar() {
   const [showPopup, setShowPopup] = useState(false); 
   const [notify, setNotify] = useState(false); 
   const [notification, setNotification] = useState('');
-  // import notificationSound from '../../../../public/audio/notification.mp3';
+  const [audio, setAudio] = useState(null);
+
+
+  useEffect(() => {
+    setAudio(new Audio(audioFile));
+  }, []);
+
+  const playAudio = () => {
+    if (audio) {
+      audio.addEventListener('ended', () => {
+        // เมื่อเพลงเล่นจบ ให้ทำการเริ่มเล่นใหม่
+        audio.currentTime = 0;
+        audio.play().catch(error => {
+          console.error('Error playing audio:', error);
+        });
+      });
+  
+      // เริ่มเล่นเพลงครั้งแรก
+      audio.play().catch(error => {
+        console.error('Error playing audio:', error);
+      });
+    }
+  };
+
+  const stopAudio = () => {
+    if (audio && typeof audio.pause === 'function') {
+      audio.pause();
+      audio.currentTime = 0;
+    }
+  };
 
   // useEffect(() => {
   //   const eventSource = new EventSource('https://platform-jorpor.vercel.app/api/emergency_notify');
@@ -79,10 +111,18 @@ function CompNavbar() {
   //   }
   // }, [showPopup, notification]);
 
+  useEffect(() => {
+    if (showPopup) {
+      playAudio();
+    } 
+  }, [showPopup]);
 
 
 
   useEffect(() => {
+    setAudio(new Audio(audioFile));
+
+
     console.log("Attempting to connect to Socket.IO...");
     const socket = socketIoClient('http://localhost:3001/', {
       // path: '/socket.io',
@@ -106,10 +146,10 @@ function CompNavbar() {
         setShowPopup(true);
         console.log("MESSAGE EMERGENCY: ", res);
         console.log("2",socket.connected);
-  
-        socket.disconnect();
-        console.log('Socket.IO connection closed');
-
+        setTimeout(() => {
+          socket.disconnect();
+          console.log('Socket.IO connection closed');
+        }, 1000); 
       });
 
     });
@@ -127,7 +167,12 @@ function CompNavbar() {
   }, []); // ให้ว่างไว้เพื่อให้ทำงานเมื่อ component ถูก unmounted
 
 
-  
+  // useEffect(() => {
+  //   if (!showPopup) {
+  //     stopAudio();
+  //   }
+  // }, [showPopup]);
+
 
   const currentPath = usePathname();
   const outsideClickRef = useRef(null);
@@ -293,8 +338,29 @@ function CompNavbar() {
         
           
         </div>
-        {showPopup && (
-              <div className="bg-white text-center text-black p-8 border border-grey-400 absolute rounded-lg shadow-lg  w-[300px]  top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+
+
+
+
+         {showPopup && (
+            
+             <div className="bg-[#FAE300] text-center items-center text-black h-[400px] border border-grey-400 absolute rounded-lg shadow-lg w-[300px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-hidden">
+
+              <div className=' -rotate-45 ml-[-400px] w-[1000px] border border-red-400'>
+                <div className="w-full bg-black   border-[20px] border-black "></div>
+                <div className="w-full bg-black mt-5   border-[20px] border-black "></div>
+                <div className="w-full bg-black mt-5  border-[20px] border-black "></div>
+                <div className="w-full bg-black mt-5 border-[20px] border-black "></div>
+                <div className="w-full bg-black mt-5   border-[20px] border-black "></div>
+                <div className="w-full bg-black mt-5  border-[20px] border-black "></div>
+               <div className="w-full bg-black  mt-5 border-[20px] border-black "></div>
+                <div className="w-full bg-black mt-5   border-[20px] border-black "></div>
+                <div className="w-full bg-black mt-5  border-[20px] border-black "></div>
+               
+               
+               </div>
+
+               <div className=' absolute z-10 bg-[#FAE300] py-5 w-[300px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
               <AiFillAlert className=' text-[50px] mx-auto mb-[10px] text-red-500  '/>
               <p className='text-[18px] mb-5'>{t("Emergency notification")}!!</p>
 
@@ -302,19 +368,32 @@ function CompNavbar() {
               <p className='flex items-center justify-center mt-1'> <BsCalendar2DateFill className='text-[14px]  mr-2'/> Date : 10/1/2024</p>
               <p className='flex items-center justify-center mt-1'> <FaLocationDot className=' mr-2'/> Location : Zone A</p> */}
               
-             {notification && (
+             {notification ? (
                 <div>
-                  
                   <p>{t('Location')} : {notification.location}</p>
 
                   <p>{t('Date')} : {notification.date}</p>
                   <p>{t('Time')} : {notification.time} {t('N')}</p>
                 </div>
+              ) : (
+                <div className='  mx-auto justify-center text-center mt-5 text-black'>
+                <div className='p-2 px-6'>
+                <TiWarning className='text-[30px] mx-auto text-[#5A985E]' />
+            
+                <h2 className=' py-1  text-[11px] md:text-[15px]'>{t("No information")}</h2>
+              </div>
+              </div> 
               )}
 
 
-              <button className="flex mx-auto  mt-7 items-center text-[15px]  bg-[#93DD79] text-white px-3 py-1  rounded hover:bg-green-600" onClick={() => setShowPopup(false)}>{t('Close')}</button>
+              <button className="flex mx-auto  mt-7 items-center text-[15px]  bg-[#5A985E] text-white px-3 py-1  rounded hover:bg-green-600" onClick={() => {setShowPopup(false); stopAudio()}}>{t('Close')}</button>
               </div>
+           </div>
+
+           
+           
+           
+
             )}
         
         </CompLanguageProvider>
