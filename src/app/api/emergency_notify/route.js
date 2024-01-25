@@ -99,9 +99,9 @@ export async function POST(request, response) {
           // socket.broadcast.emit("emergencyNotify", data);
           
           // Close httpServer when all clients disconnect
-          if (count === 0) {
-            stopServer();
-          }
+          // if (count === 0) {
+          //   stopServer();
+          // }
         });
         socket.emit("emergencyNotify", data);
         socket.broadcast.emit("emergencyNotify", data);
@@ -141,17 +141,38 @@ export async function POST(request, response) {
 }
 
 // ในไฟล์ api.js
-export function stopServer() {
-  console.log("STOPP");
-  if (httpServer) {
-    httpServer.close(() => {
-      console.log('Server stopped');
-    });
-    httpServer = null; // ให้ httpServer เป็น null เพื่อให้สามารถสร้าง server ใหม่ได้
+// export function stopServer() {
+//   console.log("STOPP");
+//   if (httpServer) {
+//     httpServer.close(() => {
+//       console.log('Server stopped');
+//     });
+//     httpServer = null; // ให้ httpServer เป็น null เพื่อให้สามารถสร้าง server ใหม่ได้
+//   }
+// }
+
+
+export async function GET(request) {
+  if (request.method === 'GET') {
+    try {
+  
+ 
+      
+      const getExamineQuery = "SELECT * FROM emergency_notify ";
+      const [examineResult] = await db.query(getExamineQuery);
+
+      console.log("Data_examine: ",examineResult)
+
+
+      return NextResponse.json({ success: true ,dbexamine_name: examineResult});
+    } catch (error) {
+      console.error('Error:', error);
+      return NextResponse.json({ success: false, error: error.message });
+    }
+  } else {
+    return NextResponse.error('Method Not Allowed');
   }
 }
-
-
 
 
 
@@ -234,4 +255,5 @@ export function stopServer() {
 //     });
 //   }
 // }
+
 

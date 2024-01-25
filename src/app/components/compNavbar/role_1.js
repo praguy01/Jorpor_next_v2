@@ -126,51 +126,54 @@ function CompNavbar() {
 
 
   useEffect(() => {
-
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('/api/emergency_notify');
+        
+        if (response.status === 200) {
+          const emergencyNotifications = response.data;
+          console.log('Emergency Notifications:', emergencyNotifications);
+        } else {
+          console.error('Failed to retrieve emergency notifications');
+        }
+      } catch (error) {
+        console.error('Error fetching emergency notifications:', error);
+      }
+    };
 
     console.log("Attempting to connect to Socket.IO...");
     const socket = socketIoClient('http://localhost:3001/', {
-      // path: '/socket.io',
       withCredentials: true,
       transports: ['websocket'],
     });
 
-    // const socket = socketIoClient('https://platform-jorpor-chada.koyeb.app', {
-    //   transports: ['websocket'],
-    //   extraHeaders: {
-    //     "my-custom-header": "abcd"
-    //   }    
-    // });
-
-  
     socket.on('connect', () => {
       console.log('WebSocket connected: ');
       console.log(socket.connected);
       socket.on('emergencyNotify', (res) => {
         setNotification(res);
         setShowPopup(true);
-        setSound(true)
+        setSound(true);
         console.log("MESSAGE EMERGENCY: ", res);
-        console.log("2",socket.connected);
+        console.log("2", socket.connected);
         setTimeout(() => {
           socket.disconnect();
           console.log('Socket.IO connection closed');
-        }, 1000); 
+        }, 1000);
       });
-
     });
-
 
     socket.on('error', (error) => {
       console.error('WebSocket error:', error);
     });
-    
-  
+
+    fetchData(); // Call the async function here
+
     return () => {
       socket.disconnect();
       console.log('Socket.IO connection closed');
     };
-  }, []); // ให้ว่างไว้เพื่อให้ทำงานเมื่อ component ถูก unmounted
+  }, []); 
 
 
   // useEffect(() => {

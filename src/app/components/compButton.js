@@ -74,7 +74,7 @@ export default function NotifyButton() {
         <div className="w-[250px] h-[250px]  md:w-[450px] md:h-[450px]  rounded-full bg-[#FFD9D9] absolute z-[-2]"></div>
         <div className="w-[220px] h-[220px]  md:w-[370px] md:h-[370px]  rounded-full bg-[#FDB1B1] absolute z-[-1]"></div>
         <div onClick={handleButtonClick} className="w-[190px] h-[190px]  md:w-[290px] md:h-[290px]  rounded-full bg-[#F44040] relative cursor-pointer     hover:scale-105 active:scale-95">
-          <button onClick={handleButtonClick} style={{ background: 'transparent', border: 'none', padding: 0, cursor: 'pointer' }}>
+          <button  style={{ background: 'transparent', border: 'none', padding: 0, cursor: 'pointer' }}>
             <div  style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' } }>
               <PiHandTapBold style={{ fontSize: '100px', color: '#fff' }} className=' cursor-pointer' />
             </div>
