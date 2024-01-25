@@ -93,9 +93,9 @@ export async function POST(request, response) {
           // socket.broadcast.emit("emergencyNotify", data);
           
           // Close httpServer when all clients disconnect
-          if (count === 0) {
-            stopServer();
-          }
+          // if (count === 0) {
+          //   stopServer();
+          // }
         });
         socket.emit("emergencyNotify", data);
         socket.broadcast.emit("emergencyNotify", data);
