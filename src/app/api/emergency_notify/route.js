@@ -61,6 +61,9 @@
 // File: api/socket.js
 // pages/api/emergency_notify.js
 // import { io } from '../../socketServer';
+
+
+import db from '../../../lib/db';
 import { NextResponse } from 'next/server';
 import { createServer } from 'http'
 import { Server } from 'socket.io'
@@ -114,8 +117,16 @@ export async function POST(request, response) {
 
       // setTimeout(() => {
       //   stopServer()
-      //     }, 9000);        
-          return NextResponse.json({ success: true, message: 'Notification has been sent successfully.'});
+      //     }, 9000);       
+
+      const insertSql = "INSERT INTO emergency_notify (date, time, location) VALUES (?, ?, ?)";
+      const insertValues = await db.execute(insertSql , [data.date, data.time ,data.location]);
+
+      if (insertValues[0].affectedRows === 1) {
+        return NextResponse.json({ success: true, message: 'Notification has been sent successfully.'});
+      } else {
+        return NextResponse.json({ success: false, error: 'Failed to insert notify data' });
+      }
 
     } catch (error) {
       console.error('Error processing the request:', error);
@@ -129,14 +140,17 @@ export async function POST(request, response) {
   }
 }
 
+// ในไฟล์ api.js
 export function stopServer() {
-  console.log("STOPP")
+  console.log("STOPP");
   if (httpServer) {
     httpServer.close(() => {
       console.log('Server stopped');
     });
+    httpServer = null; // ให้ httpServer เป็น null เพื่อให้สามารถสร้าง server ใหม่ได้
   }
 }
+
 
 
 
