@@ -70,8 +70,11 @@ let httpServer;
 export async function POST(request, response) {
   if (request.method === 'POST') {
     try {
+
       const data = await request.json();
       const { date, time, location } = data;
+      console.log("res: ",data)
+
       let count = 0
 
       if (!httpServer) {
@@ -93,9 +96,9 @@ export async function POST(request, response) {
           // socket.broadcast.emit("emergencyNotify", data);
           
           // Close httpServer when all clients disconnect
-          // if (count === 0) {
-          //   stopServer();
-          // }
+          if (count === 0) {
+            stopServer();
+          }
         });
         socket.emit("emergencyNotify", data);
         socket.broadcast.emit("emergencyNotify", data);

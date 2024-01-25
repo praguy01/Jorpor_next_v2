@@ -53,14 +53,19 @@ function CompNavbar() {
   const [notify, setNotify] = useState(false); 
   const [notification, setNotification] = useState('');
   const [audio, setAudio] = useState(null);
+  const [sound, setSound] = useState(false);
 
 
   useEffect(() => {
     setAudio(new Audio(audioFile));
+    setTimeout(() => {
+      setNotification('');
+    }, 60 * 60 * 1000);
+    
   }, []);
 
   const playAudio = () => {
-    if (audio) {
+    if (audio && sound) {
       audio.addEventListener('ended', () => {
         // เมื่อเพลงเล่นจบ ให้ทำการเริ่มเล่นใหม่
         audio.currentTime = 0;
@@ -121,7 +126,6 @@ function CompNavbar() {
 
 
   useEffect(() => {
-    setAudio(new Audio(audioFile));
 
 
     console.log("Attempting to connect to Socket.IO...");
@@ -145,6 +149,7 @@ function CompNavbar() {
       socket.on('emergencyNotify', (res) => {
         setNotification(res);
         setShowPopup(true);
+        setSound(true)
         console.log("MESSAGE EMERGENCY: ", res);
         console.log("2",socket.connected);
         setTimeout(() => {
@@ -308,7 +313,7 @@ function CompNavbar() {
                   </span>
                   )}
                  <FaBell 
-                  onClick={() => {setShowPopup(true); setTimeout(() => {setNotify(false);}, 100);}} 
+                  onClick={() => {setShowPopup(true); setTimeout(() => {setNotify(false);}, 100); setSound(false)}} 
                   className='relative cursor-pointer text-white transition-transform transform  hover:translate-x-0.5'
                   style={{ zIndex: 1 }}
                 />
@@ -362,6 +367,8 @@ function CompNavbar() {
                </div>
 
                <div className=' absolute z-10 bg-[#FAE300] py-5 w-[300px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
+               {notification ? (
+                <div>
               <AiFillAlert className=' text-[50px] mx-auto mb-[10px] text-red-500  '/>
               <p className='text-[18px] mb-5'>{t("Emergency notification")}!!</p>
 
@@ -369,16 +376,17 @@ function CompNavbar() {
               <p className='flex items-center justify-center mt-1'> <BsCalendar2DateFill className='text-[14px]  mr-2'/> Date : 10/1/2024</p>
               <p className='flex items-center justify-center mt-1'> <FaLocationDot className=' mr-2'/> Location : Zone A</p> */}
               
-             {notification ? (
+             
                 <div>
                   <p>{t('Location')} : {notification.location}</p>
 
                   <p>{t('Date')} : {notification.date}</p>
                   <p>{t('Time')} : {notification.time} {t('N')}</p>
                 </div>
+                </div>
               ) : (
-                <div className='  mx-auto justify-center text-center mt-5 text-black'>
-                <div className='p-2 px-6'>
+                <div className='  mx-auto h-[150px] items-center justify-center text-center mt-5 text-black'>
+                <div className='p-2 px-6 '>
                 <TiWarning className='text-[30px] mx-auto text-[#5A985E]' />
             
                 <h2 className=' py-1  text-[11px] md:text-[15px]'>{t("No information")}</h2>
