@@ -1,0 +1,101 @@
+> Ready on http://localhost:\\.\pipe\5826b3bf-c28d-4bbe-99e9-bb554de899b1
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Formatted Date: 1/26/2024
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH' ]
+Data_examine:  []
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH', 'EN' ]
+LangResultmap:  [ 'TH', 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH', 'EN', 'EN' ]
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'TH' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Formatted Date: 1/26/2024
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Data_examine:  []
+LangResultmap:  [ 'TH', 'EN', 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'TH', 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Formatted Date: 1/26/2024
+LangResultmap:  [ 'TH', 'EN', 'EN' ]
+Data_examine:  []
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'TH' ]
+res:  { notification: '', change: true }
+res change:  { notification: '', change: true } undefined undefined undefined
+Failed to update status or no matching records
+Data in res.notification does not match any record in emergency_notify
+TTTT  112233
+oooouserResult  {
+  id: 132,
+  name: 'ยสนา',
+  lastname: 'นน',
+  email: '',
+  position: 'Safety Officer Professional level',
+  employee: '112233',
+  phone: '112233',
+  line: '',
+  password: '$2a$10$bQhft9GqQt9Fn3GCHRX3IesgAs5XXJkUJZ43uMJ7Mbstx3OZUeyrq',
+  picture: <Buffer >,
+  role_2_id: 34
+}
+TTTT  112233
+oooouserResult  {
+  id: 132,
+  name: 'ยสนา',
+  lastname: 'นน',
+  email: '',
+  position: 'Safety Officer Professional level',
+  employee: '112233',
+  phone: '112233',
+  line: '',
+  password: '$2a$10$bQhft9GqQt9Fn3GCHRX3IesgAs5XXJkUJZ43uMJ7Mbstx3OZUeyrq',
+  picture: <Buffer >,
+  role_2_id: 34
+}
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Formatted Date: 1/26/2024
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Data_examine:  []
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'TH', 'EN' ]
+LangResultmap:  [ 'TH' ]
