@@ -70,6 +70,15 @@ import { Server } from 'socket.io'
 
 let httpServer;
 
+// const allowCors = (req, res, next) => {
+//   res.setHeader('Access-Control-Allow-Origin', 'http://192.168.2.38:3000');
+//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+//   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+//   res.setHeader('Access-Control-Allow-Credentials', true);
+//   next();
+// };
+
+
 export async function POST(request, response) {
   if (request.method === 'POST') {
     try {
@@ -77,7 +86,10 @@ export async function POST(request, response) {
       const data = await request.json();
       const { date, time, location } = data;
       console.log("res: ",data)
-      
+      console.log("Request URL:", request.url); // log URL ที่ถูกเรียก
+
+      // allowCors(request, response, () => {});
+
       if (data.change) {
         
         console.log("res change: ",data,data.notification.date, data.notification.time, data.notification.location)
@@ -103,11 +115,14 @@ export async function POST(request, response) {
       if (!httpServer) {
         console.log("http working")
       httpServer = createServer()
+    
       const io = new Server(httpServer, {
-          cors: {
-              origin: 'http://localhost:3000'
-          }
-      })
+        cors: {
+          origin: 'http://192.168.2.38:3000',
+          methods: ['GET', 'POST'],
+          credentials: true,
+        },
+      });
 
       io.on('connection', (socket) => {
         count++;
@@ -115,10 +130,7 @@ export async function POST(request, response) {
         socket.on('disconnect', () => {
           count--;
           console.log("disconnected1: ", count);
-          // socket.emit("emergencyNotify", data);
-          // socket.broadcast.emit("emergencyNotify", data);
-          
-          // Close httpServer when all clients disconnect
+
           if (count === 0) {
             httpServer.close(() => {
             console.log('Server stopped');
@@ -130,9 +142,10 @@ export async function POST(request, response) {
         socket.broadcast.emit("emergencyNotify", data);
       });
 
-      httpServer.listen(3001)
-      console.log("listening port 3001")
-    
+      httpServer.listen(3001, '192.168.2.38', () => {
+        console.log("listening port 3000");
+      });
+      
     }
 
       console.log('SENDD:', data);

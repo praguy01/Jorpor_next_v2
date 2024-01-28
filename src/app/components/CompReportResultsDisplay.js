@@ -712,7 +712,7 @@ export default function CompReportResultsForm({ onSubmit }) {
                 </div>
                ) : (
                 <div >
-                <p className='md:text-[14px] text-[12px] mt-[20px]'>{`${language === 'EN' ? "Today's information has been sent. " : 'ข้อมูลของวันนี้้ถูกส่งไปแล้ว'  }`}</p>
+                <p className='md:text-[14px] text-[12px] mt-[20px]'>{t("Today's information has been sent")}</p>
                 <button onClick={generatePDF} className=' mt-[20px] text-[15px]  border-[#64CE3F] bg-[#64CE3F] px-5  py-1  text-[#fff] hover:-translate-y-0.5 duration-200  mx-auto flex items-center '><IoMdDownload /><span className='ml-[5px]'>Dowload</span></button>
                 </div>
 

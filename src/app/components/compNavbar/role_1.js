@@ -55,6 +55,7 @@ function CompNavbar() {
   const [audio, setAudio] = useState(null);
   const [sound, setSound] = useState(false);
   const [refresh, setRefresh] = useState(false);
+  const [session_Expired, setSession_Expired] = useState(false);
 
 
   useEffect(() => {
@@ -124,6 +125,11 @@ function CompNavbar() {
 
 
   useEffect(() => {
+    const storedUser_id = localStorage.getItem('id');
+
+    if (!storedUser_id) {
+      setSession_Expired(true)
+    }
     const fetchData = async () => {
       try {
         const response = await axios.get('/api/emergency_notify');
@@ -143,7 +149,9 @@ function CompNavbar() {
     };
 
     console.log("Attempting to connect to Socket.IO...");
-    const socket = socketIoClient('http://localhost:3001/', {
+
+
+    const socket = socketIoClient('http://192.168.2.38:3001', {
       withCredentials: true,
       transports: ['websocket'],
     });
@@ -376,8 +384,8 @@ function CompNavbar() {
 
 
          {showPopup && (
-            
-             <div className="bg-[#FAE300] text-center items-center text-black h-[400px] border border-grey-400 absolute rounded-lg shadow-lg w-[300px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-hidden">
+              <div className="bg-[#00000080] fixed inset-0 z-50 flex items-center justify-center">
+             <div className="bg-[#FAE300]  text-center items-center text-black h-[400px]  absolute rounded-lg shadow-lg w-[300px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-hidden">
 
               <div className=' -rotate-45 ml-[-400px] w-[1000px] border border-red-400'>
                 <div className="w-full bg-black   border-[20px] border-black "></div>
@@ -425,11 +433,25 @@ function CompNavbar() {
               <button className="flex mx-auto  mt-7 items-center text-[15px]  bg-[#5A985E] text-white px-3 py-1  rounded hover:bg-green-600" onClick={() => {setShowPopup(false); stopAudio(); close()}}>{t('Close')}</button>
               </div>
            </div>
+           </div>
 
            
            
            
 
+            )}
+
+            {session_Expired && (
+              <div className="bg-[#00000080] fixed inset-0 z-50 flex items-center justify-center">
+                <div className="bg-white text-center items-center text-black h-[150px] border border-grey-400 rounded-lg shadow-lg w-[300px]">
+                  <div className=' mt-5'>
+                    <p className='text-[18px]  font-bold'>{t("Session Expired")}</p>
+                    <p className='text-[15px] '>{t("Please log in again")}</p>
+
+                    <button className="flex mx-auto mt-5 items-center text-[15px] bg-[#5A985E] text-white px-3 py-1 rounded hover:bg-green-600" onClick={() => { logout() }}>{t('OK')}</button>
+                  </div>
+                </div>
+              </div>
             )}
         
         </CompLanguageProvider>

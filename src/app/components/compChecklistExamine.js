@@ -460,9 +460,9 @@ function App() {
         <div className=' bg-[url("/bg1.png")] overflow-auto bg-cover bg-no-repeat absolute z-[-1] top-0 left-0 w-full h-full bg-center   '>
           <div className='md:w-[800px] lg:w-[1000px] mx-auto '>
             <div className=' w-[280px] mx-auto md:w-[963px]  '>
-              <div className=  {` text-[21px] md:text-[35px] border  md:w-[700px] lg:w-[800px] w-[300px] left-0 md:ml-[70px] lg:ml-[90px]  flex items-center md:mt-[100px] mt-[90px] `}>
-                  <h1 className=' text-[#5A985E] border   mr-[10px] '>{t('Examine')}</h1>
-                  <p className='text-black  w-[170px] md:w-[400px] text-sm md:text-[20px] border  text-ellipsis whitespace-nowrap overflow-hidden'>({checklistname})</p>
+              <div className=  {` text-[21px] md:text-[35px]   md:w-[700px] lg:w-[800px] w-[300px] left-0 md:ml-[70px] lg:ml-[90px]  flex items-center md:mt-[100px] mt-[90px] `}>
+                  <h1 className=' text-[#5A985E]    mr-[10px] '>{t('Examine')}</h1>
+                  <p className='text-black  w-[170px] md:w-[400px] text-sm md:text-[20px]  text-ellipsis whitespace-nowrap overflow-hidden'>({checklistname})</p>
               </div>
               <div className='flex items-center text-center  w-[110px] h-[24px] md:w-[140px] md:h-[30px] rounded-[5px] text-[#fff] border-[#000] bg-[#000] md:ml-[70px] lg:ml-[90px] '>
                     <div className=' md:ml-[10px] ml-[10px] '><BsCalendar2Minus/></div>

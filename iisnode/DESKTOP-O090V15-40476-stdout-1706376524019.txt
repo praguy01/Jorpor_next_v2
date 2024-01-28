@@ -1,0 +1,111 @@
+> Ready on http://localhost:\\.\pipe\d2f01d6b-7d0d-4052-8331-0a2885fbdb89
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Formatted Date: 1/28/2024
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Data_examine:  [
+  {
+    id: 124,
+    date: '1/28/2024',
+    location: 'zone A',
+    time: '24:17',
+    status: 0
+  },
+  {
+    id: 125,
+    date: '1/28/2024',
+    location: 'zone A',
+    time: '24:19',
+    status: 0
+  },
+  {
+    id: 127,
+    date: '1/28/2024',
+    location: 'zone A',
+    time: '24:24',
+    status: 0
+  }
+]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Formatted Date: 1/28/2024
+Data_examine:  [
+  {
+    id: 124,
+    date: '1/28/2024',
+    location: 'zone A',
+    time: '24:17',
+    status: 0
+  },
+  {
+    id: 125,
+    date: '1/28/2024',
+    location: 'zone A',
+    time: '24:19',
+    status: 0
+  },
+  {
+    id: 127,
+    date: '1/28/2024',
+    location: 'zone A',
+    time: '24:24',
+    status: 0
+  }
+]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'EN', 'EN' ]
+LangResultmap:  [ 'EN', 'EN' ]
+LangResultmap:  [ 'EN', 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'EN', 'EN', 'EN' ]
+Formatted Date: 1/28/2024
+LangResultmap:  [ 'EN', 'EN' ]
+Data_examine:  [
+  {
+    id: 124,
+    date: '1/28/2024',
+    location: 'zone A',
+    time: '24:17',
+    status: 0
+  },
+  {
+    id: 125,
+    date: '1/28/2024',
+    location: 'zone A',
+    time: '24:19',
+    status: 0
+  },
+  {
+    id: 127,
+    date: '1/28/2024',
+    location: 'zone A',
+    time: '24:24',
+    status: 0
+  }
+]
+LangResultmap:  [ 'EN', 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'EN', 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'EN', 'EN', 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
+res:  { date: '1/28/2024', time: '24:28', location: 'zone A' }
+Request URL: http://localhost:3000/api/emergency_notify
+http working
+SENDD: { date: '1/28/2024', time: '24:28', location: 'zone A' }
+listening port 3000

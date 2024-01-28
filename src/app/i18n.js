@@ -99,6 +99,10 @@ i18n
           "No information":"No information",
           "Emergency notification":"Emergency notification",
           Time:'Time',
+          "Session Expired":"Session Expired",
+          "Please log in again":"Please log in again",
+          OK:"OK",
+          "Today's information has been sent":"Today's information has been sent",
 
 
 
@@ -198,7 +202,10 @@ i18n
           "No information":"ไม่มีข้อมูล",
           "Emergency notification":"การแจ้งเหตุฉุกเฉิน",
           Time:'เวลา',
-
+          "Session Expired":"เซสชั่นหมดอายุ",
+          "Please log in again":"กรุณาเข้าสู่ระบบอีกครั้ง",
+          OK:"ตกลง",
+          "Today's information has been sent":"ข้อมูลวันนี้ได้ถูกส่งไปแล้ว",
 
 
 

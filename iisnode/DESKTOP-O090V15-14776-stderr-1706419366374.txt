@@ -1,0 +1,29 @@
+(node:14776) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ ⨯ The requested resource isn't a valid image for /img/profile.jpg received text/html; charset=us-ascii
+ImageError: The requested resource isn't a valid image.
+    at imageOptimizer (D:\SeniorNextjs\jorpor-nextjs\node_modules\next\dist\server\image-optimizer.js:608:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async cacheEntry.imageResponseCache.get.incrementalCache (D:\SeniorNextjs\jorpor-nextjs\node_modules\next\dist\server\next-server.js:176:65)
+    at async D:\SeniorNextjs\jorpor-nextjs\node_modules\next\dist\server\response-cache\index.js:90:36
+    at async D:\SeniorNextjs\jorpor-nextjs\node_modules\next\dist\lib\batcher.js:41:32 {
+  statusCode: 400
+}
+ ⨯ The requested resource isn't a valid image for /img/profile.jpg received text/html; charset=us-ascii
+ImageError: The requested resource isn't a valid image.
+    at imageOptimizer (D:\SeniorNextjs\jorpor-nextjs\node_modules\next\dist\server\image-optimizer.js:608:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async cacheEntry.imageResponseCache.get.incrementalCache (D:\SeniorNextjs\jorpor-nextjs\node_modules\next\dist\server\next-server.js:176:65)
+    at async D:\SeniorNextjs\jorpor-nextjs\node_modules\next\dist\server\response-cache\index.js:90:36
+    at async D:\SeniorNextjs\jorpor-nextjs\node_modules\next\dist\lib\batcher.js:41:32 {
+  statusCode: 400
+}
+ ⨯ The requested resource isn't a valid image for /img/profile.jpg received text/html; charset=us-ascii
+ImageError: The requested resource isn't a valid image.
+    at imageOptimizer (D:\SeniorNextjs\jorpor-nextjs\node_modules\next\dist\server\image-optimizer.js:608:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async cacheEntry.imageResponseCache.get.incrementalCache (D:\SeniorNextjs\jorpor-nextjs\node_modules\next\dist\server\next-server.js:176:65)
+    at async D:\SeniorNextjs\jorpor-nextjs\node_modules\next\dist\server\response-cache\index.js:90:36
+    at async D:\SeniorNextjs\jorpor-nextjs\node_modules\next\dist\lib\batcher.js:41:32 {
+  statusCode: 400
+}

@@ -1,0 +1,54 @@
+(node:42860) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ ⨯ Error: Cannot find module 'D:\SeniorNextjs\jorpor-nextjs\.next\server\app\reportResults\page_client-reference-manifest.js'
+Require stack:
+- D:\SeniorNextjs\jorpor-nextjs\node_modules\next\dist\server\load-components.js
+- D:\SeniorNextjs\jorpor-nextjs\node_modules\next\dist\server\next-server.js
+- D:\SeniorNextjs\jorpor-nextjs\node_modules\next\dist\server\next.js
+- D:\SeniorNextjs\jorpor-nextjs\server.js
+- C:\Program Files\iisnode\interceptor.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1144:15)
+    at D:\SeniorNextjs\jorpor-nextjs\node_modules\next\dist\server\require-hook.js:55:36
+    at Module._load (node:internal/modules/cjs/loader:985:27)
+    at Module.require (node:internal/modules/cjs/loader:1235:19)
+    at mod.require (D:\SeniorNextjs\jorpor-nextjs\node_modules\next\dist\server\require-hook.js:65:28)
+    at require (node:internal/modules/helpers:176:18)
+    at loadClientReferenceManifest (D:\SeniorNextjs\jorpor-nextjs\node_modules\next\dist\server\load-components.js:43:72)
+    at loadComponentsImpl (D:\SeniorNextjs\jorpor-nextjs\node_modules\next\dist\server\load-components.js:65:29)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async NextNodeServer.findPageComponentsImpl (D:\SeniorNextjs\jorpor-nextjs\node_modules\next\dist\server\next-server.js:671:36) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'D:\\SeniorNextjs\\jorpor-nextjs\\node_modules\\next\\dist\\server\\load-components.js',
+    'D:\\SeniorNextjs\\jorpor-nextjs\\node_modules\\next\\dist\\server\\next-server.js',
+    'D:\\SeniorNextjs\\jorpor-nextjs\\node_modules\\next\\dist\\server\\next.js',
+    'D:\\SeniorNextjs\\jorpor-nextjs\\server.js',
+    'C:\\Program Files\\iisnode\\interceptor.js'
+  ]
+}
+ ⨯ Error: Cannot find module 'D:\SeniorNextjs\jorpor-nextjs\.next\server\app\reportResults\page_client-reference-manifest.js'
+Require stack:
+- D:\SeniorNextjs\jorpor-nextjs\node_modules\next\dist\server\load-components.js
+- D:\SeniorNextjs\jorpor-nextjs\node_modules\next\dist\server\next-server.js
+- D:\SeniorNextjs\jorpor-nextjs\node_modules\next\dist\server\next.js
+- D:\SeniorNextjs\jorpor-nextjs\server.js
+- C:\Program Files\iisnode\interceptor.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1144:15)
+    at D:\SeniorNextjs\jorpor-nextjs\node_modules\next\dist\server\require-hook.js:55:36
+    at Module._load (node:internal/modules/cjs/loader:985:27)
+    at Module.require (node:internal/modules/cjs/loader:1235:19)
+    at mod.require (D:\SeniorNextjs\jorpor-nextjs\node_modules\next\dist\server\require-hook.js:65:28)
+    at require (node:internal/modules/helpers:176:18)
+    at loadClientReferenceManifest (D:\SeniorNextjs\jorpor-nextjs\node_modules\next\dist\server\load-components.js:43:72)
+    at loadComponentsImpl (D:\SeniorNextjs\jorpor-nextjs\node_modules\next\dist\server\load-components.js:65:29)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async NextNodeServer.findPageComponentsImpl (D:\SeniorNextjs\jorpor-nextjs\node_modules\next\dist\server\next-server.js:671:36) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    'D:\\SeniorNextjs\\jorpor-nextjs\\node_modules\\next\\dist\\server\\load-components.js',
+    'D:\\SeniorNextjs\\jorpor-nextjs\\node_modules\\next\\dist\\server\\next-server.js',
+    'D:\\SeniorNextjs\\jorpor-nextjs\\node_modules\\next\\dist\\server\\next.js',
+    'D:\\SeniorNextjs\\jorpor-nextjs\\server.js',
+    'C:\\Program Files\\iisnode\\interceptor.js'
+  ]
+}
