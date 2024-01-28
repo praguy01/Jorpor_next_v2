@@ -32,3 +32,14 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+blog about how to Deploy NextJs Application on Window’s IIS Server. 
+  :  https://medium.com/@dipneupane/deploying-nextjs-application-on-windows-iis-server-cabdc22bccf8
+
+
+install  URL Rewrite 
+  :  https://www.iis.net/downloads/microsoft/url-rewrite?fbclid=IwAR3g2UIh9nV9sJwIHPqN7qlSHZdifpkjumEfxvj7UVfEHwLgDeLJXGoE_Hs
+
+install ISSnode
+  :  https://github.com/tjanczuk/iisnode/releases?fbclid=IwAR3cxCJjn5ZXMM8W5zgBtEQudFLXZdrvPgQZHfQfnAQenvJb5jlAPReZAMM 
+
