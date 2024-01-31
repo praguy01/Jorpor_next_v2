@@ -15,7 +15,7 @@ import { AiFillAlert } from "react-icons/ai";
 import { IoTime } from "react-icons/io5";
 import { BsCalendar2DateFill } from "react-icons/bs";
 import { FaLocationDot } from "react-icons/fa6"; 
-import { io as socketIoClient } from 'socket.io-client';
+import { io } from 'socket.io-client';
 import audioFile from "../../../../public/audio/notification.mp3";
 import { TiWarning } from "react-icons/ti";
 
@@ -151,10 +151,12 @@ function CompNavbar() {
     console.log("Attempting to connect to Socket.IO...");
 
 
-    const socket = socketIoClient('http://192.168.2.38:3001', {
+    const socket = io('http://192.168.2.38:3000', {
       withCredentials: true,
-      transports: ['websocket'],
+      transports: ['websocket']
     });
+    
+    
 
     socket.on('connect', () => {
       console.log('WebSocket connected: ');
@@ -176,7 +178,7 @@ function CompNavbar() {
       console.error('WebSocket error:', error);
     });
 
-    fetchData(); // Call the async function here
+    fetchData(); 
 
     return () => {
       socket.disconnect();

@@ -1,0 +1,2 @@
+Application has thrown an uncaught exception and is terminated:
+Error: ENOENT: no such file or directory, open 'D:\SeniorNextjs\jorpor-nextjs\.next\BUILD_ID'

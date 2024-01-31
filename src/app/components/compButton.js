@@ -37,7 +37,7 @@ export default function NotifyButton() {
     const data =  JSON.stringify(requestData);
     console.log('requestData:',data);
 
-    const response = await fetch('http://192.168.2.38:3000/api/emergency_notify', {
+    const response = await fetch('http://192.168.2.38/api/emergency_notify', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

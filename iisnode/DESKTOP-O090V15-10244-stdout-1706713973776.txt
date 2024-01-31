@@ -1,0 +1,183 @@
+> Ready on http://localhost:\\.\pipe\155ccc47-38dd-4569-95c3-3669f22d78ec
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Formatted Date: 1/31/2024
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Data_examine:  [
+  {
+    id: 281,
+    date: '1/31/2024',
+    location: 'zone A',
+    time: '16:16',
+    status: 0
+  }
+]
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Formatted Date: 1/31/2024
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Data_examine:  [
+  {
+    id: 281,
+    date: '1/31/2024',
+    location: 'zone A',
+    time: '16:16',
+    status: 0
+  }
+]
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Formatted Date: 1/31/2024
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Data_examine:  [
+  {
+    id: 281,
+    date: '1/31/2024',
+    location: 'zone A',
+    time: '16:16',
+    status: 0
+  }
+]
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Formatted Date: 1/31/2024
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Data_examine:  [
+  {
+    id: 281,
+    date: '1/31/2024',
+    location: 'zone A',
+    time: '16:16',
+    status: 0
+  }
+]
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Formatted Date: 1/31/2024
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Data_examine:  [
+  {
+    id: 281,
+    date: '1/31/2024',
+    location: 'zone A',
+    time: '16:16',
+    status: 0
+  }
+]
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Formatted Date: 1/31/2024
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Data_examine:  [
+  {
+    id: 281,
+    date: '1/31/2024',
+    location: 'zone A',
+    time: '16:16',
+    status: 0
+  }
+]
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Formatted Date: 1/31/2024
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Data_examine:  [
+  {
+    id: 281,
+    date: '1/31/2024',
+    location: 'zone A',
+    time: '16:16',
+    status: 0
+  }
+]
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Formatted Date: 1/31/2024
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Data_examine:  [
+  {
+    id: 281,
+    date: '1/31/2024',
+    location: 'zone A',
+    time: '16:16',
+    status: 0
+  }
+]
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]

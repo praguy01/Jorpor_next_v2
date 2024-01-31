@@ -1,41 +1,30 @@
-> Ready on http://localhost:\\.\pipe\bb6b6e7b-578c-47bd-9fb1-5d12e899434f
-TTTT  112233
-oooouserResult  {
-  id: 132,
-  name: 'ยสนา',
-  lastname: 'นน',
-  email: '',
-  position: 'Safety Officer Professional level',
-  employee: '112233',
-  phone: '112233',
-  line: '',
-  password: '$2a$10$bQhft9GqQt9Fn3GCHRX3IesgAs5XXJkUJZ43uMJ7Mbstx3OZUeyrq',
-  picture: <Buffer >,
-  role_2_id: 34
-}
-RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
-RES_ROUTE_employeeinput:  undefined
-Formatted Date: 1/28/2024
-RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
-RES_ROUTE_employeeinput:  undefined
+> Ready on http://localhost:\\.\pipe\7a0c9221-bea4-4377-9ed0-aef053ddd2f6
 RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
 RES_ROUTE_employeeinput:  undefined
 LangResultmap:  [ 'EN' ]
 RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
 RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Formatted Date: 1/31/2024
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'EN', 'EN' ]
+LangResultmap:  [ 'EN' ]
 Data_examine:  [
   {
-    id: 124,
-    date: '1/28/2024',
+    id: 280,
+    date: '1/31/2024',
     location: 'zone A',
-    time: '24:17',
-    status: 0
-  },
-  {
-    id: 125,
-    date: '1/28/2024',
-    location: 'zone A',
-    time: '24:19',
+    time: '14:45',
     status: 0
   }
 ]
@@ -47,98 +36,64 @@ RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
 RES_ROUTE_employeeinput:  undefined
 LangResultmap:  [ 'EN' ]
 LangResultmap:  [ 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Formatted Date: 1/31/2024
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Data_examine:  [
+  {
+    id: 280,
+    date: '1/31/2024',
+    location: 'zone A',
+    time: '14:45',
+    status: 0
+  }
+]
 LangResultmap:  [ 'EN' ]
-res:  { date: '1/28/2024', time: '24:24', location: 'zone A' }
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
+Formatted Date: 1/31/2024
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Data_examine:  [
+  {
+    id: 280,
+    date: '1/31/2024',
+    location: 'zone A',
+    time: '14:45',
+    status: 0
+  }
+]
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
+res:  { date: '1/31/2024', time: '16:16', location: 'zone A' }
 Request URL: http://localhost:3000/api/emergency_notify
 http working
-SENDD: { date: '1/28/2024', time: '24:24', location: 'zone A' }
-listening port 3000
-connected:  1
-disconnected1:  0
-res:  {
-  notification: { date: '1/28/2024', time: '24:24', location: 'zone A' },
-  change: true
-}
-Request URL: http://localhost:3000/api/emergency_notify
-res change:  {
-  notification: { date: '1/28/2024', time: '24:24', location: 'zone A' },
-  change: true
-} 1/28/2024 24:24 zone A
-Status updated successfully
-Data in res.notification matches a record in emergency_notify
-Server stopped
-RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
-RES_ROUTE_employeeinput:  undefined
-Formatted Date: 1/28/2024
-RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
-RES_ROUTE_employeeinput:  undefined
-RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
-RES_ROUTE_employeeinput:  undefined
-Data_examine:  [
-  {
-    id: 124,
-    date: '1/28/2024',
-    location: 'zone A',
-    time: '24:17',
-    status: 0
-  },
-  {
-    id: 125,
-    date: '1/28/2024',
-    location: 'zone A',
-    time: '24:19',
-    status: 0
-  }
-]
-LangResultmap:  [ 'EN' ]
-RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
-RES_ROUTE_employeeinput:  undefined
-LangResultmap:  [ 'EN' ]
-LangResultmap:  [ 'EN' ]
-RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
-RES_ROUTE_employeeinput:  undefined
-RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
-RES_ROUTE_employeeinput:  undefined
-LangResultmap:  [ 'EN' ]
-LangResultmap:  [ 'EN' ]
-LangResultmap:  [ 'EN' ]
-RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
-RES_ROUTE_employeeinput:  undefined
-Formatted Date: 1/28/2024
-RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
-RES_ROUTE_employeeinput:  undefined
-RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
-RES_ROUTE_employeeinput:  undefined
-Data_examine:  [
-  {
-    id: 124,
-    date: '1/28/2024',
-    location: 'zone A',
-    time: '24:17',
-    status: 0
-  },
-  {
-    id: 125,
-    date: '1/28/2024',
-    location: 'zone A',
-    time: '24:19',
-    status: 0
-  }
-]
-LangResultmap:  [ 'EN' ]
-LangResultmap:  [ 'EN' ]
-LangResultmap:  [ 'EN' ]
-RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
-RES_ROUTE_employeeinput:  undefined
-RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
-RES_ROUTE_employeeinput:  undefined
-RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
-RES_ROUTE_employeeinput:  undefined
-LangResultmap:  [ 'EN' ]
-LangResultmap:  [ 'EN' ]
-LangResultmap:  [ 'EN' ]
-res:  { date: '1/28/2024', time: '24:24', location: 'zone A' }
-Request URL: http://localhost:3000/api/emergency_notify
-http working
-SENDD: { date: '1/28/2024', time: '24:24', location: 'zone A' }
-listening port 3000
+SENDD: { date: '1/31/2024', time: '16:16', location: 'zone A' }
+Server is running on port 3000

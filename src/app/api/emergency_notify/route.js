@@ -88,8 +88,6 @@ export async function POST(request, response) {
       console.log("res: ",data)
       console.log("Request URL:", request.url); // log URL ที่ถูกเรียก
 
-      // allowCors(request, response, () => {});
-
       if (data.change) {
         
         console.log("res change: ",data,data.notification.date, data.notification.time, data.notification.location)
@@ -115,15 +113,15 @@ export async function POST(request, response) {
       if (!httpServer) {
         console.log("http working")
       httpServer = createServer()
-    
+ 
       const io = new Server(httpServer, {
         cors: {
-          origin: 'http://192.168.2.38:3000',
+          origin: ['http://192.168.2.38:80', 'http://192.168.2.38:3000'],
           methods: ['GET', 'POST'],
           credentials: true,
         },
       });
-
+  
       io.on('connection', (socket) => {
         count++;
         console.log("connected: ", count);
@@ -142,18 +140,11 @@ export async function POST(request, response) {
         socket.broadcast.emit("emergencyNotify", data);
       });
 
-      httpServer.listen(3001, '192.168.2.38', () => {
-        console.log("listening port 3000");
-      });
-      
     }
-
-      console.log('SENDD:', data);
-
-
-      // setTimeout(() => {
-      //   stopServer()
-      //     }, 9000);       
+     
+      httpServer.listen(3000,'0.0.0.0',() => {
+        console.log('Server is running on port 3000');
+      });     
 
       const insertSql = "INSERT INTO emergency_notify (date, time, location , status) VALUES (?, ?, ? , 0)";
       const insertValues = await db.execute(insertSql , [data.date, data.time ,data.location]);

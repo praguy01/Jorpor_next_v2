@@ -538,7 +538,7 @@ function App() {
             <div className='  items-center mx-auto w-[330px] md:w-[780px]  '>
               <label className="block  text-gray-700 text-[13px] font-bold mb-2"> {t("Select an option")}:</label>
               <select
-                className="  left-0  text-[13px] text-black border rounded-md px-4 py-1 outline-none"
+                className="left-0 w-[150px] text-[13px] text-black border rounded-md px-4 py-1 outline-none overflow-hidden"
                 value={selectedOption ? selectedOption.id : ""}
                 onChange={handleDropdownChange}
               >

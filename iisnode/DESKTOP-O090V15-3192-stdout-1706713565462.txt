@@ -1,57 +1,73 @@
-> Ready on http://localhost:\\.\pipe\4f372b1b-05bc-4622-9584-5fe312ff3f66
-RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
-RES_ROUTE_employeeinput:  undefined
-Formatted Date: 1/28/2024
-RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
-RES_ROUTE_employeeinput:  undefined
-Data_examine:  []
-LangResultmap:  [ 'TH' ]
-LangResultmap:  [ 'TH' ]
+> Ready on http://localhost:\\.\pipe\d29ac87a-39eb-40ba-9d71-c58f588b5270
+Formatted Date: 1/31/2024
 RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
 RES_ROUTE_employeeinput:  undefined
 RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
 RES_ROUTE_employeeinput:  undefined
-LangResultmap:  [ 'TH' ]
-LangResultmap:  [ 'TH' ]
-RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
-RES_ROUTE_employeeinput:  undefined
-Formatted Date: 1/28/2024
-Data_examine:  []
-LangResultmap:  [ 'TH' ]
-RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
-RES_ROUTE_employeeinput:  undefined
-LangResultmap:  [ 'TH' ]
-Formatted Date: 1/28/2024
-RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
-RES_ROUTE_employeeinput:  undefined
-RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
-RES_ROUTE_employeeinput:  undefined
-Data_examine:  []
-RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
-RES_ROUTE_employeeinput:  undefined
-LangResultmap:  [ 'TH' ]
-LangResultmap:  [ 'TH' ]
-LangResultmap:  [ 'TH' ]
+Data_examine:  [
+  {
+    id: 281,
+    date: '1/31/2024',
+    location: 'zone A',
+    time: '16:16',
+    status: 0
+  }
+]
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
 RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
 RES_ROUTE_employeeinput:  undefined
 RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
 RES_ROUTE_employeeinput:  undefined
-Formatted Date: 1/28/2024
-Data_examine:  []
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Formatted Date: 1/31/2024
+Data_examine:  [
+  {
+    id: 281,
+    date: '1/31/2024',
+    location: 'zone A',
+    time: '16:16',
+    status: 0
+  }
+]
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
 RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
 RES_ROUTE_employeeinput:  undefined
 RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
 RES_ROUTE_employeeinput:  undefined
 RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
 RES_ROUTE_employeeinput:  undefined
-LangResultmap:  [ 'TH', 'EN', 'EN', 'EN' ]
-LangResultmap:  [ 'TH', 'EN', 'EN', 'EN' ]
+Formatted Date: 1/31/2024
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Data_examine:  [
+  {
+    id: 281,
+    date: '1/31/2024',
+    location: 'zone A',
+    time: '16:16',
+    status: 0
+  }
+]
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN', 'EN' ]
 RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
 RES_ROUTE_employeeinput:  undefined
 RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
 RES_ROUTE_employeeinput:  undefined
-LangResultmap:  [ 'TH', 'EN', 'EN' ]
-LangResultmap:  [ 'TH', 'EN', 'EN' ]
-LangResultmap:  [ 'TH', 'EN', 'EN' ]
-LangResultmap:  [ 'TH' ]
-LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'EN', 'EN', 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
