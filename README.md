@@ -43,3 +43,7 @@ install  URL Rewrite
 install ISSnode
   :  https://github.com/tjanczuk/iisnode/releases?fbclid=IwAR3cxCJjn5ZXMM8W5zgBtEQudFLXZdrvPgQZHfQfnAQenvJb5jlAPReZAMM 
 
+Install node.js
+  :  https://nodejs.org/en
+
+(npm install -g npm)
