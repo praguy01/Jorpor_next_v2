@@ -33,6 +33,8 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
+## Webserver by IIS
+
 blog about how to Deploy NextJs Application on Window’s IIS Server. 
   :  https://medium.com/@dipneupane/deploying-nextjs-application-on-windows-iis-server-cabdc22bccf8
 
@@ -43,3 +45,7 @@ install  URL Rewrite
 install ISSnode
   :  https://github.com/tjanczuk/iisnode/releases?fbclid=IwAR3cxCJjn5ZXMM8W5zgBtEQudFLXZdrvPgQZHfQfnAQenvJb5jlAPReZAMM 
 
+Install node.js
+  :  https://nodejs.org/en
+
+(npm install -g npm)
