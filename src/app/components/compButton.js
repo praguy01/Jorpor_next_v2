@@ -1,12 +1,41 @@
 'use client';
-import React from 'react';
+import React, { useEffect ,useState} from 'react';
 import '@fontsource/mitr';
 import { PiHandTapBold } from "react-icons/pi";
 import axios from 'axios';
 import '../globals.css'
+// import { IP_ADDRESS } from './next.config';
 
 
 export default function NotifyButton() {
+
+  const [todolist,setTodoList] = useState('')
+  const [selectedOption,setSelectedOption] = useState(null)
+  const IPaddress = '192.168.2.38';
+
+  
+  useEffect(() => {
+
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('/api/button');
+        
+        if (response.status === 200) {
+          const resdata = response.data;
+          console.log('resdata:', resdata);
+          setTodoList(resdata.dbexaminelist_name)
+          setSelectedOption(resdata.dbexaminelist_name[0])
+          
+        } else {
+          console.error('Failed to retrieve emergency notifications');
+        }
+      } catch (error) {
+        console.error('Error fetching emergency notifications:', error);
+      }
+    };
+    fetchData()
+  },[])
+
   const handleButtonClick = async () => {
     console.log('Button clicked!');
 
@@ -14,14 +43,11 @@ export default function NotifyButton() {
     const currentDate = new Date();
     const formattedDate = currentDate.toLocaleDateString();
     const formattedTime = currentDate.toLocaleTimeString(undefined, { hour12: false, hour: '2-digit', minute: '2-digit' });
+    // const IPaddress = IP_ADDRESS
+    // console.log("IP: ",IPaddress)
 
     // Prepare data to be sent in the POST request
-    const requestData = {
-      date: formattedDate,
-      time: formattedTime,
-      location: 'zone A' // You can replace this with the actual location value
-    };
-
+  
     try {
       // Make a POST request to the API endpoint
     //   const response = await fetch('https://platform-jorpor.vercel.app/api/emergency_notify', {
@@ -34,19 +60,28 @@ export default function NotifyButton() {
     //     body: JSON.stringify(requestData),
     //     });
 
-    const data =  JSON.stringify(requestData);
-    console.log('requestData:',data);
+    // const request = JSON.stringify({requestData});
+    const requestData = {
+      date: formattedDate,
+      time: formattedTime,
+      location: selectedOption.name // You can replace this with the actual location value
+    };
 
-    const response = await fetch('http://192.168.2.38/api/emergency_notify', {
+
+    const data = { requestData, selectedOption , button:true};
+    
+    const response = await fetch(`http://${IPaddress}/api/emergency_notify`, {
+      // const response = await fetch(`http://192.168.2.37/api/emergency_notify`, {
+
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            // ไม่ต้องระบุ 'Origin' ใน headers
         },
-        body: data,
-    });
+        body: JSON.stringify(data),
+      });
 
 
+      console.log('requestData:', data);
 
       
 
@@ -63,11 +98,31 @@ export default function NotifyButton() {
     }
   };
 
+  const handleDropdownChange = (event) => {
+    // console.log("event.target.value: ",event.target.value)
+    const selectedValue = JSON.parse(event.target.value);
+        console.log("event.target.value: ",selectedValue)
+
+    setSelectedOption(selectedValue); // เมื่อเลือกตัวเลือกใน Dropdown ให้อัปเดต state
+  };
+
   return (
     <div className='bg-gray-200 overflow-auto bg-cover bg-no-repeat z-[-1] top-0 left-0 w-full h-full bg-center fixed'>
       <div className='absolute top-10 left-1/2 transform -translate-x-1/2 text-center mt-[50px] md:mt-[20px]'>
         <div className="text-[#000] md:text-5xl text-[30px]  w-[500px] md:w-[800px] ">Having an Emergency?</div>
-        <div className="text-[#A6A6A6] md:text-3xl text-[20px] ">Press the button below.</div>
+        <div className="text-[#A6A6A6] md:text-3xl text-[20px] ">Choose a location.</div>
+        <select
+          className="left-0 w-[150px] mt-1 text-[13px] bg-white text-black border rounded-md px-4 py-1 outline-none overflow-hidden"
+          value={todolist ? todolist.user_id : ""}
+          onChange={handleDropdownChange}
+        >
+          {todolist.length > 0 && todolist.map((item, index) => (
+            <option key={index} value={JSON.stringify(item)}>
+              {item.name}
+            </option>
+
+          ))}
+        </select>
       </div>
 
       <div className="flex items-center justify-center md:mt-[50px] h-full ">

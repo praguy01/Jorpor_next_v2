@@ -247,16 +247,16 @@ export default  function CompLogin() {
               router.push(resdata.redirect); 
           }, 100); 
         } else {
-          setLoginMessage(resdata.error);
+          setLoginMessage('Login error Please try again later');
           setMessage('');
         }
       } else {
-        setLoginMessage(resdata.error);
+        setLoginMessage('Login error Please try again later');
         setMessage('');
       }
     } catch (error) {
-      console.error('Error login: ', error);
-      setLoginMessage(error.message || 'An error occurred');
+      // console.error('Error login: ', error);
+      setLoginMessage('Login error Please try again later');
       setMessage('');
     } finally {
       setIsLoading(false); 

@@ -114,20 +114,20 @@ export default function CompRegister() {
               
             
         } else {
-          setRegistrationMessage(resdata.error);
+          setRegistrationMessage('Registration failed Please try again later');
           setMessage('');
           setRegistrationMessagePass('');
 
         }
       } else {
-        setRegistrationMessage(resdata.error);
+        setRegistrationMessage('Registration failed Please try again later');
         setMessage('');
         setRegistrationMessagePass('');
 
       }
     } catch (error) {
-      console.error('Error registering: ', error);
-      setRegistrationMessage(error);
+      // console.error('Error registering: ', error);
+      setRegistrationMessage('Registration failed Please try again later');
       setMessage('');
       setRegistrationMessagePass('');
 
@@ -218,12 +218,12 @@ export default function CompRegister() {
           });
         }
       } else {
-        setMessagepop('เกิดข้อผิดพลาด1: ' + resdata.error);
+        setMessagepop('Registration failed Please try again later');
       }
     }
     } catch (error) {
-      console.errorpop('เกิดข้อผิดพลาด2:', error);
-      setMessage('เกิดข้อผิดพลาด2');
+      // console.errorpop('เกิดข้อผิดพลาด2:', error);
+      setMessage('Registration failed Please try again later');
     } finally {
       setIsLoading(false); 
     }

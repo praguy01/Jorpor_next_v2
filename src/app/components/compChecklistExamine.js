@@ -427,10 +427,10 @@ function App() {
                 router.push(resdata.redirect); 
             }, 1000); 
           } else {
-            setMessage(resdata.error);
+            setMessage('An error occurred. Please try again later');
           }
         } else {
-          setMessage(resdata.error);
+          setMessage('An error occurred. Please try again later');
         }
         setSelectedItems({});
 

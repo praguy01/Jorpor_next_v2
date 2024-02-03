@@ -1,10 +1,8 @@
-(node:19492) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+(node:15824) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-idResultmap is undefined or null
  ⨯ upstream image response failed for /img/profile.jpg TypeError: fetch failed
     at Object.fetch (node:internal/deps/undici/undici:11730:11)
     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at async globalThis.fetch (D:\SeniorNextjs\jorpor-nextjs\node_modules\next\dist\compiled\next-server\app-route.runtime.prod.js:6:35987)
     at async invokeRequest (D:\SeniorNextjs\jorpor-nextjs\node_modules\next\dist\server\lib\server-ipc\invoke-request.js:17:12)
     at async D:\SeniorNextjs\jorpor-nextjs\node_modules\next\dist\server\next-server.js:596:35
     at async imageOptimizer (D:\SeniorNextjs\jorpor-nextjs\node_modules\next\dist\server\image-optimizer.js:576:13)
@@ -13,8 +11,7 @@ idResultmap is undefined or null
     at async D:\SeniorNextjs\jorpor-nextjs\node_modules\next\dist\lib\batcher.js:41:32 {
   cause: AggregateError
       at internalConnectMultiple (node:net:1114:18)
-      at afterConnectMultiple (node:net:1667:5)
-      at TCPConnectWrap.callbackTrampoline (node:internal/async_hooks:130:17) {
+      at afterConnectMultiple (node:net:1667:5) {
     code: 'ECONNREFUSED',
     [errors]: [ [Error], [Error] ]
   }
@@ -27,7 +24,3 @@ ImageError: "url" parameter is valid but upstream response is invalid
     at async D:\SeniorNextjs\jorpor-nextjs\node_modules\next\dist\lib\batcher.js:41:32 {
   statusCode: 500
 }
-idResultmap is undefined or null
-idResultmap is undefined or null
-idResultmap is undefined or null
-idResultmap is undefined or null

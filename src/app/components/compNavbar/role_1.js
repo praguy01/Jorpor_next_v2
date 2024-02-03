@@ -18,6 +18,7 @@ import { FaLocationDot } from "react-icons/fa6";
 import { io } from 'socket.io-client';
 import audioFile from "../../../../public/audio/notification.mp3";
 import { TiWarning } from "react-icons/ti";
+import { MdHistory } from "react-icons/md";
 
 
 
@@ -56,11 +57,46 @@ function CompNavbar() {
   const [sound, setSound] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const [session_Expired, setSession_Expired] = useState(false);
+  const [notiData, setNotiData] = useState('');
+  const [reload, setReload] = useState(false);
+  const IPaddress = '192.168.2.38';
+
+
+  // const IPaddress = process.env.IP_ADDRESS
 
 
   useEffect(() => {
     setAudio(new Audio(audioFile));
-    
+    const storedUser_id = localStorage.getItem('id');
+
+    if (!storedUser_id) {
+      setSession_Expired(true)
+    }
+    const fetchData = async () => {
+      try {
+        const editedData = { storedUser_id , get: true }
+        const data = JSON.stringify(editedData)
+        console.log("DDDDD: ",data)
+  
+        const response = await axios.post('/api/emergency_notify', 
+        data, {
+          headers: { 'Content-Type': 'application/json' 
+        }});        
+        if (response.status === 200) {
+          const emergencyNotifications = response.data;
+          console.log('Emergency Notifications:', emergencyNotifications);
+          if (emergencyNotifications.dbexamine_name && emergencyNotifications.dbexamine_name.length > 0) {
+            setNotiData((emergencyNotifications.dbexamine_name).reverse())
+          }
+        
+        } else {
+          console.error('Failed to retrieve emergency notifications');
+        }
+      } catch (error) {
+        console.error('Error fetching emergency notifications:', error);
+      }
+    };
+    fetchData(); 
   }, []);
 
   const playAudio = () => {
@@ -87,34 +123,6 @@ function CompNavbar() {
     }
   };
 
-  // useEffect(() => {
-  //   const eventSource = new EventSource('https://platform-jorpor.vercel.app/api/emergency_notify');
-
-  //   eventSource.onmessage = (event) => {
-  //     if (event.data.trim() !== '') {
-  //       const data = JSON.parse(event.data);
-  //       setNotification(data.message);
-  //       setShowPopup(true);
-  //     }
-  //   };
-
-  //   eventSource.onerror = (error) => {
-  //     console.error('SSE Error:', error);
-  //     eventSource.close();
-  //   };
-
-  //   return () => {
-  //     eventSource.close();
-  //   };
-  // }, []);
-
-  // // เพิ่มโค้ดที่ต้องการให้ทำเมื่อมีการแจ้งเตือน
-  // useEffect(() => {
-  //   if (showPopup) {
-  //     // ทำสิ่งที่คุณต้องการเมื่อมีการแจ้งเตือน
-  //     console.log('Notification:', notification);
-  //   }
-  // }, [showPopup, notification]);
 
   useEffect(() => {
     if (showPopup) {
@@ -123,35 +131,15 @@ function CompNavbar() {
   }, [showPopup]);
 
 
-
   useEffect(() => {
     const storedUser_id = localStorage.getItem('id');
 
-    if (!storedUser_id) {
-      setSession_Expired(true)
-    }
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('/api/emergency_notify');
-        
-        if (response.status === 200) {
-          const emergencyNotifications = response.data;
-          console.log('Emergency Notifications:', emergencyNotifications,emergencyNotifications.dbexamine_name[0] , emergencyNotifications.length);
-          if (emergencyNotifications.dbexamine_name.length > 0) {
-            setNotification(emergencyNotifications.dbexamine_name[0])
-          }
-        } else {
-          console.error('Failed to retrieve emergency notifications');
-        }
-      } catch (error) {
-        console.error('Error fetching emergency notifications:', error);
-      }
-    };
 
     console.log("Attempting to connect to Socket.IO...");
 
 
-    const socket = io('http://192.168.2.38:3000', {
+    const socket = io(`http://${IPaddress}:3000`, {
+      // const socket = io(`http://192.168.2.37:3000`, {
       withCredentials: true,
       transports: ['websocket']
     });
@@ -159,8 +147,12 @@ function CompNavbar() {
     
 
     socket.on('connect', () => {
-      console.log('WebSocket connected: ');
-      console.log(socket.connected);
+      console.log('WebSocket connected: ',socket.connected);
+       
+
+      socket.emit('setUserId', { user_id: storedUser_id });
+      socket.emit('joinRoom', { room: 'emergencyNotify', user_id: storedUser_id });
+
       socket.on('emergencyNotify', (res) => {
         setNotification(res);
         setShowPopup(true);
@@ -171,20 +163,28 @@ function CompNavbar() {
           socket.disconnect();
           console.log('Socket.IO connection closed');
         }, 1000);
+        setReload(false);
+
       });
+
+     
+    
+     
+      // socket.emit('joinRoom', { room: 'emergencyNotify', user_id: storedUser_id });
+
     });
 
     socket.on('error', (error) => {
       console.error('WebSocket error:', error);
     });
 
-    fetchData(); 
+    
 
     return () => {
       socket.disconnect();
       console.log('Socket.IO connection closed');
     };
-  }, []); 
+  }, [reload]); 
 
 
   // useEffect(() => {
@@ -247,12 +247,13 @@ function CompNavbar() {
       if (response.status === 200) {
         const emergencyNotifications = response.data;
         console.log('Emergency Notifications:', emergencyNotifications);
-       
+        setReload(true)
+        console.log("CLICK CLOSE")
       } else {
         console.error('Failed to retrieve emergency notifications');
       }
     } catch (error) {
-      console.error('Error fetching emergency notifications:', error);
+      console.error('Error close emergency notifications:', error);
     }
   };
  
@@ -314,22 +315,24 @@ function CompNavbar() {
                 </div >
 
                 
-              <div className='hidden lg:flex text-white  '>
-                <div className=''>
-                  {notify && (
+              <div className='hidden lg:flex text-white '>
+                <div className='flex'>
+                  {/* {notify && (
                   <span 
                     className='absolute bg-red-500  rounded-full w-3 h-3 text-white flex items-center justify-center mt-4 ml-2 '
                     style={{ zIndex: 2 }}
                   >
                     <span className='text-[8px]'>1</span>
                   </span>
-                  )}
+                  )} */}
                  <FaBell 
                   onClick={() => {setShowPopup(true); setTimeout(() => {setNotify(false);}, 100);}} 
                   className='relative cursor-pointer text-white mt-5 transition-transform transform  hover:translate-x-0.5'
                   style={{ zIndex: 1 }}
                 />
+                
               </div>
+
                 <button   className="text-white px-5  relative top-[5px] pb-3 pt-[10px]  text-[15px]   hover:font-bold  rounded-md p-2 " onClick={toggleLanguage}>
                   {language}
                 </button> 
@@ -405,31 +408,53 @@ function CompNavbar() {
 
                <div className=' absolute z-10 bg-[#FAE300] py-5 w-[300px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
                {notification ? (
+                // โค้ดสำหรับแจ้งเตือนที่มีข้อมูล
                 <div>
-              <AiFillAlert className=' text-[50px] mx-auto mb-[10px] text-red-500  '/>
-              <p className='text-[18px] mb-5'>{t("Emergency notification")}!!</p>
-
-              {/* <p className='flex items-center justify-center '> <IoTime className=' mr-2'/> Time  : 15:25 น.</p>
-              <p className='flex items-center justify-center mt-1'> <BsCalendar2DateFill className='text-[14px]  mr-2'/> Date : 10/1/2024</p>
-              <p className='flex items-center justify-center mt-1'> <FaLocationDot className=' mr-2'/> Location : Zone A</p> */}
-              
-             
-                <div>
-                  <p>{t('Location')} : {notification.location}</p>
-
-                  <p>{t('Date')} : {notification.date}</p>
-                  <p>{t('Time')} : {notification.time} {t('N')}</p>
-                </div>
+                  <AiFillAlert className='text-[50px] mx-auto mb-[10px] text-red-500' />
+                  <p className='text-[18px] mb-5'>{t("Emergency notification")}!!</p>
+                  <div>
+                    <p>{t('Location')} : {notification.location}</p>
+                    <p>{t('Date')} : {notification.date}</p>
+                    <p>{t('Time')} : {notification.time} {t('N')}</p>
+                  </div>
                 </div>
               ) : (
-                <div className='  mx-auto h-[150px] items-center justify-center text-center mt-5 text-black'>
-                <div className='p-2 px-6 '>
-                <TiWarning className='text-[30px] mx-auto text-[#5A985E]' />
-            
-                <h2 className=' py-1  text-[11px] md:text-[15px]'>{t("No information")}</h2>
-              </div>
-              </div> 
+                notiData && notiData.length !== 0 ? (
+                  <div className='  mx-auto h-[200px] items-center  text-black'>
+
+                    <div className=' flex items-center justify-center '>
+                      <AiFillAlert className='text-[30px]  text-red-500' />
+                      <p className='text-[18px] ml-[5px] '>{t("Emergency notification")}!!</p>
+                    </div>
+                    <div className=' w-[250px] mt-2  mx-auto h-[170px] overflow-auto'>
+                  {/* {console.log("888: ",notiData)} */}
+                  {notiData && notiData.map((todo, index) => (
+                    <div key ={index} className='flex bg-white border mt-1 py-2 mx-auto w-[200px] rounded-[20px]'>
+                  {console.log("888: ",todo)}
+                  <p className='ml-5 text-[12px]'>{index+1}</p>
+                  <p className='text-[12px] text-left ml-5'>
+                  {t('Location')} : {todo.location}<br />
+                  {t('Date')} : {todo.date}<br />
+                  {t('Time')} : {todo.time} {t('N')}
+                  </p>
+
+                  </div>
+                  ))}
+                  </div>
+                  </div>
+                ) : (
+                  <div className='mx-auto h-[150px] items-center justify-center text-center mt-5 text-black'>
+
+                    <div className='p-2 px-6'>
+                      <TiWarning className='text-[30px] mx-auto text-[#5A985E]' />
+                      <h2 className='py-1 text-[11px] md:text-[15px]'>{t("No information")}</h2>
+                    </div>
+                  </div> 
+                  
+                )
               )}
+                
+              
 
 
               <button className="flex mx-auto  mt-7 items-center text-[15px]  bg-[#5A985E] text-white px-3 py-1  rounded hover:bg-green-600" onClick={() => {setShowPopup(false); stopAudio(); close()}}>{t('Close')}</button>

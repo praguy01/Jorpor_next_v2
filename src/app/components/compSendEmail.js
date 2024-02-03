@@ -60,14 +60,14 @@ const CompSendEmail = () => {
               router.push(resdata.redirect);
             }, 1000); 
         } else {
-          setMessage(resdata.message);
+          setMessage('Sending failed Please try again later');
         }
       } else {
-        setMessage('เกิดข้อผิดพลาด1: ' + resdata.message);
+        setMessage('Sending failed Please try again later');
       }
     } catch (error) {
       console.error('เกิดข้อผิดพลาด2:', error);
-      setMessage('เกิดข้อผิดพลาด2');
+      setMessage('Sending failed Please try again later');
     } finally {
       setIsLoading(false); 
     }

@@ -92,14 +92,14 @@ export default function CompChangepass() {
             window.location.href = resdata.redirect;
           }, 1000); 
         } else {
-          setMessage(resdata.error);
+          setMessage('An error occurred. Please try again later');
         }
       } else {
-        setMessage('เกิดข้อผิดพลาด1: ' + resdata.error);
+        setMessage('An error occurred. Please try again later');
       }
     } catch (error) {
       console.error('เกิดข้อผิดพลาด2:', error);
-      setMessage('เกิดข้อผิดพลาด2');
+      setMessage('An error occurred. Please try again later');
     } finally {
       setIsLoading(false); 
     }
