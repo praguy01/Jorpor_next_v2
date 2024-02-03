@@ -114,19 +114,19 @@ export default function CompRegister() {
               
             
         } else {
-          setRegistrationMessage('Registration failed Please try again later');
+          setRegistrationMessage(resdata.error);
           setMessage('');
           setRegistrationMessagePass('');
 
         }
       } else {
-        setRegistrationMessage('Registration failed Please try again later');
+        setRegistrationMessage(resdata.error);
         setMessage('');
         setRegistrationMessagePass('');
 
       }
     } catch (error) {
-      // console.error('Error registering: ', error);
+      console.error('Error registering: ', error);
       setRegistrationMessage('Registration failed Please try again later');
       setMessage('');
       setRegistrationMessagePass('');
@@ -222,7 +222,7 @@ export default function CompRegister() {
       }
     }
     } catch (error) {
-      // console.errorpop('เกิดข้อผิดพลาด2:', error);
+      console.errorpop('Registration failed Please try again later');
       setMessage('Registration failed Please try again later');
     } finally {
       setIsLoading(false); 

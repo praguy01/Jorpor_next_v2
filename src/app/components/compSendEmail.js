@@ -60,7 +60,7 @@ const CompSendEmail = () => {
               router.push(resdata.redirect);
             }, 1000); 
         } else {
-          setMessage('Sending failed Please try again later');
+          setMessage(resdata.message);
         }
       } else {
         setMessage('Sending failed Please try again later');

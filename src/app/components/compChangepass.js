@@ -92,7 +92,7 @@ export default function CompChangepass() {
             window.location.href = resdata.redirect;
           }, 1000); 
         } else {
-          setMessage('An error occurred. Please try again later');
+          setMessage(resdata.error);
         }
       } else {
         setMessage('An error occurred. Please try again later');

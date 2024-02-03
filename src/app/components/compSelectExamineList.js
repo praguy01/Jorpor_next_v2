@@ -97,11 +97,11 @@ function App({ onSubmit }) {
             setUser_id(storedUser_id);
 
           } else {
-            setMessage('An error occurred. Please try again later');
+            setMessage(data.error);
             
           }
         } else {
-          setMessage('An error occurred. Please try again later');
+          setMessage(data.error);
         }
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -168,10 +168,10 @@ function App({ onSubmit }) {
             setShowAddSuccessPopup(false);
           }, 1000);
         } else {
-          setMessage('An error occurred. Please try again later');
+          setMessage(resdata.error);
         }
       } else {
-        setMessage('An error occurred. Please try again later');
+        setMessage(resdata.error);
       }
     
     } catch (error) {
@@ -219,10 +219,10 @@ function App({ onSubmit }) {
             setShowDeleteSuccessPopup(false);
           }, 1000); 
         } else {
-          setMessage('An error occurred. Please try again later');
+          setMessage(resdata.error);
         }
       } else {
-        setMessage('An error occurred. Please try again later');
+        setMessage(resdata.error);
       }
     } catch (error) {
       console.error('Error Examine:', error);
@@ -245,10 +245,10 @@ function App({ onSubmit }) {
         if (resdata.success === true) {
 
         } else {
-          setMessage('An error occurred. Please try again later');
+          setMessage(resdata.error);
         }
       } else {
-        setMessage('An error occurred. Please try again later');
+        setMessage(resdata.error);
       }
       const isSuccess = await onSubmit(checkedItems);
       if (isSuccess) {

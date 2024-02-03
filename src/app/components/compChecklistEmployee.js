@@ -104,10 +104,10 @@ function App() {
               
                 setTodoList(data.dbchecklist);
               } else {
-                setMessage('An error occurred. Please try again later');
+                setMessage(data.error);
               }
             } else {
-              setMessage('An error occurred. Please try again later');
+              setMessage(data.error);
             }
           } catch (error) {
             console.error('Error fetching data:', error);
@@ -170,10 +170,10 @@ function App() {
                 router.push(resdata.redirect); 
             }, 1000); 
           } else {
-            setMessage('An error occurred. Please try again later');
+            setMessage(resdata.error);
           }
         } else {
-          setMessage('An error occurred. Please try again later');
+          setMessage(resdata.error);
         }
         setSelectedItems({});
 
