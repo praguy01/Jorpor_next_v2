@@ -77,7 +77,7 @@ function CompNavbar() {
       try {
         const editedData = { storedUser_id , get: true }
         const data = JSON.stringify(editedData)
-        console.log("DDDDD: ",data)
+        // console.log("DDDDD: ",data)
   
         const response = await axios.post('/api/emergency_notify', 
         data, {
@@ -85,7 +85,7 @@ function CompNavbar() {
         }});        
         if (response.status === 200) {
           const emergencyNotifications = response.data;
-          console.log('Emergency Notifications:', emergencyNotifications);
+          // console.log('Emergency Notifications:', emergencyNotifications);
           if (emergencyNotifications.dbexamine_name && emergencyNotifications.dbexamine_name.length > 0) {
             setNotiData((emergencyNotifications.dbexamine_name).reverse())
           }
@@ -136,7 +136,7 @@ function CompNavbar() {
     const storedUser_id = localStorage.getItem('id');
 
 
-    console.log("Attempting to connect to Socket.IO...");
+    // console.log("Attempting to connect to Socket.IO...");
 
 
     const socket = io(`http://${IPaddress}:3000`, {
@@ -148,7 +148,7 @@ function CompNavbar() {
     
 
     socket.on('connect', () => {
-      console.log('WebSocket connected: ',socket.connected);
+      // console.log('WebSocket connected: ',socket.connected);
        
 
       socket.emit('setUserId', { user_id: storedUser_id });
@@ -158,11 +158,11 @@ function CompNavbar() {
         setNotification(res);
         setShowPopup(true);
         setSound(true);
-        console.log("MESSAGE EMERGENCY: ", res);
-        console.log("2", socket.connected);
+        // console.log("MESSAGE EMERGENCY: ", res);
+        // console.log("2", socket.connected);
         setTimeout(() => {
           socket.disconnect();
-          console.log('Socket.IO connection closed');
+          // console.log('Socket.IO connection closed');
         }, 1000);
         setReload(false);
 
@@ -183,7 +183,7 @@ function CompNavbar() {
 
     return () => {
       socket.disconnect();
-      console.log('Socket.IO connection closed');
+      // console.log('Socket.IO connection closed');
     };
   }, [reload]); 
 
@@ -247,9 +247,9 @@ function CompNavbar() {
       
       if (response.status === 200) {
         const emergencyNotifications = response.data;
-        console.log('Emergency Notifications:', emergencyNotifications);
+        // console.log('Emergency Notifications:', emergencyNotifications);
         setReload(true)
-        console.log("CLICK CLOSE")
+        // console.log("CLICK CLOSE")
       } else {
         console.error('Failed to retrieve emergency notifications');
       }
@@ -431,7 +431,7 @@ function CompNavbar() {
                   {/* {console.log("888: ",notiData)} */}
                   {notiData && notiData.map((todo, index) => (
                     <div key ={index} className='flex bg-white border mt-1 py-2 mx-auto w-[200px] rounded-[20px]'>
-                  {console.log("888: ",todo)}
+                  {/* {console.log("888: ",todo)} */}
                   <p className='ml-5 text-[12px]'>{index+1}</p>
                   <p className='text-[12px] text-left ml-5'>
                   {t('Location')} : {todo.location}<br />
