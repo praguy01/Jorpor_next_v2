@@ -84,7 +84,7 @@ function CompNotifyForm({ onSubmit }) {
 
   const handleInputChange = (e) => {
     const { name , value, files } = e.target;
-  
+    setMessage('')
     
     if (name === 'file' && files && files.length > 0) {
       const allowedExtensions = ['jpg'];
@@ -260,14 +260,14 @@ function CompNotifyForm({ onSubmit }) {
               
 
                 {message && (
-                  <p className='mt-3 text-red-500 text-xs py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-lg md:mt-[30px]'>
+                  <p className='mt-3 text-red-500 text-[12px] md:text-[13px] py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto  md:mt-[30px]'>
                     {message}
                   </p>
                 )}
                
 
                 <div className='flex items-center md:px-10  md:mt-[20px] ' >
-                    <button type='submit' onClick={handleSubmit} className=  {` text-[15px]  mt-[20px]  md:text-[15px] mx-auto border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 `}>{t('confirm')}</button>
+                    <button type='submit' onClick={handleSubmit} className=  {` ${message && 'cursor-not-allowed'} text-[15px]  mt-[20px]  md:text-[15px] mx-auto border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 `}>{t('confirm')}</button>
                    
                    
                 </div>

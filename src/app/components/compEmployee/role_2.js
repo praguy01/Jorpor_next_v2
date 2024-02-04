@@ -614,8 +614,8 @@ function App() {
                   <h2 className= {` text-[18px] md:text-[20px] text-[#5A985E] mt-[10px] `}>{t("Do you want to delete")}<span style={{ color: '#FF6B6B' }}>{showEditPopup.todo.employee}</span> {t("?")}</h2>
                   
                   {message && (
-                    <p className='mt-3 text-red-500 text-xs py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-lg md:mt-[30px]'>
-                      {message}
+                    <p className='mt-3 text-red-500 text-[12px] py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-[13px] md:mt-[30px]'>
+                    {message}
                     </p>
                   )}
                   <div className=   {`text-[16px] flex justify-center mt-[10px]  md:mt-[30px]`}>

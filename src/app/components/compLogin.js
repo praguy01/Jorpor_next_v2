@@ -293,7 +293,7 @@ export default  function CompLogin() {
             </div>
             <div>
               <div className='absolute inset-[0] container mx-auto px-4 z-10 items-center  '>
-                <div className='mx-auto w-[300px]  md:w-[490px]  py-[30px] text-black flex flex-col  bg-[#D1E6D3] text-center rounded-[50px] mt-[106px]  '>
+                <div className='mx-auto w-[300px]  md:w-[490px]  py-[50px] text-black flex flex-col  bg-[#D1E6D3] text-center rounded-[50px] mt-[106px]  '>
                   <div className='mt-[15px] md:mt-[30px]'>
                     <h1 className='  text-[20px] md:text-[25px] font-bold'>Login</h1>
                     <p className='  text-[12px] md:text-[16px] '>Sign in to continue</p>
@@ -332,7 +332,7 @@ export default  function CompLogin() {
                       </div>
 
                       {isLoading && (
-                        <div className='flex mx-auto  mt-[15px] ' >
+                        <div className='flex mx-auto ml-[110px]  md:ml-[190px]  absolute' >
                           <div className="mx-auto mt-[15px]  mr-[3px] inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status">
                           </div>
                           <p className="mx-auto mt-[14px] md:mt-[10px] ml-[3px] md:ml-[5px] text-[12px] md:text-[16px] ">Loading...</p>

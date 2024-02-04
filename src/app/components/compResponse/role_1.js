@@ -190,8 +190,8 @@ function App() {
                           </div>
                         ) : (
                           <Link href={`/responsedetail_role_1?response=${todo.title}&id=${todo.id}`} key={index}>
-                            <p className='text-[#000]  ml-[5px]  text-[14px] text-left md:text-[18px] w-[230px] md:w-[580px] lg:w-[670px]  break-words whitespace-pre-wrap'>
-                              {todo.title}  <span className='text-gray-500 text-[12px] md:text-[15px]'>{todo.date} {t('N')}</span>
+                            <p className='text-[#000] relative z-50 ml-[5px] text-[14px] md:h-[90px] h-[80px]   text-left md:text-[18px] w-[230px] md:w-[580px] lg:w-[670px]  break-words whitespace-pre-wrap'>
+                              {todo.title}  <span className='text-gray-500  text-[12px] md:text-[15px]'>{todo.date} {t('N')}</span>
                             </p>
                           </Link>
                         )}

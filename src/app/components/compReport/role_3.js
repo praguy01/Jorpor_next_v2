@@ -389,7 +389,7 @@ function App() {
                 <div className='p-2 px-6'>
                 <TiWarning className='text-[30px] mx-auto text-[#5A985E]' />
 
-                <h2 className=' py-1  text-[11px] md:text-[15px]'>{t("There is no information to check today.")}</h2>
+                <h2 className=' py-1  text-[11px] md:text-[15px]'>{t("No information today")}</h2>
               </div>
               </div>
 

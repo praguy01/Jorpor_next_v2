@@ -80,7 +80,7 @@ function App() {
 
         if (response.status === 200) {
           if (data.success === true) {
-            console.error('data:', data);
+            console.log('data:', data);
             setTodoList(data.dbexamine_name);
 
           } else {

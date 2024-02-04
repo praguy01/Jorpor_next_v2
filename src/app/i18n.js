@@ -192,7 +192,7 @@ i18n
           "add employee list from file":"เพิ่มรายชื่อจากไฟล์",
           "log out":"ออกจากระบบ",
           "Employee list":"รายชื่อพนักงาน",
-          "There is no information to check today.":"ยังไม่มีข้อมูล",
+          "No information today":"ยังไม่มีข้อมูลวันนี้",
           "Change your password":"เปลี่ยนรหัสผ่าน",
           "New Password":"รหัสผ่านใหม่",
           "Confirm password again":"ยืนยันรหัสผ่านอีกครั้ง",
