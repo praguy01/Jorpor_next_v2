@@ -36,6 +36,7 @@ export default function CompNotifyDisplay({ data , onSubmit}) {
 
   const [openedFile, setOpenedFile] = useState(null);
   const [id, setId] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
 
   useEffect(() => {
@@ -62,6 +63,8 @@ export default function CompNotifyDisplay({ data , onSubmit}) {
 
 
   const handleSubmit = async () => {
+    setIsLoading(true);
+
     if (isFormSubmitted) {
       return;
     }
@@ -217,6 +220,15 @@ export default function CompNotifyDisplay({ data , onSubmit}) {
 
                     
                 </div>
+                <div>
+                {isLoading && (
+                  <div className='flex mx-auto items-center mt-4' >
+                    <div className="mx-auto   mr-[3px] inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status">
+                    </div>
+                    <p className="mx-auto  ml-[3px] md:ml-[5px] text-[12px] md:text-[16px] ">{t('Loading')}...</p>
+                  </div>
+                 )} 
+              </div>
 
                 {showSuccessPopup && (
                   <div className="bg-white text-[#5A985E] p-8  rounded-lg border-black shadow-lg md:w-[400px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">

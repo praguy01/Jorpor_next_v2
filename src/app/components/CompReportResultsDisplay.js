@@ -4,15 +4,15 @@ import '../globals.css'
 // import '@fontsource/mitr';
 import CompNavbar from './compNavbar/role_1';
 import axios from 'axios';
-import React, { useState ,useEffect ,useCallback } from 'react';
-import {useLanguage } from './compLanguageProvider_role_1';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useLanguage } from './compLanguageProvider_role_1';
 import { useTranslation } from 'react-i18next';
 
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import '../Sarabun-Regular-normal';  
-import {BsFillExclamationTriangleFill} from 'react-icons/bs'
-import {BsCheckCircle} from 'react-icons/bs'
+import '../Sarabun-Regular-normal';
+import { BsFillExclamationTriangleFill } from 'react-icons/bs'
+import { BsCheckCircle } from 'react-icons/bs'
 import { useRouter } from 'next/navigation';
 import { IoMdDownload } from "react-icons/io";
 
@@ -35,15 +35,16 @@ export default function CompReportResultsForm({ onSubmit }) {
   const [date, setDate] = useState('');
   const [todoList, setTodoList] = useState([]);
   const [checkList, setcheckList] = useState([]);
-  const [nameExamineList , setNameExamineList] = useState(''); 
+  const [nameExamineList, setNameExamineList] = useState('');
   const [selectedOption, setSelectedOption] = useState('');
   const [selectedExamineOption, setSelectedExamineOption] = useState('');
-  const [nameExamine , setNameExamine] = useState([]); 
+  const [nameExamine, setNameExamine] = useState([]);
   const [showPopup, setShowPopup] = useState(false); // เพิ่ม state เพื่อควบคุมการแสดง/ซ่อน popup
   const [sent, setSent] = useState(true); // เพิ่ม state เพื่อควบคุมการแสดง/ซ่อน popup
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const [addmessage, setaddMessage] = useState(false);
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
 
 
@@ -52,19 +53,19 @@ export default function CompReportResultsForm({ onSubmit }) {
       const searchParams = new URLSearchParams(window.location.search);
       const user_IdValue = searchParams.get('id');
       const dateValue = searchParams.get('date');
-  
-  
+
+
       const fetchData = async () => {
         try {
           const AddData = { user_IdValue, dateValue, user_IdValue, fetch: true };
           const fetchdata = JSON.stringify(AddData);
-  
+
           const response = await axios.post('/api/reportResults', fetchdata, {
             headers: { 'Content-Type': 'application/json' },
           });
-  
+
           const data = response.data;
-  
+
           if (response.status === 200) {
             if (data.success === true) {
               setSelectedOption(data.dbnameExamineList[0]);
@@ -72,27 +73,27 @@ export default function CompReportResultsForm({ onSubmit }) {
               data.dbsentdate.reverse();
               data.dbsentdate.splice(1);
               const datesOnly = data.dbsentdate.map(item => item.date);
-  
+
               const storedDate = localStorage.getItem("date");
               const date1 = new Date(dateValue.split("/").reverse().join("-"));
               const date2 = new Date(datesOnly[0].split("/").reverse().join("-"));
-  
-  
+
+
               const dateString1 = date1.toDateString();
               const dateString2 = date2.toDateString();
-  
+
               if (dateString1 === dateString2) {
                 setSent(false);
               } else {
                 setSent(true);
               }
-  
+
             } else {
               setMessage(data.error);
             }
           } else {
             setMessage(data.error);
-  
+
           }
         } catch (error) {
           console.error('Error fetching data:', error);
@@ -104,31 +105,31 @@ export default function CompReportResultsForm({ onSubmit }) {
       fetchData();
     } else {
     }
-    }, []); 
-  
+  }, []);
+
   useEffect(() => {
     const fetchDataForSelectedOption = async () => {
       try {
-  
+
         const AddData = { nameExamineList, id, option: true };
         const data = JSON.stringify(AddData);
-  
+
         const response = await axios.post('/api/reportResultsPdf', data, {
           headers: { 'Content-Type': 'application/json' },
         });
-  
+
         const resdata = response.data;
-  
+
         if (response.status === 200) {
           if (resdata.success === true) {
             const checkList_results = []
             const ResultList = resdata.dbData
-  
+
             const Date = ResultList.date;
-  
+
             localStorage.setItem('date', ResultList.date)
             setDate(Date)
-  
+
             setNameExamine(ResultList)
           } else {
             setMessage(resdata.error);
@@ -142,27 +143,27 @@ export default function CompReportResultsForm({ onSubmit }) {
       }
       setMessage('');
     };
-  
+
     if (selectedOption) {
       fetchDataForSelectedOption();
     }
   }, [selectedOption, nameExamineList, id]);
-  
+
   const fetchDataExamine = useCallback(async () => {
     try {
       const AddData = { selectedOption, selectedExamineOption, selectExamine: true };
       const fetchdata = JSON.stringify(AddData);
-  
+
       const response = await axios.post('/api/reportResults', fetchdata, {
         headers: { 'Content-Type': 'application/json' },
       });
       const data = response.data;
-  
+
       if (response.status === 200) {
         if (data.success === true) {
-  
+
           let checklistToAdd = [];
-  
+
           const dbData = data.dbData || [];
           dbData.forEach((checkListData) => {
             const Data = {
@@ -177,9 +178,9 @@ export default function CompReportResultsForm({ onSubmit }) {
               lastname: checkListData.lastname
             };
             setcheckList(Data_1)
-  
+
           })
-  
+
           const newTodoList = [...checklistToAdd];
           setTodoList(newTodoList)
         } else {
@@ -193,8 +194,8 @@ export default function CompReportResultsForm({ onSubmit }) {
       setMessage('');
     }
     setMessage('');
-  }, [selectedOption, selectedExamineOption,checkList]);
-  
+  }, [selectedOption, selectedExamineOption, checkList]);
+
   useEffect(() => {
     if (selectedExamineOption) {
       fetchDataExamine();
@@ -221,8 +222,9 @@ export default function CompReportResultsForm({ onSubmit }) {
 
 
   const handleSubmit = async () => {
-   try {
-     
+    try {
+      setIsLoading(true);
+
       const sendData = {
         nameExamine,
         send: true
@@ -233,12 +235,12 @@ export default function CompReportResultsForm({ onSubmit }) {
       const response = await axios.post('/api/reportResultsPdf', dataform, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-      
-      const resdata = response.data; 
+
+      const resdata = response.data;
 
       if (response.status === 200) {
         const resdata = response.data;
-    
+
         if (resdata.success === true) {
           setShowSuccessPopup(true)
           setaddMessage(resdata.message);
@@ -247,7 +249,7 @@ export default function CompReportResultsForm({ onSubmit }) {
           setTimeout(() => {
             setShowSuccessPopup(false);
             router.push(resdata.redirect)
-          }, 1000); 
+          }, 1000);
         } else {
           setMessage('');
 
@@ -260,20 +262,20 @@ export default function CompReportResultsForm({ onSubmit }) {
       console.error('Error registering: ', error);
       setMessage('');
 
-    } 
-  
+    }
+
   }
 
 
   const generatePDF = async () => {
     await new Promise(resolve => setTimeout(resolve, 1000));
-  
+
     const doc = new jsPDF({
       unit: 'mm',
       format: 'a4',
       orientation: 'portrait'
     });
-  
+
     let verticalSpacing = 5; // Set the desired vertical spacing
     let tableHeight = 0;
     let currentY = 10;
@@ -282,71 +284,71 @@ export default function CompReportResultsForm({ onSubmit }) {
     const maxPageHeight = 650;
     let newPage = false;
     let startY = true;
-  
+
     const createNewPage = () => {
       doc.addPage();
       newPage = true;
     };
-  
+
     doc.addFont('Sarabun-Regular', 'normal');
     doc.setFont('Sarabun-Regular', 'normal');
-  
-   
-  
+
+
+
     doc.setFontSize(10);
     const pageWidth = doc.internal.pageSize.getWidth();
     const textWidth = doc.getStringUnitWidth('แบบรายงานผลการตรวจสอบความปลอดภัย') * doc.internal.getFontSize() / doc.internal.scaleFactor;
-  
+
     const xCoordinate = (pageWidth - textWidth) / 2;
-  
+
     doc.text('แบบรายงานผลการตรวจสอบความปลอดภัย', xCoordinate, 20);
-  
+
     doc.text(`ผู้ตรวจสอบ : ${nameExamine.inspector}`, 20, 30);
     doc.text(`วัน เดือน ปี เวลา ที่ตรวจ : ${nameExamine.date} น.`, 20, 38);
-  
+
     if (nameExamine && nameExamine.items) {
       try {
         for (const item of nameExamine.items) {
           if (checkcurrentHeight > maxPageHeight) {
             createNewPage();
-            currentY = 20; 
+            currentY = 20;
             checkcurrentHeight = 0;
           }
           if (startY) {
             startY = false;
             currentY = 46;
-          }else if (newPage) {
+          } else if (newPage) {
             currentY = 20;
             tableHeight = 0;
-            currentHeight  = 0;
+            currentHeight = 0;
             newPage = false;
-  
+
           } else if (!newPage) {
-  
+
             currentY = currentHeight + 8;
           }
-  
-         
+
+
           doc.text(20, currentY, `การตรวจสอบ :  ${item.name}`);
-  
+
           currentY += 8;
-  
+
           if (item.examine) {
             for (const [examKey, examValue] of Object.entries(item.examine)) {
               doc.setFont('Sarabun-Regular', 'normal');
               doc.text(25, currentY, examKey);
               currentY += 8;
-  
+
               if (examValue[0].useEmployee === 'false') {
                 if (examValue[0].itemA) {
                   const columns = ["ลำดับ", "รายการตรวจสอบ", "สถานะ", "รายละเอียด"];
                   const data = examValue[0].itemA.map((entry, entryIndex) => {
                     return [entryIndex + 1, entry.examine_name, entry.status, entry.details];
                   });
-  
+
                   doc.setFont('Sarabun-Regular', 'normal');
                   const tableWidth = columns.reduce((acc, column) => acc + (column.cellWidth || 40), 0);
-  
+
                   const options = {
                     startY: currentY,
                     margin: { left: ((doc.internal.pageSize.getWidth() - tableWidth) / 2) + 5 }, // Center the table
@@ -370,61 +372,61 @@ export default function CompReportResultsForm({ onSubmit }) {
                       font: 'Sarabun-Regular',
                       halign: 'center',
                     },
-  
-                    
-  
+
+
+
                     didDrawCell: function (data) {
                       const cellHeight = data.row.height;
                       const cellWidth = data.cell.width;
                       const cellX = data.cell.x;
                       const cellY = data.cell.y;
-  
+
                       doc.setLineWidth(0.1);
                       doc.setDrawColor(0, 0, 0);
-  
+
                       doc.line(cellX, cellY, cellX + cellWidth, cellY);
                       doc.line(cellX + cellWidth, cellY, cellX + cellWidth, cellY + cellHeight);
                       doc.line(cellX, cellY + cellHeight, cellX + cellWidth, cellY + cellHeight);
                       doc.line(cellX, cellY, cellX, cellY + cellHeight);
                     },
                   };
-  
+
                   doc.autoTable({ columns, body: data, ...options });
-  
+
                   tableHeight = doc.previousAutoTable.finalY;
                   currentHeight = tableHeight;
                   currentY = doc.autoTable.previous.finalY + 10; // Set currentY to the bottom of the previous table plus some spacing
                   checkcurrentHeight += tableHeight;
-                  if ( checkcurrentHeight > maxPageHeight){
+                  if (checkcurrentHeight > maxPageHeight) {
                     checkcurrentHeight = checkcurrentHeight - maxPageHeight
                     currentHeight = 12;
                     currentY = 20
                     doc.addPage();
-  
+
                   }
-                  
-                  
-                  
+
+
+
                 }
               } else {
                 if (examValue[0].itemA) {
                   let entryIndex = 0;
                   for (const entry of examValue[0].itemA) {
-                   
-  
+
+
                     entryIndex++;
-                   
-  
+
+
                     doc.text(25, currentY, `${entryIndex}. ${entry.key}`);
-  
+
                     const columns = ["ลำดับ", "รายการตรวจสอบ", "สถานะ", "รายละเอียด"];
                     const data = entry.itemB.map((entryBB, entryIndex) => {
                       return [entryIndex + 1, entryBB.examinename_name, entryBB.status, entryBB.details];
                     });
-  
+
                     doc.setFont('Sarabun-Regular', 'normal');
                     const tableWidth = columns.reduce((acc, column) => acc + (column.cellWidth || 40), 0);
-  
+
                     const options = {
                       startY: currentY + verticalSpacing,
                       margin: { left: ((doc.internal.pageSize.getWidth() - tableWidth) / 2) + 5 },
@@ -448,44 +450,44 @@ export default function CompReportResultsForm({ onSubmit }) {
                         font: 'Sarabun-Regular',
                         halign: 'center',
                       },
-  
+
                       didDrawCell: function (data) {
                         const cellHeight = data.row.height;
                         const cellWidth = data.cell.width;
                         const cellX = data.cell.x;
                         const cellY = data.cell.y;
-  
+
                         doc.setLineWidth(0.1);
                         doc.setDrawColor(0, 0, 0);
-  
+
                         doc.line(cellX, cellY, cellX + cellWidth, cellY);
                         doc.line(cellX + cellWidth, cellY, cellX + cellWidth, cellY + cellHeight);
                         doc.line(cellX, cellY + cellHeight, cellX + cellWidth, cellY + cellHeight);
                         doc.line(cellX, cellY, cellX, cellY + cellHeight);
                       },
                     };
-  
+
                     doc.autoTable({ columns, body: data, ...options });
                     tableHeight = doc.previousAutoTable.finalY;
                     currentHeight = tableHeight;
-                    currentY = doc.autoTable.previous.finalY + 10; 
+                    currentY = doc.autoTable.previous.finalY + 10;
                     checkcurrentHeight += tableHeight;
-                    if ( checkcurrentHeight > maxPageHeight){
+                    if (checkcurrentHeight > maxPageHeight) {
                       checkcurrentHeight = checkcurrentHeight - maxPageHeight
                       currentY = 20
                       currentHeight = 12;
                       doc.addPage();
-  
+
                     }
-                    
-                   
+
+
                   }
                 }
               }
             }
           }
         }
-  
+
         doc.save('แบบรายงานผลการตรวจสอบความปลอดภัย.pdf');
       } catch (error) {
         console.error('Error during PDF generation:', error);
@@ -493,238 +495,245 @@ export default function CompReportResultsForm({ onSubmit }) {
     }
   };
 
-  
-  
-  
-    
+
+
+
+
   return (
     <div>
-      
-      <CompNavbar/>
-        
+
+      <CompNavbar />
+
       <div className=' bg-[url("/bg1.png")]  overflow-auto bg-cover bg-no-repeat absolute z-[-1] top-0 left-0 w-full h-full bg-center '>
-      <div className='md:w-[800px] lg:w-[1000px] mx-auto '>
+        <div className='md:w-[800px] lg:w-[1000px] mx-auto '>
           <div className='absolute top-[100px] left-1/2 transform -translate-x-1/2 z-0'>
-             <div className='bg-[#5A985E] mx-auto max-w-[500px] sm:max-w-[350px] py-[100px] rounded-[50px]'></div>
+            <div className='bg-[#5A985E] mx-auto max-w-[500px] sm:max-w-[350px] py-[100px] rounded-[50px]'></div>
           </div>
 
           <div className='mx-auto w-[350px] md:w-[700px] lg:w-[800px]  mb-[50px]  py-[30px] text-black flex flex-col  shadow-lg bg-[#FFF] text-center md:rounded-[50px] rounded-[30px] mt-[106px]  '>
-          
-                    <div  >
-                    <div  className=  {` font-bold text-[20px] md:text-[25px] ml-[20px] md:ml-[50px] w-[310px]  md:w-[600px] `}>
 
-                    <h1 className=' text-[#5A985E]  ml-[10px] md:ml-[0] md:w-[300px]  text-left  '>{t("Verified information")}</h1>
-                    <div className="mt-[5px] md:mt-[10px] md:ml-[-30px] border-t md:border w-full md:w-[650px] lg:w-[750px] border-gray-300"></div>
+            <div  >
+              <div className={` font-bold text-[20px] md:text-[25px] ml-[20px] md:ml-[50px] w-[310px]  md:w-[600px] `}>
+
+                <h1 className=' text-[#5A985E]  ml-[10px] md:ml-[0] md:w-[300px]  text-left  '>{t("Verified information")}</h1>
+                <div className="mt-[5px] md:mt-[10px] md:ml-[-30px] border-t md:border w-full md:w-[650px] lg:w-[750px] border-gray-300"></div>
 
 
-                    <div className='text-black text-left ml-[10px] md:ml-[0]  mt-[15px]  md:mt-[0] flex '>
-                  
-                    </div>
-                    </div>
-                    </div>
+                <div className='text-black text-left ml-[10px] md:ml-[0]  mt-[15px]  md:mt-[0] flex '>
 
-                    <div className='mx-auto md:w-[620px] lg:w-[705px] text-black   w-[310px] '>
+                </div>
+              </div>
+            </div>
 
-                    <div className='flex items-center  mt-[5px]  text-[13px] md:text-[16px]  md:mt-[20px] text-left ml-[10px] md:ml-[10px] '>
-                    <p>{t('Date')}</p>
-                    <p className='ml-[10px] '>:</p>
-                    {nameExamine ? (
-                      <p className='ml-[10px]'>{nameExamine.date} {t("N")}</p>
-                    ) : null}
-                    </div>
+            <div className='mx-auto md:w-[620px] lg:w-[705px] text-black   w-[310px] '>
 
-                    <div className='flex items-center mt-[8px]  text-[13px] md:text-[16px]  md:mt-[15px] text-left ml-[10px] md:ml-[10px] '>
-                    
-                    <p>{t('Inspector')}</p>
-                    <p className='ml-[10px]'>:</p>
-                    <p className='ml-[10px] w-[200px]  md:w-[300px] whitespace-nowrap overflow-hidden overflow-ellipsis'>{nameExamine.inspector}</p>
+              <div className='flex items-center  mt-[5px]  text-[13px] md:text-[16px]  md:mt-[20px] text-left ml-[10px] md:ml-[10px] '>
+                <p>{t('Date')}</p>
+                <p className='ml-[10px] '>:</p>
+                {nameExamine ? (
+                  <p className='ml-[10px]'>{nameExamine.date} {t("N")}</p>
+                ) : null}
+              </div>
 
-                    </div>
+              <div className='flex items-center mt-[8px]  text-[13px] md:text-[16px]  md:mt-[15px] text-left ml-[10px] md:ml-[10px] '>
 
-                    <div  className='mx-auto '>
+                <p>{t('Inspector')}</p>
+                <p className='ml-[10px]'>:</p>
+                <p className='ml-[10px] w-[200px]  md:w-[300px] whitespace-nowrap overflow-hidden overflow-ellipsis'>{nameExamine.inspector}</p>
 
-                      <div  className='h-[300px]  md:w-[610px] lg:w-[690px] px-2   text-black text-center mt-[15px] mx-auto justify-center text-sm md:text-[18px] rounded-[10px] w-[310px] py-2 md:py-4 bg-[#F5F5F5] ml-[5px]  overflow-auto'>
-                      <div id="pdf-content"   className="w-full  ">
-                      {nameExamine &&
-                            nameExamine.items &&
-                            nameExamine.items.map((item, index) => (
-                              <div key={index}>
+              </div>
 
-                                <div className="mt-[10px] md:mt-[10px] md:ml-[-30px] border-t md:border w-full md:w-[750px] border-gray-300"></div>
-                                <h1 className="text-left text-green-600 mt-[10px]">{t('Examine')} : {item.name}</h1>
-                                <div className="mt-[5px] md:mt-[10px] md:ml-[-30px] border-t md:border w-full md:w-[750px] border-gray-300"></div>
+              <div className='mx-auto '>
 
-                                {Object.keys(item.examine).map((examKey, examIndex) => (
-                                  <div key={examIndex}>
-                                   
+                <div className='h-[300px]  md:w-[610px] lg:w-[690px] px-2   text-black text-center mt-[15px] mx-auto justify-center text-sm md:text-[18px] rounded-[10px] w-[310px] py-2 md:py-4 bg-[#F5F5F5] ml-[5px]  overflow-auto'>
+                  <div id="pdf-content" className="w-full  ">
+                    {nameExamine &&
+                      nameExamine.items &&
+                      nameExamine.items.map((item, index) => (
+                        <div key={index}>
 
-                                    {item.examine[examKey][0].useEmployee === 'false' ? (
-                                      <div key={examIndex}>
-                                       
+                          <div className="mt-[10px] md:mt-[10px] md:ml-[-30px] border-t md:border w-full md:w-[750px] border-gray-300"></div>
+                          <h1 className="text-left text-green-600 mt-[10px]">{t('Examine')} : {item.name}</h1>
+                          <div className="mt-[5px] md:mt-[10px] md:ml-[-30px] border-t md:border w-full md:w-[750px] border-gray-300"></div>
 
-                                        <h2 className="text-left mt-[10px]">{examKey}</h2>
+                          {Object.keys(item.examine).map((examKey, examIndex) => (
+                            <div key={examIndex}>
 
-                                        <table className="min-w-full divide-gray-200 mt-[10px]">
-                                          <thead className="bg-gray-50 top-0 z-10">
-                                            <tr className="text-center">
-                                              <th scope="col" style={{ whiteSpace: 'nowrap' }} className="border w-[30px] py-1 text-[12px] text-gray-500 uppercase tracking-wider">
-                                                {t('No')}
-                                              </th>
-                                              <th scope="col" style={{ whiteSpace: 'nowrap' }} className="border w-[100px] py-1 text-[12px] text-gray-500 uppercase tracking-wider">
-                                                {t('Name')}
-                                              </th>
-                                              <th scope="col" style={{ whiteSpace: 'nowrap' }} className="border w-[50px] py-1 text-[12px] text-gray-500 uppercase tracking-wider">
-                                                {t('Status')}
-                                              </th>
-                                              <th scope="col" style={{ whiteSpace: 'nowrap' }} className="border w-[200px] py-1 text-[12px] text-gray-500 uppercase tracking-wider">
-                                                {t('Details')}
-                                              </th>
+
+                              {item.examine[examKey][0].useEmployee === 'false' ? (
+                                <div key={examIndex}>
+
+
+                                  <h2 className="text-left mt-[10px]">{examKey}</h2>
+
+                                  <table className="min-w-full divide-gray-200 mt-[10px]">
+                                    <thead className="bg-gray-50 top-0 z-10">
+                                      <tr className="text-center">
+                                        <th scope="col" style={{ whiteSpace: 'nowrap' }} className="border w-[30px] py-1 text-[12px] text-gray-500 uppercase tracking-wider">
+                                          {t('No')}
+                                        </th>
+                                        <th scope="col" style={{ whiteSpace: 'nowrap' }} className="border w-[100px] py-1 text-[12px] text-gray-500 uppercase tracking-wider">
+                                          {t('Name')}
+                                        </th>
+                                        <th scope="col" style={{ whiteSpace: 'nowrap' }} className="border w-[50px] py-1 text-[12px] text-gray-500 uppercase tracking-wider">
+                                          {t('Status')}
+                                        </th>
+                                        <th scope="col" style={{ whiteSpace: 'nowrap' }} className="border w-[200px] py-1 text-[12px] text-gray-500 uppercase tracking-wider">
+                                          {t('Details')}
+                                        </th>
+                                      </tr>
+                                    </thead>
+                                    <tbody className="bg-white text-[13px] divide-y divide-gray-200">
+                                      {item.examine[examKey][0].itemA.map((entry, entryIndex) => (
+                                        <tr key={entryIndex} className="text-center">
+                                          <td className="py-4 border whitespace-nowrap">
+                                            <div>{entryIndex + 1}</div>
+                                          </td>
+                                          <td className="py-4 border  flex flex-wrap">
+                                            <div className="text-left ml-[10px]">{entry.examine_name}</div>
+                                          </td>
+                                          <td className={`py-4 border whitespace-nowrap ${entry.status === 'pass' ? 'text-green-600' : 'text-red-600'}`}>
+                                            <div>{entry.status}</div>
+                                          </td>
+                                          <td className="py-4   border">
+                                            <div className={`break-words ${entry.details === '-' ? 'text-center' : 'text-left ml-[10px] flex flex-wrap '}`}>
+                                              <span className={`break-words  ${entry.details === '-' ? '' : 'ml-[10px] flex flex-wrap '}`}>{entry.details}</span>
+                                            </div>
+                                          </td>
+                                        </tr>
+                                      ))}
+                                    </tbody>
+                                  </table>
+                                </div>
+                              ) : (
+                                <div key={examIndex}>
+
+
+                                  <h2 className="text-left mt-[10px]">{examKey}</h2>
+                                  {item.examine[examKey][0].itemA.map((exameKey, exameIndex) => (
+                                    <div key={exameIndex}>
+                                      <div className="mt-[10px] md:mt-[10px] md:ml-[-30px] border-t md:border w-full md:w-[750px] border-gray-300"></div>
+
+                                      <h1 className='text-left mt-[10px]'>{exameIndex + 1}. {exameKey.key} </h1>
+
+                                      <table className="min-w-full divide-gray-200 mt-[10px]">
+                                        <thead className="bg-gray-50 top-0 z-10">
+                                          <tr className="text-center">
+                                            <th scope="col" style={{ whiteSpace: 'nowrap' }} className="border w-[30px] py-1 text-[12px] text-gray-500 uppercase tracking-wider">
+                                              {t('No')}
+                                            </th>
+                                            <th scope="col" style={{ whiteSpace: 'nowrap' }} className="border w-[100px] py-1 text-[12px] text-gray-500 uppercase tracking-wider">
+                                              {t('Name')}
+                                            </th>
+                                            <th scope="col" style={{ whiteSpace: 'nowrap' }} className="border w-[50px] py-1 text-[12px] text-gray-500 uppercase tracking-wider">
+                                              {t('Status')}
+                                            </th>
+                                            <th scope="col" style={{ whiteSpace: 'nowrap' }} className="border w-[200px] py-1 text-[12px] text-gray-500 uppercase tracking-wider">
+                                              {t('Details')}
+                                            </th>
+                                          </tr>
+                                        </thead>
+                                        <tbody className="bg-white text-[13px] divide-y divide-gray-200">
+                                          {exameKey.itemB.map((entry, entryIndex) => (
+
+
+                                            <tr key={entryIndex} className="text-center">
+                                              <td className="py-4 border whitespace-nowrap">
+                                                <div>{entryIndex + 1}</div>
+                                              </td>
+                                              <td className="py-4  border  flex flex-wrap">
+                                                <div className="text-left ml-[10px]">{entry.examinename_name}</div>
+                                              </td>
+                                              <td className={`py-4 border whitespace-nowrap ${entry.status === 'pass' ? 'text-green-600' : 'text-red-600'}`}>
+                                                <div>{entry.status}</div>
+                                              </td>
+                                              <td className="py-4   border">
+                                                <div className={`break-words ${entry.details === '-' ? 'text-center' : 'text-left ml-[10px] flex flex-wrap '}`}>
+                                                  <span className={`break-words  ${entry.details === '-' ? '' : 'ml-[10px] flex flex-wrap '}`}>{entry.details}</span>
+                                                </div>
+                                              </td>
                                             </tr>
-                                          </thead>
-                                          <tbody className="bg-white text-[13px] divide-y divide-gray-200">
-                                            {item.examine[examKey][0].itemA.map((entry, entryIndex) => (
-                                              <tr key={entryIndex} className="text-center">
-                                                <td className="py-4 border whitespace-nowrap">
-                                                  <div>{entryIndex + 1}</div>
-                                                </td>
-                                                <td className="py-4 border  flex flex-wrap">
-                                                  <div className="text-left ml-[10px]">{entry.examine_name}</div>
-                                                </td>
-                                                <td className={`py-4 border whitespace-nowrap ${entry.status === 'pass' ? 'text-green-600' : 'text-red-600'}`}>
-                                                  <div>{entry.status}</div>
-                                                </td>
-                                                <td className="py-4   border">
-                                                  <div className={`break-words ${entry.details === '-' ? 'text-center' : 'text-left ml-[10px] flex flex-wrap '}`}>
-                                                    <span className={`break-words  ${entry.details === '-' ? '' : 'ml-[10px] flex flex-wrap '}`}>{entry.details}</span>
-                                                  </div>
-                                                </td>
-                                              </tr>
-                                            ))}
-                                          </tbody>
-                                        </table>
-                                      </div>
-                                    ) : (
-                                        <div key={examIndex}>
-                                          
-  
-                                          <h2 className="text-left mt-[10px]">{examKey}</h2>
-                                          {item.examine[examKey][0].itemA.map((exameKey, exameIndex) => (
-                                        <div key={exameIndex}>
-                                          <div className="mt-[10px] md:mt-[10px] md:ml-[-30px] border-t md:border w-full md:w-[750px] border-gray-300"></div>
+                                            // ))
+                                          ))}
 
-                                            <h1 className='text-left mt-[10px]'>{exameIndex + 1}. {exameKey.key} </h1>
+                                        </tbody>
+                                      </table>
+                                    </div>
 
-                                          <table className="min-w-full divide-gray-200 mt-[10px]">
-                                            <thead className="bg-gray-50 top-0 z-10">
-                                              <tr className="text-center">
-                                                <th scope="col" style={{ whiteSpace: 'nowrap' }} className="border w-[30px] py-1 text-[12px] text-gray-500 uppercase tracking-wider">
-                                                  {t('No')}
-                                                </th>
-                                                <th scope="col" style={{ whiteSpace: 'nowrap' }} className="border w-[100px] py-1 text-[12px] text-gray-500 uppercase tracking-wider">
-                                                  {t('Name')}
-                                                </th>
-                                                <th scope="col" style={{ whiteSpace: 'nowrap' }} className="border w-[50px] py-1 text-[12px] text-gray-500 uppercase tracking-wider">
-                                                  {t('Status')}
-                                                </th>
-                                                <th scope="col" style={{ whiteSpace: 'nowrap' }} className="border w-[200px] py-1 text-[12px] text-gray-500 uppercase tracking-wider">
-                                                  {t('Details')}
-                                                </th>
-                                              </tr>
-                                            </thead>
-                                            <tbody className="bg-white text-[13px] divide-y divide-gray-200">
-                                              {exameKey.itemB.map((entry, entryIndex) => (
-                                             
+                                  ))}
+                                </div>
 
-                                                <tr key={entryIndex} className="text-center">
-                                                  <td className="py-4 border whitespace-nowrap">
-                                                    <div>{entryIndex + 1}</div>
-                                                  </td>
-                                                  <td className="py-4  border  flex flex-wrap">
-                                                    <div className="text-left ml-[10px]">{entry.examinename_name}</div>
-                                                  </td>
-                                                  <td className={`py-4 border whitespace-nowrap ${entry.status === 'pass' ? 'text-green-600' : 'text-red-600'}`}>
-                                                    <div>{entry.status}</div>
-                                                  </td>
-                                                  <td className="py-4   border">
-                                                  <div className={`break-words ${entry.details === '-' ? 'text-center' : 'text-left ml-[10px] flex flex-wrap '}`}>
-                                                    <span className={`break-words  ${entry.details === '-' ? '' : 'ml-[10px] flex flex-wrap '}`}>{entry.details}</span>
-                                                  </div>
-                                                </td>
-                                                </tr>
-                                              // ))
-                                              ))}
+                              )
 
-                                            </tbody>
-                                          </table>
-                                        </div>
+                              }
 
-                                        ))}
-                                       </div>
+                            </div>
 
-                                    )
-                                    
-                                    }
-
-                                  </div>
-
-                              ))}
-                              </div>
-                            ))}
-                            
-                            </div> 
-                          </div>
+                          ))}
                         </div>
-                          
+                      ))}
+
+                  </div>
+                </div>
+              </div>
+
               {showSuccessPopup && (
                 <div className="bg-white text-[#5A985E] text-[16px]  w-[300px] p-8  rounded-lg border-black shadow-lg md:w-[400px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                <BsCheckCircle className=' text-[50px] mx-auto mb-[10px]'/>
-                {addmessage}
+                  <BsCheckCircle className=' text-[50px] mx-auto mb-[10px]' />
+                  {addmessage}
                 </div>
               )}
 
-                {message && (
-                  <p className='mt-3 text-red-500 text-xs py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-lg md:mt-[30px]'>
-                    {message}
-                  </p>
-                )}
-              
+              {message && (
+                <p className='mt-3 text-red-500 text-xs py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-lg md:mt-[30px]'>
+                  {message}
+                </p>
+              )}
 
-                {showPopup && (
-              <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-[9999]">
-                <div className="bg-white p-4 rounded-lg border-black shadow-lg md:w-[400px] w-[300px] ">
-                <BsFillExclamationTriangleFill className=' text-[50px] text-[#5A985E] mx-auto mb-[10px]'/>
-                <p className='md:text-[18px] text-[#5A985E] text-[16px]  '>{t("Can be sent only one time. Are you sure you have checked?")}</p>
-                  <div className=  {` text-[16px]  flex justify-center mt-[20px]`}>
-                    <button className="flex justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={() => {handleSubmit() ,setShowPopup(false)}}>{t('Yes')}</button> 
 
-                    <button className="flex justify-center items-center bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600" onClick={() => setShowPopup(false)}>{t('Cancel')}</button>
+              {showPopup && (
+                <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-[9999]">
+                  <div className="bg-white p-4 rounded-lg border-black shadow-lg md:w-[400px] w-[300px] ">
+                    <BsFillExclamationTriangleFill className=' text-[50px] text-[#5A985E] mx-auto mb-[10px]' />
+                    <p className='md:text-[18px] text-[#5A985E] text-[16px]  '>{t("Can be sent only one time. Are you sure you have checked?")}</p>
+                    <div className={` text-[16px]  flex justify-center mt-[20px]`}>
+                      <button className="flex justify-center items-center bg-[#93DD79] text-white px-4 py-2 ml-[5px] rounded hover:bg-green-600" onClick={() => { handleSubmit(), setShowPopup(false) }}>{t('Yes')}</button>
+
+                      <button className="flex justify-center items-center bg-[#FF6B6B] text-white px-4 py-2 ml-[10px] rounded hover:bg-red-600" onClick={() => setShowPopup(false)}>{t('Cancel')}</button>
+                    </div>
                   </div>
-                </div> 
                 </div>
               )}
 
               {sent ? (
-                <div className=  {` w-[300px] md:w-[650px] lg:w-[750px]  text-[15px] md:text-[17px] md:ml-[-25px]  flex items-center mx-auto md:px-10  md:mt-[20px]`} >
+                <div className={` w-[300px] md:w-[650px] lg:w-[750px]  text-[15px] md:text-[17px] md:ml-[-25px]  flex items-center mx-auto md:px-10  md:mt-[20px]`} >
                   <button onClick={generatePDF} className=' mt-[20px]  md:mr-[370px] lg:mr-[450px] mr-[80px] bg-[#808080]  text-[12px] px-5  py-1  text-[#fff] hover:-translate-y-0.5 duration-200  flex items-center '><IoMdDownload /><span className='ml-[5px]'>Dowload</span></button>
 
                   <button type='submit' onClick={(e) => setShowPopup(true)} className=' mt-[20px]  border-[#64CE3F] bg-[#64CE3F] px-10  py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200    '>{t('send')}</button>
-                  
+
                 </div>
-               ) : (
+              ) : (
                 <div >
-                <p className='md:text-[14px] text-[12px] mt-[20px]'>{t("Today's information has been sent")}</p>
-                <button onClick={generatePDF} className=' mt-[20px] text-[15px]  border-[#64CE3F] bg-[#64CE3F] px-5  py-1  text-[#fff] hover:-translate-y-0.5 duration-200  mx-auto flex items-center '><IoMdDownload /><span className='ml-[5px]'>Dowload</span></button>
+                  <p className='md:text-[14px] text-[12px] mt-[20px]'>{t("Today's information has been sent")}</p>
+                  <button onClick={generatePDF} className=' mt-[20px] text-[15px]  border-[#64CE3F] bg-[#64CE3F] px-5  py-1  text-[#fff] hover:-translate-y-0.5 duration-200  mx-auto flex items-center '><IoMdDownload /><span className='ml-[5px]'>Dowload</span></button>
                 </div>
 
-              )} 
-        
+              )}
+              <div>
+                {isLoading && (
+                  <div className='flex mx-auto items-center' >
+                    <div className="mx-auto   mr-[3px] inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status">
+                    </div>
+                    <p className="mx-auto  ml-[3px] md:ml-[5px] text-[12px] md:text-[16px] ">{t('Loading')}...</p>
+                  </div>
+                )}
               </div>
+            </div>
 
-          </div> 
           </div>
         </div>
-        </div>
-        
-    ) 
- }
-  
+      </div>
+    </div>
+
+  )
+}

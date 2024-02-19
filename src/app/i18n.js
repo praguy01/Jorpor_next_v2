@@ -103,6 +103,7 @@ i18n
           "Please log in again":"Please log in again",
           OK:"OK",
           "Today's information has been sent":"Today's information has been sent",
+          Loading:'Loading',
 
 
 
@@ -185,7 +186,7 @@ i18n
           "?":"ไหม ?",
           "add a photo":"เพิ่มรูปภาพ",
           "Select an option":"เลือกตัวเลือก",
-          "Can be sent only one time. Are you sure you have checked?":"สามารถส่งได้เพียงครั้้งเดียวเท่านั้น คุณแน่ใจว่าตรวจสอบเรียบร้อยเเล้ว ?",
+          "Can be sent only one time. Are you sure you have checked?":"สามารถส่งได้เพียงครั้งเดียวเท่านั้น คุณแน่ใจว่าตรวจสอบเรียบร้อยเเล้ว ?",
           "Employee List":"รายชื่อพนักงาน",
           "The excel file consists of the columns employee , name , and lastname.":"ในไฟล์ excel ประกอบด้วยคอลัมน์ employee , name , lastname",
           "Add employee list":"เพิ่มรายชื่อ",
@@ -206,6 +207,7 @@ i18n
           "Please log in again":"กรุณาเข้าสู่ระบบอีกครั้ง",
           OK:"ตกลง",
           "Today's information has been sent":"ข้อมูลวันนี้ได้ถูกส่งไปแล้ว",
+          Loading:'กำลังโหลด',
 
 
 

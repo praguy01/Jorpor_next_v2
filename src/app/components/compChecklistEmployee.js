@@ -54,7 +54,6 @@ function App() {
     const [showEditPopup, setShowEditPopup] = useState(false); // เพิ่ม state เพื่อควบคุมการแสดง/ซ่อน popup
     const [showDeleteSuccessPopup, setShowDeleteSuccessPopup] = useState(false);
     const [selectedItems, setSelectedItems] = useState({});
-    const [IsLoading, setIsLoading] = useState(false);
     const [useEmployee, setUseEmployee] = useState(false);
     const [examinename, setExaminename] = useState(''); // สร้าง state เพื่อเก็บค่าที่เลือก
     const [employee_Id, setEmployee_Id] = useState(''); // สร้าง state เพื่อเก็บค่าที่เลือก
@@ -63,6 +62,7 @@ function App() {
     const [examine_Id, setexamine_Id] = useState('');
     const [todoStatus, setTodoStatus] = useState({});
     const [examinelist_name, setexaminelist_name] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
       const storedId = localStorage.getItem('id');
@@ -148,7 +148,7 @@ function App() {
 
     const handleSubmit = async () => {
       try {
-       
+        setIsLoading(true);
 
         const editedData = {todoStatus , checklistname ,examine_Id,examinelist_Id,examinename,examinelist_name, employee_Id ,currentDate,idemployee, id, details, checkbox: true };
         const data = JSON.stringify(editedData)
@@ -199,7 +199,7 @@ function App() {
             <div className=' w-[280px] mx-auto md:w-[963px]'>
             <div className=  {` text-[21px] md:text-[35px] md:w-[700px] lg:w-[800px] w-[300px] left-0 md:ml-[70px] lg:ml-[90px]  flex items-center md:mt-[100px] mt-[90px] `}>
                   <h1 className=' text-[#5A985E] text-[25px] md:text-[40px]  mr-[10px]  '>{t('Examine')}</h1>
-                  <p className='text-black   w-[170px] md:w-[400px] text-sm md:text-[20px] mt-[2px]  text-ellipsis whitespace-nowrap overflow-hidden'>({checklistname})</p>
+                  <p className='text-black   w-[170px] md:w-[400px] text-sm md:text-[20px] mt-[2px] md:mt-[8px] text-ellipsis whitespace-nowrap overflow-hidden'>({checklistname})</p>
               </div>
               <div className='flex items-center text-center  w-[110px] h-[24px] md:w-[140px] md:h-[30px] rounded-[5px] text-[#fff] border-[#000] bg-[#000] md:ml-[90px] '>
                     <div className=' md:ml-[10px] ml-[10px] '><BsCalendar2Minus/></div>
@@ -209,7 +209,7 @@ function App() {
             </div>
 
             <div className={`mx-auto w-[300px]  font-blod md:w-[700px] lg:w-[800px] border ${isEditing ? 'h-[500px]' : 'h-[560px]'} mb-[50px] text-black flex flex-col bg-[#FFF] ${isEditing ? 'rounded-[10px]' : 'rounded-[30px] md:rounded-[50px]'} mt-[10px] `}>
-            <div className='  mx-auto w-[250px]   md:w-[650px]  lg:w-[750px]  h-[500px] text-black flex flex-col  bg-[#FFF] rounded-[30px] md:rounded-[50px] mt-[10px] overflow-auto'>
+            <div className='  mx-auto w-[250px] md:w-[650px]  lg:w-[750px]  h-[460px] text-black flex flex-col  bg-[#FFF] rounded-[30px] md:rounded-[50px] mt-[10px] overflow-auto'>
 
             {todoList.map((todo, index) => (
               <div key={index}>
@@ -344,14 +344,22 @@ function App() {
                       </div>
                     )}
 
-                    <div className=' text-center w-full'>
+                    <div className=' text-center w-full mt-4'>
                    
                      
                         <button onClick={handleSubmit} className= ' text-md md:text-[18px]   border-[#64CE3F] bg-[#64CE3F] px-10 py-1 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>{t('Submit')}</button>
                         
                     
                   </div>
-                 
+                  <div>
+                {isLoading && (
+                  <div className='flex mx-auto items-center mt-2' >
+                    <div className="mx-auto   mr-[3px] inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status">
+                    </div>
+                    <p className="mx-auto  ml-[3px] md:ml-[5px] text-[12px] md:text-[16px] ">{t('Loading')}...</p>
+                  </div>
+                 )} 
+              </div>
               </div>
 
             </div>

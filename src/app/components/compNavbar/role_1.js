@@ -60,7 +60,7 @@ function CompNavbar() {
   const [session_Expired, setSession_Expired] = useState(false);
   const [notiData, setNotiData] = useState('');
   const [reload, setReload] = useState(false);
-  const IPaddress = '192.168.2.38';
+  const IPaddress = '192.168.2.39';
 
 
   // const IPaddress = process.env.IP_ADDRESS

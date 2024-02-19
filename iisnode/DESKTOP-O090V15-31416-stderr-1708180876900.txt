@@ -1,0 +1,15 @@
+(node:31416) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Error login: Error: unavailable: branch is missing or sleeping: xj1nf14n98di
+    at n.query (D:\SeniorNextjs\jorpor-nextjs\.next\server\chunks\1146.js:5:113093)
+    at m (D:\SeniorNextjs\jorpor-nextjs\.next\server\app\api\login\route.js:1:4641)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async D:\SeniorNextjs\jorpor-nextjs\node_modules\next\dist\compiled\next-server\app-route.runtime.prod.js:6:41960 {
+  code: 'ER_UNKNOWN_ERROR',
+  errno: 1105,
+  sql: undefined,
+  sqlState: 'HY000',
+  sqlMessage: 'unavailable: branch is missing or sleeping: xj1nf14n98di'
+}
+idResultmap is undefined or null
+idResultmap is undefined or null

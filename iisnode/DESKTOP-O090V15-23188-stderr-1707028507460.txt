@@ -1,0 +1,13 @@
+(node:23188) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Error login: Error: Access denied for user 'hskcqynpwtcnrqt607ua'
+    at n.query (D:\SeniorNextjs\jorpor-nextjs\.next\server\chunks\1146.js:5:113093)
+    at m (D:\SeniorNextjs\jorpor-nextjs\.next\server\app\api\login\route.js:1:4641)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async D:\SeniorNextjs\jorpor-nextjs\node_modules\next\dist\compiled\next-server\app-route.runtime.prod.js:6:41960 {
+  code: 'ER_ACCESS_DENIED_ERROR',
+  errno: 1045,
+  sql: undefined,
+  sqlState: '28000',
+  sqlMessage: "Access denied for user 'hskcqynpwtcnrqt607ua'"
+}

@@ -43,6 +43,7 @@ function App() {
   const [todoList, setTodoList] = useState([]);
   const [fileData, setFileData] = useState();
   const [id, setId] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
 
@@ -122,7 +123,7 @@ function App() {
   const handleSubmit = async () => {
     try {
 
-    
+      setIsLoading(true);
       
       const editedData = { id , submit_role_3: true};
       const data = JSON.stringify(editedData)
@@ -265,7 +266,15 @@ function App() {
                     {notifyMessage}
                   </p>
                 )}
-          
+           <div>
+                {isLoading && (
+                <div className='flex mx-auto items-center mt-4' >
+                  <div className="mx-auto   mr-[3px] inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status">
+                  </div>
+                  <p className="mx-auto  ml-[3px] md:ml-[5px] text-[12px] md:text-[16px] ">{t('Loading')}...</p>
+                </div>
+                )} 
+              </div>
           </div> 
           ))}
           </div>

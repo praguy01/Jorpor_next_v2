@@ -9,7 +9,7 @@ let httpServer;
 export async function POST(request, response) {
   if (request.method === 'POST') {
 
-      const IPaddress = '192.168.2.38';
+      const IPaddress = '192.168.2.39';
       const data = await request.json();
       const { date, time, location } = data;
       console.log("res: ",data)

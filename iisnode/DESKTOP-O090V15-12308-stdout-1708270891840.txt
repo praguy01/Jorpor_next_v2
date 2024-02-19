@@ -1,0 +1,410 @@
+> Ready on http://localhost:\\.\pipe\26b7f22b-3bfc-47b1-b6a0-63db29d2a811
+RES_ROUTE_employee:  { storedId: '47', lang_role_3: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '47', lang_role_3: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
+RES_ROUTE_employee:  { storedId: '47', lang_role_3: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '47', lang_role_3: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
+TTTT  654321
+oooouserResult  {
+  id: 47,
+  name: 'chadaphorn',
+  lastname: 'Thongphutorn',
+  email: 'tangmo125x@gmail.com',
+  position: 'Safety Officer Supervisory level',
+  employee: '654321',
+  phone: '2222',
+  line: '1111',
+  password: '$2a$10$6ODohiCRyrKKbZXt2c4yVerlnKC8HxJxo26zPk2867Kg.NydUlpUS',
+  picture: <Buffer ff d8 ff e0 00 10 4a 46 49 46 00 01 01 00 00 01 00 01 00 00 ff db 00 84 00 05 05 05 05 05 05 05 06 06 05 08 08 07 08 08 0b 0a 09 09 0a 0b 11 0c 0d 0c ... 10650 more bytes>
+}
+RES_ROUTE_employee:  { storedId: '47', lang_role_3: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '47', lang_role_3: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
+RES_ROUTE_employee:  { storedId: '47', lang_role_3: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '47', lang_role_3: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+res:  { storedUser_id: '132', get: true }
+Formatted Date: 2/18/2024
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Data_examine:  []
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH', 'EN' ]
+LangResultmap:  [ 'TH', 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+res:  { storedUser_id: '132', get: true }
+Formatted Date: 2/18/2024
+Data_examine:  []
+LangResultmap:  [ 'TH', 'EN', 'EN' ]
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'TH' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'TH' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+res:  { storedUser_id: '132', get: true }
+Formatted Date: 2/18/2024
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Data_examine:  []
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'TH' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+res:  { storedUser_id: '132', get: true }
+Formatted Date: 2/18/2024
+Data_examine:  []
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH', 'EN' ]
+LangResultmap:  [ 'TH', 'EN' ]
+LangResultmap:  [ 'TH', 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH', 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH', 'EN' ]
+LangResultmap:  [ 'TH' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+res:  { storedUser_id: '132', get: true }
+Formatted Date: 2/18/2024
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Data_examine:  []
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'TH' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'TH' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+res:  { storedUser_id: '132', get: true }
+Formatted Date: 2/18/2024
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Data_examine:  []
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'TH' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'TH' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+res:  { storedUser_id: '132', get: true }
+Formatted Date: 2/18/2024
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Data_examine:  []
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'TH' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'TH' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+res:  { storedUser_id: '132', get: true }
+Formatted Date: 2/18/2024
+Data_examine:  []
+LangResultmap:  [ 'TH' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+res:  { storedUser_id: '132', get: true }
+Formatted Date: 2/18/2024
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Data_examine:  []
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'TH' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'TH' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+res:  { storedUser_id: '132', get: true }
+Formatted Date: 2/18/2024
+Data_examine:  []
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH', 'EN', 'EN' ]
+LangResultmap:  [ 'TH', 'EN', 'EN' ]
+res:  { storedUser_id: '132', get: true }
+Formatted Date: 2/18/2024
+LangResultmap:  [ 'TH' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH' ]
+Data_examine:  []
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'TH' ]
+res:  { storedUser_id: '132', get: true }
+Formatted Date: 2/18/2024
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Data_examine:  []
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'TH' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'TH' ]
+res:  { storedUser_id: '132', get: true }
+Formatted Date: 2/18/2024
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Data_examine:  []
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'TH' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'TH' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+res:  { storedUser_id: '132', get: true }
+Formatted Date: 2/18/2024
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Data_examine:  []
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'TH' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+res:  { storedUser_id: '132', get: true }
+Formatted Date: 2/18/2024
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Data_examine:  []
+LangResultmap:  [ 'TH', 'EN', 'EN' ]
+LangResultmap:  [ 'TH', 'EN', 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+res:  { storedUser_id: '132', get: true }
+Formatted Date: 2/18/2024
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH', 'EN' ]
+LangResultmap:  [ 'TH', 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Data_examine:  []
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH', 'EN', 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH', 'EN', 'EN' ]
+LangResultmap:  [ 'TH', 'EN', 'EN' ]
+LangResultmap:  [ 'TH', 'EN', 'EN' ]
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'TH' ]
+res:  {
+  requestData: { date: '18/2/2567', time: '22:44', location: 'ทำความสะอาด' },
+  selectedOption: { id: 211, name: 'ทำความสะอาด', user_id: 132 },
+  button: true
+}
+424242:  {
+  requestData: { date: '18/2/2567', time: '22:44', location: 'ทำความสะอาด' },
+  selectedOption: { id: 211, name: 'ทำความสะอาด', user_id: 132 },
+  button: true
+}
+http working
+Server is running on port 3000
+connected:  1
+Received user_id: 132 132
+HHHHHHH  { date: '2/18/2024', time: '22:44', location: 'ทำความสะอาด' }
+connected:  2
+Received user_id: 132 132
+HHHHHHH  { date: '2/18/2024', time: '22:44', location: 'ทำความสะอาด' }
+disconnected1:  1
+disconnected1:  0
+Server stopped
+res:  {
+  notification: { date: '2/18/2024', time: '22:44', location: 'ทำความสะอาด' },
+  change: true
+}
+res change:  {
+  notification: { date: '2/18/2024', time: '22:44', location: 'ทำความสะอาด' },
+  change: true
+} 2/18/2024 22:44 ทำความสะอาด
+Status updated successfully
+Data in res.notification matches a record in emergency_notify
+res:  {
+  notification: { date: '2/18/2024', time: '22:44', location: 'ทำความสะอาด' },
+  change: true
+}
+res change:  {
+  notification: { date: '2/18/2024', time: '22:44', location: 'ทำความสะอาด' },
+  change: true
+} 2/18/2024 22:44 ทำความสะอาด
+Failed to update status or no matching records
+Data in res.notification does not match any record in emergency_notify
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+res:  { storedUser_id: '132', get: true }
+Formatted Date: 2/18/2024
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Data_examine:  [
+  {
+    id: 493,
+    date: '2/18/2024',
+    location: 'ทำความสะอาด',
+    time: '22:44',
+    status: 1,
+    user_id: 132
+  }
+]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'TH' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+res:  { storedUser_id: '132', get: true }
+Formatted Date: 2/18/2024
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Data_examine:  [
+  {
+    id: 493,
+    date: '2/18/2024',
+    location: 'ทำความสะอาด',
+    time: '22:44',
+    status: 1,
+    user_id: 132
+  }
+]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH', 'EN', 'EN' ]
+LangResultmap:  [ 'TH', 'EN', 'EN' ]
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'TH' ]
+res:  { date: '18/2/2024', time: '22:51', location: 'zone A' }
+http working
+Server is running on port 3000
+connected:  1
+connected:  2
+disconnected1:  1
+disconnected1:  0
+Server stopped
+res:  {
+  notification: { date: '18/2/2024', time: '22:51', location: 'zone A' },
+  change: true
+}
+res change:  {
+  notification: { date: '18/2/2024', time: '22:51', location: 'zone A' },
+  change: true
+} 18/2/2024 22:51 zone A
+Status updated successfully
+Data in res.notification matches a record in emergency_notify
+res:  {
+  notification: { date: '18/2/2024', time: '22:51', location: 'zone A' },
+  change: true
+}
+res change:  {
+  notification: { date: '18/2/2024', time: '22:51', location: 'zone A' },
+  change: true
+} 18/2/2024 22:51 zone A
+Failed to update status or no matching records
+Data in res.notification does not match any record in emergency_notify
