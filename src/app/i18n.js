@@ -104,6 +104,7 @@ i18n
           OK:"OK",
           "Today's information has been sent":"Today's information has been sent",
           Loading:'Loading',
+          "Button box":"Button box",
 
 
 
@@ -208,6 +209,7 @@ i18n
           OK:"ตกลง",
           "Today's information has been sent":"ข้อมูลวันนี้ได้ถูกส่งไปแล้ว",
           Loading:'กำลังโหลด',
+          "Button box":"กล่องปุ่มฉุกเฉิน"
 
 
 

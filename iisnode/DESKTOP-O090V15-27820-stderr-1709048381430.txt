@@ -1,0 +1,9 @@
+(node:27820) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Error change the request: TypeError: Cannot read properties of null (reading 'date')
+    at f (D:\SeniorNextjs\jorpor-nextjs\.next\server\app\api\emergency_notify\route.js:1:2375)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async D:\SeniorNextjs\jorpor-nextjs\node_modules\next\dist\compiled\next-server\app-route.runtime.prod.js:6:41960
+idResultmap is undefined or null
+idResultmap is undefined or null
+idResultmap is undefined or null

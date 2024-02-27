@@ -1,0 +1,355 @@
+> Ready on http://localhost:\\.\pipe\cffbe49d-2049-4ebc-a67f-8a43e5652de4
+TTTT  112233
+oooouserResult  {
+  id: 132,
+  name: 'ยสนา',
+  lastname: 'นน',
+  email: '',
+  position: 'Safety Officer Professional level',
+  employee: '112233',
+  phone: '112233',
+  line: '',
+  password: '$2a$10$bQhft9GqQt9Fn3GCHRX3IesgAs5XXJkUJZ43uMJ7Mbstx3OZUeyrq',
+  picture: <Buffer 89 50 4e 47 0d 0a 1a 0a 00 00 00 0d 49 48 44 52 00 00 00 fa 00 00 00 fa 08 06 00 00 00 88 ec 5a 3d 00 00 37 69 49 44 41 54 78 5e ed 9d 09 78 13 d5 da ... 14192 more bytes>,
+  role_2_id: 34
+}
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_SELECTTTTT:  { storedId: '132', button: true }
+res emer:  { storedButton: '1', get: true }
+Formatted Date: 27/2/2024
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Data_examine:  [
+  {
+    id: 500,
+    date: '27/2/2024',
+    location: '1',
+    time: '00:01',
+    status: 0,
+    user_id: 0
+  },
+  {
+    id: 501,
+    date: '27/2/2024',
+    location: '1',
+    time: '00:12',
+    status: 0,
+    user_id: 0
+  },
+  {
+    id: 502,
+    date: '27/2/2024',
+    location: '1',
+    time: '00:23',
+    status: 0,
+    user_id: 0
+  },
+  {
+    id: 503,
+    date: '27/2/2024',
+    location: '1',
+    time: '00:44',
+    status: 1,
+    user_id: 0
+  },
+  {
+    id: 504,
+    date: '27/2/2024',
+    location: '1',
+    time: '00:46',
+    status: 0,
+    user_id: 0
+  },
+  {
+    id: 505,
+    date: '27/2/2024',
+    location: '1',
+    time: '22:32',
+    status: 1,
+    user_id: 0
+  },
+  {
+    id: 506,
+    date: '27/2/2024',
+    location: '1',
+    time: '22:33',
+    status: 0,
+    user_id: 0
+  },
+  {
+    id: 507,
+    date: '27/2/2024',
+    location: '1',
+    time: '22:34',
+    status: 0,
+    user_id: 0
+  },
+  {
+    id: 508,
+    date: '27/2/2024',
+    location: '1',
+    time: '22:39',
+    status: 1,
+    user_id: 0
+  }
+]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+12212:  1
+ListNumAll:  [ 1, 2, 3, 4, 5 ]
+ค่าที่ไม่ซ้ำ: [ 4, 5 ]
+LangResultmap:  [ 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '135', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_SELECTTTTT:  { storedId: '135', button: true }
+res emer:  { storedButton: '', get: true }
+Formatted Date: 27/2/2024
+RES_ROUTE_employee:  { storedId: '135', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'EN' ]
+Data_examine:  []
+12212:  2
+ListNumAll:  [ 1, 2, 3, 4, 5 ]
+ค่าที่ไม่ซ้ำ: [ 4, 5 ]
+RES_ROUTE_employee:  { storedId: '135', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'EN' ]
+RES_ROUTE_employee:  { storedId: '135', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'TH' ]
+RES_ROUTE_employee:  { storedId: '135', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '135', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'TH' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_SELECTTTTT:  { storedId: '132', button: true }
+res emer:  { storedButton: '1', get: true }
+Formatted Date: 27/2/2024
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Data_examine:  [
+  {
+    id: 500,
+    date: '27/2/2024',
+    location: '1',
+    time: '00:01',
+    status: 0,
+    user_id: 0
+  },
+  {
+    id: 501,
+    date: '27/2/2024',
+    location: '1',
+    time: '00:12',
+    status: 0,
+    user_id: 0
+  },
+  {
+    id: 502,
+    date: '27/2/2024',
+    location: '1',
+    time: '00:23',
+    status: 0,
+    user_id: 0
+  },
+  {
+    id: 503,
+    date: '27/2/2024',
+    location: '1',
+    time: '00:44',
+    status: 1,
+    user_id: 0
+  },
+  {
+    id: 504,
+    date: '27/2/2024',
+    location: '1',
+    time: '00:46',
+    status: 0,
+    user_id: 0
+  },
+  {
+    id: 505,
+    date: '27/2/2024',
+    location: '1',
+    time: '22:32',
+    status: 1,
+    user_id: 0
+  },
+  {
+    id: 506,
+    date: '27/2/2024',
+    location: '1',
+    time: '22:33',
+    status: 0,
+    user_id: 0
+  },
+  {
+    id: 507,
+    date: '27/2/2024',
+    location: '1',
+    time: '22:34',
+    status: 0,
+    user_id: 0
+  },
+  {
+    id: 508,
+    date: '27/2/2024',
+    location: '1',
+    time: '22:39',
+    status: 1,
+    user_id: 0
+  }
+]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+12212:  1
+ListNumAll:  [ 1, 2, 3, 4, 5 ]
+ค่าที่ไม่ซ้ำ: [ 2, 4, 5 ]
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+res emer:  { storedButton: '2', get: true }
+Formatted Date: 27/2/2024
+RES_ROUTE_SELECTTTTT:  { storedId: '135', button: true }
+RES_ROUTE_employee:  { storedId: '135', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '135', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'EN' ]
+RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Data_examine:  []
+RES_ROUTE_employee:  { storedId: '135', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+12212: Null
+ListNumAll:  [ 1, 2, 3, 4, 5 ]
+ค่าที่ไม่ซ้ำ: [ 2, 4, 5 ]
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'TH' ]
+RES_ROUTE_employee:  { storedId: '135', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '135', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'EN' ]
+LangResultmap:  [ 'TH' ]
+RES_ROUTE_employee:  { storedId: '135', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'TH' ]
+res emer:  { notification: '', change: true }
+res change:  { notification: '', change: true } undefined undefined undefined
+Failed to update status or no matching records
+Data in res.notification does not match any record in emergency_notify
+RES_ROUTE_SELECTTTTT:  { storedId: '135', Num: '2', button_change: true }
+2222:  s {
+  fieldCount: 0,
+  affectedRows: 1,
+  insertId: 36343,
+  info: '',
+  serverStatus: 2,
+  warningStatus: 0,
+  changedRows: 0
+}
+12212:  2
+ListNumAll:  [ 1, 2, 3, 4, 5 ]
+ค่าที่ไม่ซ้ำ: [ 4, 5 ]
+res emer:  { notification: '', change: true }
+res change:  { notification: '', change: true } undefined undefined undefined
+Failed to update status or no matching records
+Data in res.notification does not match any record in emergency_notify
+res emer:  { date: '27/2/2024', time: '22:55', location: '1' }
+http working
+Server is running on port 3000
+connected:  1
+Received user_id: 1 1
+HHHHHHH  { date: '27/2/2024', time: '22:55', location: '1' }
+disconnected1:  0
+Server stopped
+res emer:  {
+  notification: { date: '27/2/2024', time: '22:55', location: '1' },
+  change: true
+}
+res change:  {
+  notification: { date: '27/2/2024', time: '22:55', location: '1' },
+  change: true
+} 27/2/2024 22:55 1
+Status updated successfully
+Data in res.notification matches a record in emergency_notify
+RES_ROUTE_employee:  { storedId: '135', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_SELECTTTTT:  { storedId: '135', button: true }
+res emer:  { storedButton: '2', get: true }
+Formatted Date: 27/2/2024
+RES_ROUTE_employee:  { storedId: '135', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+Data_examine:  []
+RES_ROUTE_employee:  { storedId: '135', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+12212:  2
+ListNumAll:  [ 1, 2, 3, 4, 5 ]
+ค่าที่ไม่ซ้ำ: [ 4, 5 ]
+LangResultmap:  [ 'TH', 'EN' ]
+LangResultmap:  [ 'TH', 'EN' ]
+RES_ROUTE_employee:  { storedId: '135', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+RES_ROUTE_employee:  { storedId: '135', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH' ]
+RES_ROUTE_employee:  { storedId: '135', lang_role_1: true }
+RES_ROUTE_employeeinput:  undefined
+LangResultmap:  [ 'TH' ]
+LangResultmap:  [ 'TH' ]
+res emer:  { notification: '', change: true }
+res change:  { notification: '', change: true } undefined undefined undefined
+LangResultmap:  [ 'TH' ]
+Failed to update status or no matching records
+Data in res.notification does not match any record in emergency_notify
+res emer:  { notification: '', change: true }
+res change:  { notification: '', change: true } undefined undefined undefined
+Failed to update status or no matching records
+Data in res.notification does not match any record in emergency_notify
+res emer:  { notification: '', change: true }
+res change:  { notification: '', change: true } undefined undefined undefined
+Failed to update status or no matching records
+Data in res.notification does not match any record in emergency_notify
+res emer:  { date: '27/2/2024', time: '23:04', location: '2' }
+http working
+Server is running on port 3000
+connected:  1
+Received user_id: 2 2
+HHHHHHH  { date: '27/2/2024', time: '23:04', location: '2' }
+disconnected1:  0
+Server stopped
+res emer:  {
+  notification: { date: '27/2/2024', time: '23:04', location: '2' },
+  change: true
+}
+res change:  {
+  notification: { date: '27/2/2024', time: '23:04', location: '2' },
+  change: true
+} 27/2/2024 23:04 2
+Status updated successfully
+Data in res.notification matches a record in emergency_notify

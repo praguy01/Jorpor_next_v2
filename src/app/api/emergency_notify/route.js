@@ -9,10 +9,10 @@ let httpServer;
 export async function POST(request, response) {
   if (request.method === 'POST') {
 
-      const IPaddress = '192.168.2.39';
+      const IPaddress = '192.168.2.37';
       const data = await request.json();
       const { date, time, location } = data;
-      console.log("res: ",data)
+      console.log("res emer: ",data)
 
       if (data.get) {
         try {
@@ -22,18 +22,18 @@ export async function POST(request, response) {
         const month = currentDate.getMonth() + 1;
         const year = currentDate.getFullYear();
         
-        const formattedDate = `${month}/${day}/${year}`;
+        const formattedDate = `${day}/${month}/${year}`;
         
         console.log('Formatted Date:', formattedDate);
         
 
-        const getExamineQuery = "SELECT * FROM emergency_notify WHERE date = ? AND user_id = ?";
-        const [examineResult] = await db.query(getExamineQuery, [formattedDate , data.storedUser_id]);
+        const getNumQuery = "SELECT * FROM emergency_notify WHERE date = ? AND location = ?";
+        const [numResult] = await db.query(getNumQuery, [formattedDate , data.storedButton]);
 
-        console.log("Data_examine: ",examineResult)
+        console.log("Data_examine: ",numResult)
 
 
-        return NextResponse.json({ success: true ,dbexamine_name: examineResult});
+        return NextResponse.json({ success: true ,dbNumResult: numResult});
       } catch (error) {
         console.error('Error fetch the request:', error);
         return NextResponse.json({
@@ -82,7 +82,7 @@ export async function POST(request, response) {
         const month = currentDate.getMonth() + 1;
         const year = currentDate.getFullYear();
         
-        const formattedDate = `${month}/${day}/${year}`;
+        const formattedDate = `${day}/${month}/${year}`;
         data.requestData.date = formattedDate
         // if (!httpServer) {
         console.log("http working")
@@ -101,10 +101,10 @@ export async function POST(request, response) {
         io.on('connection', (socket) => {
           count++;
           console.log("connected: ", count);
-          socket.on('setUserId', (userId) => {
-            console.log('Received user_id:', userId.user_id,data.selectedOption.user_id);
+          socket.on('setButton', (button) => {
+            console.log('Received user_id:', button.button,data.selectedOption.button);
    
-            if (userId.user_id.toString() === data.selectedOption.user_id.toString()) {
+            if (button.button.toString() === data.selectedOption.button.toString()) {
               // ส่งข้อมูลไปยังไคลเอ็นต์ทั้งหมด (ยกเว้นตัวเอง)
               console.log("HHHHHHH ",data.requestData)
                 
@@ -164,19 +164,29 @@ export async function POST(request, response) {
  
       const io = new Server(httpServer, {
         cors: {
-          // origin: [`http://${IPaddress}:80`, `http://${IPaddress}:3000`],
-          origin: [`http://192.168.2.38:80`, `http://192.168.2.38:3000`],
+          origin: [`http://${IPaddress}:80`, `http://${IPaddress}:3000`],
+          // origin: [`http://192.168.2.38:80`, `http://192.168.2.38:3000`],
 
           methods: ['GET', 'POST'],
           credentials: true,
         },
       });
-  
       io.on('connection', (socket) => {
         count++;
         console.log("connected: ", count);
-        io.emit('emergencyNotify', data);
-        
+        socket.on('setButton', (button) => {
+          console.log('Received user_id:', button.button,data.location);
+ 
+          if (button.button.toString() === data.location.toString()) {
+            // ส่งข้อมูลไปยังไคลเอ็นต์ทั้งหมด (ยกเว้นตัวเอง)
+            console.log("HHHHHHH ",data)
+              
+           
+              socket.join('emergencyNotify'); 
+              io.to('emergencyNotify').emit('emergencyNotify', data);
+
+          }
+       
         socket.on('disconnect', () => {
           count--;
           console.log("disconnected1: ", count);
@@ -188,11 +198,31 @@ export async function POST(request, response) {
             httpServer = null;           
           }
         });
-        // socket.emit("emergencyNotify", data);
-        // socket.broadcast.emit("emergencyNotifySW", data);
       });
+        // socket.emit("emergencyNotify", data);
+        // socket.broadcast.emit("emergencyNotify", data);
+      });
+      // io.on('connection', (socket) => {
+      //   count++;
+      //   console.log("connected: ", count);
+      //   io.emit('emergencyNotify', data);
+        
+      //   socket.on('disconnect', () => {
+      //     count--;
+      //     console.log("disconnected1: ", count);
 
-    // }
+      //     if (count === 0) {
+      //       httpServer.close(() => {
+      //       console.log('Server stopped');
+      //       });
+      //       httpServer = null;           
+      //     }
+      //   });
+      //   // socket.emit("emergencyNotify", data);
+      //   // socket.broadcast.emit("emergencyNotifySW", data);
+      // });
+
+    
 
       httpServer.listen(3000,'0.0.0.0',() => {
         console.log('Server is running on port 3000');

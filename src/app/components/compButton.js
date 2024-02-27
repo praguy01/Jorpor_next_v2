@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect ,useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import '@fontsource/mitr';
 import { PiHandTapBold } from "react-icons/pi";
 import axios from 'axios';
@@ -9,23 +9,23 @@ import '../globals.css'
 
 export default function NotifyButton() {
 
-  const [todolist,setTodoList] = useState('')
-  const [selectedOption,setSelectedOption] = useState(null)
-  const IPaddress = '192.168.2.39';
+  const [todolist, setTodoList] = useState('')
+  const [selectedOption, setSelectedOption] = useState(null)
+  const IPaddress = '192.168.2.37';
 
-  
+
   useEffect(() => {
 
     const fetchData = async () => {
       try {
         const response = await axios.get('/api/button');
-        
+
         if (response.status === 200) {
           const resdata = response.data;
           console.log('resdata:', resdata);
           setTodoList(resdata.dbexaminelist_name)
           setSelectedOption(resdata.dbexaminelist_name[0])
-          
+
         } else {
           console.error('Failed to retrieve emergency notifications');
         }
@@ -34,7 +34,7 @@ export default function NotifyButton() {
       }
     };
     fetchData()
-  },[])
+  }, [])
 
   const handleButtonClick = async () => {
     console.log('Button clicked!');
@@ -47,35 +47,35 @@ export default function NotifyButton() {
     // console.log("IP: ",IPaddress)
 
     // Prepare data to be sent in the POST request
-  
+
     try {
       // Make a POST request to the API endpoint
-    //   const response = await fetch('https://platform-jorpor.vercel.app/api/emergency_notify', {
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //         'Origin': 'https://button-emergency-jorpot.vercel.app',
-    //         // 'mode': 'cors', // ไม่จำเป็นต้องใส่
-    //     },
-    //     body: JSON.stringify(requestData),
-    //     });
+      //   const response = await fetch('https://platform-jorpor.vercel.app/api/emergency_notify', {
+      //     method: 'POST',
+      //     headers: {
+      //         'Content-Type': 'application/json',
+      //         'Origin': 'https://button-emergency-jorpot.vercel.app',
+      //         // 'mode': 'cors', // ไม่จำเป็นต้องใส่
+      //     },
+      //     body: JSON.stringify(requestData),
+      //     });
 
-    // const request = JSON.stringify({requestData});
-    const requestData = {
-      date: formattedDate,
-      time: formattedTime,
-      location: selectedOption.name // You can replace this with the actual location value
-    };
+      // const request = JSON.stringify({requestData});
+      const requestData = {
+        date: formattedDate,
+        time: formattedTime,
+        location: selectedOption.name // You can replace this with the actual location value
+      };
 
 
-    const data = { requestData, selectedOption , button:true};
-    
-    const response = await fetch(`http://${IPaddress}/api/emergency_notify`, {
-      // const response = await fetch(`http://192.168.2.37/api/emergency_notify`, {
+      const data = { requestData, selectedOption, button: true };
+
+      const response = await fetch(`http://${IPaddress}/api/emergency_notify`, {
+        // const response = await fetch(`http://192.168.2.37/api/emergency_notify`, {
 
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
       });
@@ -83,7 +83,7 @@ export default function NotifyButton() {
 
       console.log('requestData:', data);
 
-      
+
 
       // Log the response
       console.log('Response:', response);
@@ -100,8 +100,10 @@ export default function NotifyButton() {
 
   const handleDropdownChange = (event) => {
     // console.log("event.target.value: ",event.target.value)
-    const selectedValue = JSON.parse(event.target.value);
-        console.log("event.target.value: ",selectedValue)
+    // const selectedValue = JSON.parse(event.target.value);
+    const selectedValue = event.target.value;
+
+    console.log("event.target.value: ", selectedValue)
 
     setSelectedOption(selectedValue); // เมื่อเลือกตัวเลือกใน Dropdown ให้อัปเดต state
   };
@@ -113,14 +115,19 @@ export default function NotifyButton() {
         <div className="text-[#A6A6A6] md:text-3xl text-[20px] ">Choose a location.</div>
         <select
           className="left-0 w-[150px] mt-1 text-[13px] bg-white text-black border rounded-md px-4 py-1 outline-none overflow-hidden"
-          value={todolist ? todolist.user_id : ""}
+          // value={todolist ? todolist.user_id : ""}
           onChange={handleDropdownChange}
         >
-          {todolist.length > 0 && todolist.map((item, index) => (
+          {/* {todolist.length > 0 && todolist.map((item, index) => (
             <option key={index} value={JSON.stringify(item)}>
               {item.name}
             </option>
 
+          ))} */}
+          {[...Array(5).keys()].map((index) => (
+            <option key={index + 1} value={index + 1}>
+              {index + 1}
+            </option>
           ))}
         </select>
       </div>
@@ -129,8 +136,8 @@ export default function NotifyButton() {
         <div className="w-[250px] h-[250px]  md:w-[450px] md:h-[450px]  rounded-full bg-[#FFD9D9] absolute z-[-2]"></div>
         <div className="w-[220px] h-[220px]  md:w-[370px] md:h-[370px]  rounded-full bg-[#FDB1B1] absolute z-[-1]"></div>
         <div onClick={handleButtonClick} className="w-[190px] h-[190px]  md:w-[290px] md:h-[290px]  rounded-full bg-[#F44040] relative cursor-pointer     hover:scale-105 active:scale-95">
-          <button  style={{ background: 'transparent', border: 'none', padding: 0, cursor: 'pointer' }}>
-            <div  style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' } }>
+          <button style={{ background: 'transparent', border: 'none', padding: 0, cursor: 'pointer' }}>
+            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
               <PiHandTapBold style={{ fontSize: '100px', color: '#fff' }} className=' cursor-pointer' />
             </div>
           </button>
