@@ -105,6 +105,13 @@ i18n
           "Today's information has been sent":"Today's information has been sent",
           Loading:'Loading',
           "Button box":"Button box",
+          Daily:'Daily',
+          Weekly:'Weekly',
+          Monthly:'Monthly',
+          pressed:'pressed',
+          Button:'Button',
+
+          
 
 
 
@@ -209,7 +216,12 @@ i18n
           OK:"ตกลง",
           "Today's information has been sent":"ข้อมูลวันนี้ได้ถูกส่งไปแล้ว",
           Loading:'กำลังโหลด',
-          "Button box":"กล่องปุ่มฉุกเฉิน"
+          "Button box":"กล่องปุ่มฉุกเฉิน",
+          Button:"กล่อง",
+          Daily:'รายวัน',
+          Weekly:'รายอาทิตย์',
+          Monthly:'รายเดือน',
+          pressed:'ถูกกด',
 
 
 

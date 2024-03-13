@@ -379,7 +379,7 @@ function App() {
                 >
                   <div className=''>
                     <p className='text-[#000] mt-[10px] text-[16px] md:text-[25px] font-bold'>{item.percentageZone} %</p>
-                    <h2 className='text-[#000] py-1 text-[10px] md:text-[15px]'>{item.name}</h2>
+                    <h2 className='text-[#000] py-1 text-[10px] md:text-[15px] md:w-[120px] w-[90px] whitespace-nowrap overflow-hidden overflow-ellipsis'>{item.name}</h2>
                   </div>
                 </div>
               ))

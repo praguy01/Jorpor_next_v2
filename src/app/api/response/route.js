@@ -8,7 +8,7 @@ export async function POST(request) {
     
     const res = await request.json();
     try {
-    // console.log("RESS: ",res ,res.storedId)
+    console.log("RESS: ",res )
 
     if (res.fetch){
       const getQuery = "SELECT * FROM notify WHERE user_id = ?";

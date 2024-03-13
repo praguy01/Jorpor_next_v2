@@ -159,35 +159,34 @@ function App() {
         // อัปเดตรูปภาพในตัวแปร editedProfileData และ profileData
         editedProfileData.img = selectedImage;
         setProfileData({ ...editedProfileData });
+      } else {
+        setProfileData({ ...editedProfileData });
       }
-      setProfileData({ ...editedProfileData });
 
       // ทำการบันทึกข้อมูลที่ผู้ใช้แก้ไขลงในฐานข้อมูลหรือระบบของคุณ
       // ตัวอย่างเช่น ส่งข้อมูลไปยังเซิร์ฟเวอร์
       
       // ส่งข้อมูลที่แก้ไขไปยัง API
 
-      // console.log("Editprofile: ", editedProfileData)
+      console.log("Editprofile: ", editedProfileData)
       const editedData = { ...editedProfileData , edit_role_1: true };
       // formData.append('data', JSON.stringify(editedData));
       // const data = formData.get('data');
-      // console.log("FormDATA: ", data);
+      console.log("FormDATA: ", editedData);
       const data = JSON.stringify(editedData)
-      // console.log("EditDATA: ", editedData)
+      console.log("EditDATA: ", data)
 
       // ส่งข้อมูลไปยัง API
       const response = await axios.post('/api/profile', data, {
         headers: {
-          // 'Content-Type': 'multipart/form-data', // ตั้งค่าเป็น multipart/form-data
-          headers: { 'Content-Type': 'application/json' },
-
+          'Content-Type': 'application/json', // ใช้ headers แบบถูกต้อง
         },
       });
 
       const resdata = response.data;
-  
+      console.log("resdata:", resdata);
+
       if (response.status === 200) {
-        // console.log("resdata:", resdata.message);
 
         if (resdata.success === true) {
           // การบันทึกสำเร็จ ปิดโหมดแก้ไข

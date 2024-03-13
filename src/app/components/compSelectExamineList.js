@@ -345,22 +345,21 @@ function App({ onSubmit }) {
         text-black 
         flex 
         items-center
-        ${index % 2 === 0 ? 'clear-left' : ''} 
-        ${checkedItems.includes(todo.id) ? 'checked' : ''}
+       
       `}
-      onClick={() => handleCheckboxChange(index, todo.id)}
-    >
+      >
       <div className="flex items-center">
-        <p className='text-[#000] bg-[#BEE3BA] rounded-[10px] border-[#F5F5F5] py-1 px-8 pl-2 text-[14px] md:text-[18px] md:w-[100px] break-words whitespace-pre-wrap'>
+        <p className='text-[#000] flex items-center bg-[#BEE3BA] rounded-[10px] border-[#F5F5F5] py-1 px-2 pl-2 text-[14px] md:text-[18px]  break-words whitespace-pre-wrap'>
           {todo.name} 
-        </p>
-        <RxCross2
+          <RxCross2
           onClick={(e) => {
             e.stopPropagation();
             openEditPopup(index, todo);
           }}
-          className="text-[#5A985E]  ml-[-18px] md:ml-[15px] text-[12px] hover:-translate-y-0.5 duration-200"
+          className="text-[#5A985E]  ml-[8px] md:ml-[10px] text-[14px] hover:-translate-y-0.5 duration-200"
         />
+        </p>
+        
       </div>
 
       

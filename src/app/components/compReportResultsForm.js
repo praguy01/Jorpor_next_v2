@@ -43,11 +43,12 @@ export default function CompReportResultsForm({ onSubmit }) {
             headers: { 'Content-Type': 'application/json' },
           });
           const data = response.data;
-
+          console.log("5555 ",data)
+// 
           if (response.status === 200) {
             if (data.success === true) {
 
-              setSelectedOption(data.dbnameExamineList[0]);
+              setSelectedOption(data.dbnameExamineList[0].id);
               setNameExamineList(data.dbnameExamineList);
               setSelectednameOption(true)
 
@@ -86,11 +87,12 @@ export default function CompReportResultsForm({ onSubmit }) {
       });
 
       const resdata = response.data;
+      console.log("888:b ",resdata)
 
       if (response.status === 200) {
         if (resdata.success === true) {
           setNameExamine(resdata.dbExamine)
-          setSelectedExamineOption(resdata.dbExamine[0])
+          setSelectedExamineOption(resdata.dbExamine[0].id)
           setSelected(true)
         } else {
           setMessage(resdata.error);
@@ -303,27 +305,27 @@ export default function CompReportResultsForm({ onSubmit }) {
 
                 <div className='text-black text-left ml-[10px] md:ml-[0]  mt-[15px]  md:mt-[0] flex'>
                   <select
-                    className="    text-[13px] md:text-[16px] font-mitr md:mt-[20px]  border border-gray-400 rounded-md pl-1 "
+                    className="    text-[13px] md:text-[16px] font-mitr md:mt-[20px]  w-[100px] md:w-[150px] lg:w-[150px] border border-gray-400 rounded-md pl-1 "
                     value={selectedOption}
                     onChange={handleDropdownChange}
 
                   >
 
-                    {nameExamineList.length > 0 && nameExamineList.map((name, index) => (
-                      <option key={index} value={name}>
-                        {name}
+                    {nameExamineList.length > 0 && nameExamineList.map((item, index) => (
+                      <option key={index} value={item.id}>
+                        {item.name}
                       </option>
                     ))}
                   </select>
 
                   <select
-                    className=" ml-[15px]    text-[13px] md:text-[16px] font-mitr md:mt-[20px]   border border-gray-400 rounded-md pl-1 "
+                    className=" ml-[15px]    text-[13px] md:text-[16px] font-mitr md:mt-[20px]  w-[100px] md:w-[150px] lg:w-[150px] border border-gray-400 rounded-md pl-1 "
                     value={selectedExamineOption}
                     onChange={handleDropdownExamineChange}
                   >
-                    {nameExamine.length > 0 && nameExamine.map((name, index) => (
-                      <option key={index} value={name}>
-                        {name}
+                    {nameExamine.length > 0 && nameExamine.map((item, index) => (
+                      <option key={index} value={item.id}>
+                        {item.name}
                       </option>
                     ))}
                   </select>

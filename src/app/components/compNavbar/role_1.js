@@ -63,7 +63,7 @@ function CompNavbar() {
   const [numberButton, setNumberButton] = useState('');
   const [numberAllButton, setNumberAllButton] = useState('');
 
-  const IPaddress = '192.168.2.37';
+  const IPaddress = '192.168.2.36';
 
 
   // const IPaddress = process.env.IP_ADDRESS
@@ -257,14 +257,15 @@ function CompNavbar() {
 
       socket.on('emergencyNotify', (res) => {
         setNotification(res);
+         setTimeout(() => {
+          socket.disconnect();
+          console.log('Socket.IO connection closed');
+        }, 1000);
         setShowPopup(true);
         setSound(true);
         // console.log("MESSAGE EMERGENCY: ", res);
         // console.log("2", socket.connected);
-        setTimeout(() => {
-          socket.disconnect();
-          // console.log('Socket.IO connection closed');
-        }, 1000);
+       
         setReload(false);
 
       });
@@ -284,16 +285,10 @@ function CompNavbar() {
 
     return () => {
       socket.disconnect();
-      // console.log('Socket.IO connection closed');
+      console.log('Socket.IO connection closed');
     };
   }, [reload]);
 
-
-  // useEffect(() => {
-  //   if (!showPopup) {
-  //     stopAudio();
-  //   }
-  // }, [showPopup]);
 
 
   const currentPath = usePathname();

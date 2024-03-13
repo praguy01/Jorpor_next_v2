@@ -18,7 +18,7 @@ export async function POST(request) {
         email,
         img
       } = res;
-      // console.log("RES.Route profile88811111111: ", res);
+      console.log("RES.Route profile88811111111: ", res);
 
 
       if (res.profile_role_1) {

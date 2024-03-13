@@ -6,7 +6,7 @@ export async function POST(request) {
     const res = await request.json();
     try {
       const {data } = res;
-      // console.log("RES_ROUTE_employee: ", res);
+      console.log("RES_ROUTE_employee: ", res);
 
       if (res.edit_role_1) {
         try {

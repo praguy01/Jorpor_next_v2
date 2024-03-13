@@ -6,7 +6,7 @@ export async function POST(request) {
     const res = await request.json();
     try {
       const {data } = res;
-      // console.log("RES_ROUTE_employee: ", res);
+      console.log("RES_ROUTE_employee: ", res);
 
       const originalDate = new Date();
 
@@ -163,6 +163,7 @@ export async function POST(request) {
 
       const getPlanQuery = "SELECT * FROM plan WHERE user_id = ? AND date >= ?";
       const [planResult] = await db.query(getPlanQuery, [res.storedId , formattedDate]);
+      console.log("planResult: ",planResult)
 
 
       return NextResponse.json({ success: true, dbPlan: planResult});

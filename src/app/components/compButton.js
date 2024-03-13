@@ -11,7 +11,7 @@ export default function NotifyButton() {
 
   const [todolist, setTodoList] = useState('')
   const [selectedOption, setSelectedOption] = useState(null)
-  const IPaddress = '192.168.2.37';
+  const IPaddress = '192.168.2.36';
 
 
   useEffect(() => {

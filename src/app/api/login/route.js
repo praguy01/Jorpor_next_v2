@@ -11,7 +11,7 @@ import jwt from 'jsonwebtoken';
 export async function POST(request)  {
   if (request.method === 'POST') {
     const res = await request.json();
-    // console.log("RES-----------------: ",res , res.employee , res.password ,res.remember)
+    console.log("RES-----------------: ",res )
 
     if (res.rememberPassword) {
       

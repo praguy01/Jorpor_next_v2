@@ -1,46 +1,43 @@
-> Ready on http://localhost:\\.\pipe\43f097b1-9810-4ebd-8191-9b8a636e8726
+> Ready on http://localhost:\\.\pipe\55251046-ca1e-4abc-8189-a53e7d80dc0e
 RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
 RES_ROUTE_employeeinput:  undefined
 RES_ROUTE_SELECTTTTT:  { storedId: '132', button: true }
-res:  { storedButton: '1', get: true }
-Formatted Date: 27/2/2024
+res emer:  { storedButton: '2', get: true }
+Formatted Date: 9/3/2024
 RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
 RES_ROUTE_employeeinput:  undefined
 Data_examine:  [
   {
-    id: 500,
-    date: '27/2/2024',
-    location: '1',
-    time: '00:01',
-    status: 0,
-    user_id: 0
+    id: 524,
+    date: '9/3/2024',
+    location: '2',
+    time: '12:22',
+    status: 0
   },
   {
-    id: 501,
-    date: '27/2/2024',
-    location: '1',
-    time: '00:12',
-    status: 0,
-    user_id: 0
+    id: 528,
+    date: '9/3/2024',
+    location: '2',
+    time: '13:13',
+    status: 1
   },
   {
-    id: 502,
-    date: '27/2/2024',
-    location: '1',
-    time: '00:23',
-    status: 0,
-    user_id: 0
+    id: 529,
+    date: '9/3/2024',
+    location: '2',
+    time: '14:39',
+    status: 1
   }
 ]
 RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
 RES_ROUTE_employeeinput:  undefined
-12212:  1
+12212:  2
 ListNumAll:  [ 1, 2, 3, 4, 5 ]
-ค่าที่ไม่ซ้ำ: [ 2, 4, 5 ]
+ค่าที่ไม่ซ้ำ: [ 3, 4 ]
+LangResultmap:  [ 'EN', 'EN' ]
 LangResultmap:  [ 'EN', 'EN' ]
 RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
 RES_ROUTE_employeeinput:  undefined
-LangResultmap:  [ 'EN', 'EN' ]
 RES_ROUTE_employee:  { storedId: '132', lang_role_1: true }
 RES_ROUTE_employeeinput:  undefined
 LangResultmap:  [ 'EN', 'EN', 'EN' ]
@@ -49,23 +46,7 @@ RES_ROUTE_employeeinput:  undefined
 LangResultmap:  [ 'EN', 'EN' ]
 LangResultmap:  [ 'EN', 'EN' ]
 LangResultmap:  [ 'EN' ]
-res:  { notification: '', change: true }
+res emer:  { notification: '', change: true }
 res change:  { notification: '', change: true } undefined undefined undefined
 Failed to update status or no matching records
 Data in res.notification does not match any record in emergency_notify
-res:  { date: '27/2/2024', time: '00:44', location: '1' }
-http working
-Server is running on port 3000
-connected:  1
-disconnected1:  0
-Server stopped
-res:  {
-  notification: { date: '27/2/2024', time: '00:44', location: '1' },
-  change: true
-}
-res change:  {
-  notification: { date: '27/2/2024', time: '00:44', location: '1' },
-  change: true
-} 27/2/2024 00:44 1
-Status updated successfully
-Data in res.notification matches a record in emergency_notify

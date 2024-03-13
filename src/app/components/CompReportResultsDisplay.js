@@ -65,6 +65,7 @@ export default function CompReportResultsForm({ onSubmit }) {
           });
 
           const data = response.data;
+          // console.log("5555 ",data)
 
           if (response.status === 200) {
             if (data.success === true) {

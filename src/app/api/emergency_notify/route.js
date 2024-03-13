@@ -9,11 +9,12 @@ let httpServer;
 export async function POST(request, response) {
   if (request.method === 'POST') {
 
-      const IPaddress = '192.168.2.37';
+      const IPaddress = '192.168.2.36';
       const data = await request.json();
       const { date, time, location } = data;
       console.log("res emer: ",data)
 
+     
       if (data.get) {
         try {
         const currentDate = new Date();
@@ -257,6 +258,7 @@ export async function GET(request) {
   if (request.method === 'GET') {
     try {
   
+
       const currentDate = new Date();
 
       const day = currentDate.getDate();
@@ -264,12 +266,12 @@ export async function GET(request) {
       const year = currentDate.getFullYear();
       
       // Create the formatted string
-      const formattedDate = `${month}/${day}/${year}`;
+      const formattedDate = `${day}/${month}/${year}`;
       
       console.log('Formatted Date:', formattedDate);
       
 
-      const getExamineQuery = "SELECT * FROM emergency_notify WHERE date = ? AND status = 0";
+      const getExamineQuery = "SELECT * FROM emergency_notify WHERE date = ?";
       const [examineResult] = await db.query(getExamineQuery, formattedDate);
 
       console.log("Data_examine: ",examineResult)

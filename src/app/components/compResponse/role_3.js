@@ -28,7 +28,11 @@ function App() {
     const [reloadData, setReloadData] = useState(false); // เพิ่ม state นี้
     const [message, setMessage] = useState('');
     const [todoList, setTodoList] = useState([]);
-
+    const [selectedOption, setSelectedOption] = useState('Daily');
+    const [todoListNotifyDaily, setTodoListNotifyDaily] = useState([]);
+    const [todoListNotifyWeekly, setTodoListNotifyWeekly] = useState([]);
+    const [todoListNotifyMonthly, setTodoListNotifyMonthly] = useState([]);
+  
 
     useEffect(() => {
 
@@ -67,7 +71,44 @@ function App() {
         }
       };
   
+      const fetchDataNotify = async () => {
+        try {
+  
+  
+          const response = await axios.post('/api/button', { fetchNotify: true }, {
+            headers: { 'Content-Type': 'application/json' },
+          });
+  
+  
+  
+          // const response = await axios.get('/api/notify'); // แทน '/api/examine' ด้วยเส้นทางที่ถูกต้องไปยัง API ของคุณ
+          const data = response.data;
+  
+          if (response.status === 200) {
+            if (data.success === true) {
+  
+              console.log("dataNotify: ", data)
+              const [dailyData, weeklyData, monthlyData] = data.dataNotify;
+              console.log("dailyData: ", dailyData)
+  
+              setTodoListNotifyDaily(dailyData);
+              setTodoListNotifyWeekly(weeklyData);
+              setTodoListNotifyMonthly(monthlyData);
+  
+            } else {
+              setMessage(data.error);
+            }
+          } else {
+            setMessage(data.error);
+          }
+        } catch (error) {
+          console.error('Error fetching data:', error);
+          setMessage('');
+        }
+      };
+  
       fetchData();
+      fetchDataNotify();
     }, [reloadData]); 
 
 
@@ -81,7 +122,9 @@ function App() {
       return formattedDate;
     };
     
-    
+    const handleDropdownChange = (event) => {
+      setSelectedOption(event.target.value);
+    };
     
   return (
     <div>
@@ -93,9 +136,108 @@ function App() {
                 <div className='absolute top-[100px] left-1/2 transform -translate-x-1/2 z-0'>
                     <div className='bg-[#5A985E] mx-auto max-w-[500px] sm:max-w-[350px] py-[100px] rounded-[50px]'></div>
                 </div>
+                <div className=' w-[320px] md:w-[700px] lg:w-[800px] mx-auto mt-[100px]'>
+            <label className="block mt-[10px] text-gray-700 text-[15px] font-bold mb-2">{t("Select an option")}:</label>
+            <select
+              className="w-[120px] text-[13px]  text-black border rounded-md px-4 py-1 outline-none"
+              value={selectedOption}
+              onChange={handleDropdownChange}
+            >
+              <option value="Daily">{t('Daily')}</option>
+              <option value="Weekly">{t('Weekly')}</option>
+              <option value="Monthly">{t('Monthly')}</option>
+            </select>
+            <div className={`mx-auto mb-[20px] p-4 bg-white flex items-center mt-[10px] w-[320px] md:w-[700px]  md:rounded-[30px] rounded-[20px] lg:w-[800px] h-[120px] border md:h-[190px] overflow-auto`}>
+              {console.log("SELECT: ",selectedOption)}
+              {selectedOption && selectedOption === 'Daily' && (
 
+                <div className='justify-center  flex flex-row '>
+                  {/* {console.log("todoZone222: ", todoListNotify)} */}
+                  {todoListNotifyDaily && Object.values(todoListNotifyDaily).map((item, index) => (
+                    <div
+                      key={index} className="flex  ">
+                      {Object.values(item).map((data, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center justify-center ml-[10px] text-center bg-[#9FD4A3] md:w-[138px] w-[108px] md:rounded-[30px] rounded-[20px] md:h-[150px] h-[100px] shadow-lg"
+                        >
+
+                          <div className=''>
+                            <p className='text-[#000] mt-[10px] text-[16px] md:text-[25px] font-bold'>{data.percentage} %</p>
+                            <h2 className='text-[#000] py-1 text-[10px] md:text-[15px]'>{t("Button")} : {index + 1} <br />{t('pressed')} : {data.count}</h2>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+
+                  ))}
+
+
+
+                </div>
+              )}
+              {selectedOption && selectedOption === 'Weekly' && (
+
+                <div className='justify-center  flex flex-row '>
+                  {/* {console.log("todoZone222: ", todoListNotify)} */}
+                  {todoListNotifyWeekly && Object.values(todoListNotifyWeekly).map((item, index) => (
+                    <div
+                      key={index} className="flex  ">
+                      {Object.values(item).map((data, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center justify-center ml-[10px] text-center bg-[#9FD4A3] md:w-[138px] w-[108px] md:rounded-[30px] rounded-[20px] md:h-[150px] h-[100px] shadow-lg"
+                        >
+
+                          <div className=''>
+                            <p className='text-[#000] mt-[10px] text-[16px] md:text-[25px] font-bold'>{data.percentage} %</p>
+                            <h2 className='text-[#000] py-1 text-[10px] md:text-[15px]'>{t("Button")} : {index + 1} <br />{t('pressed')} : {data.count}</h2>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+
+                  ))}
+
+
+
+                </div>
+              )}
+              {selectedOption && selectedOption === 'Monthly' && (
+
+                <div className='justify-center  flex flex-row '>
+                  {/* {console.log("todoZone222: ", todoListNotify)} */}
+                  {todoListNotifyMonthly && Object.values(todoListNotifyMonthly).map((item, index) => (
+                    <div
+                      key={index} className="flex  ">
+                      {Object.values(item).map((data, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center justify-center ml-[10px] text-center bg-[#9FD4A3] md:w-[138px] w-[108px] md:rounded-[30px] rounded-[20px] md:h-[150px] h-[100px] shadow-lg"
+                        >
+
+                          <div className=''>
+                            <p className='text-[#000] mt-[10px] text-[16px] md:text-[25px] font-bold'>{data.percentage} %</p>
+                            <h2 className='text-[#000] py-1 text-[10px] md:text-[15px]'>{t("Button")} : {index + 1} <br />{t('pressed')} : {data.count}</h2>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+
+                  ))}
+
+
+
+                </div>
+              )}
+
+            </div>
+          </div>
                 
-                <div className='mx-auto border w-[320px] md:w-[700px] lg:w-[800px]  py-[20px] md:h-[600px] h-[550px] text-black flex flex-col   md:rounded-[30px] rounded-[30px] mt-[106px]  bg-[#fff]'>
+                <div className='mx-auto border w-[320px] md:w-[700px] lg:w-[800px]  py-[20px] md:h-[600px] h-[550px] text-black flex flex-col   md:rounded-[30px] rounded-[30px] mt-[20px]  bg-[#fff]'>
                 
                 <h1 className='text-[22px] md:text-[25px]  ml-[30px]'>{t('Response')}</h1>
                                     

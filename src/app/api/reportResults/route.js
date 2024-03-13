@@ -8,7 +8,7 @@ export async function POST(request) {
 
     try {
       const { fetchdata} = res;
-      // console.log("RES_ROUTE_examineRe88: ", res);
+      console.log("RES_ROUTE_examineRe88--------------: ", res);
 
   
       if (res.fetch) {
@@ -31,12 +31,12 @@ export async function POST(request) {
         for (const item of item_id) {
           // console.log("4444: ",item)
       
-          const getNameExamineListQuery = "SELECT name FROM examinelist WHERE id = ? AND user_id = ?";
+          const getNameExamineListQuery = "SELECT id,name FROM examinelist WHERE id = ? AND user_id = ?";
           const [nameExamineListResult] = await db.query(getNameExamineListQuery, [item, res.user_IdValue]);
       
           const nameExamineListResultmap = nameExamineListResult.map(row => row.name);
-          nameList.push(nameExamineListResultmap);
-          // console.log("nameList: ", nameList,nameExamineListResult);
+          nameList.push(...nameExamineListResult);
+          console.log("nameList: ", nameList,nameExamineListResult);
         }
       
         return NextResponse.json({ success: true, dbnameExamineList: nameList, dbsentdate: getdate_R2QueryResult });
@@ -49,15 +49,15 @@ export async function POST(request) {
     if (res.option) {
       try {
 
-        const getExamineIDQuery = "SELECT id FROM examinelist WHERE name = ? AND user_id = ?";
-        const [examineIDResult] = await db.query(getExamineIDQuery, [res.selectedOption , res.id]);
+        // const getExamineIDQuery = "SELECT id FROM examinelist WHERE id = ? AND user_id = ?";
+        // const [examineIDResult] = await db.query(getExamineIDQuery, [res.selectedOption , res.id]);
 
         // console.log("111: ",examineIDResult)
     
-        const getIDExamineListQuery = "SELECT name FROM examine WHERE examinelist_id = ?";
-        const [idExamineListResult] = await db.query(getIDExamineListQuery, [ examineIDResult[0].id ]);
+        const getIDExamineListQuery = "SELECT id,name FROM examine WHERE examinelist_id = ?";
+        const [idExamineListResult] = await db.query(getIDExamineListQuery, [ res.selectedOption ]);
 
-        const idExamineListResultmap = idExamineListResult.map(row => row.name);
+        // const idExamineListResultmap = idExamineListResult.map(row => row.name);
 
         // console.log("WWW: ",idExamineListResultmap)
 
@@ -66,7 +66,7 @@ export async function POST(request) {
 
        
       
-        return NextResponse.json({ success: true ,dbemployee_name: employeeResult ,dbExamine: idExamineListResultmap });
+        return NextResponse.json({ success: true ,dbemployee_name: employeeResult ,dbExamine: idExamineListResult });
       } catch (error) {
         console.error('ErrorEditEx:', error);
         return NextResponse.json({ success: false, error: error.message });
@@ -88,14 +88,14 @@ export async function POST(request) {
 
         // console.log("Date: ",formattedDate)
 
-        const getExaminelistIDQuery = "SELECT id FROM examinelist WHERE name = ? AND user_id = ?";
-        const [examinelistIDResult] = await db.query(getExaminelistIDQuery, [res.selectedOption , res.id]);
+        // const getExaminelistIDQuery = "SELECT id FROM examinelist WHERE name = ? AND user_id = ?";
+        // const [examinelistIDResult] = await db.query(getExaminelistIDQuery, [res.selectedOption , res.id]);
 
         // console.log("000000000000000000: ",examinelistIDResult[0].id)
     
         // หาชื่อของ examinelist โดยใช้ ID จาก selectedExamineOption
-        const getExamineNameQuery = "SELECT * FROM examine WHERE name = ? AND examinelist_id = ?";
-        const [examineNameResult] = await db.query(getExamineNameQuery, [res.selectedExamineOption , examinelistIDResult[0].id]);
+        const getExamineNameQuery = "SELECT * FROM examine WHERE id = ? AND examinelist_id = ?";
+        const [examineNameResult] = await db.query(getExamineNameQuery, [res.selectedExamineOption , res.selectedOption]);
         // console.log("1111111111111111111a: ",examineNameResult[0])
 
         if (examineNameResult[0].useEmployee === 'false') {
@@ -115,7 +115,7 @@ export async function POST(request) {
           WHERE checklist_examine.date = ? AND checklist_examine.examine_id = ? AND checklist_examine.examinelist_id = ?;
         `;
 
-        const [dataChecklistQueryResult] = await db.query(dataChecklistQuery ,[formattedDate , examineNameResult[0].id ,examinelistIDResult[0].id])
+        const [dataChecklistQueryResult] = await db.query(dataChecklistQuery ,[formattedDate , examineNameResult[0].id ,res.selectedOption])
 
         // console.log("listdata: ",dataChecklistQueryResult);
        
@@ -130,12 +130,12 @@ export async function POST(request) {
             
           // console.log("examineNameResult.length: ",examineNameResult.length)
           if (examineNameResult.length > 0) {
-            const getZoneIDQuery = "SELECT id FROM examinelist WHERE name = ?";
-            const [ZoneIDResult] = await db.query(getZoneIDQuery, [res.selectedOption]);
+            // const getZoneIDQuery = "SELECT id FROM examinelist WHERE id = ?";
+            // const [ZoneIDResult] = await db.query(getZoneIDQuery, [res.selectedOption]);
             // console.log("Zone: ",ZoneIDResult[0].id);
 
             const getUserIDQuery = "SELECT * FROM employee WHERE users_id = ? AND examinelist_id = ?";
-            const [UserIDResult] = await db.query(getUserIDQuery, [res.id , ZoneIDResult[0].id]);
+            const [UserIDResult] = await db.query(getUserIDQuery, [res.id , res.selectedOption]);
             // console.log("USER: ", UserIDResult);
 
             for (const user of UserIDResult) {
@@ -150,12 +150,12 @@ export async function POST(request) {
             }  
           }
 
-            const getexamineIDQuery = "SELECT id FROM examine WHERE name = ? AND examinelist_id = ? ";
-            const [examineIDResult] = await db.query(getexamineIDQuery, [res.selectedExamineOption , ZoneIDResult[0].id]);
+            // const getexamineIDQuery = "SELECT id FROM examine WHERE id = ? AND examinelist_id = ? ";
+            // const [examineIDResult] = await db.query(getexamineIDQuery, [res.selectedExamineOption , res.selectedOption]);
             // console.log("examine: ", examineIDResult);
             
-            const getexaminenameIDQuery = "SELECT * FROM examinename WHERE examine_id = ?  ";
-            const [examinenameIDResult] = await db.query(getexaminenameIDQuery, [examineIDResult[0].id]);
+            // const getexaminenameIDQuery = "SELECT * FROM examinename WHERE examine_id = ?  ";
+            // const [examinenameIDResult] = await db.query(getexaminenameIDQuery, [res.selectedExamineOption]);
             // console.log("examinename: ", examinenameIDResult);
            
             // examinenameIDResult.forEach(examinename => {

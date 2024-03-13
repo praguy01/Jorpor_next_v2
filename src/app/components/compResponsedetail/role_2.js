@@ -218,8 +218,8 @@ function App() {
                 </div>
               </div>
 
-              <div className='mx-auto'>
-                <p className="text-[#808080] text-[13px] md:text-[16px] md:mt-[20px] ml-[-170px] md:ml-[-540px] lg:ml-[-590px] mt-[10px]">{t("Uploaded images")}</p>
+              <div className='mx-auto  w-[250px]  md:w-[670px] lg:w-[720px] '>
+                <p className="text-[#808080]  text-[13px] md:text-[16px] md:mt-[20px] text-left mt-[10px]">{t("Uploaded images")}</p>
 
 
                 {fileData && (
@@ -232,8 +232,8 @@ function App() {
 
 
 
-              <div>
-                <p className=' text-[#808080] text-[13px] md:text-[16px] ml-[-170px] md:ml-[-610px] lg:ml-[-660px] mt-[20px]  md:mt-[16px]'>{t('details')}</p>
+              <div className='mx-auto '>
+                <p className='  text-[#808080] text-[13px] md:text-[16px] text-left mt-[20px]  md:mt-[16px]'>{t('details')}</p>
                 <textarea
                   type="text"
                   name="detail"

@@ -596,13 +596,13 @@ function App() {
                 </div>
                 )}
               {deletemessage && (
-                <div className="bg-white text-[#5A985E] p-8  rounded-lg border-black shadow-lg md:w-[400px] w-[250px] text-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <div className="bg-white text-[#5A985E] p-8  rounded-lg border shadow-lg md:w-[400px] w-[250px] text-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                 <BsCheckCircle className=' text-[50px] mx-auto mb-[10px]'/>
                 {deletemessage}
                 </div>
               )}
               {showAddSuccessPopup && (
-                <div className="text-center  bg-white text-[#5A985E] p-8  rounded-lg border-black shadow-lg md:w-[400px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <div className="text-center  bg-white text-[#5A985E] p-8  rounded-lg border shadow-lg md:w-[400px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                 <BsCheckCircle className=' text-[50px] mx-auto mb-[10px]'/>
                 {addmessage}
                 </div>
@@ -610,7 +610,7 @@ function App() {
 
             {showEditPopup.isOpen && (
               <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center ">
-                <div className="bg-white p-4 text-center rounded-lg border-black shadow-lg  ">
+                <div className="bg-white p-4 text-center rounded-lg border shadow-lg  ">
                   <h2 className= {` text-[18px] md:text-[20px] text-[#5A985E] mt-[10px] `}>{t("Do you want to delete")}<span style={{ color: '#FF6B6B' }}> {showEditPopup.todo.employee}</span> {t("?")}</h2>
                   
                   {message && (

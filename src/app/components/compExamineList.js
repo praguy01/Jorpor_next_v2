@@ -75,6 +75,7 @@ function App({ checkedItems: initialCheckedItems, onSubmit }) {
         const data = response.data;
 
         if (response.status === 200) {
+          
           if (data.success === true) {
             const examinelistNames = data.dbexaminelist_name.map(item => ({ id: item.id, name: item.name }));
 
