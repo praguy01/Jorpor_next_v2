@@ -2,8 +2,8 @@
 import db from '../../../lib/db'
 import bcrypt from 'bcryptjs'
 import { NextResponse } from 'next/server';
-import { useRouter } from 'next/navigation'; // แทนที่ 'next/router'
-import { useSession, signIn, signOut } from "next-auth/react"
+//import { useRouter } from 'next/navigation'; // แทนที่ 'next/router'
+//import { useSession, signIn, signOut } from "next-auth/react"
 
 
 

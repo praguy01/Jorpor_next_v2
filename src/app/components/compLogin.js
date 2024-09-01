@@ -8,7 +8,7 @@ import '../globals.css'
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import '@fontsource/mitr'
-
+import liff from '@line/liff';
 
 
 
@@ -56,6 +56,7 @@ export default  function CompLogin() {
                   if (resdata.success === true) {
                     const token = response.data.token;
                     localStorage.setItem('user_login', token);
+
         
                     try {
       

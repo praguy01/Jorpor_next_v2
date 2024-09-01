@@ -2,9 +2,10 @@
 import db from '../../../lib/db'
 import bcrypt from 'bcryptjs'
 import { NextResponse } from 'next/server';
-import { useRouter } from 'next/navigation'; // แทนที่ 'next/router'
-import { useSession, signIn, signOut } from "next-auth/react"
+//import { useRouter } from 'next/navigation'; // แทนที่ 'next/router'
+//import { useSession, signIn, signOut } from "next-auth/react"
 import jwt from 'jsonwebtoken';
+
 
 
 
@@ -12,6 +13,7 @@ export async function POST(request)  {
   if (request.method === 'POST') {
     const res = await request.json();
     console.log("RES-----------------: ",res )
+    console.log("Received data:", res); // ตรวจสอบข้อมูลที่ได้รับ
 
     if (res.rememberPassword) {
       

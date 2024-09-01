@@ -11,8 +11,8 @@ export default function NotifyButton() {
 
   const [todolist, setTodoList] = useState('')
   const [selectedOption, setSelectedOption] = useState(null)
-  const IPaddress = '192.168.2.36';
-
+  //const IPaddress = '192.168.2.36';
+  const IPaddress = 'localhost:3000';
 
   useEffect(() => {
 
@@ -71,7 +71,7 @@ export default function NotifyButton() {
       const data = { requestData, selectedOption, button: true };
 
       const response = await fetch(`http://${IPaddress}/api/emergency_notify`, {
-        // const response = await fetch(`http://192.168.2.37/api/emergency_notify`, {
+         //const response = await fetch(`http://192.168.4.192/api/emergency_notify`, {
 
         method: 'POST',
         headers: {
