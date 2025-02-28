@@ -17,10 +17,6 @@ export default function LoginLine() {
   const [formData, setFormData] = useState({
     employee: '', 
     password: '', 
-  });
-
-  // สถานะสำหรับข้อมูลโปรไฟล์จาก LINE
-  const [profile, setProfile] = useState({
     profileImage: '/img/profile.jpg',
     displayName: '',
     userId: ''
@@ -122,7 +118,6 @@ export default function LoginLine() {
         setFormData({ employee: value, password: '' });
       } else {
         setFormData({ ...formData, employee: value, password: formData.password  });
-
       }
 
     } else if (name === 'password') {
