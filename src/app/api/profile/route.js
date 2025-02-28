@@ -1,5 +1,6 @@
 import db from '../../../lib/db';
 import { NextResponse } from 'next/server';
+import CompNavbar from '../compNavbar/role_admin';
 
 
 export async function POST(request) {
@@ -41,6 +42,13 @@ export async function POST(request) {
           // console.log("list ID3: ", userResult);
           return NextResponse.json({ success: true, message: 'successfully', profile: userResult });
       }
+
+      if (res.profile_role_admin) {
+        const getUserQuery = "SELECT * FROM role_admin WHERE id = ?";
+        const [userResult] = await db.query(getUserQuery, [res.storedId]);
+        // console.log("list ID3: ", userResult);
+        return NextResponse.json({ success: true, message: 'successfully', profile: userResult });
+    }
 
       if (res.fetch) {
         const UsersQuery = "SELECT employee FROM users WHERE id = ?";
@@ -376,8 +384,108 @@ export async function POST(request) {
         }
 
         }
+
+        if (res.edit_role_admin) {
+          // console.log("RES.Route profile_EDITTT222222222: ",res.picture.data.length);
+
+          // const file = formData.get('file');
+          // const fileBuffer = await res.picture.arrayBuffer();
+            // Declare fileBuffer outside the if block
+
+          if (res.img) {
+              // Assuming res.img is a base64-encoded string, decode it and store in fileBuffer
+              const fileBuffer = Buffer.from(res.img.split(',')[1], 'base64');
           
-        
+          
+          // console.log("buffer333: ", fileBuffer);
+          // มีการเปลี่ยนแปลง ดังนั้นเราจะทำการอัปเดตข้อมูล
+          const updateQuery = `
+            UPDATE role_admin
+            SET
+                name = ?,
+                lastname = ?,
+                position = ?,
+                employee = ?,
+                phone = ?,
+                line = ?,
+                email = ?,
+                picture = ?
+            WHERE
+                id = ?
+        `;
+        // console.log('update: ',fileBuffer)
+
+        const updatedUserResult = await db.query(updateQuery, [
+            res.name,
+            res.lastname,
+            res.position,
+            res.employee,
+            res.phone,
+            res.line,
+            res.email,
+            fileBuffer,  
+            res.id
+        ]);
+          
+          // console.log('Afterrow: ',updatedUserResult[0].affectedRows)
+
+          if (updatedUserResult[0].affectedRows > 0) {
+            // อัปเดตข้อมูลสำเร็จ
+            // ส่งข้อมูลผู้ใช้งานที่อัปเดตแล้วกลับไปยัง client
+            const updatedUserQuery = "SELECT * FROM users WHERE id = ?";
+            const [updatedUser] = await db.query(updatedUserQuery, [id]);
+            
+            return NextResponse.json({success: true ,message: 'User updated successfully',profile: updatedUser,
+            });
+          } else {
+            return NextResponse.json({success: false,message: 'User update failed',
+            });
+          }
+        } else {
+          const updateQuery = `
+            UPDATE role_admin
+            SET
+                name = ?,
+                lastname = ?,
+                position = ?,
+                employee = ?,
+                phone = ?,
+                line = ?,
+                email = ?
+            WHERE
+                id = ?
+        `;
+        // console.log('update: ',fileBuffer)
+
+        const updatedUserResult = await db.query(updateQuery, [
+            res.name,
+            res.lastname,
+            res.position,
+            res.employee,
+            res.phone,
+            res.line,
+            res.email,
+            res.id
+        ]);
+          
+          // console.log('Afterrow: ',updatedUserResult[0].affectedRows)
+
+          if (updatedUserResult[0].affectedRows > 0) {
+            // อัปเดตข้อมูลสำเร็จ
+            // ส่งข้อมูลผู้ใช้งานที่อัปเดตแล้วกลับไปยัง client
+            const updatedUserQuery = "SELECT * FROM users WHERE id = ?";
+            const [updatedUser] = await db.query(updatedUserQuery, [id]);
+            
+            return NextResponse.json({success: true ,message: 'User updated successfully',profile: updatedUser,
+            });
+          } else {
+            return NextResponse.json({success: false,message: 'User update failed',
+            });
+          }
+        }
+
+        }
+          
       // } else {
       //   // ถ้าไม่พบข้อมูลผู้ใช้งาน
       //   return NextResponse.json({ success: false, message: 'User not found' });

@@ -4,6 +4,17 @@ import React, { useState , useEffect} from 'react';
 import Link from 'next/link';
 import bcrypt from 'bcryptjs'; 
 import axios from 'axios';
+import CompNavbar from '../components/compNavbar/role_admin';
+import { CompLanguageProvider, useLanguage } from './compLanguageProvider_role_admin';
+import { useTranslation } from 'react-i18next';
+
+function CompRegister() {
+  return (
+    <CompLanguageProvider>
+      <App />
+    </CompLanguageProvider>
+  );
+}
 
 const hashPassword = async (password) => {
   const saltRounds = 10;
@@ -12,11 +23,11 @@ const hashPassword = async (password) => {
   return hashedPassword;
 };
 
-export default function CompRegister() {
+ function App() {
+  const { language, toggleLanguage } = useLanguage();
+  const { t } = useTranslation();
+
   const [PINconfirm, setPINconfirm] = useState(''); 
-
-
- 
 
   const [formData, setFormData] = useState({
     name: '',
@@ -58,9 +69,9 @@ export default function CompRegister() {
 
     e.preventDefault();
   
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$<[^>]*>/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   
-    if (emailRegex.test(formData.email)) {
+    if (!emailRegex.test(formData.email)) {
       setMessage('Please enter a valid email address');
       setRegistrationMessage('');
       setRegistrationMessagePass('');
@@ -94,9 +105,7 @@ export default function CompRegister() {
       
       const data = JSON.stringify(requestData);
       
-      const response = await axios.post('/api/register', {
-        data
-      }, {
+      const response = await axios.post('/api/register', data, {
         headers: { 'Content-Type': 'application/json' }
       });
       
@@ -190,10 +199,10 @@ export default function CompRegister() {
 
 
       const response = await axios.post('/api/register', 
-      data, {
+        { requestData, requestDataUser, confirm: true }, 
+        {
         headers: { 'Content-Type': 'application/json' 
       }
-        
       });
      
       const resdata = response.data;
@@ -230,19 +239,13 @@ export default function CompRegister() {
   };
 
   return (
+    
     <div >
-      <div className='w-full bg-[#5A985E] fixed top-0 left-0 '>
-        <div className='container mx-auto flex justify-between items-center py-2 px-4 w-screen  '>
-          <div className='text-[#fff] font-bold text-[24px]'>
-            <Link href="login">JorPor</Link>
-          </div>
-          
-        </div>
-      </div>
+       <CompNavbar/>  
       <div>
 
         <div className='bg-[url("/bg1.png")] bg-cover bg-no-repeat z-[-1] top-0 left-0 w-full h-full bg-center fixed overflow-auto'>
-
+      
             <div className='mx-auto w-[360px] py-[145px] md:w-[570px] md:py-[220px] text-black flex flex-col bg-[#D1E6D3]/50 text-center rounded-[50px] mt-[180px]'>
 
             </div>
@@ -255,43 +258,44 @@ export default function CompRegister() {
                   <div className='absolute inset-[0]  container mx-auto px-4 z-10 items-center'>
                     <div className='mx-auto w-[300px] md:w-[490px] py-[30px] text-black flex flex-col bg-[#D1E6D3] text-center rounded-[50px] mt-[106px] '>
                       <div className='mt-[15px] md:mt-[30px] '>
-                        <h1 className='text-[20px]  md:text-[25px] font-bold'>Create New Account</h1>
-                        <div className='flex justify-center items-center text-[12px] md:text-[16px] mt-2'>
+                        <h1 className={'text-[20px]  md:text-[25px] font-bold'}>{t("Create New Account")}</h1>
+                        {/* <div className='flex justify-center items-center text-[12px] md:text-[16px] mt-2'>
                           <div className='mr-2'>Already Registered?</div>
                           <Link href="/login" className='text-[#5A985E]'>Log in</Link>
-                        </div>
+                        </div> */}
                         <form onSubmit={handleSubmit}>
                         <div className='flex justify-center items-center text-[12px] md:text-[16px] mt-2'>
                           <div className='mr-2 '>
-                            <p className='mt-4 text-left text-[11px] md:text-[16px] ml-[10px]'>Name</p>
+                            <p className={'mt-4 text-left text-[11px] md:text-[16px] ml-[10px]'}>{t("Name")}</p>
                             <input type="text" name="name" value={formData.name} onChange={handleInputChange} className='rounded-[50px] pl-2  text-sm md:text-lg w-[100px]  h-[25px]  md:w-[211px] md:h-[41px]' />
                           </div>
                           <div>
-                            <p className='mt-4 text-left text-[11px] md:text-[16px] ml-[10px]'>Last Name</p>
+                            <p className={'mt-4 text-left text-[11px] md:text-[16px] ml-[10px]'}>{t("Last Name")}</p>
                             <input type="text" name="last_name" value={formData.last_name} onChange={handleInputChange} className='rounded-[50px]  pl-2  text-sm md:text-lg w-[100px]  h-[25px]  md:w-[211px] md:h-[41px]' />
                           </div>
                         </div>
-                        <p className='text-left text-[11px] ml-[55px] md:ml-[40px] mt-[15px] md:text-[16px]'>Email</p>
+                        <p className={'text-left text-[11px] ml-[55px] md:ml-[40px] mt-[15px] md:text-[16px]'}>{t("Email")}</p>
                         <input type="text" name="email" value={formData.email} onChange={handleInputChange} className='rounded-[20px]  pl-[15px] w-[210px]  h-[25px] text-sm md:text-lg md:w-[430px] md:h-[41px]' />
                         <div className='flex justify-center items-center  text-[11px] md:text-[20px]   mt-[5px]' >
                           <div className='mr-[10px]'>
-                            <p className='text-left text-[11px] ml-[10px] md:ml-[10px] mt-[15px]  md:text-[16px]'>Position</p>
+                            <p className={'text-left text-[11px] ml-[10px] md:ml-[10px] mt-[15px]  md:text-[16px]'}>{t("Position")}</p>
                             <select id="dropdown" name="position" value={formData.position} onChange={handleInputChange} className='rounded-[20px]  pl-[15px] w-[100px]  h-[25px] text-[11px] md:text-[16px] md:w-[211px] md:h-[41px] ' >
-                              <option value="">Select an option</option>
-                              <option value="Safety Officer Supervisory level">Supervisory level</option>
+                              <option value="">{t("Select an option")}</option>
+                              <option value="Safety Officer Professional level">{t("Professional level")}</option>
+                              <option value="Safety Officer Technical level">{t("Technical level")}</option>
+                              <option value="Safety Officer Supervisory level">{t("Supervisory level")}</option>
+                              <option value="Administrator">{t("Administrator")}</option>
                             </select>
                           </div>
                           <div>
-                            <p className='text-left text-[11px] ml-[10px] md:ml-[10px] mt-[15px]  md:text-[16px]'>Employee</p>
+                            <p className={'text-left text-[11px] ml-[10px] md:ml-[10px] mt-[15px]  md:text-[16px]'}>{t("Employee")}</p>
                             <input type="text" name="employee" value={formData.employee} onChange={handleInputChange} className='rounded-[20px]  pl-[15px] w-[100px]  h-[25px] text-sm md:text-lg md:w-[211px] md:h-[41px]' />
                           </div>
                         </div>
-                        <p className="text-left text-[11px] ml-[55px] md:ml-[40px] mt-[15px] md:text-[16px]">Password</p>
+                        <p className={"text-left text-[11px] ml-[55px] md:ml-[40px] mt-[15px] md:text-[16px]"}>{t("Password")}</p>
                         <input type="password" name="password" value={formData.password} onChange={handleInputChange} className="rounded-[20px]  pl-[15px] w-[210px] h-[25px] text-[12px] md:text-[16px] md:w-[430px] md:h-[41px]" />
                         <div className='flex flex-col'>
                         
-
-
                           {message && (
                             <p className='mt-3 text-red-500 text-[11px] py-2 bg-[#f9bdbb] rounded-[10px] inline-block px-4 w-[210px] md:w-[410px] mx-auto md:text-[16px] md:mt-[30px]'>
                               {message}
@@ -385,5 +389,4 @@ export default function CompRegister() {
     </div>
   );
 }
-
-
+export default CompRegister;

@@ -1,9 +1,8 @@
-
 import db from '../../../lib/db'
 import bcrypt from 'bcryptjs'
 import { NextResponse } from 'next/server';
-//import { useRouter } from 'next/navigation'; // แทนที่ 'next/router'
-//import { useSession, signIn, signOut } from "next-auth/react"
+/* import { useRouter } from 'next/navigation'; // แทนที่ 'next/router'
+import { useSession, signIn, signOut } from "next-auth/react" */
 
 
 
@@ -36,6 +35,9 @@ export async function POST(request)  {
       
         const getUserQueryTable3 = "SELECT * FROM users_r3 WHERE email = ?";
         const [userResultTable3] = await db.query(getUserQueryTable3, [email]);
+
+        const getUserQueryTable4 = "SELECT * FROM role_admin WHERE email = ?";
+        const [userResultTable4] = await db.query(getUserQueryTable4, [email]);
       
         let userTable;
 
@@ -45,10 +47,12 @@ export async function POST(request)  {
           userTable = "users_r2";
         } else if (userResultTable3.length > 0) {
           userTable = "users_r3";
+        } else if (userResultTable4.length > 0) {
+          userTable = "role_admin";
         }
 
 
-        const userResults = [...userResultTable1, ...userResultTable2, ...userResultTable3];
+        const userResults = [...userResultTable1, ...userResultTable2, ...userResultTable3, ...userResultTable4];
       
         // console.log("USER CHANGE:", userResults);
       
@@ -81,4 +85,3 @@ export async function POST(request)  {
     return NextResponse.error('Method Not Allowed', { res });
   }
 }
-

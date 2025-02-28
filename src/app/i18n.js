@@ -1,7 +1,6 @@
 // i18n.js
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import { useLanguage } from './components/compLanguageProvider_role_1'; 
 
 i18n
   .use(initReactI18next)
@@ -110,11 +109,23 @@ i18n
           Monthly:'Monthly',
           pressed:'pressed',
           Button:'Button',
-
+          "Already Registered?":"Already Registered?",
+          "Create New Account" :"Create New Account",
+          "Log in":"Log in",
+          "Position":"Position",
+          "Select an option":"Select an option",
+          "Sign in":"Sign in" ,
+          "Last Name":"Last Name",
+          "Professional level":"Professional level",
+          "Technical level":"Technical level",
+          "Supervisory level":"Supervisory level",
+          "Administrator":"Administrator",
+          "Register":"Register",
+          "Report template":"Report template",
+          "Safety Officer Professional level":"Safety Officer Professional level",
+          "Safety Officer Technical level":"Safety Officer Technical level",
+          "Safety Officer Supervisory level":"Safety Officer Supervisory level"
           
-
-
-
         },
       },
       TH: {
@@ -222,9 +233,22 @@ i18n
           Weekly:'รายอาทิตย์',
           Monthly:'รายเดือน',
           pressed:'ถูกกด',
-
-
-
+          "Already Registered?":"ลงทะเบียนแล้วหรือยัง?",
+          "Create New Account" :"สร้างบัญชีใหม่",
+          "Log in":"เข้าสู่ระบบ",
+          "Position":"ตำแหน่ง",
+          "Select an option":"เลือกตัวเลือก",
+          "Sign in":"ลงชื่อเข้าใช้",
+          "Last Name":"นามสกุล",
+          "Professional level":"ระดับหัวหน้างาน",
+          "Technical level":"ระดับเทคนิค",
+          "Supervisory level":"ระดับบริหาร",
+          "Administrator":"ผู้ดูแลระบบ",
+          "Register":"ลงทะเบียน",
+          "Document":"เอกสาร",
+          "Safety Officer Professional level":"เจ้าหน้าที่ความปลอดภัยระดับหัวหน้างาน",
+          "Safety Officer Technical level":"เจ้าหน้าที่ความปลอดภัยระดับเทคนิค",
+          "Safety Officer Supervisory level":"เจ้าหน้าที่ความปลอดภัยระดับบริหาร"
         },
       },
     },
