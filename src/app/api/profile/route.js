@@ -1,6 +1,6 @@
 import db from '../../../lib/db';
 import { NextResponse } from 'next/server';
-import CompNavbar from '../compNavbar/role_admin';
+import CompNavbar from '../../components/compNavbar/role_admin';
 
 
 export async function POST(request) {

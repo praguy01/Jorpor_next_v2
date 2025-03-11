@@ -262,13 +262,13 @@ export async function POST(request)  {
         
         // console.log("POSITION/////: ", userResult.position ,[userResult]);
 
-        if (userResult.position === 'Safety Officer Professional level') {
+        if (userResult.position === 'Safety Officer Supervisory level') {
           // console.log("111111");
           return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/select', profile: [userResult], token });
         } else if (userResult.position === 'Safety Officer Technical level') {
           // console.log("22222");
           return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_role_2', profile: [userResult], token });
-        } else if (userResult.position === 'Safety Officer Supervisory level') {
+        } else if (userResult.position === 'Safety Officer Management level') {
           // console.log("33333");
           return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_role_3', profile: [userResult], token });
         } else if (userResult.position === 'Administrator') {
