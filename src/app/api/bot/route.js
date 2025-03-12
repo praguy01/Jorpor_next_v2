@@ -7,6 +7,7 @@ import { type } from 'os';
 import { text } from 'body-parser';
 import { layer } from '@fortawesome/fontawesome-svg-core';
 import { table } from 'console';
+import {sendFlexMessageToLine} from '@/app/components/compflex/flexMessage';
 import {createEmployeeFlexMessage,createPlanFlexMessage,createZoneListFlexMessage,
   createExamineFlexMessage,createExamineNameFlexMessage,createExamineUseEmployeeFlexMessage} from '../../components/compflex/flexMessage';
 
@@ -353,28 +354,6 @@ async function fetchExamineDetails(examineId, lineUserId) {
   } catch (error) {
     console.error('Error fetching examine details:', error);
     return []; // คืนค่าตารางว่างหากมีข้อผิดพลาด
-  }
-}
-
-// ฟังก์ชันส่ง FlexMessage ไป Line
-export async function sendFlexMessageToLine(flexMessage, userId) {
-  const lineApiUrl = "https://api.line.me/v2/bot/message/push";
-
-  const messagePayload = {
-    to: userId,  // LINE User ID ที่จะส่งข้อความถึง
-    messages: [flexMessage]
-  };
-
-  try {
-    await axios.post(lineApiUrl, messagePayload, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${config.channelAccessToken}`
-      }
-    });
-    console.log('Flex Message ส่งสำเร็จ!');
-  } catch (error) {
-    console.error('Error sending message to LINE:', error.message);
   }
 }
 
