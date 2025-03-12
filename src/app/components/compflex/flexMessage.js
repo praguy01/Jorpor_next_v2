@@ -749,7 +749,10 @@ export function createExamineUseEmployeeFlexMessage(examineUseEmp) {
     },
   };
 }
-
+const config = {
+  channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN,
+  channelSecret: process.env.SECRETCODE
+};
 // ฟังก์ชันส่ง FlexMessage ไป Line
 export async function sendFlexMessageToLine(flexMessage, userId) {
   const lineApiUrl = "https://api.line.me/v2/bot/message/push";
