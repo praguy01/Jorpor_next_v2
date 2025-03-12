@@ -10,6 +10,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { th } from "date-fns/locale";
 import axios from "axios";
+import Image from "next/image";
 
 const SafetyReportFormAccidentInvetigate = () => {
   const [currentDate, setCurrentDate] = useState('');
@@ -1379,11 +1380,17 @@ const sendBlobAsBase64ToBackend = async (blob) => {
       <label className="text-black mr-2">รูปการเกิดอุบัติเหตุ:</label>
       
       <div className={`border-2 border-dotted ${image ? 'border-green-800' : 'border-gray-400'} w-[70%] h-[220px] flex justify-center items-center`}>
-        {image ? (
-          <img src={image} alt="Uploaded" className="w-full h-full object-contain mt-2 mb-2 " />
-        ) : (
-          <span className="text-gray-500">ไม่มีไฟล์รูป</span>
-        )}
+            {image ? (
+        <Image 
+          src={image} 
+          alt="Uploaded" 
+          width={500} // กำหนดค่าความกว้าง
+          height={500} // กำหนดค่าความสูง
+          className="w-full h-full object-contain mt-2 mb-2"
+        />
+      ) : (
+        <span className="text-gray-500">ไม่มีไฟล์รูป</span>
+      )}
       </div>
 
       {/* ช่องเลือกไฟล์ 
