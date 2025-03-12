@@ -9,6 +9,7 @@ import { usePathname } from 'next/navigation';
 import { CompLanguageProvider, useLanguage } from '../compLanguageProvider_role_3';
 import { useTranslation } from 'react-i18next';
 import { TbLogout } from "react-icons/tb";
+import { AiOutlineClose } from 'react-icons/ai';
 
 
 function CompNavbar() {

@@ -230,7 +230,7 @@ function CompNavbar() {
     if (showPopup) {
       playAudio();
     }
-  }, [showPopup]);
+  }, [showPopup,playAudio]);
 
 
   useEffect(() => {
