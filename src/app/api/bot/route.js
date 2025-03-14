@@ -7,7 +7,7 @@ import { type } from 'os';
 import { text } from 'body-parser';
 import { layer } from '@fortawesome/fontawesome-svg-core';
 import { table } from 'console';
-import 'dotenv/config';
+import {sendFlexMessageToLine, startLoadingAnimation, stopLoadingAnimation} from '../../components/compflex/lineHelpers';
 //import { config, client, sendFlexMessageToLine } from '../../components/compflex/flexMessage';
 import {createEmployeeFlexMessage,createPlanFlexMessage,createZoneListFlexMessage,
   createExamineFlexMessage,createExamineNameFlexMessage,createExamineUseEmployeeFlexMessage} from '../../components/compflex/flexMessage';
@@ -23,6 +23,16 @@ const sharp = require('sharp');
 const FormData = require('form-data');
 const server = express();
 const schedule = require('node-schedule');
+
+const config = {
+  channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN,
+  channelSecret: process.env.SECRETCODE
+};
+
+const client = new line.Client({
+channelAccessToken: config.channelAccessToken,
+channelSecret: config.channelSecret
+});
 
 // ฟังก์ชันสำหรับตั้งเวลาเคลียร์ข้อมูล
 function scheduleDataClear() {
@@ -51,79 +61,19 @@ function scheduleDataClear() {
 // เรียกใช้ฟังก์ชันเมื่อเริ่มระบบ
 scheduleDataClear();
 
-const config = {
-    channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN,
-    channelSecret: process.env.SECRETCODE
-};
 
-const client = new line.Client({
-  channelAccessToken: config.channelAccessToken,
-  channelSecret: config.channelSecret
-});
 
-// ฟังก์ชันส่ง FlexMessage ไป Line
-export async function sendFlexMessageToLine(flexMessage, userId) {
-  const lineApiUrl = "https://api.line.me/v2/bot/message/push";
+/*export default function handler(req, res) {
+  const { imageId } = req.query;
+  const filePath = path.join(process.cwd(), 'download', `${imageId}.jpg`);
 
-  const messagePayload = {
-    to: userId,  // LINE User ID ที่จะส่งข้อความถึง
-    messages: [flexMessage]
-  };
-
-  try {
-    await axios.post(lineApiUrl, messagePayload, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${config.channelAccessToken}`
-      }
-    });
-    console.log('Flex Message ส่งสำเร็จ!');
-  } catch (error) {
-    console.error('Error sending message to LINE:', error.message);
+  if (fs.existsSync(filePath)) {
+    res.setHeader('Content-Type', 'image/jpeg');
+    return res.status(200).send(fs.readFileSync(filePath));
+  } else {
+    return res.status(404).json({ error: 'File not found' });
   }
-}
-
-async function startLoadingAnimation(chatId) {
-  try {
-    const response = await axios.post(
-      'https://api.line.me/v2/bot/chat/loading/start',
-      {
-        chatId: chatId,
-        loadingSeconds: 10,
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${config.channelAccessToken}`,
-        },
-      }
-    );
-    console.log('Loading started:', response.data);
-  } catch (error) {
-    console.error('Error starting loading:', error.response?.data || error.message);
-  }
-}
-
-// ฟังก์ชันสำหรับหยุด Loading Indicator
-async function stopLoadingAnimation(chatId) {
-  try {
-    const response = await axios.post(
-      'https://api.line.me/v2/bot/chat/loading/stop',
-      {
-        chatId: chatId,
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${config.channelAccessToken}`,
-        },
-      }
-    );
-    console.log('Loading stopped:', response.data);
-  } catch (error) {
-    console.error('Error stopping loading:', error.response?.data || error.message);
-  }
-}
+}*/
 
 // Middleware สำหรับ LINE
 export async function POST(req) {
@@ -152,17 +102,6 @@ export async function POST(req) {
   }
 }
 
-/*export default function handler(req, res) {
-  const { imageId } = req.query;
-  const filePath = path.join(process.cwd(), 'download', `${imageId}.jpg`);
-
-  if (fs.existsSync(filePath)) {
-    res.setHeader('Content-Type', 'image/jpeg');
-    return res.status(200).send(fs.readFileSync(filePath));
-  } else {
-    return res.status(404).json({ error: 'File not found' });
-  }
-}*/
 export async function GET(req) {
   try {
     const url = new URL(req.url);
