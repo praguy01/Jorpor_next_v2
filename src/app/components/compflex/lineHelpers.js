@@ -29,7 +29,7 @@ export async function sendFlexMessageToLine(flexMessage, userId) {
   }
 }
 
-async function startLoadingAnimation(chatId) {
+export async function startLoadingAnimation(chatId) {
   try {
     const response = await axios.post(
       'https://api.line.me/v2/bot/chat/loading/start',
@@ -51,7 +51,7 @@ async function startLoadingAnimation(chatId) {
 }
 
 // ฟังก์ชันสำหรับหยุด Loading Indicator
-async function stopLoadingAnimation(chatId) {
+export async function stopLoadingAnimation(chatId) {
   try {
     const response = await axios.post(
       'https://api.line.me/v2/bot/chat/loading/stop',
