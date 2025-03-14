@@ -1,4 +1,7 @@
 import axios from 'axios';
+// import line from '@line/bot-sdk';
+// import db from '../../../lib/db';
+// import 'dotenv/config';
 // ฟังก์ชันสร้าง Flex Message จากข้อมูลพนักงาน
 export function createEmployeeFlexMessage(employeeData, role) {
     // ตรวจสอบว่า employeeData มีข้อมูลหรือไม่
@@ -749,28 +752,4 @@ export function createExamineUseEmployeeFlexMessage(examineUseEmp) {
     },
   };
 }
-const config = {
-  channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN,
-  channelSecret: process.env.SECRETCODE
-};
-// ฟังก์ชันส่ง FlexMessage ไป Line
-export async function sendFlexMessageToLine(flexMessage, userId) {
-  const lineApiUrl = "https://api.line.me/v2/bot/message/push";
 
-  const messagePayload = {
-    to: userId,  // LINE User ID ที่จะส่งข้อความถึง
-    messages: [flexMessage]
-  };
-
-  try {
-    await axios.post(lineApiUrl, messagePayload, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${config.channelAccessToken}`
-      }
-    });
-    console.log('Flex Message ส่งสำเร็จ!');
-  } catch (error) {
-    console.error('Error sending message to LINE:', error.message);
-  }
-}
