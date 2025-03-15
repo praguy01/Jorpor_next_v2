@@ -324,13 +324,7 @@ export default  function CompLogin() {
                       )}
 
                       <button  className='  mt-[60px] text-[12px] md:text-[16px] md:mt-[100px]  border-[#5A985E] bg-[#5A985E] px-10  py-1 md:py-2 rounded-[20px] text-[#fff] hover:-translate-y-0.5 duration-200 '>Login</button>
-                      
-
-                      <div className='flex justify-center items-center text-center text-[12px] md:text-[16px]   mt-[15px]' >
-                        
-                        <p className='mr-[10px] '>Don&apos;t Have an Account? </p>
-                        <Link href="/register" className=' text-[#5A985E] '>sign in</Link>
-                      </div>
+            
 
                       {isLoading && (
                         <div className='flex mx-auto ml-[110px]  md:ml-[190px]  absolute' >

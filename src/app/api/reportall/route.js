@@ -1,4 +1,3 @@
-import axios from 'axios';
 import db from '../../../lib/db';
 import { NextResponse } from 'next/server';
 import { format } from 'date-fns';

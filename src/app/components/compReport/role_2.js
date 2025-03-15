@@ -73,6 +73,10 @@ function App() {
   
   // console.log("WINDOWWHHHH: ", chartWidth,chartHeight);
 
+  const axiosInstance = axios.create({
+    timeout: 20000, //
+  });
+
 
 
   useEffect(() => {
@@ -91,7 +95,7 @@ function App() {
         const dataDetail = JSON.stringify(AddData);
         // console.log("send: ",dataDetail)
 
-        const response = await axios.post('/api/reportall', dataDetail, {
+        const response = await axiosInstance.post('/api/reportall', dataDetail, {
           headers: { 'Content-Type': 'application/json' },
         });
 
