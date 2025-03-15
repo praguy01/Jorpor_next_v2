@@ -59,19 +59,31 @@ function App() {
     const [erraddmessage, setErraddMessage] = useState(false);
     const [errorAddMessage, setErrorAddMessage] = useState('');
 
-    const myData = JSON.parse(localStorage.getItem('myData'));
-    console.log("mee",myData);
+    // const myData = JSON.parse(localStorage.getItem('myData'));
+    // console.log("mee",myData);
+
+    useEffect(() => {
+      if (typeof window !== "undefined") {
+        const storedData = localStorage.getItem("myData");
+        if (storedData) {
+          const parsedData = JSON.parse(storedData);
+          console.log("mee", parsedData.data.id);
+          setId(parsedData.data.id);
+        }
+      }
+    }, []);
 
     useEffect(() => {
       const fetchData = async () => {
+        if (!id) return;
         try {
-          const storedId = myData.data.id;
-          if (storedId) {
-            setId(storedId);
-            // console.log('Stored: ', storedId);
-          }
+          // const storedId = myData.data.id;
+          // if (storedId) {
+          //   setId(storedId);
+          //   // console.log('Stored: ', storedId);
+          // }
   
-          const AddData = { storedId ,fetch_role_3: true};
+          const AddData = { storedId:id ,fetch_role_3: true};
           const data = JSON.stringify(AddData);
           // console.log('DD: ', data);
   
@@ -101,7 +113,7 @@ function App() {
       };
   
       fetchData();
-    }, [reloadData]);
+    }, [reloadData,id]);
   
     // const fetchDataForSelectedOption = async () => {
     //   try {

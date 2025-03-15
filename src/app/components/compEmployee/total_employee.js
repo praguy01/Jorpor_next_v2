@@ -140,12 +140,13 @@ function App() {
            <div className='mt-[20px] '>
 
            <button
-              onClick={() => openPopup("Safety Officer Professional level","Safety Officer Professional level")}
+              onClick={() => openPopup("Safety Officer Supervisory level","Safety Officer Supervisory level")}
               className="text-[16px] md:text-[16px] border-[#5A985E] bg-[#5A985E] px-10 py-1 md:py-2 rounded-[20px] text-white hover:-translate-y-0.5 duration-200"
             >
-              {t("Safety Officer Professional level")}
+              {t("Safety Officer Supervisory level")}
             </button>
           </div>
+
           <div className="mt-[25px]">
             <button
               onClick={() => openPopup("Safety Officer Technical level","Safety Officer Technical level")}
@@ -154,61 +155,64 @@ function App() {
               {t("Safety Officer Technical level")}
             </button>
           </div>
+
           <div className="mt-[25px]">
             <button
-              onClick={() => openPopup("Safety Officer Supervisory level","Safety Officer Supervisory level")}
+              onClick={() => openPopup("Safety Officer Management level","Safety Officer Management level")}
               className="text-[16px] md:text-[16px] border-[#5A985E] bg-[#5A985E] px-10 py-1 md:py-2 rounded-[20px] text-white hover:-translate-y-0.5 duration-200"
             >
-              {t("Safety Officer Supervisory level")}
+              {t("Safety Officer Management level")}
             </button>
           </div>
         </div>
 
         {showPopup && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-            <div className="bg-white p-6 rounded-lg shadow-lg w-[300px] flex flex-col items-center">
-              <h2 className="text-lg font-bold mb-4 text-center">{popupContent}</h2>
-              <div className="mb-4 w-full">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Employee:
-              </label>
-              <input
-                type="text"
-                value={employee}
-                onChange={(e) => setEmployee(e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded-lg"
-                placeholder="Enter employee "
-              />
-            </div>
-            <div className="mb-4 w-full">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Position:
-              </label>
-              <input
-                type="text"
-                value={position}
-                readOnly // ช่องนี้เป็นแบบอ่านอย่างเดียว
-                className="w-full p-2 border border-gray-300 rounded-lg"
-                
-              />
-            </div>
-              <div className="flex justify-center space-x-4">
-              <button
-                onClick={closePopup}
-                className="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
-              >
-                Close
-              </button>
-              <button
-                onClick={handleOkClick} // สามารถเปลี่ยนฟังก์ชันนี้ได้
-                className="mt-4 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
-              >
-                 OK
-              </button>
-              </div>
-            </div>
-          </div>
-        )}
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+    <div className="bg-white p-6 rounded-lg shadow-lg w-[400px] flex flex-col items-center">
+      <h2 className="text-lg font-bold mb-4 text-center text-[#5A985E]">
+        {popupContent}
+      </h2>
+      <div className="mb-4 w-full">
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Employee:
+        </label>
+        <input
+          type="text"
+          value={employee}
+          onChange={(e) => setEmployee(e.target.value)}
+          className="w-full p-2 border border-gray-300 rounded-lg text-gray-800 placeholder-gray bg-white"
+          placeholder="Enter employee"
+        />
+      </div>
+      <div className="mb-4 w-full">
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Position:
+        </label>
+        <input
+          type="text"
+          value={position}
+          readOnly
+          className="w-full p-2 border border-gray-300 rounded-lg text-gray-800 bg-white"
+        />
+      </div>
+      <div className="flex justify-center space-x-4">
+        <button
+          onClick={closePopup}
+          className="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+        >
+          Close
+        </button>
+        <button
+          onClick={handleOkClick}
+          className="mt-4 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+        >
+          OK
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
            
         </div>
         

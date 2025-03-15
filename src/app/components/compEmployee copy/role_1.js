@@ -63,15 +63,26 @@ function App() {
     //   selectedOptionRef.current = selectedOption;
     // }, [selectedOption]);
 
-    const myData = JSON.parse(localStorage.getItem('myData'));
-    console.log("mee",myData.data.id);
+    // const myData = JSON.parse(localStorage.getItem('myData'));
+    // console.log("mee",myData.data.id);
+
+    useEffect(() => {
+      if (typeof window !== "undefined") {
+        const storedData = localStorage.getItem("myData");
+        if (storedData) {
+          const parsedData = JSON.parse(storedData);
+          console.log("mee", parsedData.data.id);
+          setId(parsedData.data.id);
+        }
+      }
+    }, []);
     
     const fetchDataForSelectedOption = useCallback(async () => {
       try {
          console.log('Selected Option88: ', localStorage);
-        const storedId = myData.data.id;
+        //const storedId = myData.data.id;
 
-        const AddData = { selectedOption,storedId, fetch: true };
+        const AddData = { selectedOption,storedId:id, fetch: true };
         const data = JSON.stringify(AddData);
          console.log('BBkk: ', data);
     
@@ -106,21 +117,22 @@ function App() {
         console.error('Error fetching data:', error);
         setMessage('');
       }
-    }, [selectedOption, setTodoList, setMessage]);
+    }, [selectedOption, setTodoList, setMessage,id]);
     
     
     useEffect(() => {
       
       const fetchData = async () => {
+        if (!id) return;
         try {
           console.log('Storedmmmmm: ');
-          const storedId = myData.data.id;
-          if (storedId) {
-            setId(storedId);
+          //const storedId = myData.data.id;
+          // if (storedId) {
+          //   setId(storedId);
             
-          }
+          // }
     
-          const AddData = { storedId , zone: true };
+          const AddData = { storedId:id , zone: true };
           const data = JSON.stringify(AddData);
            console.log('DDff: ', data);
     
@@ -149,7 +161,7 @@ function App() {
       };
     
       fetchData();
-    }, [setSelectedOption, setNameExamineList, setMessage]);
+    }, [setSelectedOption, setNameExamineList, setMessage,id]);
     
 
     // Call the second useEffect function when the selected option changes
@@ -181,7 +193,7 @@ function App() {
     // console.log("employee: ",employee)  
     // console.log("name: ",name )  
     // console.log("lastname: ",lastname,selectedOption)
-    const storedId = localStorage.getItem('id');
+    //const storedId = localStorage.getItem('id');
 
     try {
       

@@ -246,9 +246,9 @@ i18n
           "Administrator":"ผู้ดูแลระบบ",
           "Register":"ลงทะเบียน",
           "Document":"เอกสาร",
-          "Safety Officer Professional level":"เจ้าหน้าที่ความปลอดภัยระดับหัวหน้างาน",
+          "Safety Officer Supervisory level":"เจ้าหน้าที่ความปลอดภัยระดับหัวหน้างาน",
           "Safety Officer Technical level":"เจ้าหน้าที่ความปลอดภัยระดับเทคนิค",
-          "Safety Officer Supervisory level":"เจ้าหน้าที่ความปลอดภัยระดับบริหาร"
+          "Safety Officer Management level":"เจ้าหน้าที่ความปลอดภัยระดับบริหาร"
         },
       },
     },
@@ -258,6 +258,5 @@ i18n
       escapeValue: false,
     },
   });
-
 
 export default i18n;
