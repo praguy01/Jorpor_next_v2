@@ -70,7 +70,7 @@ function App() {
   }, []);
 
   const axiosInstance = axios.create({
-    timeout: 20000, //
+    timeout: 120000, //
   });
 
 

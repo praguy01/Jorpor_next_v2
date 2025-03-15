@@ -1002,80 +1002,80 @@ export async function POST(request) {
       return NextResponse.json({ success: true ,dbnotify_name: groupedData ,percent: reversedCalPercentCopy});
     }
 
-    if (res.responseDetail) {
-      try {
+    // if (res.responseDetail) {
+    //   try {
 
-        // const getfileQuery = 'SELECT file FROM notify WHERE title = ?';
-        // const [fileResult] = await db.query(getfileQuery,[res.responseValue]);
+    //     // const getfileQuery = 'SELECT file FROM notify WHERE title = ?';
+    //     // const [fileResult] = await db.query(getfileQuery,[res.responseValue]);
       
-        // console.log("file: ",fileResult[0].file)
+    //     // console.log("file: ",fileResult[0].file)
 
 
 
-        const getQuery = 'SELECT * FROM notify WHERE id = ?';
-        const [responseResult] = await db.query(getQuery ,[res.id]);
+    //     const getQuery = 'SELECT * FROM notify WHERE id = ?';
+    //     const [responseResult] = await db.query(getQuery ,[res.id]);
 
-        // console.log("rusultRoot: ",responseResult)
+    //     // console.log("rusultRoot: ",responseResult)
 
-        return NextResponse.json({ success: true , message: 'successfully!' , responseResult: responseResult});
-      } catch (error) {
-        console.error('ErrorEditEx:', error);
-        return NextResponse.json({ success: false, error: error.message });
-      }
-    }
+    //     return NextResponse.json({ success: true , message: 'successfully!' , responseResult: responseResult});
+    //   } catch (error) {
+    //     console.error('ErrorEditEx:', error);
+    //     return NextResponse.json({ success: false, error: error.message });
+    //   }
+    // }
 
-    if (res.responseDetail_role_3) {
-      try {
-
-
-        const getQuery = "SELECT * FROM notify WHERE id = ?";
-        const [responseResult] = await db.query(getQuery , [res.idValue]);
+    // if (res.responseDetail_role_3) {
+    //   try {
 
 
-        // console.log("rusultRoot: ",responseResult)
+    //     const getQuery = "SELECT * FROM notify WHERE id = ?";
+    //     const [responseResult] = await db.query(getQuery , [res.idValue]);
 
-        return NextResponse.json({ success: true , message: 'successfully!' , responseResult: responseResult});
-      } catch (error) {
-        console.error('ErrorEditEx:', error);
-        return NextResponse.json({ success: false, error: error.message });
-      }
-    }
+
+    //     // console.log("rusultRoot: ",responseResult)
+
+    //     return NextResponse.json({ success: true , message: 'successfully!' , responseResult: responseResult});
+    //   } catch (error) {
+    //     console.error('ErrorEditEx:', error);
+    //     return NextResponse.json({ success: false, error: error.message });
+    //   }
+    // }
 
 
     
-    if (res.response_role_2) {
-      try {
+    // if (res.response_role_2) {
+    //   try {
 
 
-        const getQuery = "SELECT * FROM notify WHERE Verification_status = 'Pending approval'";
-        const [responseResult] = await db.query(getQuery);
+    //     const getQuery = "SELECT * FROM notify WHERE Verification_status = 'Pending approval'";
+    //     const [responseResult] = await db.query(getQuery);
 
 
-        // console.log("rusultRoot: ",responseResult)
+    //     // console.log("rusultRoot: ",responseResult)
 
-        return NextResponse.json({ success: true , message: 'successfully!' , responseResult: responseResult});
-      } catch (error) {
-        console.error('ErrorEditEx:', error);
-        return NextResponse.json({ success: false, error: error.message });
-      }
-    }
+    //     return NextResponse.json({ success: true , message: 'successfully!' , responseResult: responseResult});
+    //   } catch (error) {
+    //     console.error('ErrorEditEx:', error);
+    //     return NextResponse.json({ success: false, error: error.message });
+    //   }
+    // }
 
-    if (res.response_role_3) {
-      try {
-
-
-        const getQuery = "SELECT * FROM notify WHERE Verification_status = 'Approve'";
-        const [responseResult] = await db.query(getQuery);
+    // if (res.response_role_3) {
+    //   try {
 
 
-        // console.log("rusultRoot: ",responseResult)
+    //     const getQuery = "SELECT * FROM notify WHERE Verification_status = 'Approve'";
+    //     const [responseResult] = await db.query(getQuery);
 
-        return NextResponse.json({ success: true , message: 'successfully!' , responseResult: responseResult});
-      } catch (error) {
-        console.error('ErrorEditEx:', error);
-        return NextResponse.json({ success: false, error: error.message });
-      }
-    }
+
+    //     // console.log("rusultRoot: ",responseResult)
+
+    //     return NextResponse.json({ success: true , message: 'successfully!' , responseResult: responseResult});
+    //   } catch (error) {
+    //     console.error('ErrorEditEx:', error);
+    //     return NextResponse.json({ success: false, error: error.message });
+    //   }
+    // }
 
 
 
