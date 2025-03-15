@@ -662,9 +662,9 @@ export async function POST(request) {
             // console.log("Reversed Distinct Dates22222:", dateArray);
             dateArray.reverse();
 
-            dateArray.splice(5);
+            dateArray.splice(1);
           } else {
-            dateArray.splice(5);
+            dateArray.splice(1);
           }
           // dateArray.reverse();
 
@@ -683,7 +683,7 @@ export async function POST(request) {
         
         // console.log("DATEE1111-------------------: ",getChecklist_R2QueryResult.length , getChecklist_R2QueryResult)
         // If there are more than 5 dates, take the most recent 5
-        if (dateArray.length >= 5) {
+        if (dateArray.length >= 1) {
           // const day = currentDate.getDate() - 5;
           // const month = currentDate.getMonth() + 1; 
           // const year = currentDate.getFullYear();
@@ -691,12 +691,12 @@ export async function POST(request) {
           if (!dateArray.includes(formattedDate)) {
             dateArray.push(formattedDate);
             dateArray.reverse();
-            dateArray.splice(5);
+            dateArray.splice(1);
             dateArray.reverse();
 
            
           } else if (dateArray.includes(formattedDate)) {
-            while (dateArray.length < 5) {
+            while (dateArray.length < 1) {
               // console.log("CHECKKKKK///////////////////2222: ",dateArray)
 
               currentDate.setDate(currentDate.getDate() - 1);
@@ -712,7 +712,7 @@ export async function POST(request) {
             }
           } 
           else {
-          while (dateArray.length < 5) {
+          while (dateArray.length < 1) {
             currentDate.setDate(currentDate.getDate() - 1);
           
             const day = currentDate.getDate();
@@ -729,7 +729,7 @@ export async function POST(request) {
           }
           
           
-          } else if ( getChecklist_R2QueryResult.length < 5){
+          } else if ( getChecklist_R2QueryResult.length < 1){
             while (dateArray.length <= (getChecklist_R2QueryResult.length - 1)) {
 
             currentDate.setDate(currentDate.getDate() - 1);

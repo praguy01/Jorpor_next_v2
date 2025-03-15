@@ -19,7 +19,6 @@ import { initReactI18next } from 'react-i18next';
 import axios from 'axios';
 import { TiWarning } from "react-icons/ti";
 
-
 function CompReportresults2() {
   return (
     <CompLanguageProvider>
@@ -31,10 +30,6 @@ function CompReportresults2() {
 function App() {
   const { language, toggleLanguage } = useLanguage();
   const { t } = useTranslation();
-//   const chartRef = useRef(null);
-//   const [percentage, setPercentage] = useState(0);
-
-  
 
   const localizer = momentLocalizer(moment);
   const [eventName, setEventName] = useState(''); // เพิ่ม eventName และ setEventName
@@ -58,10 +53,8 @@ function App() {
       // console.log("WINDOWW: ", window.innerWidth);
     };
 
-    // Attach the event listener when the component mounts
     window.addEventListener('resize', handleResize);
 
-    // Initialize chartWidth and chartHeight based on window size
     setChartWidth(window.innerWidth < 768 ? 300 : 600);
     setChartHeight(window.innerWidth < 768 ? 200 : 300);
 
@@ -96,7 +89,6 @@ function App() {
           headers: { 'Content-Type': 'application/json' },
         });
 
-        // const response = await axios.get('/api/notify'); // แทน '/api/examine' ด้วยเส้นทางที่ถูกต้องไปยัง API ของคุณ
         const data = response.data;
 
         if (response.status === 200) {
@@ -132,40 +124,12 @@ function App() {
                   // console.log("ไม่มีข้อมูล");
 
                 }
-
-                
-                // console.log("************",hasArrayWithZeroLength);
-
               }
 
             }
-           
-
-            // const groupedData = [];
-
-            // // วนลูป Array เพื่อจัดกลุ่ม
-            // data.dbnotify_name.forEach(item => {
-            //   const inspector  = item.inspector;
-
-            //   // ถ้ายังไม่มี key นี้ใน Object groupedData ให้สร้าง key ใหม่
-            //   if (!groupedData[inspector]) {
-            //     groupedData[inspector] = [];
-            //   }
-
-            //   // เพิ่มข้อมูลลงในกลุ่มที่เป็น key เดียวกัน
-            //   groupedData[inspector].push(item);
-            // });
-
-            // // แสดงผลลัพธ์
-            // console.log("resultGroup",groupedData);
+  
             setTodoList(data.dbnotify_name);
-            // const notifyData = data.responseResult.map(item => ({
-            //   id: item.id,
-            //   title: item.title,
-            //   date: item.date,
-            //   Verification_status: item.Verification_status
-            // }));
-            // setTodoList(notifyData.reverse());
+    
           } else {
             setMessage(data.error);
           }
@@ -180,124 +144,6 @@ function App() {
 
     fetchData();
   }, []); // โหลดข้อมูลเมื่อค่า state reloadData เปลี่ยนแปลง
-
-//   const handlePreviousDate = () => {
-//     const previousDate = new Date(currentDate);
-//     previousDate.setDate(currentDate.getDate() - 1);
-//     setCurrentDate(previousDate);
-//   };
-  
-//   const handleNextDate = () => {
-//     const nextDate = new Date(currentDate);
-//     nextDate.setDate(currentDate.getDate() + 1);
-//     setCurrentDate(nextDate);
-//   };
-
-//   useEffect(() => {
-//     if (chartRef.current) {
-//       const ctx = chartRef.current.getContext('2d');
-//       new Chart(ctx, {
-//         type: 'bar',
-//         data: {
-//           labels: ['1 week', '1 month', '5 months', '1 year'],
-//           datasets: [
-//             {
-//               label: 'เครื่องจักร',
-//               data: [12, 19, 3, 5],
-//               backgroundColor: 'rgba(255, 99, 132)',
-//               borderWidth: 1,
-//             },
-//             {
-//               label: 'การแต่งกาย',
-//               data: [8, 15, 5, 8],
-//               backgroundColor: 'rgba(54, 162, 235)',
-//               borderWidth: 1,
-//             },
-//             {
-//               label: 'พื้นที่เสี่ยง',
-//               data: [5, 10, 2, 4],
-//               backgroundColor: 'rgba(255, 206, 86)',
-//               borderWidth: 1,
-//             },
-//           ],
-//         },
-//         options: {
-//           scales: {
-//             y: {
-//               beginAtZero: true,
-//             },
-//           },
-//         },
-//       });
-//     }
-
-//     var lineCtx = document.getElementById('lineChart').getContext('2d');
-//     var lineChart = new Chart(lineCtx, {
-//       type: 'line',
-//       data: {
-//         labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-//         datasets: [
-//           {
-//             data: [86, 114, 106, 106, 107, 111, 133],
-//             label: "เครื่องจักร",
-//             borderColor: "#c45850",
-//             backgroundColor: "#d78f89",
-//             fill: false,
-//           },
-//           {
-//             data: [10, 21, 60, 44, 17, 21, 17],
-//             label: "การแต่งกาย",
-//             borderColor: "#3e95cd",
-//             backgroundColor: "#7bb6dd",
-//             fill: false,
-//           },
-//           {
-//             data: [6, 3, 2, 2, 7, 0, 16],
-//             label: "พื้นที่เสี่ยง",
-//             borderColor: "#ffa500",
-//             backgroundColor: "#ffc04d",
-//             fill: false,
-//           },
-//         ]
-//       },
-//     });
-//   }, []);
-
-  // useEffect(() => {
-  //   fetch('/api/calculatePercentage')
-  //     .then((response) => response.json())
-  //     .then((data) => setPercentage(data.percentage))
-  //     .catch((error) => console.error('Error:', error));
-  // }, []);
-  // for (const userId in todoZone) {
-  //   console.log("userId: ", userId);
-  
-  //   // Accessing the array within each userId property
-  //   const idArray = todoZone[userId];
-  
-  //   // Check if idArray is an array before iterating
-  //   if (Array.isArray(idArray)) {
-  //     for (const idObject of idArray) {
-  //       for (const zone in idObject) {
-  //         // Accessing individual zone objects within idObject
-  //         const zoneData = idObject[zone];
-  //         console.log("Zone Object:", zoneData , userId);
-  //         console.log("Name:", zoneData.name , userId);
-  //         console.log("Percentage Zone:", zoneData.percentageZone , userId);
-  //       }
-  //     }
-  //   }
-  // }
-      
-
-      // const idValue = Object.keys(idObject)[0];
-      // const examineArray = idObject[idValue].examine_id;
-
-      // for (const examineInfo of examineArray) {
-      //   // Now you can access properties of examineInfo
-      // }
-    
-      
     
       const colors = ["#38B6FF","#6699FF", "#5271FF",  "#6633FF","#6633CC", "#9966FF","#9999FF","#99CCFF"];
       const data = [];
@@ -355,8 +201,6 @@ function App() {
     }
         data.push(newDataItem);
 
-    // console.log("percentage Data:", data);
-    // console.log("ZONEEEEEEEEE:", Zone);
 
 }
 
@@ -491,37 +335,8 @@ function App() {
                 {/* </div> */}
 
                 </div>
-                {/* const data = [
-                { name: 'วันที่', A: 10, B: 24, C: 24, D: 24, amt: 24 },
-                { name: 'วันที่', A: 30, B: 13, C: 24,D: 24, amt: 22 },
-                { name: 'การแต่งกาย', A: 20, B: 98, C: 24,D: 24, amt: 22 },
-                { name: 'ถังดับเพลิง', A: 20, B: 98, C: 24, amt: 22 },
-
-                // เพิ่มข้อมูลเพิ่มเติมตรงนี้
-              ]; */}
-                {/* {console.log("data.data: ",data)}
-                <ResponsiveContainer width="100%" height={300}>
-                <LineChart
-                  data={data.data}
-                  margin={{ top: 30, right: 30, left: 20, bottom: 5 }}
-                  radius={[20]}
-                  className=' bg-[#fff] rounded-[20px]'
-                >
-                  <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                  <YAxis tick={{ fontSize: 12 }} domain={[0, 100]} />
-                  <CartesianGrid stroke="#eee" strokeDasharray="3 3" />
-                  <Line type="monotone" dataKey="A" stroke="#38B6FF" activeDot={{ r: 8 }} />
-                  <Line type="monotone" dataKey="B" stroke="#5271FF" activeDot={{ r: 2 }} />
-                  <Line type="monotone" dataKey="C" stroke="#8C52FF" activeDot={{ r: 5 }} />
-                  <Line type="monotone" dataKey="D" stroke="#8C52FF" activeDot={{ r: 5 }} />
-                  <Tooltip contentStyle={{ fontSize: 12 }} />
-                  <Legend />
-                </LineChart>
-              </ResponsiveContainer>
-              </div>
-
-             
-                </div> */}
+              
+                
               
             {/* <div className='justify-center items-center mx-auto text-center md:w-[650px] h-[170px] md:h-[250px] md:mt-[20px] mt-[10px] rounded-[30px] bg-[#fff] shadow-lg'>
               <canvas ref={chartRef} className='mx-auto md:h-[250px] h-[170px] ' id="myChart"></canvas>
@@ -567,9 +382,6 @@ function App() {
             </div>
 
 
-
-
-
           <div className='mx-auto  lg:mt-[10px] md:mt-[50px] mt-[30px] justify-center '>
             <div className=' text-[12px] md:text-[20px] w-[300px]  lg:ml-[50px] h-[500px] md:h-[600px]  md:w-[587px] py-2 rounded-[20px]  md:py-4 bg-[#D9D9D9]  mx-auto shadow-lg'>
               <div className=' flex items-center bg-[#5A985E] w-[300px] md:w-[587px] md:h-[64px] mt-[-10px] h-[44px] rounded-t-[20px] md:mt-[-15px]'>
@@ -582,7 +394,7 @@ function App() {
 
                 {todoList.key && Array.isArray(todoList.key) && todoList.key.map((item, index) => (
                   
-                  <Link href={`/reportingResults_role_2?id=${item.id}`} key={index}>
+                  <Link href={`/linereportingResults_role_2?id=${item.id}`} key={index}>
                   <div className={'mx-auto mt-[8px] w-[250px] p-2 h-[100px] md:h-[120px] md:w-[500px] px-2 text-black flex-col bg-[#FFF] text-center rounded-[15px] '}>
                     {/* {console.log("TODOLIST: ",key)} */}
                     <div className='flex justify-center  h-[40px]  md:ml-[8px]  mt-[5px]'>
@@ -613,10 +425,8 @@ function App() {
                 ))}
                 </div>
               </div>
-              
           </div>
-        </div>
-          
+        </div>   
       </div>
       </div>
    

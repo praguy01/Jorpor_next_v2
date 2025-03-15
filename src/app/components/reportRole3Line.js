@@ -582,7 +582,7 @@ function App() {
 
                 {todoList.key && Array.isArray(todoList.key) && todoList.key.map((item, index) => (
                   
-                  <Link href={`/reportingResults_role_3?id=${item.id}`} key={index}>
+                  <Link href={`/linereportingResults_role_3?id=${item.id}`} key={index}>
                   <div className={'mx-auto mt-[8px] w-[250px] p-2 h-[100px] md:h-[120px] md:w-[500px] px-2 text-black flex-col bg-[#FFF] text-center rounded-[15px] '}>
                     {/* {console.log("TODOLIST: ",key)} */}
                     <div className='flex justify-center  h-[40px]  md:ml-[8px]  mt-[5px]'>
@@ -619,8 +619,6 @@ function App() {
           
       </div>
       </div>
-   
-   
     
   );
 }
