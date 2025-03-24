@@ -14,7 +14,7 @@ export async function GET(req) {
       ...row,
       file_url: row.file_url ? row.file_url.toString('base64') : null,
     }));
-    console.log("kkkkk",documents);
+    //console.log("kkkkk",documents);
 
     return new Response(JSON.stringify(documents), {
       headers: {

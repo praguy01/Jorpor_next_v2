@@ -33,7 +33,7 @@
     "chart.js": "^4.4.3",
     "cors": "^2.8.5",
     "date-fns": "^2.30.0",
-    "date-fns-tz": "^2.0.0",
+    "date-fns-tz": "^2.0.1",
     "docx": "^9.2.0",
     "dotenv": "^16.4.7",
     "engine.io-client": "^6.5.3",

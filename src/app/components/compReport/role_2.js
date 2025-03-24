@@ -42,13 +42,15 @@ function App() {
 
   const [currentDate, setCurrentDate] = useState(new Date());
   const [message, setMessage] = useState('');
-  const [todoList, setTodoList] = useState([]);
+  //const [todoList, setTodoList] = useState([]);
   const [todoZone, setTodoZone] = useState([]);
   const [todoAll, setTodoAll] = useState([]);
   const [chartWidth, setChartWidth] = useState(600);
   const [chartHeight, setChartHeight] = useState(300);
   const [dataToday, setdataToday] = useState(true);
   const [id, setId] = useState('');
+  const [todoList, setTodoList] = useState({ key: [] });
+
 
   useEffect(() => {
     const handleResize = () => {
@@ -161,6 +163,8 @@ function App() {
 
             // // แสดงผลลัพธ์
             // console.log("resultGroup",groupedData);
+            //console.log("todoList:", todoList);
+
             setTodoList(data.dbnotify_name);
             // const notifyData = data.responseResult.map(item => ({
             //   id: item.id,
@@ -468,7 +472,8 @@ function App() {
                 </div>
                 <div className='mx-auto w-[280px] md:w-[550px]   md:h-[500px]  h-[440px] text-black flex flex-col    bg-[#D9D9D9] md:rounded-[30px] rounded-[30px] mt-[10px] overflow-auto '>
 
-                {todoList.key && Array.isArray(todoList.key) && todoList.key.map((item, index) => (
+                {todoList?.key && Array.isArray(todoList.key) && todoList.key.map((item, index) => (
+
                   
                   <Link href={`/reportingResults_role_2?id=${item.id}`} key={index}>
                   <div className={'mx-auto mt-[8px] w-[250px] p-2 h-[100px] md:h-[120px] md:w-[500px] px-2 text-black flex-col bg-[#FFF] text-center rounded-[15px] '}>
