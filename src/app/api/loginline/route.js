@@ -59,11 +59,11 @@ export async function POST(request) {
           userResult.lineUserId = res.formData.lineUserId;
         }
 
-          const richMenuDefault = 'richmenu-923aee89b04958d003673f93e35130ff'; // Rich Menu LOG IN
+          const richMenuDefault = 'richmenu-72e490718b2bb0a6760ea1e38b18120f'; // Rich Menu LOG IN
           const richMenuIds = {
-            'Safety Officer Supervisory level': 'richmenu-f13d957ffd951431519dfed3ea83c125', //role 1
-            'Safety Officer Technical level': 'richmenu-aa764ae498026eda51ef80f3bb9da379',    //role 2
-            'Safety Officer Management level': 'richmenu-d85420fc547341e55cc8cae3b5520c8d',  //role 3
+            'Safety Officer Supervisory level': 'richmenu-e3a212767ceac87e004e3a4abcb8b80c', //role 1
+            'Safety Officer Technical level': 'richmenu-3f5b4336792a021fed24bbf48ed23e73',    //role 2
+            'Safety Officer Management level': 'richmenu-66476bcd795c084e745548bcde99659c',  //role 3
           };
 
 
