@@ -7,14 +7,10 @@ import { type } from 'os';
 import { text } from 'body-parser';
 import { layer } from '@fortawesome/fontawesome-svg-core';
 import { table } from 'console';
-import fs from 'fs';
-import path from 'path';
-import axios from 'axios';
-import FormData from 'form-data';
 import {sendFlexMessageToLine, startLoadingAnimation, stopLoadingAnimation} from '../../components/compflex/lineHelpers';
 //import { config, client, sendFlexMessageToLine } from '../../components/compflex/flexMessage';
 import {createEmployeeFlexMessage,createPlanFlexMessage,createZoneListFlexMessage,
-  createExamineFlexMessage,createExamineNameFlexMessage,createExamineUseEmployeeFlexMessage} from '../../components/compflex/flexMessage';
+  createExamineFlexMessage,createExamidsneNameFlexMessage,createExamineUseEmployeeFlexMessage} from '../../components/compflex/flexMessage';
 
 const line = require('@line/bot-sdk');
 const router = express.Router();
