@@ -76,7 +76,7 @@ function App() {
   // console.log("WINDOWWHHHH: ", chartWidth,chartHeight);
 
   const axiosInstance = axios.create({
-    timeout: 120000, //
+    timeout: 300000, //
   });
 
 
