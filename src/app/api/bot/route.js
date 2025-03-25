@@ -7,6 +7,10 @@ import { type } from 'os';
 import { text } from 'body-parser';
 import { layer } from '@fortawesome/fontawesome-svg-core';
 import { table } from 'console';
+import fs from 'fs';
+import path from 'path';
+import axios from 'axios';
+import FormData from 'form-data';
 import {sendFlexMessageToLine, startLoadingAnimation, stopLoadingAnimation} from '../../components/compflex/lineHelpers';
 //import { config, client, sendFlexMessageToLine } from '../../components/compflex/flexMessage';
 import {createEmployeeFlexMessage,createPlanFlexMessage,createZoneListFlexMessage,
@@ -645,8 +649,10 @@ async function fetchZonesForUser(lineUserId) {
 
 async function downloadImage(messageId) {
   try {
-    const tempDir = path.join(__dirname, 'temp'); // โฟลเดอร์ temp
+    //const tempDir = path.join(__dirname, 'temp'); // โฟลเดอร์ temp
+    const tempDir = '/tmp';
     const filePath = path.join(tempDir, `${messageId}.jpg`); // ที่อยู่ไฟล์
+    
 
     // ตรวจสอบว่า temp มีอยู่หรือยัง
     if (!fs.existsSync(tempDir)) {
