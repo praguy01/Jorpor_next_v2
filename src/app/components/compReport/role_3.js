@@ -88,7 +88,7 @@ function App() {
       try {
         const AddData = { storedId, fetch_role_3 : true};
         const dataDetail = JSON.stringify(AddData);
-        // console.log("send: ",dataDetail)
+         console.log("send: ",dataDetail)
 
         const response = await axiosInstance.post('/api/reportall', dataDetail, {
           headers: { 'Content-Type': 'application/json' },
@@ -99,7 +99,7 @@ function App() {
 
         if (response.status === 200) {
           if (data.success === true) {
-            // console.log("DATA: ",data)
+             console.log("DATA: ",data)
             for (const percentage of data.percent){
               // console.log("percentage: ",percentage)
               if (percentage.currentDateA === formattedDate) {
@@ -452,7 +452,7 @@ function App() {
                   
                   <Link href={`/reportingResults_role_3?id=${item.id}`} key={index}>
                   <div className={'mx-auto mt-[8px] w-[250px] p-2 h-[100px] md:h-[120px] md:w-[500px] px-2 text-black flex-col bg-[#FFF] text-center rounded-[15px] '}>
-                    {/* {console.log("TODOLIST: ",key)} */}
+                    {console.log("TODOLIST: ",item)}
                     <div className='flex justify-center  h-[40px]  md:ml-[8px]  mt-[5px]'>
                       <p className='text-[#000] ml-[5px]  text-[12px] text-left md:text-[15px] w-[250px] md:w-[700px] break-words whitespace-pre-wrap'>
                       <span className='text-[#5A985E] font-bold'>{t('inspector')} : </span> {item.name}  <span className='text-gray-500'>{item.date} {t('N')}</span>

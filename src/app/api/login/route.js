@@ -1,4 +1,3 @@
-
 import db from '../../../lib/db'
 import bcrypt from 'bcryptjs'
 import { NextResponse } from 'next/server';
@@ -7,11 +6,10 @@ import { NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 
 
+
 export async function POST(request)  {
   if (request.method === 'POST') {
     const res = await request.json();
-
-
     console.log("RES-----------------: ",res )
 
     if (res.rememberPassword) {
@@ -28,7 +26,6 @@ export async function POST(request)  {
       const checkemployeeQuery4 = "SELECT COUNT(*) AS employeeCount FROM role_admin WHERE employee = ?";
       const [employeeCountResult4] = await db.query(checkemployeeQuery4, [res.formData.employee]);
 
-
       let userEmployeeTable = false;
       let foundInTable = '';
       let userResult = null; // Initialize to null
@@ -44,29 +41,24 @@ export async function POST(request)  {
         userEmployeeTable = true;
       } else if (employeeCountResult4[0].employeeCount > 0) {
         foundInTable = 'role_admin';
-
         userEmployeeTable = true;
       }
-
-      
+    
       if (userEmployeeTable) {
         const getUserQuery = `SELECT * FROM ${foundInTable} WHERE employee = ?`;
         const [userQueryResult] = await db.query(getUserQuery, [res.formData.employee]);
         userResult = userQueryResult[0]; // Assign the result to the outer-scope variable
-        //console.log("99999999999999:", userResult, userResult?.position);
+        // console.log("88888888888888:", userResult, userResult?.position);
       }
       
-       //console.log("User comes from table:", userEmployeeTable, userResult);
+      // console.log("User comes from table:", userEmployeeTable, userResult);
       
       if (!userEmployeeTable) {
         return NextResponse.json({ success: false, error: 'Account not found. Please register.' });
       }
-
-      
+  
       const storedPassword = userResult.password;
-
-
-      //console.log("Password: ", userResult);
+       //console.log("Password: ", userResult);
 
       const passwordMatch = await bcrypt.compare(res.formData.password, storedPassword);
 
@@ -75,7 +67,6 @@ export async function POST(request)  {
         return NextResponse.json({ success: false, error: 'Invalid password for user ' + res.formData.employee });
         
       } else if (passwordMatch) {
-
         console.log("Login Pass");
        
         const currentTimestamp = Math.floor(Date.now() / 1000);
@@ -103,12 +94,9 @@ export async function POST(request)  {
           return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_role_3' , profile: [userResult] ,token});
         } else if (userResult.position === 'Administrator'){
           console.log("ad22222")
-
-          return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/profile_role_admin' , profile: [userResult] ,token});
+          return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/form' , profile: [userResult] ,token});
         } 
         
-
-
       }
     }
 
@@ -126,7 +114,6 @@ export async function POST(request)  {
       const checkemployeeQuery4 = "SELECT COUNT(*) AS employeeCount FROM role_admin WHERE employee = ?";
       const [employeeCountResult4] = await db.query(checkemployeeQuery4, [res.formData.employee]);
 
-      
       
       let userEmployeeTable = false;
       let foundInTable = '';
@@ -177,7 +164,7 @@ export async function POST(request)  {
       return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_role_3', profile: [userResult], token });
     }else if (userResult.position === 'Administrator') {
       console.log("ad356");
-      return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/profile_role_admin', profile: [userResult], token });
+      return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/form', profile: [userResult], token });
     }
   }
 }
@@ -218,7 +205,7 @@ export async function POST(request)  {
         const getUserQuery = `SELECT * FROM ${foundInTable} WHERE employee = ?`;
         const [userQueryResult] = await db.query(getUserQuery, [res.formData.employee]);
         userResult = userQueryResult[0]; // Assign the result to the outer-scope variable
-        console.log("88888888888888:", userResult, userResult?.position);
+        // console.log("88888888888888:", userResult, userResult?.position);
         console.log("aaaa:", userQueryResult);
       }
 
@@ -263,17 +250,14 @@ export async function POST(request)  {
         // console.log("POSITION/////: ", userResult.position ,[userResult]);
 
         if (userResult.position === 'Safety Officer Supervisory level') {
-          // console.log("111111");
           return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/select', profile: [userResult], token });
         } else if (userResult.position === 'Safety Officer Technical level') {
-          // console.log("22222");
           return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_role_2', profile: [userResult], token });
         } else if (userResult.position === 'Safety Officer Management level') {
-          // console.log("33333");
           return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/report_role_3', profile: [userResult], token });
         } else if (userResult.position === 'Administrator') {
            console.log("ad 33333");
-          return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/profile_role_admin', profile: [userResult], token });
+          return NextResponse.json({ success: true, message: 'Login successful.', redirect: '/form', profile: [userResult], token });
         }
             
       }
@@ -288,4 +272,3 @@ export async function POST(request)  {
   return NextResponse.json({ success: false, error: 'Login failed ' });
 
 }
-

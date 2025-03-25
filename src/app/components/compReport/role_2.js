@@ -42,14 +42,14 @@ function App() {
 
   const [currentDate, setCurrentDate] = useState(new Date());
   const [message, setMessage] = useState('');
-  //const [todoList, setTodoList] = useState([]);
+  const [todoList, setTodoList] = useState([]);
   const [todoZone, setTodoZone] = useState([]);
   const [todoAll, setTodoAll] = useState([]);
   const [chartWidth, setChartWidth] = useState(600);
   const [chartHeight, setChartHeight] = useState(300);
   const [dataToday, setdataToday] = useState(true);
   const [id, setId] = useState('');
-  const [todoList, setTodoList] = useState({ key: [] });
+  //nst [todoList, setTodoList] = useState({ key: [] });
 
 
   useEffect(() => {
@@ -95,7 +95,7 @@ function App() {
       try {
         const AddData = { storedId, fetch_role_2 : true};
         const dataDetail = JSON.stringify(AddData);
-        // console.log("send: ",dataDetail)
+         console.log("send: ",dataDetail)
 
         const response = await axiosInstance.post('/api/reportall', dataDetail, {
           headers: { 'Content-Type': 'application/json' },
@@ -106,7 +106,7 @@ function App() {
 
         if (response.status === 200) {
           if (data.success === true) {
-            // console.log("DATA: ",data)
+             console.log("DATA: ",data)
             for (const percentage of data.percent){
               // console.log("percentage: ",percentage)
               if (percentage.currentDateA === formattedDate) {
@@ -144,26 +144,12 @@ function App() {
               }
 
             }
-           
-
-            // const groupedData = [];
-
-            // // วนลูป Array เพื่อจัดกลุ่ม
-            // data.dbnotify_name.forEach(item => {
-            //   const inspector  = item.inspector;
-
-            //   // ถ้ายังไม่มี key นี้ใน Object groupedData ให้สร้าง key ใหม่
-            //   if (!groupedData[inspector]) {
-            //     groupedData[inspector] = [];
-            //   }
-
-            //   // เพิ่มข้อมูลลงในกลุ่มที่เป็น key เดียวกัน
-            //   groupedData[inspector].push(item);
-            // });
-
+                
             // // แสดงผลลัพธ์
-            // console.log("resultGroup",groupedData);
-            //console.log("todoList:", todoList);
+            //console.log("todoList:", dbnotify_name);
+            //console.log("resultGroup",groupedData);
+            console.log("todoList:", todoList);
+            
 
             setTodoList(data.dbnotify_name);
             // const notifyData = data.responseResult.map(item => ({
@@ -216,11 +202,11 @@ function App() {
     // ทำตามที่ต้องการกับข้อมูลใน data
     for (const key of Object.keys(dataday)) {
       const arrayData = dataday[key];
-      // console.log("Array Data:", arrayData);
+       console.log("Array Data:", arrayData);
   
       // ทำตามที่ต้องการกับข้อมูลใน arrayData
       for (const item of arrayData) {
-        // console.log("Item:", item.name);
+         console.log("Item:", item.name);
         if (!Zone.includes(item.name)) {
           // If not, push it to the array
           Zone.push(item.name);
@@ -290,137 +276,8 @@ function App() {
             </div>
           </div>
 
-
-              
-              {/* <div className=' mx-auto   md:mt-[20px] flex-col items-center justify-center'>
-              <div className=' flex mb-[20px] mx-auto justify-center mt-[20px] md:w-[591px] w-[370px] rounded-[30px] md:rounded-[50px] md:mt-[10px] '>
-              <ResponsiveContainer width={chartWidth} height={chartHeight}>
-                <LineChart
-                  // width={300}
-                  // height={200}
-                  // data={data}
-                  // margin={{ top: 30, right: 30, left: 20, bottom: 5 }}
-                  // radius={[20]}
-                  // style={{ backgroundColor: '#fff', borderRadius: '20px' }}
-                   data={data}  margin={{ top: 30, right: 30, left: 20, bottom: 5 }} radius={[20]} className=' bg-[#ffffff] rounded-[20px] text-[12px] '
-                >
-                  <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                  <YAxis tick={{ fontSize: 12 }} />
-                  <CartesianGrid stroke="#eee" strokeDasharray="3 3" />
-                  {todoZone &&
-                    Object.values(todoZone).flat().map((item, index) => (                    
-                    <Line
-                      key={index}
-                      type="monotone"
-                      dataKey={item.name}
-                      stroke={colors[index % colors.length]}
-                      activeDot={{ r: 8 }}
-                    />
-                  ))}
-                  <Tooltip contentStyle={{ fontSize: 12 }} />
-                  <Legend />
-                </LineChart>
-                </ResponsiveContainer> */}
-
-                 {/* <ResponsiveContainer width="100%" height={300}>
-                          <LineChart
-                            data={data}
-                            margin={{ top: 30, right: 30, left: 20, bottom: 5 }}
-                            radius={[20]}
-                            className=' bg-[#fff] rounded-[20px]'
-                          >
-                            <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                            <YAxis tick={{ fontSize: 12 }} domain={[0, 100]} />
-                            <CartesianGrid stroke="#eee" strokeDasharray="3 3" />
-                            <Line type="monotone" dataKey= "aa" stroke="#38B6FF" activeDot={{ r: 8 }} /> */}
-
-                {/* {data.map((item, index) => (
-                  <div key={index} className='text-black'>
-                      {console.log("data.data....: ",item)} */}
-                    {/* <h3>Date: {item.date}</h3> */}
-                    {/* <div> */}
-                      {/* {item.data.map((dataItem, dataIndex) => (
-                        <div key={dataIndex}>
-                            {console.log("dataItem: ",dataItem.name)}
-
-                            <Line type="monotone" dataKey= {dataItem.name} stroke="#38B6FF" activeDot={{ r: 8 }} />
-
-                          <p>Name: {dataItem.name}</p>
-                          <p>Percentage Zone: {dataItem.percentageZone}</p>
-                        </div>
-                      ))} */}
-                    {/* </div>
-                  </div>
-                ))} */}
-                {/* <Tooltip contentStyle={{ fontSize: 12 }} />
-                            <Legend />
-                          </LineChart>
-                        </ResponsiveContainer> */}
-                
-              {/* </div> */}
-              {/* <div className=' flex mb-[50px]  mx-auto justify-center  mt-[10px] md:w-[591px] w-[370px] rounded-[30px] md:rounded-[50px] md:mt-[10px] '>
-              <ResponsiveContainer width={chartWidth} height={chartHeight}>
-
-                  <BarChart  data={data}  margin={{ top: 30, right: 30, left: 20, bottom: 5 }} radius={[20]} className=' bg-[#fff] rounded-[20px] text-[12px] '>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                    <YAxis tick={{ fontSize: 12 }}/>
-                    <Tooltip />
-                    <Legend />
-                    {todoZone &&
-                    Object.values(todoZone).flat().map((item, index) => (   
-                    <Bar 
-                    dataKey={item.name}
-                    fill={colors[index % colors.length]} 
-                    />
-                  
-                    ))}
-                  </BarChart>
-                </ResponsiveContainer>
-
                 </div>
-               */}
-                {/* </div> */}
-
-                </div>
-                {/* const data = [
-                { name: 'วันที่', A: 10, B: 24, C: 24, D: 24, amt: 24 },
-                { name: 'วันที่', A: 30, B: 13, C: 24,D: 24, amt: 22 },
-                { name: 'การแต่งกาย', A: 20, B: 98, C: 24,D: 24, amt: 22 },
-                { name: 'ถังดับเพลิง', A: 20, B: 98, C: 24, amt: 22 },
-
-                // เพิ่มข้อมูลเพิ่มเติมตรงนี้
-              ]; */}
-                {/* {console.log("data.data: ",data)}
-                <ResponsiveContainer width="100%" height={300}>
-                <LineChart
-                  data={data.data}
-                  margin={{ top: 30, right: 30, left: 20, bottom: 5 }}
-                  radius={[20]}
-                  className=' bg-[#fff] rounded-[20px]'
-                >
-                  <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                  <YAxis tick={{ fontSize: 12 }} domain={[0, 100]} />
-                  <CartesianGrid stroke="#eee" strokeDasharray="3 3" />
-                  <Line type="monotone" dataKey="A" stroke="#38B6FF" activeDot={{ r: 8 }} />
-                  <Line type="monotone" dataKey="B" stroke="#5271FF" activeDot={{ r: 2 }} />
-                  <Line type="monotone" dataKey="C" stroke="#8C52FF" activeDot={{ r: 5 }} />
-                  <Line type="monotone" dataKey="D" stroke="#8C52FF" activeDot={{ r: 5 }} />
-                  <Tooltip contentStyle={{ fontSize: 12 }} />
-                  <Legend />
-                </LineChart>
-              </ResponsiveContainer>
-              </div>
-
-             
-                </div> */}
               
-            {/* <div className='justify-center items-center mx-auto text-center md:w-[650px] h-[170px] md:h-[250px] md:mt-[20px] mt-[10px] rounded-[30px] bg-[#fff] shadow-lg'>
-              <canvas ref={chartRef} className='mx-auto md:h-[250px] h-[170px] ' id="myChart"></canvas>
-            </div>
-            <div className='justify-center items-center mx-auto text-center  md:w-[650px] md:mt-[10px] md:h-[250px] mt-[10px] rounded-[30px] bg-[#fff] shadow-lg'>
-              <canvas ref={chartRef} className='mx-auto md:h-[250px] h-[170px]' id="lineChart"></canvas>
-            </div> */}
 
           <div className='text-black text-[12px]  mx-auto'>
             <div className="flex  overflow-auto mx-auto bg-[#fff] w-[330px] md:w-[630px] rounded-[20px] p-4">
@@ -472,12 +329,11 @@ function App() {
                 </div>
                 <div className='mx-auto w-[280px] md:w-[550px]   md:h-[500px]  h-[440px] text-black flex flex-col    bg-[#D9D9D9] md:rounded-[30px] rounded-[30px] mt-[10px] overflow-auto '>
 
-                {todoList?.key && Array.isArray(todoList.key) && todoList.key.map((item, index) => (
-
+                {todoList.key && Array.isArray(todoList.key) && todoList.key.map((item, index) => (
                   
                   <Link href={`/reportingResults_role_2?id=${item.id}`} key={index}>
                   <div className={'mx-auto mt-[8px] w-[250px] p-2 h-[100px] md:h-[120px] md:w-[500px] px-2 text-black flex-col bg-[#FFF] text-center rounded-[15px] '}>
-                    {/* {console.log("TODOLIST: ",key)} */}
+                    {console.log("TODOLIST: ",item)}
                     <div className='flex justify-center  h-[40px]  md:ml-[8px]  mt-[5px]'>
                       <p className='text-[#000] ml-[5px]  text-[12px] text-left md:text-[15px] w-[250px] md:w-[700px] break-words whitespace-pre-wrap'>
                       <span className='text-[#5A985E] font-bold'>{t('inspector')} : </span> {item.name}  <span className='text-gray-500'>{item.date} {t('N')}</span>
@@ -486,7 +342,7 @@ function App() {
                     <div className="mt-[5px] border-t border-gray-300"></div>
                     <div className='flex  items-center justify-between'>
                     <div className='flex items-center pl-2 bg-[#F5F5F5]  whitespace-nowrap overflow-hidden overflow-ellipsis mt-[5px] md:mt-[10px] md:w-[470px] w-full md:ml-[5px]  h-[25px] md:h-[40px] rounded-[10px]'>
-                    {/* {console.log("item.zone: ",item.zone.length)} */}
+                    {console.log("item.zone: ",item.zone.length)}
                     {item.zone.map((zoneItem, itemindex) => (
                       <div key={itemindex}>
                         {/* {console.log("ZONE: ", { zoneItem })} */}
