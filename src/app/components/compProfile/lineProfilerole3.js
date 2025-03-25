@@ -59,7 +59,7 @@ function App() {
         try {
           const requestData = {
             storedId,
-          profile_role_3 : true
+            profile_role_3 : true
           };
   
           const response = await axios.post('/api/profile', requestData, {
@@ -107,55 +107,45 @@ function App() {
     }, [id]);
   
     const logout = async () => {
-      const profileImageUrl = localStorage.getItem('profileImageUrl');
-      const rememberedData = localStorage.getItem('rememberedData');
-      const userId = profileData.id; // ดึง `id` ของผู้ใช้
-    
-      // ล้างข้อมูลใน localStorage ยกเว้นข้อมูลที่ต้องการจำไว้
-      localStorage.clear();
-      if (profileImageUrl) {
-        localStorage.setItem('profileImageUrl', profileImageUrl);
-      }
-      if (rememberedData) {
-        localStorage.setItem('rememberedData', rememberedData);
-      }
-    
-      // ลบ `lineUserId` จากฐานข้อมูล
       try {
-        await deleteLineUserId(userId); // เรียกฟังก์ชันเพื่อลบ lineUserId
-        console.log('lineUserId removed successfully');
-      } catch (error) {
-        console.error('Error removing lineUserId:', error);
-      }
+  
+        await liff.init({ liffId: '2005924494-qpprzL9W' });
+        const userId = profileData.id;
+      
+        localStorage.clear();
     
-      // ตรวจสอบว่ามี liffId หรือไม่ก่อน logout
-      const liffId = process.env.SECRETCODE;
-      if (liffId) {
-        try {
-          // เริ่มต้น LIFF
-          await liff.init({ liffId });
+        const deleteResponse = await deleteLineUserId_role_3(userId);
     
-          // สลับ rich menu ตามตำแหน่ง
-          const richMenuId = 'defaultRichMenuId'; // ใช้ rich menu ที่ตั้งค่าไว้สำหรับทุกคน
-          await client.linkRichMenuToUser(profileData.lineUserId, richMenuId);
-          console.log('Rich menu switched successfully for user:', profileData.lineUserId);
+        const lineUserId = localStorage.getItem('lineUserId');
+        window.alert('ออกจากระบบสำเร็จ')
+        window.location.href = '/linelogin';
+  
     
-          // ทำการ logout ใน LIFF
-          liff.logout();
-          liff.closeWindow();  // ปิดหน้าต่าง LINE LIFF
-        } catch (error) {
-          console.error('Error in liff logout:', error);
+        if (!lineUserId || !liff.isLoggedIn()) {
+          setTimeout(() => {
+            liff.closeWindow(); // ปิดหน้าต่าง LIFF
+          }, 500);
+  
+        } else {
+          console.log('ยังมี lineUserId หรือยังไม่ได้ออกจากระบบ');
         }
-      } 
+      } catch (error) {
+        console.error('เกิดข้อผิดพลาดในระหว่างการออกจากระบบ:', error);
+      }
     };
     
-    // ฟังก์ชันลบ lineUserId จากฐานข้อมูล
-    const deleteLineUserId = async (userId) => {
-      const query = `UPDATE users_r3 SET lineUserId = NULL WHERE id = ?;`;
-      
+    const deleteLineUserId_role_3 = async (userId) => {
       try {
-        await database.execute(query, [userId]); // `database` คือการเชื่อมต่อกับฐานข้อมูล
-        console.log('lineUserId has been removed successfully');
+        const response = await axios.post('/api/profile', {
+          deleteLineUserId_role_3: true,
+          userId,
+        });
+    
+        if (response.data.success) {
+          console.log('lineUserId removed successfully');
+        } else {
+          console.error('Failed to remove lineUserId:', response.data.error);
+        }
       } catch (error) {
         console.error('Error removing lineUserId:', error);
       }
@@ -232,12 +222,12 @@ function App() {
                 </div>
               </div>
   
-               {/* Log Out Button */}
-               <footer className="flex justify-center mt-9 md:mt-11">
-                <div className="bg-[#5A985E]  border-[#3A653E] rounded-[20px] w-[150px] p-3 flex justify-center shadow-lg">
+                {/* Log Out Button */}
+              <footer className="flex justify-center mt-14 ">
+                <div className="bg-[#5A985E]  border-[#3A653E] rounded-[15px] w-[130px] p-3 flex justify-center shadow-lg">
                   <button
                     onClick={logout}
-                    className="w-full h-full text-[#fff] text-xl font-semibold"
+                    className="w-full h-full text-[#fff] text-[18px] "
                   >
                     {t("log out")}
                   </button>
@@ -252,4 +242,3 @@ function App() {
     );
   }
 export default  CompProfile1;
-

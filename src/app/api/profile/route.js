@@ -1,7 +1,11 @@
 import db from '../../../lib/db';
 import { NextResponse } from 'next/server';
-import CompNavbar from '../../components/compNavbar/role_admin';
+import { Client } from '@line/bot-sdk';
 
+const client = new Client({
+  channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN,
+  channelSecret: process.env.SECRETCODE,
+});
 
 export async function POST(request) {
   if (request.method === 'POST') {
@@ -32,7 +36,6 @@ export async function POST(request) {
       if (res.profile_role_2) {
           const getUserQuery = "SELECT * FROM users_r2 WHERE id = ?";
           const [userResult] = await db.query(getUserQuery, [res.storedId]);
-          // console.log("list ID2: ", userResult);
           return NextResponse.json({ success: true, message: 'successfully', profile: userResult });
       }
       
@@ -56,7 +59,6 @@ export async function POST(request) {
     
         // Check if there are results in the users table
         if (UsersResult.length === 0) {
-            // If no results in users table, query the users_r2 table
             const UsersR2Query = "SELECT employee FROM users_r2 WHERE id = ?";
             const [UsersR2Result] = await db.query(UsersR2Query, [res.id]);
     
@@ -66,7 +68,6 @@ export async function POST(request) {
                 const UsersR3Query = "SELECT employee FROM users_r3 WHERE id = ?";
                 const [UsersR3Result] = await db.query(UsersR3Query, [res.id]);
     
-                // console.log("list ID from users_r3: ", UsersR3Result);
     
                 return NextResponse.json({ success: true, UsersResult: UsersR3Result });
             }
@@ -81,7 +82,144 @@ export async function POST(request) {
         return NextResponse.json({ success: true, UsersResult });
     }
     
+// ลบ lineUserId
+if (res.deleteLineUserId_role_1) {
+  const { userId } = res; // เพิ่ม lineUserId จาก payload
 
+  if (!userId) {
+    return NextResponse.json({
+      success: false,
+      error: 'User ID is required for deletion',
+    });
+  }
+
+  try {
+    // ดึง lineUserId ของผู้ใช้จากฐานข้อมูล
+    const getUserLineUserIdQuery = "SELECT lineUserId FROM users WHERE id = ?";
+    const [userResult] = await db.query(getUserLineUserIdQuery, [userId]);
+    const lineUserId = userResult[0]?.lineUserId;
+
+    if (lineUserId) {
+      // Unlink Rich Menu จาก LINE User
+      try {
+        await client.unlinkRichMenuFromUser(lineUserId);
+        console.log('Successfully unlinked rich menu for user:', lineUserId);
+      } catch (unlinkError) {
+        console.error('Failed to unlink rich menu:', unlinkError);
+        return NextResponse.json({
+          success: false,
+          error: 'Failed to unlink rich menu for the user',
+        });
+      }
+    }
+
+    // ลบ lineUserId ออกจากฐานข้อมูล
+    const deleteFromUsersQuery = "UPDATE users SET lineUserId = NULL WHERE id = ?";
+    await db.execute(deleteFromUsersQuery, [userId]);
+
+    return NextResponse.json({
+      success: true,
+      message: 'lineUserId removed and rich menu unlinked successfully',
+    });
+  } catch (error) {
+    console.error('Error removing lineUserId:', error);
+    return NextResponse.json({
+      success: false,
+      error: 'Database error occurred while removing lineUserId',
+    });
+  }
+}
+if (res.deleteLineUserId_role_2) {
+  const { userId } = res; // เพิ่ม lineUserId จาก payload
+
+  if (!userId) {
+    return NextResponse.json({
+      success: false,
+      error: 'User ID is required for deletion',
+    });
+  }
+
+  try {
+    // ดึง lineUserId ของผู้ใช้จากฐานข้อมูล
+    const getUserLineUserIdQuery = "SELECT lineUserId FROM users_r2 WHERE id = ?";
+    const [userResult] = await db.query(getUserLineUserIdQuery, [userId]);
+    const lineUserId = userResult[0]?.lineUserId;
+
+    if (lineUserId) {
+      // Unlink Rich Menu จาก LINE User
+      try {
+        await client.unlinkRichMenuFromUser(lineUserId);
+        console.log('Successfully unlinked rich menu for user:', lineUserId);
+      } catch (unlinkError) {
+        console.error('Failed to unlink rich menu:', unlinkError);
+        return NextResponse.json({
+          success: false,
+          error: 'Failed to unlink rich menu for the user',
+        });
+      }
+    }
+
+    // ลบ lineUserId ออกจากฐานข้อมูล
+    const deleteFromUsersQuery = "UPDATE users_r2 SET lineUserId = NULL WHERE id = ?";
+    await db.execute(deleteFromUsersQuery, [userId]);
+
+    return NextResponse.json({
+      success: true,
+      message: 'lineUserId removed and rich menu unlinked successfully',
+    });
+  } catch (error) {
+    console.error('Error removing lineUserId:', error);
+    return NextResponse.json({
+      success: false,
+      error: 'Database error occurred while removing lineUserId',
+    });
+  }
+}
+if (res.deleteLineUserId_role_3) {
+  const { userId } = res; // เพิ่ม lineUserId จาก payload
+
+  if (!userId) {
+    return NextResponse.json({
+      success: false,
+      error: 'User ID is required for deletion',
+    });
+  }
+
+  try {
+    // ดึง lineUserId ของผู้ใช้จากฐานข้อมูล
+    const getUserLineUserIdQuery = "SELECT lineUserId FROM users_r3 WHERE id = ?";
+    const [userResult] = await db.query(getUserLineUserIdQuery, [userId]);
+    const lineUserId = userResult[0]?.lineUserId;
+
+    if (lineUserId) {
+      try {
+        await client.unlinkRichMenuFromUser(lineUserId);    // Unlink Rich Menu จาก LINE User เพื่อกลับไปหน้า Rich Menu login
+        console.log('Successfully unlinked rich menu for user:', lineUserId);
+      } catch (unlinkError) {
+        console.error('Failed to unlink rich menu:', unlinkError);
+        return NextResponse.json({
+          success: false,
+          error: 'Failed to unlink rich menu for the user',
+        });
+      }
+    }
+
+    // ลบ lineUserId ออกจากฐานข้อมูล
+    const deleteFromUsersQuery = "UPDATE users_r3 SET lineUserId = NULL WHERE id = ?";
+    await db.execute(deleteFromUsersQuery, [userId]);
+
+    return NextResponse.json({
+      success: true,
+      message: 'lineUserId removed and rich menu unlinked successfully',
+    });
+  } catch (error) {
+    console.error('Error removing lineUserId:', error);
+    return NextResponse.json({
+      success: false,
+      error: 'Database error occurred while removing lineUserId',
+    });
+  }
+}
       // if (userResult) {
         // ค้นพบข้อมูลผู้ใช้งาน ดังนั้นเราจะตรวจสอบการเปลี่ยนแปลง
         if (res.edit_role_1) {
@@ -284,7 +422,8 @@ export async function POST(request) {
           }
         }
 
-        }  if (res.edit_role_3) {
+        }  
+        if (res.edit_role_3) {
           // console.log("RES.Route profile_EDITTT222222222: ",res.picture.data.length);
 
           // const file = formData.get('file');
@@ -384,7 +523,6 @@ export async function POST(request) {
         }
 
         }
-
         if (res.edit_role_admin) {
           // console.log("RES.Route profile_EDITTT222222222: ",res.picture.data.length);
 
@@ -485,11 +623,7 @@ export async function POST(request) {
         }
 
         }
-          
-      // } else {
-      //   // ถ้าไม่พบข้อมูลผู้ใช้งาน
-      //   return NextResponse.json({ success: false, message: 'User not found' });
-      // }
+      
       return NextResponse.json({ success: true});
 
       
