@@ -313,17 +313,17 @@ export async function POST(request) {
           });
         
           await Promise.all(userPromises);
-          
-        
+
+          let totalPercentageAllZones = 0;
+          const zonePercentages = [];
+
           for (const userId in dataPercent) {
             const idArray = dataPercent[userId];
             const examinePromises = idArray.map(async (idObject) => {
               const idValue = Object.keys(idObject)[0];
               const getExamineQuery = "SELECT id, useEmployee FROM examine WHERE examinelist_id = ?";
               const [getExamineQueryResult] = await db.query(getExamineQuery, [idValue]);
-              //console.log("kkkเเเเเเเเเเเเเเ",getExamineQueryResult);
-              
-        
+
               const examine_idArray = idObject[idValue].examine_id;
               let totalPercentage = 0;
 
@@ -356,21 +356,47 @@ export async function POST(request) {
                     const passCount = checklistResult.filter(item => item.status === 'pass').length;
                     totalPassCount += passCount;
 
-                    const employeePercentage = Math.floor((passCount / checklistResult.length) * 100);
+                    const employeePercentage = checklistResult.length > 0 
+                      ? Math.floor((passCount / checklistResult.length) * 100) 
+                      : 0;
                     examineInfo[employee] = { employee, passCount, employeePercentage };
                   }
 
-                  const percentageAll = Math.floor((totalPassCount / (getexaminenameQueryResultMap.length * getemployeeQueryResultMap.length)) * 100);
+                  const percentageAll = (getexaminenameQueryResultMap.length * getemployeeQueryResultMap.length) > 0
+                    ? Math.floor((totalPassCount / (getexaminenameQueryResultMap.length * getemployeeQueryResultMap.length)) * 100)
+                    : 0;
                   examineInfo.percentageAll = percentageAll;
                   totalPercentage += percentageAll;
                 }
+
                 examine_idArray.push({ examineInfo });
               }));
-        
-              idObject.percentageZone = Math.min(Math.floor((totalPercentage / (idObject[idValue].examine_id.length * 100)) * 100), 100);
+
+              idObject.percentageZone = totalPercentage;
+              zonePercentages.push({ idValue, totalPercentage });
+              totalPercentageAllZones += totalPercentage;
             });
-        
+
             await Promise.all(examinePromises);
+          }
+
+          // ✅ กระจายเปอร์เซ็นต์ใหม่ให้ทุกโซนรวมกันเป็น 100%
+          zonePercentages.forEach((zone) => {
+            zone.normalizedPercentage = totalPercentageAllZones > 0 
+              ? Math.round((zone.totalPercentage / totalPercentageAllZones) * 100)
+              : 0;
+          });
+
+          // ✅ อัปเดตค่า percentageZone ใหม่
+          for (const userId in dataPercent) {
+            const idArray = dataPercent[userId];
+            idArray.forEach((idObject) => {
+              const idValue = Object.keys(idObject)[0];
+              const zone = zonePercentages.find(z => z.idValue === idValue);
+              if (zone) {
+                idObject.percentageZone = zone.normalizedPercentage;
+              }
+            });
           }
         
           dataAll.data = dataPercent;
@@ -489,6 +515,7 @@ export async function POST(request) {
           zone: flattenedNameList
 
         };
+        console.log("dataitem...",dataitem)
         
         if (!groupedData.key.some(item => item.id === data.inspector)) {
           dataitem[inspector] = [];
@@ -639,7 +666,6 @@ export async function POST(request) {
       const getId_r1Query = "SELECT id FROM users ";
       const [getId_r1QueryResult] = await db.query(getId_r1Query);
       const getId_r1QueryResultMap = getId_r1QueryResult.map(item => item.id);
-
       const dataAll = {currentDateA}
       const dataPercent = {};
     
@@ -651,7 +677,9 @@ export async function POST(request) {
               SELECT inspector FROM checklist_employee_row_2 WHERE  date = ?
             ) AS combinedResult;`;
           const [getCheckUser_R2QueryResult] = await db.query(getCheckUser_R2Query, [res.storedId, formattedDateNew, res.storedId, formattedDateNew]);
+         
           const distinctInspectors = getCheckUser_R2QueryResult.map(result => result.inspector);
+          console.log("distinctInspectors :", distinctInspectors );
           //console.log("kkkkkttttttttkkkkk",getCheckUser_R2QueryResult);
           //console.log("kkkเเเเเเเเเเเเเเ",distinctInspectors);
         // console.log("distinctInspectors: ",user_r1,distinctInspectors,res.storedId ,formattedDateNew)
@@ -680,72 +708,89 @@ export async function POST(request) {
     
       await Promise.all(userPromises);
       
-      for (const userId in dataPercent) {
-        const idArray = dataPercent[userId];
-        const examinePromises = idArray.map(async (idObject) => {
-          const idValue = Object.keys(idObject)[0];
-          const getExamineQuery = "SELECT id, useEmployee FROM examine WHERE examinelist_id = ?";
-          const [getExamineQueryResult] = await db.query(getExamineQuery, [idValue]);
-          //console.log("kkkเเเเเเเเเเเเเเ",getExamineQueryResult);
-          
-          const examine_idArray = idObject[idValue].examine_id;
-          let totalPercentage = 0;
+      let totalPercentageAllZones = 0;
+      const zonePercentages = [];
 
-          await Promise.all(getExamineQueryResult.map(async (examineInfo) => {
-            const getexaminenameQuery = "SELECT id FROM examinename WHERE examine_id = ?";
-            const [getexaminenameQueryResult] = await db.query(getexaminenameQuery, [examineInfo.id]);
-            const getexaminenameQueryResultMap = getexaminenameQueryResult.map(item => item.id);
-            examineInfo.name_id = getexaminenameQueryResultMap;
+          for (const userId in dataPercent) {
+            const idArray = dataPercent[userId];
+            const examinePromises = idArray.map(async (idObject) => {
+              const idValue = Object.keys(idObject)[0];
+              const getExamineQuery = "SELECT id, useEmployee FROM examine WHERE examinelist_id = ?";
+              const [getExamineQueryResult] = await db.query(getExamineQuery, [idValue]);
 
-            if (examineInfo.useEmployee === 'false') {
-              const getChecklist_R2Query = "SELECT date , examinename_id ,	status FROM checklist_examine_row_2 WHERE  examine_id = ? AND date = ? ";
-              const [getChecklist_R2QueryResult] = await db.query(getChecklist_R2Query, [examineInfo.id ,  currentDateA]);
-                // console.log("11111111111111111111111111111: ", getChecklist_R2QueryResult ,  currentDateA);
-              const passCount = getChecklist_R2QueryResult.filter(item => item.status === 'pass').length;
-              const percentage = getexaminenameQueryResultMap.length > 0
-                ? Math.floor((passCount / getexaminenameQueryResultMap.length) * 100)
-                : 0;
-    
-              examineInfo.percentage = percentage;
-              totalPercentage += percentage;
-              
-      
-            } else if (examineInfo.useEmployee === 'true') {
-              const getemployeeQuery = "SELECT id FROM employee WHERE examinelist_id = ?";
-              const [getemployeeQueryResult] = await db.query(getemployeeQuery, [idValue]);
-              const getemployeeQueryResultMap = getemployeeQueryResult.map(item => item.id);
-    
-                // console.log("getChecklist_R2QueryResultMap: ", examineInfo, getexaminenameQueryResultMap);
-                // examine_idArray.push({ examineInfo, id: getexaminenameQueryResultMap });
-                // console.log("8888888888: ", getemployeeQueryResultMap, idValue );
+              const examine_idArray = idObject[idValue].examine_id;
+              let totalPercentage = 0;
 
-                let totalPassCount = 0;
-                for (const employee of getemployeeQueryResultMap) {
-                const getChecklist_R2Query = "SELECT  examinename_id ,	status FROM checklist_employee_row_2 WHERE  examine_id = ? AND employee_name_id = ? AND date = ?";
-                const [checklistResult] = await db.query(getChecklist_R2Query, [examineInfo.id, employee, currentDateA]);
-                const passCount = checklistResult.filter(item => item.status === 'pass').length;
-                totalPassCount += passCount;
+              await Promise.all(getExamineQueryResult.map(async (examineInfo) => {
+                const getexaminenameQuery = "SELECT id FROM examinename WHERE examine_id = ?";
+                const [getexaminenameQueryResult] = await db.query(getexaminenameQuery, [examineInfo.id]);
+                const getexaminenameQueryResultMap = getexaminenameQueryResult.map(item => item.id);
+                examineInfo.name_id = getexaminenameQueryResultMap;
 
-                const employeePercentage = Math.floor((passCount / checklistResult.length) * 100);
-                examineInfo[employee] = { employee, passCount, employeePercentage };
-              }
-                // console.log("getChecklist_R2QueryResult888: ", getChecklist_R2QueryResult,getexaminenameQueryResult,employee);
-                // const examinenameIds = getChecklist_R2QueryResult.map(item => item.examinename_id);
+                if (examineInfo.useEmployee === 'false') {
+                  const getChecklist_R2Query = "SELECT date , examinename_id ,	status FROM checklist_examine_row_2 WHERE  examine_id = ? AND date = ?";
+                  const [checklistResult] = await db.query(getChecklist_R2Query, [examineInfo.id, currentDateA]);
+                  const passCount = checklistResult.filter(item => item.status === 'pass').length;
+                  const percentage = getexaminenameQueryResultMap.length > 0
+                    ? Math.floor((passCount / getexaminenameQueryResultMap.length) * 100)
+                    : 0;
 
-                // console.log("**-*---***---***-*-",isAnyIdInQueryResult,examinenameIds);
-                // let passCount = 0;
-                // if (getexaminenameQueryResult.some(item => item.id === getChecklist_R2QueryResult.examinename_id)) {
-                  const percentageAll = Math.floor((totalPassCount / (getexaminenameQueryResultMap.length * getemployeeQueryResultMap.length)) * 100);
+                  examineInfo.percentage = percentage;
+                  totalPercentage += percentage;
+
+                } else if (examineInfo.useEmployee === 'true') {
+                  const getemployeeQuery = "SELECT id FROM employee WHERE examinelist_id = ?";
+                  const [getemployeeQueryResult] = await db.query(getemployeeQuery, [idValue]);
+                  const getemployeeQueryResultMap = getemployeeQueryResult.map(item => item.id);
+
+                  let totalPassCount = 0;
+                  for (const employee of getemployeeQueryResultMap) {
+                    const getChecklist_R2Query = "SELECT  examinename_id ,	status FROM checklist_employee_row_2 WHERE  examine_id = ? AND employee_name_id = ? AND date = ?";
+                    const [checklistResult] = await db.query(getChecklist_R2Query, [examineInfo.id, employee, currentDateA]);
+                    const passCount = checklistResult.filter(item => item.status === 'pass').length;
+                    totalPassCount += passCount;
+
+                    const employeePercentage = checklistResult.length > 0 
+                      ? Math.floor((passCount / checklistResult.length) * 100) 
+                      : 0;
+                    examineInfo[employee] = { employee, passCount, employeePercentage };
+                  }
+
+                  const percentageAll = (getexaminenameQueryResultMap.length * getemployeeQueryResultMap.length) > 0
+                    ? Math.floor((totalPassCount / (getexaminenameQueryResultMap.length * getemployeeQueryResultMap.length)) * 100)
+                    : 0;
                   examineInfo.percentageAll = percentageAll;
                   totalPercentage += percentageAll;
                 }
+
                 examine_idArray.push({ examineInfo });
               }));
-        
-              idObject.percentageZone = Math.min(Math.floor((totalPercentage / (idObject[idValue].examine_id.length * 100)) * 100), 100);
+
+              idObject.percentageZone = totalPercentage;
+              zonePercentages.push({ idValue, totalPercentage });
+              totalPercentageAllZones += totalPercentage;
             });
-        
+
             await Promise.all(examinePromises);
+          }
+
+          // ✅ กระจายเปอร์เซ็นต์ใหม่ให้ทุกโซนรวมกันเป็น 100%
+          zonePercentages.forEach((zone) => {
+            zone.normalizedPercentage = totalPercentageAllZones > 0 
+              ? Math.round((zone.totalPercentage / totalPercentageAllZones) * 100)
+              : 0;
+          });
+
+          // ✅ อัปเดตค่า percentageZone ใหม่
+          for (const userId in dataPercent) {
+            const idArray = dataPercent[userId];
+            idArray.forEach((idObject) => {
+              const idValue = Object.keys(idObject)[0];
+              const zone = zonePercentages.find(z => z.idValue === idValue);
+              if (zone) {
+                idObject.percentageZone = zone.normalizedPercentage;
+              }
+            });
           }
       dataAll.data = dataPercent
       // console.log(dataAll. currentDateA); // แสดงค่า currentDate ที่อยู่ในอ็อบเจ็กต์ dataAll
@@ -838,9 +883,6 @@ export async function POST(request) {
       }
     }
 
-
-
-    
     } catch (error) {
       console.error('Error notify:', error);
       return NextResponse.json({ success: false, error: error.message });
