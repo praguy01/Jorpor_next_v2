@@ -10,7 +10,7 @@ import { table } from 'console';
 import {sendFlexMessageToLine, startLoadingAnimation, stopLoadingAnimation} from '../../components/compflex/lineHelpers';
 //import { config, client, sendFlexMessageToLine } from '../../components/compflex/flexMessage';
 import {createEmployeeFlexMessage,createPlanFlexMessage,createZoneListFlexMessage,
-  createExamineFlexMessage,createExamidsneNameFlexMessage,createExamineUseEmployeeFlexMessage} from '../../components/compflex/flexMessage';
+  createExamineFlexMessage,createExamineNameFlexMessage,createExamineUseEmployeeFlexMessage} from '../../components/compflex/flexMessage';
 
 const line = require('@line/bot-sdk');
 const router = express.Router();
@@ -645,8 +645,8 @@ async function fetchZonesForUser(lineUserId) {
 
 async function downloadImage(messageId) {
   try {
-    const tempDir = path.join(__dirname, 'temp'); // โฟลเดอร์ temp
-    //const tempDir = '/tmp';
+    //const tempDir = path.join(__dirname, 'temp'); // โฟลเดอร์ temp
+    const tempDir = '/tmp';
     const filePath = path.join(tempDir, `${messageId}.jpg`); // ที่อยู่ไฟล์
     
 
