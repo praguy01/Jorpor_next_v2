@@ -645,8 +645,8 @@ async function fetchZonesForUser(lineUserId) {
 
 async function downloadImage(messageId) {
   try {
-    //const tempDir = path.join(__dirname, 'temp'); // โฟลเดอร์ temp
-    const tempDir = '/tmp';
+    const tempDir = path.join(__dirname, 'temp'); // โฟลเดอร์ temp
+    //const tempDir = '/tmp';
     const filePath = path.join(tempDir, `${messageId}.jpg`); // ที่อยู่ไฟล์
     
 

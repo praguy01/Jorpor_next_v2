@@ -11,7 +11,7 @@ export async function POST(request) {
      console.log("RESS!1111!!!!!!!!!!!!!!!!!!!!!1: ",res ,res.storedId)
 
 
-    if (res.fetch_role_2){
+     if (res.fetch_role_2){
 
 
 
@@ -313,17 +313,17 @@ export async function POST(request) {
           });
         
           await Promise.all(userPromises);
-
-          let totalPercentageAllZones = 0;
-          const zonePercentages = [];
-
+          
+        
           for (const userId in dataPercent) {
             const idArray = dataPercent[userId];
             const examinePromises = idArray.map(async (idObject) => {
               const idValue = Object.keys(idObject)[0];
               const getExamineQuery = "SELECT id, useEmployee FROM examine WHERE examinelist_id = ?";
               const [getExamineQueryResult] = await db.query(getExamineQuery, [idValue]);
-
+              //console.log("kkkเเเเเเเเเเเเเเ",getExamineQueryResult);
+              
+        
               const examine_idArray = idObject[idValue].examine_id;
               let totalPercentage = 0;
 
@@ -356,47 +356,21 @@ export async function POST(request) {
                     const passCount = checklistResult.filter(item => item.status === 'pass').length;
                     totalPassCount += passCount;
 
-                    const employeePercentage = checklistResult.length > 0 
-                      ? Math.floor((passCount / checklistResult.length) * 100) 
-                      : 0;
+                    const employeePercentage = Math.floor((passCount / checklistResult.length) * 100);
                     examineInfo[employee] = { employee, passCount, employeePercentage };
                   }
 
-                  const percentageAll = (getexaminenameQueryResultMap.length * getemployeeQueryResultMap.length) > 0
-                    ? Math.floor((totalPassCount / (getexaminenameQueryResultMap.length * getemployeeQueryResultMap.length)) * 100)
-                    : 0;
+                  const percentageAll = Math.floor((totalPassCount / (getexaminenameQueryResultMap.length * getemployeeQueryResultMap.length)) * 100);
                   examineInfo.percentageAll = percentageAll;
                   totalPercentage += percentageAll;
                 }
-
                 examine_idArray.push({ examineInfo });
               }));
-
-              idObject.percentageZone = totalPercentage;
-              zonePercentages.push({ idValue, totalPercentage });
-              totalPercentageAllZones += totalPercentage;
+        
+              idObject.percentageZone = Math.min(Math.floor((totalPercentage / (idObject[idValue].examine_id.length * 100)) * 100), 100);
             });
-
+        
             await Promise.all(examinePromises);
-          }
-
-          // ✅ กระจายเปอร์เซ็นต์ใหม่ให้ทุกโซนรวมกันเป็น 100%
-          zonePercentages.forEach((zone) => {
-            zone.normalizedPercentage = totalPercentageAllZones > 0 
-              ? Math.round((zone.totalPercentage / totalPercentageAllZones) * 100)
-              : 0;
-          });
-
-          // ✅ อัปเดตค่า percentageZone ใหม่
-          for (const userId in dataPercent) {
-            const idArray = dataPercent[userId];
-            idArray.forEach((idObject) => {
-              const idValue = Object.keys(idObject)[0];
-              const zone = zonePercentages.find(z => z.idValue === idValue);
-              if (zone) {
-                idObject.percentageZone = zone.normalizedPercentage;
-              }
-            });
           }
         
           dataAll.data = dataPercent;
